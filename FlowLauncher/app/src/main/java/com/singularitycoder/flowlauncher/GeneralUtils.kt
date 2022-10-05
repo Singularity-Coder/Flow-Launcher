@@ -9,6 +9,7 @@ import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.renderscript.*
 import android.text.InputType
 import android.text.method.DigitsKeyListener
 import android.view.ActionMode
@@ -68,12 +69,12 @@ fun Context.appList(): List<App> {
 
 // https://stackoverflow.com/questions/3373860/convert-a-bitmap-to-grayscale-in-android
 fun Bitmap.toGrayscale(): Bitmap? {
-    val bitmapGrayscale = Bitmap.createBitmap(
+    val bitmapGrayScaled = Bitmap.createBitmap(
         /* width = */ this.width,
         /* height = */ this.height,
         /* config = */ Bitmap.Config.ARGB_8888
     )
-    val canvas = Canvas(bitmapGrayscale)
+    val canvas = Canvas(bitmapGrayScaled)
     val paint = Paint()
     val colorMatrix = ColorMatrix().apply {
         setSaturation(0f)
@@ -86,7 +87,77 @@ fun Bitmap.toGrayscale(): Bitmap? {
         /* top = */ 0f,
         /* paint = */ paint
     )
-    return bitmapGrayscale
+    return bitmapGrayScaled
+}
+
+// https://xjaphx.wordpress.com/2011/06/21/image-processing-grayscale-image-on-the-fly/
+fun Bitmap.toGrayScaledBitmapFallback(
+    redVal: Float = 0.299f,
+    greenVal: Float = 0.587f,
+    blueVal: Float = 0.114f
+): Bitmap {
+    // create output bitmap
+    val bitmapGrayScaled = Bitmap.createBitmap(this.width, this.height, this.config)
+
+    // pixel information
+    var A: Int
+    var R: Int
+    var G: Int
+    var B: Int
+    var pixel: Int
+
+    // get image size
+    val width = this.width
+    val height = this.height
+
+    // scan through every single pixel
+    for (x in 0 until width) {
+        for (y in 0 until height) {
+            // get one pixel color
+            pixel = this.getPixel(x, y)
+            // retrieve color of all channels
+//            A = Color.alpha(pixel)
+//            R = Color.red(pixel)
+//            G = Color.green(pixel)
+            A = Color.blue(pixel)
+            R = Color.blue(pixel)
+            G = Color.blue(pixel)
+            B = Color.blue(pixel)
+            // take conversion up to one single value
+            B = (redVal * R + greenVal * G + blueVal * B).toInt()
+            G = B
+            R = G
+            // set new pixel color to output bitmap
+            bitmapGrayScaled.setPixel(
+                /* x = */ x,
+                /* y = */ y,
+                /* color = */ Color.argb(A, R, G, B)
+            )
+        }
+    }
+
+    return bitmapGrayScaled
+}
+
+// https://gist.github.com/imminent/cf4ab750104aa286fa08
+// https://en.wikipedia.org/wiki/Grayscale
+fun Bitmap.toGrayScaledBitmap(context: Context): Bitmap {
+    val redVal = 0.299f
+    val greenVal = 0.587f
+    val blueVal = 0.114f
+    val render = RenderScript.create(context)
+    val matrix = Matrix4f(floatArrayOf(-redVal, -redVal, -redVal, 1.0f, -greenVal, -greenVal, -greenVal, 1.0f, -blueVal, -blueVal, -blueVal, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f))
+    val result = this.copy(this.config, true)
+    val input = Allocation.createFromBitmap(render, this, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT)
+    val output = Allocation.createTyped(render, input.type)
+    // Inverts and do grayscale to the image
+    val inverter = ScriptIntrinsicColorMatrix.create(render)
+    inverter.setColorMatrix(matrix)
+    inverter.forEach(input, output)
+    output.copyTo(result)
+    this.recycle()
+    render.destroy()
+    return result
 }
 
 fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()

@@ -7,6 +7,11 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.singularitycoder.flowlauncher.databinding.ListItemAppBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -37,8 +42,13 @@ class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun setData(app: App) {
             itemBinding.apply {
                 tvAppName.text = app.title
-                val bitmap = app.icon?.toBitmap()?.toGrayscale()
-                ivAppIcon.load(bitmap)
+                CoroutineScope(IO).launch {
+                    // Tried adding blue filter. Still needs work
+                    val bitmap = app.icon?.toBitmap()?.toGrayscale()?.toGrayScaledBitmapFallback()
+                    withContext(Main) {
+                        ivAppIcon.load(bitmap)
+                    }
+                }
                 root.setOnClickListener {
                     itemClickListener.invoke(app, bindingAdapterPosition)
                 }
