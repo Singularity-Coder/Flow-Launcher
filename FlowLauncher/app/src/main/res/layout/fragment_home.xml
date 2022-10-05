@@ -39,11 +39,12 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_time" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_chats"
+            android:id="@+id/rv_apps"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:scrollbars="none"
+            android:layout_marginEnd="8dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/list_item_app"
