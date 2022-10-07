@@ -3,14 +3,14 @@ package com.singularitycoder.flowlauncher
 import android.app.Activity
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.DialogInterface
 import android.content.res.Resources
-import android.graphics.*
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.renderscript.*
 import android.text.InputType
+import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.text.method.DigitsKeyListener
 import android.view.ActionMode
 import android.view.Menu
@@ -24,141 +24,111 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.text.HtmlCompat
+import androidx.core.text.bold
+import androidx.core.text.color
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+val dateFormatList = listOf(
+    "dd-MMMM hh:mm",
+    "dd-MM-yyyy",
+    "dd/MM/yyyy",
+    "dd-MMM-yyyy",
+    "dd/MMM/yyyy",
+    "dd-MMM-yyyy",
+    "dd MMM yyyy",
+    "dd-MMM-yyyy h:mm a",
+    "dd MMM yyyy, hh:mm a",
+    "dd MMM yyyy, hh:mm:ss a",
+    "dd MMM yyyy, h:mm:ss aaa",
+    "yyyy/MM/dd",
+    "yyyy-MM-dd",
+    "yyyy.MM.dd HH:mm",
+    "yyyy/MM/dd hh:mm aa",
+    "yyyy-MM-dd'T'HH:mm:ss.SS'Z'",
+    "hh:mm a"
+)
 
-/**
- * https://developer.android.com/training/package-visibility
- * Add query activities in manifest for getting full access to all apps
- * queryIntentActivities(), getPackageInfo(), and getInstalledApplications() need this
- * The limited visibility also affects explicit interactions with other apps, such as starting another app's service.
- * To allow your app to see all other installed apps, Android 11 introduces the QUERY_ALL_PACKAGES permission.
- * */
-fun Context.appList(): List<App> {
-    val appList = mutableListOf<App>()
-    val intent = Intent(Intent.ACTION_MAIN, null).apply {
-        addCategory(Intent.CATEGORY_LAUNCHER)
+fun convertLongToTime(time: Long, type: DateType): String {
+    val date = Date(time)
+    val dateFormat = SimpleDateFormat(type.value, Locale.getDefault())
+    return dateFormat.format(date)
+}
+
+fun convertDateToLong(date: String, type: UByte): Long {
+    if (date.isNullOrBlankOrNaOrNullString()) return convertDateToLong(date = Date().toString(), type = 3u)
+    val dateFormat = SimpleDateFormat(dateFormatList.getOrElse(index = type.toInt(), defaultValue = { dateFormatList[3] }), Locale.getDefault())
+    return try {
+        if (dateFormat.parse(date) is Date) dateFormat.parse(date).time else convertDateToLong(date = Date().toString(), type = 3u)
+    } catch (e: Exception) {
+        convertDateToLong(date = Date().toString(), type = 3u)
     }
-    val allApps = if (Build.VERSION.SDK_INT > 33) {
-        packageManager.queryIntentActivities(intent, PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_DEFAULT_ONLY.toLong()))
-    } else {
-        packageManager.queryIntentActivities(intent, 0)
-    }
-    for (item in allApps) {
-        val app = App().apply {
-            title = item.loadLabel(packageManager).toString()
-            packageName = item.activityInfo.packageName
-            icon = item.activityInfo.loadIcon(packageManager)
-            println("packageName: $packageName")
+}
+
+fun getHtmlFormattedTime(html: String): Spanned {
+    return HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+}
+
+fun Context.showAlertDialog(
+    title: String,
+    message: String,
+    positiveAction: () -> Unit = {},
+    negativeAction: () -> Unit = {},
+) {
+    MaterialAlertDialogBuilder(
+        this,
+        com.google.android.material.R.style.ThemeOverlay_MaterialComponents_Dialog
+    ).apply {
+        setCancelable(false)
+        setTitle(title)
+        setMessage(message)
+        background = drawable(R.drawable.alert_dialog_bg)
+        setPositiveButton("Ok") { dialog, int ->
+            positiveAction.invoke()
         }
-        appList.add(app)
-    }
-    return appList
-}
-
-// https://stackoverflow.com/questions/3373860/convert-a-bitmap-to-grayscale-in-android
-fun Bitmap.toGrayscale(): Bitmap? {
-    val bitmapGrayScaled = Bitmap.createBitmap(
-        /* width = */ this.width,
-        /* height = */ this.height,
-        /* config = */ Bitmap.Config.ARGB_8888
-    )
-    val canvas = Canvas(bitmapGrayScaled)
-    val paint = Paint()
-    val colorMatrix = ColorMatrix().apply {
-        setSaturation(0f)
-    }
-    val colorMatrixColorFilter = ColorMatrixColorFilter(colorMatrix)
-    paint.colorFilter = colorMatrixColorFilter
-    canvas.drawBitmap(
-        /* bitmap = */ this,
-        /* left = */ 0f,
-        /* top = */ 0f,
-        /* paint = */ paint
-    )
-    return bitmapGrayScaled
-}
-
-// https://xjaphx.wordpress.com/2011/06/21/image-processing-grayscale-image-on-the-fly/
-fun Bitmap.toGrayScaledBitmapFallback(
-    redVal: Float = 0.299f,
-    greenVal: Float = 0.587f,
-    blueVal: Float = 0.114f
-): Bitmap {
-    // create output bitmap
-    val bitmapGrayScaled = Bitmap.createBitmap(this.width, this.height, this.config)
-
-    // pixel information
-    var A: Int
-    var R: Int
-    var G: Int
-    var B: Int
-    var pixel: Int
-
-    // get image size
-    val width = this.width
-    val height = this.height
-
-    // scan through every single pixel
-    for (x in 0 until width) {
-        for (y in 0 until height) {
-            // get one pixel color
-            pixel = this.getPixel(x, y)
-            // retrieve color of all channels
-//            A = Color.alpha(pixel)
-//            R = Color.red(pixel)
-//            G = Color.green(pixel)
-            A = Color.blue(pixel)
-            R = Color.blue(pixel)
-            G = Color.blue(pixel)
-            B = Color.blue(pixel)
-            // take conversion up to one single value
-            B = (redVal * R + greenVal * G + blueVal * B).toInt()
-            G = B
-            R = G
-            // set new pixel color to output bitmap
-            bitmapGrayScaled.setPixel(
-                /* x = */ x,
-                /* y = */ y,
-                /* color = */ Color.argb(A, R, G, B)
-            )
+        setNegativeButton("Cancel") { dialog, int ->
+            negativeAction.invoke()
         }
+        val dialog = create()
+        dialog.show()
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).isAllCaps = false
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).isAllCaps = false
     }
-
-    return bitmapGrayScaled
 }
 
-// https://gist.github.com/imminent/cf4ab750104aa286fa08
-// https://en.wikipedia.org/wiki/Grayscale
-fun Bitmap.toGrayScaledBitmap(context: Context): Bitmap {
-    val redVal = 0.299f
-    val greenVal = 0.587f
-    val blueVal = 0.114f
-    val render = RenderScript.create(context)
-    val matrix = Matrix4f(floatArrayOf(-redVal, -redVal, -redVal, 1.0f, -greenVal, -greenVal, -greenVal, 1.0f, -blueVal, -blueVal, -blueVal, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f))
-    val result = this.copy(this.config, true)
-    val input = Allocation.createFromBitmap(render, this, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT)
-    val output = Allocation.createTyped(render, input.type)
-    // Inverts and do grayscale to the image
-    val inverter = ScriptIntrinsicColorMatrix.create(render)
-    inverter.setColorMatrix(matrix)
-    inverter.forEach(input, output)
-    output.copyTo(result)
-    this.recycle()
-    render.destroy()
-    return result
+fun String.trimNewLines(): String = this.replace(oldValue = System.getProperty("line.separator") ?: "\n", newValue = " ")
+
+// Works on Windows, Linux and Mac
+// https://stackoverflow.com/questions/11048973/replace-new-line-return-with-space-using-regex
+// https://javarevisited.blogspot.com/2014/04/how-to-replace-line-breaks-new-lines-windows-mac-linux.html
+fun String.trimNewLinesUniversally(): String = this.replace(regex = Regex(pattern = "[\\t\\n\\r]+"), replacement = " ")
+
+fun String.trimIndentsAndNewLines(): String = this.trimIndent().trimNewLinesUniversally()
+
+fun String?.isNullOrBlankOrNaOrNullString(): Boolean {
+    return this.isNullOrBlank() || "null" == this.toLowCase().trim() || "na" == this.toLowCase().trim()
 }
+
+fun String.toLowCase(): String = this.lowercase(Locale.getDefault())
+
+fun String.toUpCase(): String = this.uppercase(Locale.getDefault())
+
+fun String.capFirstChar(): String = this.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+
 
 fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
@@ -393,6 +363,7 @@ fun AppCompatActivity.showScreen(
 }
 
 enum class DateType(val value: String) {
+    h_mm_a(value = "h:mm a"),
     dd_MMM_yyyy(value = "dd MMM yyyy"),
     dd_MMM_yyyy_h_mm_a(value = "dd-MMM-yyyy h:mm a"),
     dd_MMM_yyyy_hh_mm_a(value = "dd MMM yyyy, hh:mm a"),

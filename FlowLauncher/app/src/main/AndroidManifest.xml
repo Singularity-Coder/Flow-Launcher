@@ -7,6 +7,7 @@
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
     <!--For all/other package/app visibility - https://developer.android.com/training/package-visibility-->
     <!--https://stackoverflow.com/questions/63246442/android-11-r-return-empty-list-when-querying-intent-for-action-image-capture-->
@@ -43,6 +44,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FlowLauncher"
         tools:targetApi="31">
+        <!--The launch mode is set to single task to make sure that only one instance of this Activity is held by the system at any time-->
+        <!-- android:launchMode="singleTask"-->
+        <!-- android:stateNotNeeded="true"-->
+        <!-- android:clearTaskOnLaunch="true"-->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -50,6 +55,10 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <!--This is launcher stuff-->
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <meta-data

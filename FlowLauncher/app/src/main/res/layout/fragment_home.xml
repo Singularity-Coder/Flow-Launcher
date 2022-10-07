@@ -26,14 +26,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_profile_name"
+            android:id="@+id/tv_flow_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:maxLines="1"
-            android:paddingStart="20dp"
+            android:paddingStart="24dp"
             android:paddingEnd="16dp"
-            android:text="Work Profile"
+            android:text="Work Flow"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:textColor="@android:color/darker_gray"
             app:layout_constraintTop_toBottomOf="@+id/tv_time" />
@@ -43,13 +43,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
-            android:scrollbars="none"
             android:layout_marginEnd="8dp"
+            android:scrollbars="none"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/list_item_app"
+            app:layout_constraintTop_toBottomOf="@+id/tv_flow_type"
             tools:itemCount="6"
-            app:layout_constraintTop_toBottomOf="@+id/tv_profile_name" />
+            tools:listitem="@layout/list_item_app" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
