@@ -18,6 +18,8 @@ import java.util.*
 
 // Maybe option to change color
 // 12 hr, 24 hr clock
+// Time listener
+// Fav Walls - My Wall - set of 10 fav images - Glance
 
 // Pre built commands for voice search
 // 1. OPEN app_name -> opens app, etc

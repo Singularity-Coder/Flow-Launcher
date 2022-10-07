@@ -50,13 +50,15 @@ class MainActivity : AppCompatActivity() {
         binding.viewpagerMain.apply {
             adapter = MainViewPagerAdapter(fragmentManager = supportFragmentManager, lifecycle = lifecycle)
             registerOnPageChangeCallback(viewPager2PageChangeListener)
+            currentItem = 1
         }
     }
 
     inner class MainViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
-        override fun getItemCount(): Int = 2
+        override fun getItemCount(): Int = 3
         override fun createFragment(position: Int): Fragment = when (position) {
-            0 -> HomeFragment.newInstance()
+            0 -> GlanceFragment.newInstance()
+            1 -> HomeFragment.newInstance()
             else -> NowFragment.newInstance()
         }
     }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NowFragment">
+    tools:context=".GlanceFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:paddingStart="16dp"
             android:paddingTop="24dp"
             android:paddingEnd="16dp"
-            android:text="Now"
+            android:text="Glance"
             android:textAppearance="@style/TextAppearance.Material3.DisplaySmall"
             android:textColor="@color/title_color"
             android:textStyle="bold"
