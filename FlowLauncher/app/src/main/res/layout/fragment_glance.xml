@@ -28,6 +28,23 @@
         <!--https://www.pexels.com/photo/woman-wearing-sunhat-1382731/-->
         <!--https://www.pexels.com/photo/woman-holding-her-hat-while-standing-in-front-of-pink-bougainvillea-flowers-1382730/-->
         <!--https://www.pexels.com/photo/woman-s-face-1251247/-->
+        <!--https://www.pexels.com/photo/woman-wearing-sun-hat-and-white-dress-holding-pink-bougainvilleas-1382734/-->
+        <!--https://www.pexels.com/photo/photo-of-pod-of-dolphins-2422915/-->
+        <!--https://www.pexels.com/photo/two-person-on-boat-in-body-of-water-during-golden-hour-2850287/-->
+        <!--https://www.pexels.com/photo/pink-flowers-photograph-1083822/-->
+        <!--https://www.pexels.com/photo/gray-and-black-galaxy-wallpaper-2150/-->
+        <!--https://www.pexels.com/photo/silhouette-of-mountains-1323550/-->
+        <!--https://www.pexels.com/photo/gray-and-black-galaxy-wallpaper-2150/-->
+        <!--https://www.pexels.com/photo/boulder-cascade-creek-environment-219932/-->
+        <!--https://www.pexels.com/photo/man-riding-surfboard-in-wavy-ocean-7925859/-->
+        <!--https://www.pexels.com/photo/pink-waterlily-flower-in-full-bloom-921703/-->
+        <!--https://www.pexels.com/photo/photo-of-waterfalls-during-fall-season-1564655/-->
+        <!--https://www.pexels.com/photo/selective-focus-photo-of-cherry-blossoms-2832074/-->
+        <!--https://www.pexels.com/photo/selective-focus-photography-of-cherry-blossom-flowers-2179422/-->
+        <!--https://www.pexels.com/photo/blooming-pink-flower-on-branch-6781720/-->
+        <!--https://www.pexels.com/photo/cherry-blossom-tree-over-blue-sky-11623695/-->
+        <!--https://www.pexels.com/photo/gray-and-white-kitten-on-white-bed-2061057/-->
+        <!--https://www.pexels.com/photo/photo-of-a-white-pomeranian-puppy-2694561/-->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_glance_images"
             android:layout_width="match_parent"
@@ -41,13 +58,152 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_time">
 
-            <ImageView
-                android:id="@+id/iv_glance_image"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/p3"
-                android:background="@color/purple_50"
-                android:scaleType="centerCrop" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_glance_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@color/purple_50"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/p3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_image_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/transparent_white_50"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_image_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:textColor="@color/title_color"
+                        android:text="0/10"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_urgent_actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:clipChildren="true"
+            android:clipToPadding="true"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_glance_images"
+            app:strokeColor="@color/black_50"
+            app:strokeWidth="1dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:id="@+id/tv_hourly_worth_placeholder"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="end"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="2"
+                    android:text="Take Action"
+                    android:textColor="@color/title_color"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_missed_calls"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ellipsize="end"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="2"
+                    android:text="Missed Calls"
+                    android:textColor="@color/title_color"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_hourly_worth_placeholder" />
+
+                <TextView
+                    android:id="@+id/tv_missed_calls_count"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:ellipsize="end"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="2"
+                    android:text="14"
+                    android:textColor="@color/purple_200"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_missed_calls"
+                    app:layout_constraintTop_toTopOf="@+id/tv_missed_calls" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    app:dividerColor="@color/black_50"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_missed_calls" />
+
+                <TextView
+                    android:id="@+id/tv_unread_sms"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ellipsize="end"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="2"
+                    android:text="Unread SMS"
+                    android:textColor="@color/title_color"
+                    app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+                <TextView
+                    android:id="@+id/tv_unread_sms_count"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:ellipsize="end"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="2"
+                    android:text="293"
+                    android:textColor="@color/purple_200"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_unread_sms"
+                    app:layout_constraintTop_toTopOf="@+id/tv_unread_sms" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

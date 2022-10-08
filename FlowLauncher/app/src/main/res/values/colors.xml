@@ -23,4 +23,6 @@
     <color name="light_gray">#d6d6d6</color>
     <color name="default_color">#757575</color>
     <color name="screen_background">#F0F3F4</color>
+
+    <color name="transparent_white_50">#8CFFFFFF</color>
 </resources>
