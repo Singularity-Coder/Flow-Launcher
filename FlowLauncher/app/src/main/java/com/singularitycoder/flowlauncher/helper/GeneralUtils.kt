@@ -1,15 +1,17 @@
-package com.singularitycoder.flowlauncher
+package com.singularitycoder.flowlauncher.helper
 
 import android.app.Activity
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.text.InputType
-import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.method.DigitsKeyListener
 import android.view.ActionMode
@@ -25,8 +27,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.text.HtmlCompat
-import androidx.core.text.bold
-import androidx.core.text.color
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -34,14 +34,19 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.singularitycoder.flowlauncher.BuildConfig
+import com.singularitycoder.flowlauncher.R
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+
+const val FILE_PROVIDER_AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider"
+const val REQUEST_CODE_VIDEO = 1001
+const val TAG_ADD_CONTACT_MODAL_BOTTOM_SHEET = "TAG_ADD_CONTACT_MODAL_BOTTOM_SHEET"
+const val TAG_VIDEO_MODAL_BOTTOM_SHEET = "TAG_VIDEO_MODAL_BOTTOM_SHEET"
 
 const val BROADCAST_TIME_CHANGED = "BROADCAST_TIME_CHANGED"
 
@@ -85,6 +90,13 @@ fun getHtmlFormattedTime(html: String): Spanned {
     return HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
 }
 
+fun Context.showPermissionSettings() {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+        data = Uri.fromParts("package", this@showPermissionSettings.packageName, null)
+    }
+    startActivity(intent)
+}
+
 fun Timer.doEvery(
     duration: Long,
     withInitialDelay: Long = 2.seconds(),
@@ -98,7 +110,6 @@ fun Timer.doEvery(
     withInitialDelay,
     duration
 )
-
 
 fun Int.seconds(): Long = TimeUnit.SECONDS.toMillis(this.toLong())
 

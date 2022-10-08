@@ -1,21 +1,20 @@
-package com.singularitycoder.flowlauncher
+package com.singularitycoder.flowlauncher.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import dagger.hilt.android.AndroidEntryPoint
+import com.singularitycoder.flowlauncher.R
 
-@AndroidEntryPoint
-class TodayFragment : Fragment() {
+class GlanceFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = TodayFragment()
+        fun newInstance() = GlanceFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_today, container, false)
+        return inflater.inflate(R.layout.fragment_glance, container, false)
     }
 }

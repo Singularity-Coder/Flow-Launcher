@@ -2,13 +2,13 @@ package com.singularitycoder.flowlauncher
 
 import android.app.Activity
 import android.app.PendingIntent
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInstaller.SessionParams
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import com.singularitycoder.flowlauncher.model.App
 import java.io.IOException
 
 

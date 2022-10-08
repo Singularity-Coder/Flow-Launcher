@@ -2,10 +2,14 @@ package com.singularitycoder.flowlauncher
 
 import android.content.Context
 import android.graphics.*
+import android.media.MediaMetadataRetriever
+import android.net.Uri
+import android.os.Build
 import android.renderscript.Allocation
 import android.renderscript.Matrix4f
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicColorMatrix
+import androidx.annotation.RequiresApi
 
 // https://stackoverflow.com/questions/5699810/how-to-change-bitmap-image-color-in-android
 // https://stackoverflow.com/questions/3373860/convert-a-bitmap-to-grayscale-in-android#comment15100006_7727183
@@ -140,12 +144,9 @@ fun Bitmap.toGrayScaledBitmapFallback(
             // get one pixel color
             pixel = this.getPixel(x, y)
             // retrieve color of all channels
-//            A = Color.alpha(pixel)
-//            R = Color.red(pixel)
-//            G = Color.green(pixel)
-            A = Color.blue(pixel)
-            R = Color.blue(pixel)
-            G = Color.blue(pixel)
+            A = Color.alpha(pixel)
+            R = Color.red(pixel)
+            G = Color.green(pixel)
             B = Color.blue(pixel)
             // take conversion up to one single value
             B = (redVal * R + greenVal * G + blueVal * B).toInt()
@@ -182,4 +183,21 @@ fun Bitmap.toGrayScaledBitmap(context: Context): Bitmap {
     this.recycle()
     render.destroy()
     return result
+}
+
+// https://stackoverflow.com/questions/44109057/get-video-thumbnail-from-uri
+@RequiresApi(Build.VERSION_CODES.O_MR1)
+fun Context.getVideoThumbnailBitmap(docUri: Uri): Bitmap? {
+    return try {
+        val mmr = MediaMetadataRetriever()
+        mmr.setDataSource(this, docUri)
+        mmr.getScaledFrameAtTime(
+            1000, /* Time in Video */
+            MediaMetadataRetriever.OPTION_NEXT_SYNC,
+            128,
+            128
+        )
+    } catch (e: Exception) {
+        null
+    }
 }

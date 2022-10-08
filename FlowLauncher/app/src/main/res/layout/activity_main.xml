@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/fl_container"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager_main"

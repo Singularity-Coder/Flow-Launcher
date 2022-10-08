@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher
+package com.singularitycoder.flowlauncher.model
 
 import android.graphics.drawable.Drawable
 import android.os.Parcelable

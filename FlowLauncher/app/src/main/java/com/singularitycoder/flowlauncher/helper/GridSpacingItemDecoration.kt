@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher
+package com.singularitycoder.flowlauncher.helper
 
 import android.graphics.Rect
 import android.view.View

@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher
+package com.singularitycoder.flowlauncher.view
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,6 +7,9 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.singularitycoder.flowlauncher.databinding.ListItemAppBinding
+import com.singularitycoder.flowlauncher.model.App
+import com.singularitycoder.flowlauncher.toBlueScale
+import com.singularitycoder.flowlauncher.toGrayscale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
