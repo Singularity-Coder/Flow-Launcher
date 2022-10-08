@@ -43,6 +43,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+const val BROADCAST_TIME_CHANGED = "BROADCAST_TIME_CHANGED"
+
 val dateFormatList = listOf(
     "dd-MMMM hh:mm",
     "dd-MM-yyyy",
@@ -82,6 +84,27 @@ fun convertDateToLong(date: String, type: UByte): Long {
 fun getHtmlFormattedTime(html: String): Spanned {
     return HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
 }
+
+fun Timer.doEvery(
+    duration: Long,
+    withInitialDelay: Long = 2.seconds(),
+    task: suspend () -> Unit
+) = scheduleAtFixedRate(
+    object : TimerTask() {
+        override fun run() {
+            CoroutineScope(IO).launch { task.invoke() }
+        }
+    },
+    withInitialDelay,
+    duration
+)
+
+
+fun Int.seconds(): Long = TimeUnit.SECONDS.toMillis(this.toLong())
+
+fun Int.minutes(): Long = TimeUnit.MINUTES.toMillis(this.toLong())
+
+fun Int.hours(): Long = TimeUnit.HOURS.toMillis(this.toLong())
 
 fun Context.showAlertDialog(
     title: String,

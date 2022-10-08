@@ -8,17 +8,14 @@ import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NowFragment : Fragment() {
+class TodayFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = NowFragment()
+        fun newInstance() = TodayFragment()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_now, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_today, container, false)
     }
 }

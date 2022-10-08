@@ -21,6 +21,7 @@ class GridSpacingItemDecoration(
         val column = position % spanCount // item column
         outRect.left = spacing
         outRect.top = spacing
+        outRect.bottom = spacing
 //        if (position < spanCount) {
 //            outRect.right = spacing
 //        }

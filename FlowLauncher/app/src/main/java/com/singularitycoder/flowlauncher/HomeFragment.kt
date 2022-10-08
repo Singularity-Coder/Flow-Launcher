@@ -1,5 +1,9 @@
 package com.singularitycoder.flowlauncher
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,9 +40,18 @@ class HomeFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var timer: Timer
 
     private val homeAppsList = mutableListOf<App>()
     private val homeAppsAdapter = HomeAppsAdapter()
+
+    // FIXME not working
+    private val timeChangedReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            if (intent.action != BROADCAST_TIME_CHANGED) return
+            setTimeDateAndFlow()
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -49,19 +62,28 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.setupUI()
         binding.setupUserActionListeners()
-
-        // https://stackoverflow.com/questions/5369682/how-to-get-current-time-and-date-in-android#:~:text=Date%3B%20Date%20currentTime%20%3D%20Calendar.,getTime()%3B
-        // https://stackoverflow.com/questions/7672597/how-to-get-timezone-from-android-mobile
-        println("Time now: ${Calendar.getInstance().time}") // Sat Oct 08 00:58:23 GMT+05:30 2022
-        println("Time zone: ${TimeZone.getDefault()}") // libcore.util.ZoneInfo[mDstSavings=0,mUseDst=false,mDelegate=[id="Asia/Kolkata",mRawOffset=19800000,mEarliestRawOffset=21208000,transitions=7]]
     }
 
     override fun onResume() {
         super.onResume()
         println("This triggers everytime we switch the screen")
+        activity?.registerReceiver(timeChangedReceiver, IntentFilter(BROADCAST_TIME_CHANGED))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.unregisterReceiver(timeChangedReceiver)
     }
 
     private fun FragmentHomeBinding.setupUI() {
+        setTimeDateAndFlow()
+        timer = Timer()
+        timer.doEvery(
+            duration = 1.seconds(),
+            withInitialDelay = 0.seconds(),
+        ) {
+            setTimeDateAndFlow()
+        }
         rvApps.apply {
             layoutManager = GridLayoutManager(context, 4)
             adapter = homeAppsAdapter
@@ -78,14 +100,6 @@ class HomeFragment : Fragment() {
             this.homeAppList = this@HomeFragment.homeAppsList
             notifyDataSetChanged()
         }
-
-        val time = convertLongToTime(timeNow, DateType.h_mm_a)
-        val hours = time.substringBefore(":")
-        val minutes = time.substringAfter(":").substringBefore(" ")
-        val dayPeriod = time.substringAfter(" ")
-        val html = "$hours : $minutes <small><small><small>$dayPeriod</small></small></small>"
-        tvTime.text = getHtmlFormattedTime(html)
-        tvFlowType.text = "Work Flow  |  ${convertLongToTime(timeNow, DateType.dd_MMM_yyyy)}"
     }
 
     private fun FragmentHomeBinding.setupUserActionListeners() {
@@ -111,5 +125,22 @@ class HomeFragment : Fragment() {
             // Open flow switcher
             false
         }
+    }
+
+    private fun setTimeDateAndFlow() {
+        // https://stackoverflow.com/questions/5369682/how-to-get-current-time-and-date-in-android#:~:text=Date%3B%20Date%20currentTime%20%3D%20Calendar.,getTime()%3B
+        // https://stackoverflow.com/questions/7672597/how-to-get-timezone-from-android-mobile
+        println("Time now: ${Calendar.getInstance().time}") // Sat Oct 08 00:58:23 GMT+05:30 2022
+        println("Time zone: ${TimeZone.getDefault()}") // libcore.util.ZoneInfo[mDstSavings=0,mUseDst=false,mDelegate=[id="Asia/Kolkata",mRawOffset=19800000,mEarliestRawOffset=21208000,transitions=7]]
+
+        val time = convertLongToTime(timeNow, DateType.h_mm_a)
+        val hours = time.substringBefore(":")
+        val minutes = time.substringAfter(":").substringBefore(" ")
+        val dayPeriod = time.substringAfter(" ")
+        val html = "$hours : $minutes <small><small><small>$dayPeriod</small></small></small>"
+        val day = Calendar.getInstance().time.toString().substringBefore(" ")
+
+        binding.tvTime.text = getHtmlFormattedTime(html)
+        binding.tvFlowType.text = "$day, ${convertLongToTime(timeNow, DateType.dd_MMM_yyyy)}  |  Work Flow"
     }
 }
