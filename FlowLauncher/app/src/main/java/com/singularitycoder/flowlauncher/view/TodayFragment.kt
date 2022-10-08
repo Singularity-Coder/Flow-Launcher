@@ -8,6 +8,13 @@ import androidx.fragment.app.Fragment
 import com.singularitycoder.flowlauncher.R
 import dagger.hilt.android.AndroidEntryPoint
 
+// Quote of the day
+// Weather today
+// Headlines today
+// Remainders today - Remind Me remainders
+// Todos today
+// Perfect Me routines
+
 @AndroidEntryPoint
 class TodayFragment : Fragment() {
 

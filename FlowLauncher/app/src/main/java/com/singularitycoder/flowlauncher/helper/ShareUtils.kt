@@ -61,7 +61,7 @@ fun Context.sendWhatsAppMessage(whatsAppPhoneNum: String) {
 }
 
 fun Activity.searchWithChrome(query: String) {
-    val sanitizedQuery = query.trim().replace(" ", "+")
+    val sanitizedQuery = query.replaceFirst("for", "").trim().replace(" ", "+")
     val url = "https://www.google.com/search?q=$sanitizedQuery"
     val intent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

@@ -38,6 +38,8 @@ import javax.inject.Inject
 // Time listener
 // Fav Walls - My Wall - set of 10 fav images - Glance
 // FIXME the grid is still not center positioned
+// Letter strip for app search
+// Probably some kind of doc for quick access of commonly used apps.
 
 // Pre built commands for voice search
 // 1. OPEN app_name -> opens app, etc

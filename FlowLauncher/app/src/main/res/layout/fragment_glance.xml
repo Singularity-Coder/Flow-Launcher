@@ -25,30 +25,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_flow_type"
+        <!--https://www.pexels.com/photo/woman-wearing-sunhat-1382731/-->
+        <!--https://www.pexels.com/photo/woman-holding-her-hat-while-standing-in-front-of-pink-bougainvillea-flowers-1382730/-->
+        <!--https://www.pexels.com/photo/woman-s-face-1251247/-->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_glance_images"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:maxLines="1"
-            android:paddingStart="24dp"
-            android:paddingEnd="16dp"
-            android:text=""
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@+id/tv_time" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_apps"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:scrollbars="none"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_flow_type"
-            tools:itemCount="6"
-            tools:listitem="@layout/list_item_app" />
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_time">
+
+            <ImageView
+                android:id="@+id/iv_glance_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/p3"
+                android:background="@color/purple_50"
+                android:scaleType="centerCrop" />
+        </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

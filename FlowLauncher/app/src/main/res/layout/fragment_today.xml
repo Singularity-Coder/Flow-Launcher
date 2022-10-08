@@ -25,30 +25,57 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_flow_type"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_anime_quotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:maxLines="1"
-            android:paddingStart="24dp"
-            android:paddingEnd="16dp"
-            android:text=""
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@+id/tv_time" />
+            android:layout_margin="16dp"
+            app:cardBackgroundColor="@color/purple_50"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_time">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_apps"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:scrollbars="none"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_flow_type"
-            tools:itemCount="6"
-            tools:listitem="@layout/list_item_app" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_anime_quotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- https://www.flaticon.com/search?word=bulb&type=sticker-->
+                <ImageView
+                    android:id="@+id/iv_quote_background"
+                    android:layout_width="96dp"
+                    android:layout_height="220dp"
+                    android:contentDescription="Quote Background"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/inspiration"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/purple_200" />
+
+                <TextView
+                    android:id="@+id/tv_quote"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="96dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="sans-serif-light"
+                    android:maxLines="12"
+                    android:text="The brighter the light shines, the darker the nearby shadows grow! \n\nby Berserk"
+                    android:textColor="@color/purple_700"
+                    android:textSize="24sp"
+                    android:visibility="visible"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
