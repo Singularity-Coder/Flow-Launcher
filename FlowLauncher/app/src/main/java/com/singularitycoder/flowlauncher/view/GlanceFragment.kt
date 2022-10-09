@@ -4,28 +4,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.databinding.FragmentGlanceBinding
-import com.singularitycoder.flowlauncher.helper.deviceWidth
-import com.singularitycoder.flowlauncher.helper.dpToPx
-import com.singularitycoder.flowlauncher.helper.drawable
+import com.singularitycoder.flowlauncher.helper.*
+
+// Refresh on every swipe
+// Rearrangable cards
 
 // Image or video glances
-// Remainders next 3 days
-// Events
 // Unread message count
 // Missed calls
+// next 3 Remainders/Events
+
 // Fav Youtube videos links
+// 10k Hours - top 3 skills
+// Perfect Me - routines
+// My Goals - Top 3 goals
 
 // My Mind - pinned notes
 // My Loans
 // My Expenses
 // My Bills
-// Trip Me - most used visual meditation
-// 10k Hours - top 3 skills
-// Perfect Me - routines
-// My Goals - Top 3 goals
+
 
 class GlanceFragment : Fragment() {
 
@@ -58,7 +60,7 @@ class GlanceFragment : Fragment() {
         R.drawable.p20,
     )
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentGlanceBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -72,11 +74,16 @@ class GlanceFragment : Fragment() {
     private fun FragmentGlanceBinding.setupUI() {
         ivGlanceImage.layoutParams.height = deviceWidth() - 32.dpToPx()
         tvImageCount.text = "${1}/${tempImageDrawableList.size}"
+        setRemainders()
     }
 
     private fun FragmentGlanceBinding.setupUserActionListeners() {
         var currentImagePosition = 0
         ivGlanceImage.setOnClickListener {
+            doAfter(3.seconds()) {
+                cardImageCount.isVisible = false
+            }
+            cardImageCount.isVisible = true
             tvImageCount.text = "${currentImagePosition + 1}/${tempImageDrawableList.size}"
             ivGlanceImage.setImageDrawable(requireContext().drawable(tempImageDrawableList[currentImagePosition]))
             if (currentImagePosition == tempImageDrawableList.lastIndex) {
@@ -88,6 +95,22 @@ class GlanceFragment : Fragment() {
         ivGlanceImage.setOnLongClickListener {
             // Show full screen image
             false
+        }
+    }
+
+    private fun FragmentGlanceBinding.setRemainders() {
+        remainder1.apply {
+            tvRemainder.text = "Sell mangoes to mango guy to get money for buying mangoes."
+            tvRemainderDate.text = "12 SPT"
+        }
+        remainder2.apply {
+            tvRemainder.text = "Climb mount everest."
+            tvRemainderDate.text = "6 NOV"
+        }
+        remainder3.apply {
+            tvRemainder.text = "Call Chacha Chaudhary."
+            tvRemainderDate.text = "1 JAN"
+            dividerRemainders.isVisible = false
         }
     }
 }

@@ -184,7 +184,7 @@ class HomeFragment : Fragment() {
                 )
             )
         }
-        homeAppsList.addAll(requireContext().appList())
+        homeAppsList.addAll(requireContext().appList().sortedBy { it.title })
         homeAppsAdapter.apply {
             this.homeAppList = this@HomeFragment.homeAppsList
             notifyDataSetChanged()
@@ -196,6 +196,7 @@ class HomeFragment : Fragment() {
             requireActivity().launchApp(app.packageName)
         }
         homeAppsAdapter.setItemLongClickListener { app, position ->
+            // Show menu - Info, Delete
             requireContext().showAlertDialog(
                 title = app.title,
                 message = "Do you want to remove this app?",

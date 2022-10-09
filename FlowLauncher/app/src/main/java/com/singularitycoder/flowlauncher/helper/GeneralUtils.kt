@@ -10,6 +10,8 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.text.InputType
 import android.text.Spanned
@@ -394,6 +396,10 @@ fun AppCompatActivity.showScreen(
         .add(R.id.fl_container, fragment, tag)
         .addToBackStack(null)
         .commit()
+}
+
+fun doAfter(duration: Long, task: () -> Unit) {
+    Handler(Looper.getMainLooper()).postDelayed(task, duration)
 }
 
 enum class DateType(val value: String) {
