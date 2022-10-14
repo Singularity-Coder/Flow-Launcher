@@ -60,6 +60,7 @@ fun Context.sendWhatsAppMessage(whatsAppPhoneNum: String) {
     }
 }
 
+// https://stackoverflow.com/questions/12013416/is-there-any-way-in-android-to-force-open-a-link-to-open-in-chrome
 fun Activity.searchWithChrome(query: String) {
     val sanitizedQuery = query.replaceFirst("for", "").trim().replace(" ", "+")
     val url = "https://www.google.com/search?q=$sanitizedQuery"

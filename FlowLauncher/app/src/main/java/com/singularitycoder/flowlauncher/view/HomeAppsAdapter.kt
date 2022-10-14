@@ -2,6 +2,7 @@ package com.singularitycoder.flowlauncher.view
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
@@ -18,9 +19,9 @@ import kotlinx.coroutines.withContext
 
 class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var homeAppList = mutableListOf<App>()
+    var homeAppList = listOf<App>()
     private var itemClickListener: (app: App, position: Int) -> Unit = { app, position -> }
-    private var itemLongClickListener: (app: App, position: Int) -> Unit = { app, position -> }
+    private var itemLongClickListener: (view: View, app: App, position: Int) -> Unit = { view, app, position -> }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding = ListItemAppBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -39,7 +40,7 @@ class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         itemClickListener = listener
     }
 
-    fun setItemLongClickListener(listener: (app: App, position: Int) -> Unit) {
+    fun setItemLongClickListener(listener: (view: View, app: App, position: Int) -> Unit) {
         itemLongClickListener = listener
     }
 
@@ -61,7 +62,7 @@ class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     itemClickListener.invoke(app, bindingAdapterPosition)
                 }
                 root.setOnLongClickListener {
-                    itemLongClickListener.invoke(app, bindingAdapterPosition)
+                    itemLongClickListener.invoke(it, app, bindingAdapterPosition)
                     false
                 }
             }

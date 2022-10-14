@@ -7,3 +7,5 @@ Core idea is iOS style work, home, etc profiles with only related apps visible i
 
 ## Screenshots
 ![alt text](https://github.com/Singularity-Coder/Flow-Launcher/blob/main/assets/ss1.png)
+![alt text](https://github.com/Singularity-Coder/Flow-Launcher/blob/main/assets/ss2.png)
+![alt text](https://github.com/Singularity-Coder/Flow-Launcher/blob/main/assets/ss3.png)

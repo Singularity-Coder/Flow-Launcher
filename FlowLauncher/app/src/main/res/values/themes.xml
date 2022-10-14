@@ -15,4 +15,23 @@
 <!--        <item name="android:windowShowWallpaper">true</item>-->
 <!--        <item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
+
+    <!--    <item name="android:foreground">?android:attr/selectableItemBackground</item>-->
+    <!--    <item name="strokeWidth">1dp</item>-->
+    <!--    <item name="strokeColor">@color/purple_200</item>-->
+    <style name="Widget.App.Button.IconOnly" parent="Widget.MaterialComponents.Button">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="elevation">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="backgroundTint">@color/purple_50</item>
+        <item name="background">@color/purple_500</item>
+        <item name="iconTint">@color/purple_500</item>
+        <item name="rippleColor">@color/purple_200</item>
+    </style>
 </resources>

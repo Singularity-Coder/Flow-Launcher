@@ -10,7 +10,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.singularitycoder.flowlauncher.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-
 // https://steemit.com/utopian-io/@ideba/how-to-build-a-custom-android-launcher-and-home-screen-application-part-1
 
 @AndroidEntryPoint

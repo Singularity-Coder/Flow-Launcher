@@ -6,23 +6,28 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.MenuRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.ContextCompat
+import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.singularitycoder.flowlauncher.appList
+import com.singularitycoder.flowlauncher.*
 import com.singularitycoder.flowlauncher.databinding.FragmentHomeBinding
 import com.singularitycoder.flowlauncher.db.ContactDao
 import com.singularitycoder.flowlauncher.helper.*
-import com.singularitycoder.flowlauncher.launchApp
 import com.singularitycoder.flowlauncher.model.App
 import com.singularitycoder.flowlauncher.model.Contact
-import com.singularitycoder.flowlauncher.uninstallApp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -32,7 +37,6 @@ import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 
-
 // Maybe option to change color
 // 12 hr, 24 hr clock
 // Time listener
@@ -41,11 +45,7 @@ import javax.inject.Inject
 // Letter strip for app search
 // Probably some kind of doc for quick access of commonly used apps.
 
-// Pre built commands for voice search
-// 1. OPEN app_name -> opens app, etc
-// 2. CALL contact_name -> calls directly
-// 3. MESSAGE contact_name SAYING message_body  -> Opens message
-// 4. SEARCH FOR query -> Open chrome
+// TODO Unable to detect package installed. Check further - https://stackoverflow.com/questions/11392183/how-to-check-programmatically-if-an-application-is-installed-or-not-in-android
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -61,18 +61,29 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var timer: Timer
 
-    private val homeAppsList = mutableListOf<App>()
     private val homeAppsAdapter = HomeAppsAdapter()
 
+    private var homeAppsList = listOf<App>()
     private var speechAction = SpeechAction.NONE
     private var contactName = ""
     private var messageBody = ""
+    private var removeAppPosition = 0
 
-    // FIXME not working
     private val timeChangedReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
-            if (intent.action != BROADCAST_TIME_CHANGED) return
-            setTimeDateAndFlow()
+            when (intent.action) {
+                // FIXME not working
+                Broadcast.TIME_CHANGED -> {
+                    setTimeDateAndFlow()
+                }
+                Broadcast.PACKAGE_REMOVED -> {
+                    homeAppsAdapter.notifyItemRemoved(removeAppPosition)
+                }
+                // FIXME not working
+                Broadcast.PACKAGE_INSTALLED -> {
+                    refreshAppList()
+                }
+            }
         }
     }
 
@@ -155,13 +166,22 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        println("This triggers everytime we switch the screen")
-        activity?.registerReceiver(timeChangedReceiver, IntentFilter(BROADCAST_TIME_CHANGED))
+        println("This triggers everytime we switch the screen in viewpager")
+        refreshAppList()
+        activity?.registerReceiver(timeChangedReceiver, IntentFilter(Broadcast.TIME_CHANGED))
+        activity?.registerReceiver(timeChangedReceiver, IntentFilter(Broadcast.PACKAGE_REMOVED))
+        activity?.registerReceiver(timeChangedReceiver, IntentFilter(Broadcast.PACKAGE_INSTALLED))
+
     }
 
     override fun onPause() {
         super.onPause()
         activity?.unregisterReceiver(timeChangedReceiver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timer.purge()
     }
 
     private fun FragmentHomeBinding.setupUI() {
@@ -184,31 +204,18 @@ class HomeFragment : Fragment() {
                 )
             )
         }
-        homeAppsList.addAll(requireContext().appList().sortedBy { it.title })
-        homeAppsAdapter.apply {
-            this.homeAppList = this@HomeFragment.homeAppsList
-            notifyDataSetChanged()
-        }
     }
 
     private fun FragmentHomeBinding.setupUserActionListeners() {
         homeAppsAdapter.setItemClickListener { app, position ->
             requireActivity().launchApp(app.packageName)
         }
-        homeAppsAdapter.setItemLongClickListener { app, position ->
-            // Show menu - Info, Delete
-            requireContext().showAlertDialog(
-                title = app.title,
-                message = "Do you want to remove this app?",
-                positiveAction = {
-                    CoroutineScope(IO).launch {
-                        // FIXME uninstall callback
-                        requireActivity().uninstallApp(app.packageName)
-                        withContext(Main) {
-                            homeAppsAdapter.notifyItemRemoved(position)
-                        }
-                    }
-                }
+        homeAppsAdapter.setItemLongClickListener { view, app, position ->
+            showPopupMenu(
+                view = view,
+                menuRes = R.menu.app_popup_menu,
+                app = app,
+                position = position
             )
         }
         root.setOnLongClickListener {
@@ -226,6 +233,10 @@ class HomeFragment : Fragment() {
                 putExtra(RecognizerIntent.EXTRA_PROMPT, "Start Speaking Now!")
             }
             speechToTextResult.launch(intent)
+        }
+        root.setOnLongClickListener {
+            (requireActivity() as AppCompatActivity).showScreen(AddEditFlowFragment.newInstance(), AddEditFlowFragment::class.java.simpleName)
+            false
         }
     }
 
@@ -252,5 +263,52 @@ class HomeFragment : Fragment() {
 
     private fun grantContactsPermissions() {
         contactsPermissionResult.launch(Manifest.permission.READ_CONTACTS)
+    }
+
+    private fun showPopupMenu(
+        view: View,
+        @MenuRes menuRes: Int,
+        app: App,
+        position: Int
+    ) {
+        PopupMenu(requireContext(), view).apply {
+            this.menu.invokeSetMenuIconMethod()
+            menuInflater.inflate(menuRes, this.menu)
+            setOnMenuItemClickListener { menuItem: MenuItem ->
+                when (menuItem.itemId) {
+                    R.id.menu_item_app_info -> {
+                        requireContext().showAppInfo(app)
+                        false
+                    }
+                    R.id.menu_item_remove_app -> {
+                        removeApp(app, position)
+                        false
+                    }
+                    else -> false
+                }
+            }
+            setOnDismissListener { it: PopupMenu? ->
+            }
+            setMarginBtwMenuIconAndText(context = requireContext(), menu = this.menu, iconMarginDp = 10)
+            this.menu.forEach { it: MenuItem ->
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    it.iconTintList = ContextCompat.getColorStateList(requireContext(), R.color.purple_500)
+                }
+            }
+            show()
+        }
+    }
+
+    private fun removeApp(app: App, position: Int) {
+        removeAppPosition = position
+        requireActivity().uninstallApp(app.packageName)
+    }
+
+    private fun refreshAppList() {
+        homeAppsList = requireContext().appList().sortedBy { it.title }
+        homeAppsAdapter.apply {
+            this.homeAppList = homeAppsList
+            notifyDataSetChanged()
+        }
     }
 }

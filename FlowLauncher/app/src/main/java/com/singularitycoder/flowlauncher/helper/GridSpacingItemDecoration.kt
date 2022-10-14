@@ -11,6 +11,9 @@ class GridSpacingItemDecoration(
     private val includeEdge: Boolean
 ) : RecyclerView.ItemDecoration() {
 
+    // App width -> 40dp
+    // Total Apps Width -> 40 * 4 = 160dp
+    // width btw the apps -> deviceWidth() - 160dp
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -19,7 +22,10 @@ class GridSpacingItemDecoration(
     ) {
         val position = parent.getChildAdapterPosition(view) // item position
         val column = position % spanCount // item column
-        outRect.left = spacing
+        outRect.left = 20.dpToPx()
+        outRect.right = 20.dpToPx()
+//        outRect.left = (deviceWidth() - 160.dpToPx()) / 5
+//        outRect.right = (deviceWidth() - 160.dpToPx()) / 5
         outRect.top = spacing
         outRect.bottom = spacing
 //        if (position < spanCount) {

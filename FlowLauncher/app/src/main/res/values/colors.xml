@@ -3,9 +3,11 @@
     <color name="purple_50">#EDE7F6</color>
     <color name="purple_100">#D1C4E9</color>
     <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_300">#9575CD</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="purple_900">#311B92</color>
+    <color name="purple_dark">#100151</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 

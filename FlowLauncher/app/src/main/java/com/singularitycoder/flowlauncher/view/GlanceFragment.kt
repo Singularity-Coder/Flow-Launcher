@@ -9,11 +9,12 @@ import androidx.fragment.app.Fragment
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.databinding.FragmentGlanceBinding
 import com.singularitycoder.flowlauncher.helper.*
+import dagger.hilt.android.AndroidEntryPoint
 
 // Refresh on every swipe
 // Rearrangable cards
 
-// Image or video glances
+// Image or video glances - ability to add own images
 // Unread message count
 // Missed calls
 // next 3 Remainders/Events
@@ -28,7 +29,7 @@ import com.singularitycoder.flowlauncher.helper.*
 // My Expenses
 // My Bills
 
-
+@AndroidEntryPoint
 class GlanceFragment : Fragment() {
 
     companion object {
@@ -93,7 +94,14 @@ class GlanceFragment : Fragment() {
             }
         }
         ivGlanceImage.setOnLongClickListener {
-            // Show full screen image
+            // Add or remove images. new bottom sheet
+            false
+        }
+        cardYoutubeVideos.setOnClickListener {
+            // Open youtube video in new screen. Auto oriented horizontally
+        }
+        cardYoutubeVideos.setOnLongClickListener {
+            // Add or remove youtube video. new bottom sheet
             false
         }
     }

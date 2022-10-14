@@ -26,6 +26,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/iv_open_external"
+            style="@style/Widget.App.Button.IconOnly"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="4dp"
+            app:icon="@drawable/ic_round_more_horiz_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_glance_title"/>
+
         <!--https://www.pexels.com/photo/woman-wearing-sunhat-1382731/-->
         <!--https://www.pexels.com/photo/woman-holding-her-hat-while-standing-in-front-of-pink-bougainvillea-flowers-1382730/-->
         <!--https://www.pexels.com/photo/woman-s-face-1251247/-->
@@ -288,17 +300,31 @@
                     android:id="@+id/iv_thumbnail"
                     android:layout_width="match_parent"
                     android:layout_height="208dp"
-                    android:src="@color/black"
+                    android:src="@drawable/p11"
+                    android:scaleType="centerCrop"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:id="@+id/view_black_fade"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-                    android:alpha="0.6"
                     android:background="@drawable/background_black_gradient_fade"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_video_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="8dp"
+                    android:text="Video Title"
+                    android:maxLines="1"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_play"
@@ -306,27 +332,13 @@
                     android:layout_height="50dp"
                     android:elevation="8dp"
                     android:visibility="visible"
+                    android:alpha="0.8"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail"
                     app:layout_constraintEnd_toEndOf="@+id/iv_thumbnail"
                     app:layout_constraintStart_toStartOf="@+id/iv_thumbnail"
                     app:layout_constraintTop_toTopOf="@+id/iv_thumbnail"
                     app:srcCompat="@drawable/ic_round_play_circle_filled_24"
                     app:tint="@color/white" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_video_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:elevation="8dp"
-                    android:text="Video"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 

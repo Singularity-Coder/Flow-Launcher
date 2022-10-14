@@ -2,12 +2,14 @@ package com.singularitycoder.flowlauncher
 
 import android.app.Activity
 import android.app.PendingIntent
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInstaller.SessionParams
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import com.singularitycoder.flowlauncher.model.App
 import java.io.IOException
 
@@ -79,4 +81,43 @@ fun Activity.uninstallApp2(packageName: String) {
             /* flags = */ 0
         ).intentSender
     )
+}
+
+// https://stackoverflow.com/questions/4421527/how-can-i-start-android-application-info-screen-programmatically
+fun Context.showInstalledAppDetails(app: App) {
+    val SCHEME = "package"
+    val intent = Intent().apply {
+        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        data = Uri.fromParts(SCHEME, app.packageName, null)
+    }
+    startActivity(intent)
+}
+
+// https://stackoverflow.com/questions/4421527/how-can-i-start-android-application-info-screen-programmatically
+fun Context.showAppInfo(app: App) {
+    val apiLevel = Build.VERSION.SDK_INT
+    try {
+        // Open the specific App Info page:
+        val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.parse("package:${app.packageName}")
+        }
+        startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        // Open the generic Apps page:
+        val intent = Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS)
+        startActivity(intent)
+    }
+}
+
+// https://stackoverflow.com/questions/38315805/enable-disable-packages-programmatically
+// https://developer.android.com/reference/android/content/pm/PackageManager#setApplicationEnabledSetting(java.lang.String,%20int,%20int)
+// https://android.stackexchange.com/questions/143560/how-to-disable-third-party-apps-without-uninstall
+fun App.enable(context: Context) {
+    context.packageManager.setApplicationEnabledSetting(this.packageName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0)
+//    val runtime = Runtime.getRuntime() // Execute shell commands
+//    runtime.exec("pm disable ${app.packageName}")
+}
+
+fun App.disable(context: Context) {
+    context.packageManager.setApplicationEnabledSetting(this.packageName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0)
 }
