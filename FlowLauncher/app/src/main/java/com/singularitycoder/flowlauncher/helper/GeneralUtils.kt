@@ -18,6 +18,9 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.ListPopupWindow
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -294,6 +297,23 @@ fun ViewPager2.setShowSideItems(
         } else {
             page.translationY = offset
         }
+    }
+}
+
+fun Context.showListPopupMenu(
+    anchorView: View,
+    adapter: ArrayAdapter<String>,
+    onItemClick: (position: Int) -> Unit
+) {
+    ListPopupWindow(this, null, com.google.android.material.R.attr.listPopupWindowStyle).apply {
+        this.anchorView = anchorView
+        setAdapter(adapter)
+        width = ListPopupWindow.MATCH_PARENT
+        setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            onItemClick.invoke(position)
+            this.dismiss()
+        }
+        show()
     }
 }
 

@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/iv_open_external"
+            android:id="@+id/btn_open_external"
             style="@style/Widget.App.Button.IconOnly"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -137,7 +137,7 @@
                 android:paddingBottom="16dp">
 
                 <TextView
-                    android:id="@+id/tv_hourly_worth_placeholder"
+                    android:id="@+id/tv_take_action_placeholder"
                     style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -152,71 +152,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_missed_calls"
-                    style="@style/TextAppearance.Material3.BodyMedium"
+                <include
+                    android:id="@+id/layout_missed_calls"
+                    layout="@layout/layout_text_to_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:ellipsize="end"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLines="2"
-                    android:text="Missed Calls"
-                    android:textColor="@color/title_color"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_hourly_worth_placeholder" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_take_action_placeholder" />
 
-                <TextView
-                    android:id="@+id/tv_missed_calls_count"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:ellipsize="end"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLines="2"
-                    android:text="14"
-                    android:textColor="@color/purple_200"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_missed_calls"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tv_missed_calls" />
-
-                <com.google.android.material.divider.MaterialDivider
-                    android:id="@+id/divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    app:dividerColor="@color/black_50"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_missed_calls" />
-
-                <TextView
-                    android:id="@+id/tv_unread_sms"
-                    style="@style/TextAppearance.Material3.BodyMedium"
+                <include
+                    android:id="@+id/layout_unread_sms"
+                    layout="@layout/layout_text_to_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:ellipsize="end"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLines="2"
-                    android:text="Unread SMS"
-                    android:textColor="@color/title_color"
-                    app:layout_constraintTop_toBottomOf="@+id/divider" />
-
-                <TextView
-                    android:id="@+id/tv_unread_sms_count"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:ellipsize="end"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLines="2"
-                    android:text="293"
-                    android:textColor="@color/purple_200"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_unread_sms"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tv_unread_sms" />
+                    app:layout_constraintTop_toBottomOf="@+id/layout_missed_calls" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 

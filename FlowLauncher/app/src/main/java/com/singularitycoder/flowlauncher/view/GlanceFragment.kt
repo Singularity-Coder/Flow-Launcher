@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.singularitycoder.flowlauncher.R
@@ -75,7 +76,8 @@ class GlanceFragment : Fragment() {
     private fun FragmentGlanceBinding.setupUI() {
         ivGlanceImage.layoutParams.height = deviceWidth() - 32.dpToPx()
         tvImageCount.text = "${1}/${tempImageDrawableList.size}"
-        setRemainders()
+        setupRemaindersCard()
+        setupTakeActionCard()
     }
 
     private fun FragmentGlanceBinding.setupUserActionListeners() {
@@ -104,21 +106,51 @@ class GlanceFragment : Fragment() {
             // Add or remove youtube video. new bottom sheet
             false
         }
+        btnOpenExternal.setOnClickListener { view: View? ->
+            view ?: return@setOnClickListener
+            val glanceOptions = listOf("Add Media", "Add Remainders", "Add Youtube Videos")
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, glanceOptions)
+            requireContext().showListPopupMenu(view, adapter) { position: Int ->
+                when (glanceOptions[position]) {
+                    glanceOptions[0] -> {
+                        root.showSnackBar(glanceOptions[0])
+                    }
+                    glanceOptions[1] -> {
+                        root.showSnackBar(glanceOptions[1])
+                    }
+                    glanceOptions[2] -> {
+                        root.showSnackBar(glanceOptions[2])
+                    }
+                }
+            }
+        }
     }
 
-    private fun FragmentGlanceBinding.setRemainders() {
+    private fun FragmentGlanceBinding.setupTakeActionCard() {
+        layoutMissedCalls.apply {
+            tvKey.text = "Missed Calls"
+            tvValue.text = "14"
+        }
+        layoutUnreadSms.apply {
+            tvKey.text = "Unread SMS"
+            tvValue.text = "293"
+            divider.isVisible = false
+        }
+    }
+
+    private fun FragmentGlanceBinding.setupRemaindersCard() {
         remainder1.apply {
-            tvRemainder.text = "Sell mangoes to mango guy to get money for buying mangoes."
-            tvRemainderDate.text = "12 SPT"
+            tvKey.text = "Sell mangoes to mango guy to get money for buying mangoes."
+            tvValue.text = "12 SPT"
         }
         remainder2.apply {
-            tvRemainder.text = "Climb mount everest."
-            tvRemainderDate.text = "6 NOV"
+            tvKey.text = "Climb mount everest."
+            tvValue.text = "6 NOV"
         }
         remainder3.apply {
-            tvRemainder.text = "Call Chacha Chaudhary."
-            tvRemainderDate.text = "1 JAN"
-            dividerRemainders.isVisible = false
+            tvKey.text = "Call Chacha Chaudhary."
+            tvValue.text = "1 JAN"
+            divider.isVisible = false
         }
     }
 }

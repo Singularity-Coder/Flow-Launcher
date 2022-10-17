@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.databinding.FragmentTodayBinding
 import com.singularitycoder.flowlauncher.helper.getHtmlFormattedTime
+import com.singularitycoder.flowlauncher.helper.showListPopupMenu
+import com.singularitycoder.flowlauncher.helper.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 // Refresh on every swipe
@@ -43,6 +47,7 @@ class TodayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.setupUI()
+        binding.setupUserActionListeners()
     }
 
     private fun FragmentTodayBinding.setupUI() {
@@ -51,19 +56,37 @@ class TodayFragment : Fragment() {
         setRemainders()
     }
 
+    private fun FragmentTodayBinding.setupUserActionListeners() {
+        btnOpenExternal.setOnClickListener { view: View? ->
+            view ?: return@setOnClickListener
+            val todayOptions = listOf("Add Remainders", "Add Quotes")
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, todayOptions)
+            requireContext().showListPopupMenu(view, adapter) { position: Int ->
+                when (todayOptions[position]) {
+                    todayOptions[0] -> {
+                        root.showSnackBar(todayOptions[0])
+                    }
+                    todayOptions[1] -> {
+                        root.showSnackBar(todayOptions[1])
+                    }
+                }
+            }
+        }
+    }
+
     private fun FragmentTodayBinding.setRemainders() {
         remainder1.apply {
-            tvRemainder.text = "Sell mangoes to mango guy to get money for buying mangoes."
-            tvRemainderDate.text = "8:45 AM"
+            tvKey.text = "Sell mangoes to mango guy to get money for buying mangoes."
+            tvValue.text = "8:45 AM"
         }
         remainder2.apply {
-            tvRemainder.text = "Climb mount everest."
-            tvRemainderDate.text = "11:00 AM"
+            tvKey.text = "Climb mount everest."
+            tvValue.text = "11:00 AM"
         }
         remainder3.apply {
-            tvRemainder.text = "Call Chacha Chaudhary."
-            tvRemainderDate.text = "3:45 PM"
-            dividerRemainders.isVisible = false
+            tvKey.text = "Call Chacha Chaudhary."
+            tvValue.text = "3:45 PM"
+            divider.isVisible = false
         }
     }
 }

@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/iv_open_external"
+                android:id="@+id/btn_open_external"
                 style="@style/Widget.App.Button.IconOnly"
                 android:layout_width="32dp"
                 android:layout_height="32dp"

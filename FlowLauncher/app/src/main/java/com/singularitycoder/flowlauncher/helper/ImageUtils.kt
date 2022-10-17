@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 // https://stackoverflow.com/questions/3373860/convert-a-bitmap-to-grayscale-in-android#comment15100006_7727183
 // https://developer.android.com/reference/android/graphics/ColorMatrix
 // https://kazzkiq.github.io/svg-color-filter/
+// https://developer.android.com/reference/android/graphics/ColorMatrix
 // https://medium.com/@lokeshdeshmukh_33593/android-imageview-bitmap-filter-using-color-matrix-1a37666266a6
 
 // R’ = a*R + b*G + c*B + d*A + e;
