@@ -267,7 +267,7 @@
                     android:id="@+id/cl_quotes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/gradient_header">
+                    android:background="@drawable/gradient_default">
 
                     <!-- https://www.flaticon.com/search?word=bulb&type=sticker-->
                     <ImageView

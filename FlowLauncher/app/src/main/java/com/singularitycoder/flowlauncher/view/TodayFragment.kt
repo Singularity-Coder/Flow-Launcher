@@ -1,5 +1,6 @@
 package com.singularitycoder.flowlauncher.view
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.databinding.FragmentTodayBinding
-import com.singularitycoder.flowlauncher.helper.getHtmlFormattedTime
-import com.singularitycoder.flowlauncher.helper.showListPopupMenu
-import com.singularitycoder.flowlauncher.helper.showSnackBar
+import com.singularitycoder.flowlauncher.helper.*
 import dagger.hilt.android.AndroidEntryPoint
 
 // Refresh on every swipe
@@ -54,6 +52,7 @@ class TodayFragment : Fragment() {
         val html = "21°<small><small><small>C</small></small></small>"
         tvTemperature.text = getHtmlFormattedTime(html)
         setRemainders()
+        setQuotes()
     }
 
     private fun FragmentTodayBinding.setupUserActionListeners() {
@@ -72,6 +71,26 @@ class TodayFragment : Fragment() {
                 }
             }
         }
+
+        var quotePosition = 0
+        var gradientPosition = 0
+        cardQuotes.setOnClickListener {
+            val calculatedQuotePosition = if (quotePosition == animeQuoteList.lastIndex) {
+                quotePosition = 0
+                quotePosition
+            } else quotePosition
+            val calculatedGradientPosition = if (gradientPosition == gradientList.lastIndex) {
+                gradientPosition = 0
+                gradientPosition
+            } else gradientPosition
+            // TODO replace this with db list
+            tvQuote.text = "${animeQuoteList[calculatedQuotePosition].quote}\n\n- ${animeQuoteList[calculatedQuotePosition].author}"
+            tvQuote.setTextColor(requireContext().color(quoteColorList[calculatedGradientPosition].textColor))
+            clQuotes.background = requireContext().drawable(quoteColorList[calculatedGradientPosition].gradientColor)
+            ivQuoteBackground.imageTintList = ColorStateList.valueOf(requireContext().color(quoteColorList[calculatedGradientPosition].iconColor))
+            quotePosition++
+            gradientPosition++
+        }
     }
 
     private fun FragmentTodayBinding.setRemainders() {
@@ -88,5 +107,9 @@ class TodayFragment : Fragment() {
             tvValue.text = "3:45 PM"
             divider.isVisible = false
         }
+    }
+
+    private fun setQuotes() {
+
     }
 }

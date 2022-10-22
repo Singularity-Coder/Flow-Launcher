@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
 import android.net.Uri
 import android.os.Build
@@ -314,6 +315,19 @@ fun Context.showListPopupMenu(
             this.dismiss()
         }
         show()
+    }
+}
+
+// https://stackoverflow.com/questions/6115715/how-do-i-programmatically-set-the-background-color-gradient-on-a-custom-title-ba
+fun getGradientDrawable(): GradientDrawable {
+    return GradientDrawable().apply {
+        colors = intArrayOf(
+            R.color.purple_500,
+            R.color.purple_50,
+        )
+        orientation = GradientDrawable.Orientation.LEFT_RIGHT
+        gradientType = GradientDrawable.LINEAR_GRADIENT
+        shape = GradientDrawable.RECTANGLE
     }
 }
 
