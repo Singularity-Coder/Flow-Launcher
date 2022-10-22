@@ -536,7 +536,7 @@ val animeQuoteList = listOf(
         quote = """
             Q: What is boxing to you?
             A: The pursuit of beauty.
-        """,
+        """.trimIndent(),
         author = "The Boxer"
     ),
     Quote(

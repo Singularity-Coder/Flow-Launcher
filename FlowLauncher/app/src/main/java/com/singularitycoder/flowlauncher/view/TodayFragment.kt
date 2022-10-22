@@ -52,7 +52,6 @@ class TodayFragment : Fragment() {
         val html = "21°<small><small><small>C</small></small></small>"
         tvTemperature.text = getHtmlFormattedTime(html)
         setRemainders()
-        setQuotes()
     }
 
     private fun FragmentTodayBinding.setupUserActionListeners() {
@@ -75,11 +74,11 @@ class TodayFragment : Fragment() {
         var quotePosition = 0
         var gradientPosition = 0
         cardQuotes.setOnClickListener {
-            val calculatedQuotePosition = if (quotePosition == animeQuoteList.lastIndex) {
+            val calculatedQuotePosition = if (quotePosition == animeQuoteList.size) {
                 quotePosition = 0
                 quotePosition
             } else quotePosition
-            val calculatedGradientPosition = if (gradientPosition == gradientList.lastIndex) {
+            val calculatedGradientPosition = if (gradientPosition == gradientList.size) {
                 gradientPosition = 0
                 gradientPosition
             } else gradientPosition
@@ -107,9 +106,5 @@ class TodayFragment : Fragment() {
             tvValue.text = "3:45 PM"
             divider.isVisible = false
         }
-    }
-
-    private fun setQuotes() {
-
     }
 }

@@ -21,6 +21,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.singularitycoder.flowlauncher.*
 import com.singularitycoder.flowlauncher.databinding.FragmentHomeBinding
@@ -171,7 +172,6 @@ class HomeFragment : Fragment() {
         activity?.registerReceiver(timeChangedReceiver, IntentFilter(Broadcast.TIME_CHANGED))
         activity?.registerReceiver(timeChangedReceiver, IntentFilter(Broadcast.PACKAGE_REMOVED))
         activity?.registerReceiver(timeChangedReceiver, IntentFilter(Broadcast.PACKAGE_INSTALLED))
-
     }
 
     override fun onPause() {
@@ -305,10 +305,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun refreshAppList() {
-        homeAppsList = requireContext().appList().sortedBy { it.title }
-        homeAppsAdapter.apply {
-            this.homeAppList = homeAppsList
-            notifyDataSetChanged()
+        lifecycleScope.launch {
+            homeAppsList = requireContext().appList().sortedBy { it.title }
+            homeAppsAdapter.homeAppList = homeAppsList
+            withContext(Main) {
+                homeAppsAdapter.notifyDataSetChanged()
+            }
         }
     }
 }
