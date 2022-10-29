@@ -18,13 +18,19 @@ object Db {
 
 object Table {
     const val CONTACT = "table_contact"
-    const val GLANCE = "table_glance"
+    const val NEWS = "table_news"
+    const val WEATHER = "table_weather"
 }
 
 object Broadcast {
     const val TIME_CHANGED = "BROADCAST_TIME_CHANGED"
     const val PACKAGE_REMOVED = "BROADCAST_PACKAGE_REMOVED"
     const val PACKAGE_INSTALLED = "BROADCAST_PACKAGE_ADDED"
+}
+
+object WorkerTag {
+    const val NEWS_PARSER = "WORKER_TAG_NEWS_PARSER"
+    const val WEATHER_PARSER = "WORKER_TAG_WEATHER_PARSER"
 }
 
 enum class SpeechAction(val value: String) {
@@ -36,6 +42,16 @@ enum class SpeechAction(val value: String) {
     SEARCH("search"),
     FIND("find"),
 }
+
+val daysMap = mapOf(
+    "mon" to "monday",
+    "tue" to "tuesday",
+    "wed" to "wednesday",
+    "thu" to "thursday",
+    "fri" to "friday",
+    "sat" to "saturday",
+    "sun" to "sunday",
+)
 
 val gradientList = listOf(
     R.drawable.gradient_default,

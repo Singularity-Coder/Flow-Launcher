@@ -8,9 +8,8 @@ import com.singularitycoder.flowlauncher.helper.Table
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity(tableName = Table.GLANCE)
 data class Glance(
-    @PrimaryKey @ColumnInfo(name = "id") var id: Int,
+    var id: Int,
     val unreadSmsCount: Int,
     val missedCallCount: Int,
     val imagePathList: List<String>,

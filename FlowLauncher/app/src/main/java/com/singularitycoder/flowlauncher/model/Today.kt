@@ -8,5 +8,5 @@ data class Today(
     val quoteList: List<Quote>,
     val remaindersList: List<Remainder>,
     val weather: Weather,
-    val headlineList: List<Headline>
+    val newsList: List<News>
 ) : Parcelable

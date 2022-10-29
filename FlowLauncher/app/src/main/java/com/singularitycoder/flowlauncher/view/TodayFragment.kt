@@ -8,14 +8,17 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.work.*
+import com.singularitycoder.flowlauncher.worker.NewsWorker
 import com.singularitycoder.flowlauncher.databinding.FragmentTodayBinding
 import com.singularitycoder.flowlauncher.helper.*
+import com.singularitycoder.flowlauncher.worker.WeatherWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 // Refresh on every swipe
 // Rearrangable cards
 
-// Quote of the day
+// Add Quote of the day
 // Weather today
 // Headlines today - Location, Category while scraping data
 // Remainders today - Remind Me remainders
@@ -25,7 +28,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 // Analyze Me - daily analysis
 // Trip Me - most used visual meditation
-
 
 @AndroidEntryPoint
 class TodayFragment : Fragment() {
@@ -48,8 +50,14 @@ class TodayFragment : Fragment() {
         binding.setupUserActionListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        parseNewsWithWorker()
+        parseWeatherWithWorker()
+    }
+
     private fun FragmentTodayBinding.setupUI() {
-        val html = "21°<small><small><small>C</small></small></small>"
+        val html = "21°&#x1D9C;"
         tvTemperature.text = getHtmlFormattedTime(html)
         setRemainders()
     }
@@ -105,6 +113,85 @@ class TodayFragment : Fragment() {
             tvKey.text = "Call Chacha Chaudhary."
             tvValue.text = "3:45 PM"
             divider.isVisible = false
+        }
+    }
+
+    private fun showProgress(show: Boolean) {
+        binding.progressCircular.isVisible = show
+        binding.btnOpenExternal.isVisible = show.not()
+    }
+
+    private fun parseNewsWithWorker() {
+        val workManager = WorkManager.getInstance(requireContext())
+        val workConstraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val workRequest = OneTimeWorkRequestBuilder<NewsWorker>()
+            .setConstraints(workConstraints)
+            .build()
+        workManager.enqueueUniqueWork(WorkerTag.NEWS_PARSER, ExistingWorkPolicy.REPLACE, workRequest)
+        workManager.getWorkInfoByIdLiveData(workRequest.id).observe(this) { workInfo: WorkInfo? ->
+            when (workInfo?.state) {
+                WorkInfo.State.RUNNING -> {
+                    println("RUNNING: show Progress")
+                    showProgress(true)
+                }
+                WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
+                WorkInfo.State.SUCCEEDED -> {
+                    println("SUCCEEDED: showing Progress")
+                    val isWorkComplete = workInfo.outputData.getBoolean(KEY_IS_WORK_COMPLETE, false)
+                    if (isWorkComplete) {
+                        WorkManager.getInstance(requireContext()).cancelAllWorkByTag(WorkerTag.NEWS_PARSER)
+                    }
+                    showProgress(false)
+                }
+                WorkInfo.State.FAILED -> {
+                    println("FAILED: stop showing Progress")
+                    binding.root.showSnackBar("Something went wrong!")
+                    showProgress(false)
+                }
+                WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
+                WorkInfo.State.CANCELLED -> {
+                    println("CANCELLED: stop showing Progress")
+                    showProgress(false)
+                }
+                else -> Unit
+            }
+        }
+    }
+
+    private fun parseWeatherWithWorker() {
+        val workManager = WorkManager.getInstance(requireContext())
+        val workConstraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val workRequest = OneTimeWorkRequestBuilder<WeatherWorker>()
+            .setConstraints(workConstraints)
+            .build()
+        workManager.enqueueUniqueWork(WorkerTag.WEATHER_PARSER, ExistingWorkPolicy.REPLACE, workRequest)
+        workManager.getWorkInfoByIdLiveData(workRequest.id).observe(this) { workInfo: WorkInfo? ->
+            when (workInfo?.state) {
+                WorkInfo.State.RUNNING -> {
+                    println("RUNNING: show Progress")
+                    showProgress(true)
+                }
+                WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
+                WorkInfo.State.SUCCEEDED -> {
+                    println("SUCCEEDED: showing Progress")
+                    val isWorkComplete = workInfo.outputData.getBoolean(KEY_IS_WORK_COMPLETE, false)
+                    if (isWorkComplete) {
+                        WorkManager.getInstance(requireContext()).cancelAllWorkByTag(WorkerTag.NEWS_PARSER)
+                    }
+                    showProgress(false)
+                }
+                WorkInfo.State.FAILED -> {
+                    println("FAILED: stop showing Progress")
+                    binding.root.showSnackBar("Something went wrong!")
+                    showProgress(false)
+                }
+                WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
+                WorkInfo.State.CANCELLED -> {
+                    println("CANCELLED: stop showing Progress")
+                    showProgress(false)
+                }
+                else -> Unit
+            }
         }
     }
 }
