@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.work.*
-import com.singularitycoder.flowlauncher.worker.NewsWorker
+import coil.load
+import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentTodayBinding
 import com.singularitycoder.flowlauncher.helper.*
+import com.singularitycoder.flowlauncher.model.Weather
+import com.singularitycoder.flowlauncher.worker.NewsWorker
 import com.singularitycoder.flowlauncher.worker.WeatherWorker
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,6 +41,7 @@ class TodayFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentTodayBinding
+    private val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentTodayBinding.inflate(inflater, container, false)
@@ -48,6 +52,7 @@ class TodayFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.setupUI()
         binding.setupUserActionListeners()
+        binding.observeForData()
     }
 
     override fun onResume() {
@@ -99,6 +104,17 @@ class TodayFragment : Fragment() {
             ivQuoteBackground.imageTintList = ColorStateList.valueOf(requireContext().color(quoteColorList[calculatedGradientPosition].iconColor))
             quotePosition++
             gradientPosition++
+        }
+    }
+
+    private fun FragmentTodayBinding.observeForData() {
+        sharedViewModel.weather.observe(viewLifecycleOwner) { it: Weather? ->
+            ivWeather.load(it?.imageUrl) {
+                placeholder(com.singularitycoder.flowlauncher.R.drawable.ic_baseline_cloud_24)
+            }
+            tvLocation.text = it?.location
+            tvWeatherCondition.text = it?.condition
+            tvTemperature.text = getHtmlFormattedTime(html = "${it?.temperature}°&#x1D9C;")
         }
     }
 

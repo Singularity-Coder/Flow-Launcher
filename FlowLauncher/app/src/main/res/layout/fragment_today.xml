@@ -151,8 +151,7 @@
                         android:src="@drawable/thunderstorm_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/subtitle_color" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tv_location"
@@ -164,7 +163,7 @@
                         android:ellipsize="end"
                         android:fontFamily="sans-serif-thin"
                         android:marqueeRepeatLimit="marquee_forever"
-                        android:maxLines="2"
+                        android:maxLines="1"
                         android:text="Bengaluru @ 3:30 PM"
                         android:textColor="@color/title_color"
                         android:textStyle="bold"
@@ -182,7 +181,7 @@
                         android:ellipsize="end"
                         android:fontFamily="sans-serif-thin"
                         android:marqueeRepeatLimit="marquee_forever"
-                        android:maxLines="2"
+                        android:maxLines="1"
                         android:text="Thunder storms"
                         android:textColor="@android:color/darker_gray"
                         app:layout_constraintEnd_toStartOf="@+id/tv_temperature"
@@ -197,7 +196,7 @@
                         android:ellipsize="end"
                         android:fontFamily="sans-serif-thin"
                         android:marqueeRepeatLimit="marquee_forever"
-                        android:maxLines="2"
+                        android:maxLines="1"
                         android:text="21°&#x1D9C;"
                         android:textColor="@color/purple_200"
                         app:layout_constraintBottom_toBottomOf="parent"
