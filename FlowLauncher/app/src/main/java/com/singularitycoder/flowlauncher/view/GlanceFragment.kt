@@ -109,8 +109,10 @@ class GlanceFragment : Fragment() {
         btnOpenExternal.setOnClickListener { view: View? ->
             view ?: return@setOnClickListener
             val glanceOptions = listOf("Add Media", "Add Remainders", "Add Youtube Videos")
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, glanceOptions)
-            requireContext().showListPopupMenu(view, adapter) { position: Int ->
+            requireContext().showPopup(
+                view = view,
+                menuList = glanceOptions
+            ) { position: Int ->
                 when (glanceOptions[position]) {
                     glanceOptions[0] -> {
                         root.showSnackBar(glanceOptions[0])

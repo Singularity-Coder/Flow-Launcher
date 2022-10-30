@@ -66,8 +66,10 @@ class TodayFragment : Fragment() {
         btnOpenExternal.setOnClickListener { view: View? ->
             view ?: return@setOnClickListener
             val todayOptions = listOf("Add Remainders", "Add Quotes")
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, todayOptions)
-            requireContext().showListPopupMenu(view, adapter) { position: Int ->
+            requireContext().showPopup(
+                view = view,
+                menuList = todayOptions
+            ) { position: Int ->
                 when (todayOptions[position]) {
                     todayOptions[0] -> {
                         root.showSnackBar(todayOptions[0])

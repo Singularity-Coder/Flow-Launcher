@@ -19,10 +19,9 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ListPopupWindow
-import android.widget.TextView
+import android.view.View.MeasureSpec
+import android.view.ViewGroup
+import android.widget.*
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +30,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.forEach
+import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.ViewPager2
@@ -45,6 +45,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.reflect.Method
 import java.util.*
+
 
 fun getHtmlFormattedTime(html: String): Spanned {
     return HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -301,18 +302,69 @@ fun ViewPager2.setShowSideItems(
     }
 }
 
+// Create custom list item to get correct width
+// Refer for a fix - https://stackoverflow.com/questions/14200724/listpopupwindow-not-obeying-wrap-content-width-spec
 fun Context.showListPopupMenu(
     anchorView: View,
     adapter: ArrayAdapter<String>,
     onItemClick: (position: Int) -> Unit
 ) {
+//    val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, todayOptions)
     ListPopupWindow(this, null, com.google.android.material.R.attr.listPopupWindowStyle).apply {
         this.anchorView = anchorView
         setAdapter(adapter)
+//        setContentWidth(ListPopupWindow.WRAP_CONTENT)
+//        setContentWidth(measureContentWidth(adapter))
         width = ListPopupWindow.MATCH_PARENT
         setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
             onItemClick.invoke(position)
             this.dismiss()
+        }
+        show()
+    }
+}
+
+// https://stackoverflow.com/questions/14200724/listpopupwindow-not-obeying-wrap-content-width-spec
+private fun Context.measureContentWidth(listAdapter: ListAdapter): Int {
+    var mMeasureParent: ViewGroup? = null
+    var maxWidth = 0
+    var itemView: View? = null
+    var itemType = 0
+    val adapter: ListAdapter = listAdapter
+    val widthMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+    val heightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+    val count: Int = adapter.count
+    for (i in 0 until count) {
+        val positionType: Int = adapter.getItemViewType(i)
+        if (positionType != itemType) {
+            itemType = positionType
+            itemView = null
+        }
+        if (mMeasureParent == null) {
+            mMeasureParent = FrameLayout(this)
+        }
+        itemView = adapter.getView(i, itemView, mMeasureParent)
+        itemView.measure(widthMeasureSpec, heightMeasureSpec)
+        val itemWidth = itemView.measuredWidth
+        if (itemWidth > maxWidth) {
+            maxWidth = itemWidth
+        }
+    }
+    return maxWidth
+}
+
+fun Context.showPopup(
+    view: View,
+    menuList: List<String>,
+    onItemClick: (position: Int) -> Unit
+) {
+    PopupMenu(this, view).apply {
+        menuList.forEach {
+            menu.add(it)
+        }
+        setOnMenuItemClickListener { it: MenuItem? ->
+            onItemClick.invoke(menuList.indexOf(it?.title))
+            false
         }
         show()
     }

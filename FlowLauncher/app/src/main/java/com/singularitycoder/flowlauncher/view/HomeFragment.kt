@@ -47,6 +47,7 @@ import javax.inject.Inject
 // Probably some kind of doc for quick access of commonly used apps.
 
 // TODO Unable to detect package installed. Check further - https://stackoverflow.com/questions/11392183/how-to-check-programmatically-if-an-application-is-installed-or-not-in-android
+// TODO store install uninstall package flags in db and listen to flag changes and then refresh screen
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -218,10 +219,6 @@ class HomeFragment : Fragment() {
                 position = position
             )
         }
-        root.setOnLongClickListener {
-            // Open flow switcher
-            false
-        }
         fabProfile.setOnClickListener {
             // Start Speech to Text
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
@@ -234,7 +231,13 @@ class HomeFragment : Fragment() {
             }
             speechToTextResult.launch(intent)
         }
+        rvApps.setOnLongClickListener {
+            // Open flow switcher
+            (requireActivity() as AppCompatActivity).showScreen(AddEditFlowFragment.newInstance(), AddEditFlowFragment::class.java.simpleName)
+            false
+        }
         root.setOnLongClickListener {
+            // Open flow switcher
             (requireActivity() as AppCompatActivity).showScreen(AddEditFlowFragment.newInstance(), AddEditFlowFragment::class.java.simpleName)
             false
         }
