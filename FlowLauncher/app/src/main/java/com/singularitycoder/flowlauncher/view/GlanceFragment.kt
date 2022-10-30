@@ -30,6 +30,8 @@ import dagger.hilt.android.AndroidEntryPoint
 // My Expenses
 // My Bills
 
+// TODO ideal to have viewpagers for naviagting through images and other widget stuff but too much work. Do it when u r bored
+
 @AndroidEntryPoint
 class GlanceFragment : Fragment() {
 

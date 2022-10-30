@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher
+package com.singularitycoder.flowlauncher.helper
 
 import android.app.Activity
 import android.app.PendingIntent

@@ -74,9 +74,132 @@ val gradientList = listOf(
     R.drawable.gradient_brown,
     R.drawable.gradient_grey,
     R.drawable.gradient_blue_grey,
+
+    R.drawable.gradient_default_light,
+    R.drawable.gradient_red_light,
+    R.drawable.gradient_pink_light,
+    R.drawable.gradient_purple_light,
+    R.drawable.gradient_deep_purple_light,
+    R.drawable.gradient_indigo_light,
+    R.drawable.gradient_blue_light,
+    R.drawable.gradient_light_blue_light,
+    R.drawable.gradient_cyan_light,
+    R.drawable.gradient_teal_light,
+    R.drawable.gradient_green_light,
+    R.drawable.gradient_light_green_light,
+    R.drawable.gradient_lime_light,
+    R.drawable.gradient_yellow_light,
+    R.drawable.gradient_amber_light,
+    R.drawable.gradient_orange_light,
+    R.drawable.gradient_deep_orange_light,
+    R.drawable.gradient_brown_light,
+    R.drawable.gradient_grey_light,
+    R.drawable.gradient_blue_grey_light,
 )
 
 val quoteColorList = listOf(
+    QuoteColor(
+        textColor = R.color.purple_dark,
+        iconColor = R.color.purple_dark,
+        gradientColor = R.drawable.gradient_default_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_red_dark,
+        iconColor = R.color.md_red_dark,
+        gradientColor = R.drawable.gradient_red_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_pink_dark,
+        iconColor = R.color.md_pink_dark,
+        gradientColor = R.drawable.gradient_pink_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_purple_dark,
+        iconColor = R.color.md_purple_dark,
+        gradientColor = R.drawable.gradient_purple_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_deep_purple_dark,
+        iconColor = R.color.md_deep_purple_dark,
+        gradientColor = R.drawable.gradient_deep_purple_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_indigo_dark,
+        iconColor = R.color.md_indigo_dark,
+        gradientColor = R.drawable.gradient_indigo_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_blue_dark,
+        iconColor = R.color.md_blue_dark,
+        gradientColor = R.drawable.gradient_blue_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_light_blue_dark,
+        iconColor = R.color.md_light_blue_dark,
+        gradientColor = R.drawable.gradient_light_blue_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_cyan_dark,
+        iconColor = R.color.md_cyan_dark,
+        gradientColor = R.drawable.gradient_cyan_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_teal_dark,
+        iconColor = R.color.md_teal_dark,
+        gradientColor = R.drawable.gradient_teal_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_green_dark,
+        iconColor = R.color.md_green_dark,
+        gradientColor = R.drawable.gradient_green_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_light_green_dark,
+        iconColor = R.color.md_light_green_dark,
+        gradientColor = R.drawable.gradient_light_green_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_lime_dark,
+        iconColor = R.color.md_lime_dark,
+        gradientColor = R.drawable.gradient_lime_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_yellow_dark,
+        iconColor = R.color.md_yellow_dark,
+        gradientColor = R.drawable.gradient_yellow_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_amber_dark,
+        iconColor = R.color.md_amber_dark,
+        gradientColor = R.drawable.gradient_amber_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_deep_orange_dark,
+        iconColor = R.color.md_deep_orange_dark,
+        gradientColor = R.drawable.gradient_orange_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_deep_orange_dark,
+        iconColor = R.color.md_deep_orange_dark,
+        gradientColor = R.drawable.gradient_deep_orange_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_brown_900,
+        iconColor = R.color.md_brown_900,
+        gradientColor = R.drawable.gradient_brown_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_grey_900,
+        iconColor = R.color.md_grey_900,
+        gradientColor = R.drawable.gradient_grey_light
+    ),
+    QuoteColor(
+        textColor = R.color.md_blue_grey_900,
+        iconColor = R.color.md_blue_grey_900,
+        gradientColor = R.drawable.gradient_blue_grey_light
+    ),
+
+
     QuoteColor(
         textColor = R.color.purple_50,
         iconColor = R.color.purple_300,
@@ -135,7 +258,7 @@ val quoteColorList = listOf(
     QuoteColor(
         textColor = R.color.md_light_green_50,
         iconColor = R.color.md_light_green_400,
-        gradientColor = R.drawable.gradient_green
+        gradientColor = R.drawable.gradient_light_green
     ),
     QuoteColor(
         textColor = R.color.md_lime_50,
