@@ -22,7 +22,7 @@ interface WeatherDao {
     suspend fun delete(weather: Weather)
 
     @Query("SELECT * FROM ${Table.WEATHER}")
-    fun getLatestNewsLiveData(): LiveData<Weather>
+    fun getLatestWeatherLiveData(): LiveData<Weather>
 
     @Query("SELECT * FROM ${Table.WEATHER}")
     suspend fun getAll(): List<Weather>

@@ -25,6 +25,9 @@ interface NewsDao {
     fun getLatestNewsLiveData(): LiveData<News>
 
     @Query("SELECT * FROM ${Table.NEWS}")
+    fun getAllNewsLiveData(): LiveData<List<News>>
+
+    @Query("SELECT * FROM ${Table.NEWS}")
     suspend fun getAll(): List<News>
 
     @Query("DELETE FROM ${Table.NEWS}")

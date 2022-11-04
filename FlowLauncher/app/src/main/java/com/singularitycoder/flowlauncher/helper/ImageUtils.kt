@@ -202,3 +202,43 @@ fun Context.getVideoThumbnailBitmap(docUri: Uri): Bitmap? {
         null
     }
 }
+
+// https://stackoverflow.com/questions/6980418/how-to-sharpen-a-image-in-android
+// https://stackoverflow.com/questions/10168686/image-processing-algorithm-improvement-for-coca-cola-can-recognition?rq=1
+fun Bitmap.sharp(): Bitmap? {
+    val height: Int = this.height
+    val width: Int = this.width
+    var red: Int
+    var green: Int
+    var blue: Int
+    var a1: Int
+    var a2: Int
+    var a3: Int
+    var a4: Int
+    var a5: Int
+    var a6: Int
+    var a7: Int
+    var a8: Int
+    var a9: Int
+    val bmpBlurred = Bitmap.createBitmap(width, height, this.config)
+    val canvas = Canvas(bmpBlurred)
+    canvas.drawBitmap(this, 0f, 0f, null)
+    for (i in 1 until width - 1) {
+        for (j in 1 until height - 1) {
+            a1 = this.getPixel(i - 1, j - 1)
+            a2 = this.getPixel(i - 1, j)
+            a3 = this.getPixel(i - 1, j + 1)
+            a4 = this.getPixel(i, j - 1)
+            a5 = this.getPixel(i, j)
+            a6 = this.getPixel(i, j + 1)
+            a7 = this.getPixel(i + 1, j - 1)
+            a8 = this.getPixel(i + 1, j)
+            a9 = this.getPixel(i + 1, j + 1)
+            red = (Color.red(a1) + Color.red(a2) + Color.red(a3) + Color.red(a4) + Color.red(a6) + Color.red(a7) + Color.red(a8) + Color.red(a9)) * -1 + Color.red(a5) * 9
+            green = (Color.green(a1) + Color.green(a2) + Color.green(a3) + Color.green(a4) + Color.green(a6) + Color.green(a7) + Color.green(a8) + Color.green(a9)) * -1 + Color.green(a5) * 9
+            blue = (Color.blue(a1) + Color.blue(a2) + Color.blue(a3) + Color.blue(a4) + Color.blue(a6) + Color.blue(a7) + Color.blue(a8) + Color.blue(a9)) * -1 + Color.blue(a5) * 9
+            bmpBlurred.setPixel(i, j, Color.rgb(red, green, blue))
+        }
+    }
+    return bmpBlurred
+}

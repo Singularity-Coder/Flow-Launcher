@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.singularitycoder.flowlauncher.db.ContactDao
 import com.singularitycoder.flowlauncher.db.FlowDatabase
+import com.singularitycoder.flowlauncher.db.NewsDao
 import com.singularitycoder.flowlauncher.db.WeatherDao
 import com.singularitycoder.flowlauncher.helper.Db
 import dagger.Module
@@ -30,4 +31,8 @@ object DbModule {
     @Singleton
     @Provides
     fun injectWeatherDao(db: FlowDatabase): WeatherDao = db.weatherDao()
+
+    @Singleton
+    @Provides
+    fun injectNewsDao(db: FlowDatabase): NewsDao = db.newsDao()
 }

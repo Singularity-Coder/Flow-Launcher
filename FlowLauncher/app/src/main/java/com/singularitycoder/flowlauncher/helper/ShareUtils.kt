@@ -76,3 +76,17 @@ fun Activity.searchWithChrome(query: String) {
         startActivity(intent)
     }
 }
+
+fun Activity.openWithChrome(url: String) {
+    val intent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        setPackage("com.android.chrome")
+    }
+    try {
+        startActivity(intent)
+    } catch (ex: ActivityNotFoundException) {
+        // If Chrome not installed
+        intent.setPackage(null)
+        startActivity(intent)
+    }
+}

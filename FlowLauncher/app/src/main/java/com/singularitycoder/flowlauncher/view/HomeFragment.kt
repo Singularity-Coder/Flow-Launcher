@@ -49,6 +49,10 @@ import javax.inject.Inject
 // TODO Unable to detect package installed. Check further - https://stackoverflow.com/questions/11392183/how-to-check-programmatically-if-an-application-is-installed-or-not-in-android
 // TODO store install uninstall package flags in db and listen to flag changes and then refresh screen
 
+// Load apps in worker to avoud jank while reloading on resume
+// SOS signal - swipe to decline in 5 sec - send message to pre selected contacts
+// Notes n checklist widegt with quick add
+
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 

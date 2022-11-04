@@ -1,8 +1,10 @@
 package com.singularitycoder.flowlauncher.helper
 
+import android.R
 import android.app.Activity
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Build
 import android.text.InputType
 import android.text.method.DigitsKeyListener
@@ -12,10 +14,15 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
+import androidx.annotation.FontRes
+import androidx.annotation.RawRes
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowInsetsCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 fun Context?.clipboard(): ClipboardManager? =
     this?.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
@@ -78,3 +85,8 @@ val View.isKeyboardVisible: Boolean
     } else {
         false
     }
+
+fun TextView.typeface(context: Context, @FontRes typefaceRes: Int) {
+    val typeface = ResourcesCompat.getFont(context, typefaceRes)
+    setTypeface(typeface)
+}

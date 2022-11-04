@@ -44,13 +44,57 @@ enum class SpeechAction(val value: String) {
 }
 
 val daysMap = mapOf(
-    "mon" to "monday",
-    "tue" to "tuesday",
-    "wed" to "wednesday",
-    "thu" to "thursday",
-    "fri" to "friday",
-    "sat" to "saturday",
-    "sun" to "sunday",
+    "mon" to "Monday",
+    "tue" to "Tuesday",
+    "wed" to "Wednesday",
+    "thu" to "Thursday",
+    "fri" to "Friday",
+    "sat" to "Saturday",
+    "sun" to "Sunday",
+)
+
+val typefaceList = listOf(
+    R.font.blackjack,
+    R.font.arizonia_regular,
+    R.font.allura_regular,
+    R.font.alex_brush_regular,
+    R.font.abril_fatface_regular,
+    R.font.b_preplay,
+    R.font.comfortaa_thin,
+    R.font.dosis_extra_light,
+    R.font.radomir_tinkov_gilroy_light,
+    R.font.sofia_regular,
+    R.font.quicksand_light,
+    R.font.playfair_displaysc_regular,
+    R.font.pacifico,
+    R.font.lobster,
+    R.font.learning_curve_alt_g_bold_ot_tt,
+    R.font.kaushan_script_regular,
+    R.font.dancing_script_regular,
+    R.font.caviar_dreams,
+)
+
+val tempImageDrawableList = listOf(
+    R.drawable.p1,
+    R.drawable.p2,
+    R.drawable.p3,
+    R.drawable.p4,
+    R.drawable.p5,
+    R.drawable.p6,
+    R.drawable.p7,
+    R.drawable.p8,
+    R.drawable.p9,
+    R.drawable.p10,
+    R.drawable.p11,
+    R.drawable.p12,
+    R.drawable.p13,
+    R.drawable.p14,
+    R.drawable.p15,
+    R.drawable.p16,
+    R.drawable.p17,
+    R.drawable.p18,
+    R.drawable.p19,
+    R.drawable.p20,
 )
 
 val gradientList = listOf(

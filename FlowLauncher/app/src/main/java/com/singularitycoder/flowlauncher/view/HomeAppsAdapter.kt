@@ -52,7 +52,7 @@ class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemBinding.apply {
                 tvAppName.text = app.title
                 CoroutineScope(IO).launch {
-                    // Tried adding blue filter. Still needs work
+                    // In order to avoid performing this on every scroll, store the icons separately with the filters added. But thats too much work
                     val bitmap = app.icon?.toBitmap()?.toGrayscale()?.toBlueScale()
                     withContext(Main) {
                         ivAppIcon.load(bitmap)
