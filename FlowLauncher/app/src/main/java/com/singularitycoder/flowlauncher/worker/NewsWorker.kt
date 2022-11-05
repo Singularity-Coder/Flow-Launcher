@@ -51,11 +51,11 @@ class NewsWorker(val context: Context, workerParams: WorkerParameters) : Corouti
             val elementList = getElementsByClass("JJZKK Wui1sd")/*.toggleClass("rCXe4d")*/ // This is the list item class and not the entire list class
             println("sizeeee: " + elementList.size)
             for (i in 0..elementList.size) {
-                val imageUrl = getElementsByClass("uhHOwf BYbUcd")?.select("img")?.eq(i)?.attr("src")
-                val headline = getElementsByClass("mCBkyc tNxQIb ynAwRc nDgy9d")?.eq(i)?.text()
-                val source = getElementsByClass("CEMjEf NUnG9d")?.eq(i)?.text()
-                val time = getElementsByClass("OSrXXb ZE0LJd YsWzw")?.eq(i)?.text()
-                val link = getElementsByClass("WlydOe")?.eq(i)?.attr("href")
+                val imageUrl = getElementsByClass("uhHOwf BYbUcd").select("img").eq(i).attr("src")
+                val headline = getElementsByClass("mCBkyc tNxQIb ynAwRc nDgy9d").eq(i).text()
+                val source = getElementsByClass("CEMjEf NUnG9d").eq(i).text()
+                val time = getElementsByClass("OSrXXb ZE0LJd YsWzw").eq(i).text()
+                val link = getElementsByClass("WlydOe").eq(i).attr("href")
 
                 println(
                     """
@@ -89,10 +89,10 @@ class NewsWorker(val context: Context, workerParams: WorkerParameters) : Corouti
             println("sizeeee: " + elementList.size)
             for (i in 0..elementList.size) {
                 val imageUrl = getElementsByClass("Quavad").attr("src")
-                val headline = getElementsByClass("JtKRv")?.text()
-                val source = getElementsByClass("vr1PYe")?.text()
-                val time = getElementsByClass("hvbAAd")?.text()
-                val link = getElementsByClass("WwrzSb")?.attr("href")
+                val headline = getElementsByClass("JtKRv").text()
+                val source = getElementsByClass("vr1PYe").text()
+                val time = getElementsByClass("hvbAAd").text()
+                val link = getElementsByClass("WwrzSb").attr("href")
 
                 println(
                     """
@@ -111,7 +111,7 @@ class NewsWorker(val context: Context, workerParams: WorkerParameters) : Corouti
                         source = source ?: "",
                         time = time ?: "",
                         link = try {
-                            link?.replaceFirst(".", "https://news.google.com") ?: ""
+                            link.replaceFirst(".", "https://news.google.com") ?: ""
                         } catch (e: Exception) {
                             link
                         }

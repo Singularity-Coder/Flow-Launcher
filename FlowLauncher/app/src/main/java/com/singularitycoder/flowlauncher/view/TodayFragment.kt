@@ -84,7 +84,7 @@ class TodayFragment : Fragment() {
     }
 
     private fun FragmentTodayBinding.setupUserActionListeners() {
-        btnOpenExternal.setOnClickListener { view: View? ->
+        btnMenu.setOnClickListener { view: View? ->
             view ?: return@setOnClickListener
             val todayOptions = listOf("Add Remainders", "Add Quotes")
             requireContext().showPopup(
@@ -169,6 +169,10 @@ class TodayFragment : Fragment() {
             newsPosition++
             newsImagePosition++
         }
+
+        cardWeather.setOnClickListener {
+            requireActivity().searchWithChrome(query = "weather")
+        }
     }
 
     private fun FragmentTodayBinding.observeForData() {
@@ -203,7 +207,7 @@ class TodayFragment : Fragment() {
 
     private fun showProgress(show: Boolean) {
         binding.progressCircular.isVisible = show
-        binding.btnOpenExternal.isVisible = show.not()
+        binding.btnMenu.isVisible = show.not()
     }
 
     private fun parseNewsWithWorker() {

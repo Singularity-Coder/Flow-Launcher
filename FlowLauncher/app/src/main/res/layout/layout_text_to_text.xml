@@ -32,7 +32,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:maxLines="2"
         android:text="12 APR"
-        android:textColor="@color/purple_200"
+        android:textColor="@color/purple_500"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_key" />

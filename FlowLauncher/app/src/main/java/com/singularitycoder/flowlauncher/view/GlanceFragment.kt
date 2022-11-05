@@ -7,9 +7,19 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.work.*
+import coil.load
 import com.singularitycoder.flowlauncher.R
+import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentGlanceBinding
+import com.singularitycoder.flowlauncher.databinding.FragmentTodayBinding
 import com.singularitycoder.flowlauncher.helper.*
+import com.singularitycoder.flowlauncher.model.Holiday
+import com.singularitycoder.flowlauncher.model.News
+import com.singularitycoder.flowlauncher.model.Weather
+import com.singularitycoder.flowlauncher.worker.NewsWorker
+import com.singularitycoder.flowlauncher.worker.PublicHolidaysWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 // Refresh on every swipe
@@ -40,6 +50,7 @@ class GlanceFragment : Fragment() {
         fun newInstance() = GlanceFragment()
     }
 
+    private val sharedViewModel: SharedViewModel by viewModels()
     private lateinit var binding: FragmentGlanceBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -51,6 +62,12 @@ class GlanceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.setupUI()
         binding.setupUserActionListeners()
+        binding.observeForData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        parsePublicHolidaysWithWorker()
     }
 
     private fun FragmentGlanceBinding.setupUI() {
@@ -86,7 +103,7 @@ class GlanceFragment : Fragment() {
             // Add or remove youtube video. new bottom sheet
             false
         }
-        btnOpenExternal.setOnClickListener { view: View? ->
+        btnMenu.setOnClickListener { view: View? ->
             view ?: return@setOnClickListener
             val glanceOptions = listOf("Add Media", "Add Remainders", "Add Youtube Videos")
             requireContext().showPopup(
@@ -103,6 +120,38 @@ class GlanceFragment : Fragment() {
                     glanceOptions[2] -> {
                         root.showSnackBar(glanceOptions[2])
                     }
+                }
+            }
+        }
+    }
+
+    private fun FragmentGlanceBinding.observeForData() {
+        sharedViewModel.holidayListLiveData.observe(viewLifecycleOwner) { it: List<Holiday>? ->
+            tvHolidaysPlaceholder.text = "${it?.getOrNull(1)?.header} | ${it?.firstOrNull()?.location}"
+
+            // TODO set holidays based on current date. 3 holidays from current date
+            holiday1.apply {
+                tvKey.text = it?.getOrNull(0)?.title
+                tvValue.text = it?.getOrNull(0)?.date?.substringBefore(",")
+                root.setOnClickListener { v: View? ->
+                    val link = it?.getOrNull(0)?.link?.replace("/search?q=", "").toString()
+                    requireActivity().searchWithChrome(query = link)
+                }
+            }
+            holiday2.apply {
+                tvKey.text = it?.getOrNull(1)?.title
+                tvValue.text = it?.getOrNull(1)?.date?.substringBefore(",")
+                root.setOnClickListener { v: View? ->
+                    val link = it?.getOrNull(1)?.link?.replace("/search?q=", "").toString()
+                    requireActivity().searchWithChrome(query = link)
+                }
+            }
+            holiday3.apply {
+                tvKey.text = it?.getOrNull(2)?.title
+                tvValue.text = it?.getOrNull(2)?.date?.substringBefore(",")
+                root.setOnClickListener { v: View? ->
+                    val link = it?.getOrNull(0)?.link?.replace("/search?q=", "").toString()
+                    requireActivity().searchWithChrome(query = link)
                 }
             }
         }
@@ -133,6 +182,44 @@ class GlanceFragment : Fragment() {
             tvKey.text = "Call Chacha Chaudhary."
             tvValue.text = "1 JAN"
             divider.isVisible = false
+        }
+    }
+
+    private fun showProgress(show: Boolean) {
+        binding.progressCircular.isVisible = show
+        binding.btnMenu.isVisible = show.not()
+    }
+
+    private fun parsePublicHolidaysWithWorker() {
+        val workManager = WorkManager.getInstance(requireContext())
+        val workConstraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val workRequest = OneTimeWorkRequestBuilder<PublicHolidaysWorker>()
+            .setConstraints(workConstraints)
+            .build()
+        workManager.enqueueUniqueWork(WorkerTag.PUBLIC_HOLIDAYS_PARSER, ExistingWorkPolicy.REPLACE, workRequest)
+        workManager.getWorkInfoByIdLiveData(workRequest.id).observe(this) { workInfo: WorkInfo? ->
+            when (workInfo?.state) {
+                WorkInfo.State.RUNNING -> {
+                    println("RUNNING: show Progress")
+                    showProgress(true)
+                }
+                WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
+                WorkInfo.State.SUCCEEDED -> {
+                    println("SUCCEEDED: showing Progress")
+                    showProgress(false)
+                }
+                WorkInfo.State.FAILED -> {
+                    println("FAILED: stop showing Progress")
+                    binding.root.showSnackBar("Something went wrong!")
+                    showProgress(false)
+                }
+                WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
+                WorkInfo.State.CANCELLED -> {
+                    println("CANCELLED: stop showing Progress")
+                    showProgress(false)
+                }
+                else -> Unit
+            }
         }
     }
 }

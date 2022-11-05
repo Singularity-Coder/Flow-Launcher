@@ -34,11 +34,11 @@ class WeatherWorker(val context: Context, workerParams: WorkerParameters) : Coro
             try {
                 // SCRAPE GOOGLE FOR WEATHER
                 Jsoup.connect("https://www.google.com/search?q=weather").timeout(10_000).get().apply {
-                    val temperature = getElementsByClass("wob_t q8U8x")?.text()
-                    val condition = getElementsByClass("wob_dcp")?.text()
-                    val imageUrl = getElementsByClass("wob_tci")?.attr("src")
-                    val location = getElementsByClass("wob_loc q8U8x")?.text()
-                    val dateTime = getElementsByClass("wob_dts")?.text()
+                    val temperature = getElementsByClass("wob_t q8U8x").text()
+                    val condition = getElementsByClass("wob_dcp").text()
+                    val imageUrl = getElementsByClass("wob_tci").attr("src")
+                    val location = getElementsByClass("wob_loc q8U8x").text()
+                    val dateTime = getElementsByClass("wob_dts").text()
 
                     println(
                         """

@@ -20,6 +20,7 @@ object Table {
     const val CONTACT = "table_contact"
     const val NEWS = "table_news"
     const val WEATHER = "table_weather"
+    const val HOLIDAY = "table_holiday"
 }
 
 object Broadcast {
@@ -31,6 +32,7 @@ object Broadcast {
 object WorkerTag {
     const val NEWS_PARSER = "WORKER_TAG_NEWS_PARSER"
     const val WEATHER_PARSER = "WORKER_TAG_WEATHER_PARSER"
+    const val PUBLIC_HOLIDAYS_PARSER = "WORKER_TAG_PUBLIC_HOLIDAYS_PARSER"
 }
 
 enum class SpeechAction(val value: String) {
