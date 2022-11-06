@@ -32,6 +32,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:maxLines="2"
         android:text="12 APR"
+        android:textAlignment="viewEnd"
         android:textColor="@color/purple_500"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

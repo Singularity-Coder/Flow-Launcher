@@ -67,10 +67,17 @@ class GlanceFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        parsePublicHolidaysWithWorker()
+        val lastHolidayFetchTime = Preferences.read(requireContext()).getLong(Preferences.KEY_LAST_HOLIDAYS_FETCH_TIME, timeNow - THIRTY_DAYS_IN_MILLIS.toLong() - /* grace 3k mills */ 3000)
+        if (timeNow > lastHolidayFetchTime + THIRTY_DAYS_IN_MILLIS) {
+            parsePublicHolidaysWithWorker()
+        }
     }
 
     private fun FragmentGlanceBinding.setupUI() {
+        fun fetchHolidaysEvery30Days() {
+
+        }
+        fetchHolidaysEvery30Days()
         ivGlanceImage.layoutParams.height = deviceWidth() - 32.dpToPx()
         tvImageCount.text = "${1}/${tempImageDrawableList.size}"
         setupRemaindersCard()
@@ -127,31 +134,97 @@ class GlanceFragment : Fragment() {
 
     private fun FragmentGlanceBinding.observeForData() {
         sharedViewModel.holidayListLiveData.observe(viewLifecycleOwner) { it: List<Holiday>? ->
-            tvHolidaysPlaceholder.text = "${it?.getOrNull(1)?.header} | ${it?.firstOrNull()?.location}"
+            if (it.isNullOrEmpty()) return@observe
+            updateHolidaysView(it)
+        }
+    }
 
-            // TODO set holidays based on current date. 3 holidays from current date
-            holiday1.apply {
-                tvKey.text = it?.getOrNull(0)?.title
-                tvValue.text = it?.getOrNull(0)?.date?.substringBefore(",")
-                root.setOnClickListener { v: View? ->
-                    val link = it?.getOrNull(0)?.link?.replace("/search?q=", "").toString()
-                    requireActivity().searchWithChrome(query = link)
+    private fun FragmentGlanceBinding.updateHolidaysView(it: List<Holiday>) {
+        tvHolidaysPlaceholder.apply {
+            text = "${it.getOrNull(1)?.header} | ${it.firstOrNull()?.location}"
+            setOnClickListener {
+                requireActivity().searchWithChrome(query = "public+holidays")
+            }
+        }
+
+        val holidaysInUnixDatesList = try {
+            it.filter { holiday: Holiday ->
+                val year = it.getOrNull(1)?.header?.substringAfter("(")?.replace(")", "")?.trim()
+                val monthDay = holiday.date?.toFormattedHolidayDate()
+                val newDate = "$monthDay, $year"
+                val unixDate = try {
+                    convertDateToLong(newDate, DateType.MMM_d_yyyy.value)
+                } catch (e: Exception) {
+                    0L
+                }
+                unixDate > timeNow
+            }.sortedBy { holiday: Holiday -> holiday.date }
+        } catch (e: Exception) {
+            println("excep: ${e.message}")
+            emptyList()
+        }
+        println("date list: $holidaysInUnixDatesList")
+
+        when {
+            holidaysInUnixDatesList.isEmpty() -> {
+                cardPublicHolidays.isVisible = false
+            }
+            holidaysInUnixDatesList.size < 2 -> {
+                cardPublicHolidays.isVisible = true
+                holiday1.apply {
+                    root.isVisible = true
+                    divider.isVisible = false
+                }
+                holiday2.root.isVisible = false
+                holiday3.root.isVisible = false
+                holiday1.apply {
+                    tvKey.text = holidaysInUnixDatesList.getOrNull(0)?.title
+                    tvValue.text = holidaysInUnixDatesList.getOrNull(0)?.date?.toFormattedHolidayDate()
+                    root.setOnClickListener { v: View? ->
+                        val link = holidaysInUnixDatesList.getOrNull(0)?.link?.replace("/search?q=", "").toString()
+                        requireActivity().searchWithChrome(query = link)
+                    }
                 }
             }
-            holiday2.apply {
-                tvKey.text = it?.getOrNull(1)?.title
-                tvValue.text = it?.getOrNull(1)?.date?.substringBefore(",")
-                root.setOnClickListener { v: View? ->
-                    val link = it?.getOrNull(1)?.link?.replace("/search?q=", "").toString()
-                    requireActivity().searchWithChrome(query = link)
+            holidaysInUnixDatesList.size < 3 -> {
+                cardPublicHolidays.isVisible = true
+                holiday1.apply {
+                    root.isVisible = true
+                    divider.isVisible = true
+                }
+                holiday2.apply {
+                    root.isVisible = true
+                    divider.isVisible = false
+                }
+                holiday3.root.isVisible = false
+                holiday2.apply {
+                    tvKey.text = holidaysInUnixDatesList.getOrNull(1)?.title
+                    tvValue.text = holidaysInUnixDatesList.getOrNull(1)?.date?.toFormattedHolidayDate()
+                    root.setOnClickListener { v: View? ->
+                        val link = holidaysInUnixDatesList.getOrNull(1)?.link?.replace("/search?q=", "").toString()
+                        requireActivity().searchWithChrome(query = link)
+                    }
                 }
             }
-            holiday3.apply {
-                tvKey.text = it?.getOrNull(2)?.title
-                tvValue.text = it?.getOrNull(2)?.date?.substringBefore(",")
-                root.setOnClickListener { v: View? ->
-                    val link = it?.getOrNull(0)?.link?.replace("/search?q=", "").toString()
-                    requireActivity().searchWithChrome(query = link)
+            holidaysInUnixDatesList.size < 4 -> {
+                cardPublicHolidays.isVisible = true
+                holiday1.apply {
+                    root.isVisible = true
+                    divider.isVisible = true
+                }
+                holiday2.apply {
+                    root.isVisible = true
+                    divider.isVisible = true
+                }
+                holiday3.root.isVisible = true
+                holiday3.apply {
+                    tvKey.text = holidaysInUnixDatesList.getOrNull(2)?.title
+                    tvValue.text = holidaysInUnixDatesList.getOrNull(2)?.date?.toFormattedHolidayDate()
+                    divider.isVisible = false
+                    root.setOnClickListener { v: View? ->
+                        val link = holidaysInUnixDatesList.getOrNull(2)?.link?.replace("/search?q=", "").toString()
+                        requireActivity().searchWithChrome(query = link)
+                    }
                 }
             }
         }

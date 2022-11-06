@@ -30,13 +30,13 @@ fun convertLongToTime(time: Long, type: DateType): String {
     return dateFormat.format(date)
 }
 
-fun convertDateToLong(date: String, type: UByte): Long {
-    if (date.isNullOrBlankOrNaOrNullString()) return convertDateToLong(date = Date().toString(), type = 3u)
-    val dateFormat = SimpleDateFormat(dateFormatList.getOrElse(index = type.toInt(), defaultValue = { dateFormatList[3] }), Locale.getDefault())
+fun convertDateToLong(date: String, dateType: String): Long {
+    if (date.isNullOrBlankOrNaOrNullString()) return convertDateToLong(date = Date().toString(), dateType)
+    val dateFormat = SimpleDateFormat(dateType, Locale.getDefault())
     return try {
-        if (dateFormat.parse(date) is Date) dateFormat.parse(date).time else convertDateToLong(date = Date().toString(), type = 3u)
+        if (dateFormat.parse(date) is Date) dateFormat.parse(date).time else convertDateToLong(date = Date().toString(), dateType)
     } catch (e: Exception) {
-        convertDateToLong(date = Date().toString(), type = 3u)
+        0L
     }
 }
 
@@ -78,9 +78,24 @@ infix fun Long.toTimeOfType(type: DateType): String {
     return dateFormat.format(date)
 }
 
+fun String?.toFormattedHolidayDate(): String? {
+    return when {
+        this?.contains("to") == true -> {
+            this.substringBefore(",").substringAfter("of ").trim()
+        }
+        this?.contains(",") == true -> {
+            this.substringBefore(",").trim()
+        }
+        else -> {
+            this?.substringAfter("of ")?.trim()
+        }
+    }
+}
+
 enum class DateType(val value: String) {
     h_mm_a(value = "h:mm a"),
     dd_MMM_yyyy(value = "dd MMM yyyy"),
+    MMM_d_yyyy(value = "MMM d, yyyy"),
     dd_MMM_yyyy_h_mm_a(value = "dd-MMM-yyyy h:mm a"),
     dd_MMM_yyyy_hh_mm_a(value = "dd MMM yyyy, hh:mm a"),
     dd_MMM_yyyy_hh_mm_ss_a(value = "dd MMM yyyy, hh:mm:ss a"),

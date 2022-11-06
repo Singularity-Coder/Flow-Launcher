@@ -7,6 +7,8 @@ import androidx.work.WorkerParameters
 import com.singularitycoder.flowlauncher.db.FlowDatabase
 import com.singularitycoder.flowlauncher.db.HolidayDao
 import com.singularitycoder.flowlauncher.helper.KEY_IS_WORK_COMPLETE
+import com.singularitycoder.flowlauncher.helper.Preferences
+import com.singularitycoder.flowlauncher.helper.timeNow
 import com.singularitycoder.flowlauncher.model.Holiday
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -33,7 +35,7 @@ class PublicHolidaysWorker(val context: Context, workerParams: WorkerParameters)
             val dao = dbEntryPoint.db().holidayDao()
 
             try {
-                scrapeGoogleForPublicHolidays(dao)
+                scrapeGoogleForPublicHolidays(dao, context)
                 Result.success(sendResult(isWorkComplete = true))
             } catch (e: Exception) {
                 if (e is HttpStatusException) println("Error status: ${e.statusCode}")
@@ -44,7 +46,7 @@ class PublicHolidaysWorker(val context: Context, workerParams: WorkerParameters)
     }
 
     // https://jsoup.org/cookbook/extracting-data/selector-syntax
-    private suspend fun scrapeGoogleForPublicHolidays(dao: HolidayDao) {
+    private suspend fun scrapeGoogleForPublicHolidays(dao: HolidayDao, context: Context) {
         Jsoup.connect("https://www.google.com/search?q=public+holidays").timeout(10_000).get().apply {
             dao.deleteAll()
             val elementList = getElementsByClass("ct5Ked klitem-tr PZPZlf") // This is the list item class and not the entire list class
@@ -80,6 +82,9 @@ class PublicHolidaysWorker(val context: Context, workerParams: WorkerParameters)
                         header = header,
                     )
                 )
+
+                Preferences.write(context).putBoolean(Preferences.KEY_IS_HOLIDAYS_AVAILABLE, true).apply()
+                Preferences.write(context).putLong(Preferences.KEY_LAST_HOLIDAYS_FETCH_TIME, timeNow).apply()
             }
         }
     }
