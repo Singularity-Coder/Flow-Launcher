@@ -26,8 +26,15 @@ fun Context.shareImageAndTextViaApps(
     startActivity(Intent.createChooser(intent, intentTitle ?: "Share to..."))
 }
 
-fun Context.makeCall(phoneNum: String) {
+fun Context.openDialer(phoneNum: String) {
     val callIntent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNum, null))
+    callIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+    startActivity(callIntent)
+}
+
+// Needs CALL_PHONE permission
+fun Context.makeCall(phoneNum: String) {
+    val callIntent = Intent(Intent.ACTION_CALL, Uri.fromParts("tel", phoneNum, null))
     callIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
     startActivity(callIntent)
 }

@@ -1,24 +1,21 @@
 package com.singularitycoder.flowlauncher.view
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.work.*
-import coil.load
-import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentGlanceBinding
-import com.singularitycoder.flowlauncher.databinding.FragmentTodayBinding
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.model.Holiday
-import com.singularitycoder.flowlauncher.model.News
-import com.singularitycoder.flowlauncher.model.Weather
-import com.singularitycoder.flowlauncher.worker.NewsWorker
 import com.singularitycoder.flowlauncher.worker.PublicHolidaysWorker
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,6 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // My Bills
 
 // TODO ideal to have viewpagers for naviagting through images and other widget stuff but too much work. Do it when u r bored
+// TODO top 4 or 5 contacts u will message and call - problem is another recyclerview ...the pain
 
 @AndroidEntryPoint
 class GlanceFragment : Fragment() {
@@ -52,6 +50,33 @@ class GlanceFragment : Fragment() {
 
     private val sharedViewModel: SharedViewModel by viewModels()
     private lateinit var binding: FragmentGlanceBinding
+
+    private val callSmsPermissionsResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, @JvmSuppressWildcards Boolean>? ->
+        permissions ?: return@registerForActivityResult
+        permissions.entries.forEach { it: Map.Entry<String, @JvmSuppressWildcards Boolean> ->
+            println("Permission status: ${it.key} = ${it.value}")
+            val permission = it.key
+            val isGranted = it.value
+            when {
+                isGranted -> {
+                    // disable blocking layout and proceed
+                }
+                ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), permission) -> {
+                    // permission permanently denied. Show settings dialog
+                    // enable blocking layout and show popup to go to settings
+                    requireContext().showPermissionSettings()
+                }
+                else -> {
+                    // Permission denied but not permanently, tell user why you need it. Ideally provide a button to request it again and another to dismiss
+                    // enable blocking layout
+                }
+            }
+        }
+        if (requireContext().isCallContactSmsPermissionGranted()) {
+            binding.layoutUnreadSms.tvValue.text = requireContext().unreadSmsCount().toString()
+            binding.layoutMissedCalls.tvValue.text = requireContext().missedCallCount().toString()
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentGlanceBinding.inflate(inflater, container, false)
@@ -67,17 +92,14 @@ class GlanceFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val lastHolidayFetchTime = Preferences.read(requireContext()).getLong(Preferences.KEY_LAST_HOLIDAYS_FETCH_TIME, timeNow - THIRTY_DAYS_IN_MILLIS.toLong() - /* grace 3k mills */ 3000)
-        if (timeNow > lastHolidayFetchTime + THIRTY_DAYS_IN_MILLIS) {
+        callSmsPermissionsResult.launch(callContactSmsPermissionList)
+        val lastHolidayFetchTime = Preferences.read(requireContext()).getLong(Preferences.KEY_LAST_HOLIDAYS_FETCH_TIME, timeNow - TWENTY_FOUR_HOURS_IN_MILLIS.toLong() - /* grace 3k mills */ 3000)
+        if (timeNow > lastHolidayFetchTime + TWENTY_FOUR_HOURS_IN_MILLIS) {
             parsePublicHolidaysWithWorker()
         }
     }
 
     private fun FragmentGlanceBinding.setupUI() {
-        fun fetchHolidaysEvery30Days() {
-
-        }
-        fetchHolidaysEvery30Days()
         ivGlanceImage.layoutParams.height = deviceWidth() - 32.dpToPx()
         tvImageCount.text = "${1}/${tempImageDrawableList.size}"
         setupRemaindersCard()
@@ -129,6 +151,14 @@ class GlanceFragment : Fragment() {
                     }
                 }
             }
+        }
+        binding.layoutUnreadSms.root.setOnClickListener {
+            // TODO fix this
+            requireContext().sendSms("", "")
+        }
+        binding.layoutMissedCalls.root.setOnClickListener {
+            // TODO fix this
+            requireContext().openDialer("")
         }
     }
 

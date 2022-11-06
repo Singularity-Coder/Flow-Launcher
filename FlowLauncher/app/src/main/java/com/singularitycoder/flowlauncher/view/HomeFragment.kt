@@ -99,7 +99,7 @@ class HomeFragment : Fragment() {
             requireContext().showPermissionSettings()
             return@registerForActivityResult
         }
-        CoroutineScope(IO).launch {
+        lifecycleScope.launch {
             val isContactsSynced = Preferences.read(requireContext()).getBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, false)
             if (isContactsSynced.not()) {
                 requireContext().getContacts().sortedBy { it.name }.forEach { it: Contact ->
@@ -110,7 +110,7 @@ class HomeFragment : Fragment() {
             val contact = contactDao.getAll().firstOrNull { it.name.contains(contactName) }
             when (speechAction) {
                 SpeechAction.CALL -> {
-                    requireContext().makeCall(contact?.mobileNumber ?: "")
+                    requireContext().openDialer(contact?.mobileNumber ?: "")
                 }
                 SpeechAction.MESSAGE -> {
                     requireContext().sendSms(contact?.mobileNumber ?: "", messageBody)
@@ -143,13 +143,13 @@ class HomeFragment : Fragment() {
                 SpeechAction.CALL.value -> {
                     speechAction = SpeechAction.CALL
                     contactName = text.substringAfter(" ")
-                    grantContactsPermissions()
+                    grantContactsPermission()
                 }
                 SpeechAction.MESSAGE.value -> {
                     speechAction = SpeechAction.MESSAGE
                     contactName = text.substringAfter(" ").substringBefore("saying")
                     messageBody = text.substringAfter("saying ")
-                    grantContactsPermissions()
+                    grantContactsPermission()
                 }
                 SpeechAction.SEARCH.value, SpeechAction.FIND.value -> {
                     val query = text.substringAfter(" ")
@@ -268,7 +268,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun grantContactsPermissions() {
+    private fun grantContactsPermission() {
         contactsPermissionResult.launch(Manifest.permission.READ_CONTACTS)
     }
 

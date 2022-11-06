@@ -1,9 +1,11 @@
 package com.singularitycoder.flowlauncher.helper
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -13,6 +15,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.provider.CallLog
 import android.provider.Settings
 import android.text.Spanned
 import android.util.TypedValue
@@ -30,7 +33,6 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.forEach
-import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.ViewPager2
@@ -45,6 +47,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.reflect.Method
 import java.util.*
+
+val callContactSmsPermissionList = arrayOf(
+    Manifest.permission.READ_CONTACTS,
+    Manifest.permission.READ_SMS,
+    Manifest.permission.WRITE_CALL_LOG,
+    Manifest.permission.READ_CALL_LOG,
+)
+
+fun Context.isCallContactSmsPermissionGranted(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALL_LOG) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED
+}
 
 
 fun getHtmlFormattedTime(html: String): Spanned {
@@ -269,16 +285,6 @@ fun Menu.invokeSetMenuIconMethod() {
     }
 }
 
-// https://stackoverflow.com/questions/3718687/get-number-of-unread-sms
-fun Context.showUnreadSmsCount(): Int {
-    val SMS_INBOX = Uri.parse("content://sms/inbox")
-    val cursor = contentResolver.query(SMS_INBOX, null, "read = 0", null, null)
-    val unreadMessagesCount = cursor?.count ?: 0
-//    cursor?.close()
-    cursor?.deactivate()
-    return unreadMessagesCount
-}
-
 // https://proandroiddev.com/look-deep-into-viewpager2-13eb8e06e419
 // https://stackoverflow.com/questions/56114430/android-viewpager2-setpagemargin-unresolved
 fun ViewPager2.setShowSideItems(
@@ -380,6 +386,52 @@ fun getGradientDrawable(): GradientDrawable {
         orientation = GradientDrawable.Orientation.LEFT_RIGHT
         gradientType = GradientDrawable.LINEAR_GRADIENT
         shape = GradientDrawable.RECTANGLE
+    }
+}
+
+// https://stackoverflow.com/questions/3718687/get-number-of-unread-sms
+fun Context.unreadSmsCount(): Int {
+    return try {
+        val cursor = contentResolver.query(
+            /* uri = */ Uri.parse("content://sms/inbox"),
+            /* projection = */ arrayOf("count(_id)"),
+            /* selection = */ "read = 0",
+            /* selectionArgs = */ null,
+            /* sortOrder = */ null
+        )
+        cursor?.moveToFirst()
+        val unreadMessageCount = cursor?.getInt(0) ?: 0
+        cursor?.close()
+        unreadMessageCount
+    } catch (e: Exception) {
+        0
+    }
+}
+
+// https://stackoverflow.com/questions/7621893/how-to-get-missed-call-sms-count
+fun Context.missedCallCount(): Int {
+    return try {
+        val projection = arrayOf(
+            CallLog.Calls.CACHED_NAME,
+            CallLog.Calls.CACHED_NUMBER_LABEL,
+            CallLog.Calls.TYPE
+        )
+        val where = CallLog.Calls.TYPE + "=" + CallLog.Calls.MISSED_TYPE
+        val cursor = contentResolver.query(
+            /* uri = */ CallLog.Calls.CONTENT_URI.buildUpon()
+                .appendQueryParameter(CallLog.Calls.LIMIT_PARAM_KEY, "1")
+                .build(),
+            /* projection = */ projection,
+            /* selection = */ where,
+            /* selectionArgs = */ null,
+            /* sortOrder = */ null
+        )
+        cursor?.moveToFirst()
+        val missedCallCount = cursor?.count ?: 0
+        cursor?.close()
+        missedCallCount
+    } catch (e: Exception) {
+        0
     }
 }
 
