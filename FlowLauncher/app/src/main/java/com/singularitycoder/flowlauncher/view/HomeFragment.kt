@@ -75,7 +75,7 @@ class HomeFragment : Fragment() {
     private var messageBody = ""
     private var removeAppPosition = 0
 
-    private val timeChangedReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
             when (intent.action) {
                 // FIXME not working
@@ -172,16 +172,19 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        // Check if app count modified. if so then trigger apsp
+        if (homeAppsAdapter.homeAppList.size != requireContext().appList().size) {
+            refreshAppList()
+        }
         println("This triggers everytime we switch the screen in viewpager")
-        refreshAppList()
-        activity?.registerReceiver(timeChangedReceiver, IntentFilter(Broadcast.TIME_CHANGED))
-        activity?.registerReceiver(timeChangedReceiver, IntentFilter(Broadcast.PACKAGE_REMOVED))
-        activity?.registerReceiver(timeChangedReceiver, IntentFilter(Broadcast.PACKAGE_INSTALLED))
+        activity?.registerReceiver(broadcastReceiver, IntentFilter(Broadcast.TIME_CHANGED))
+        activity?.registerReceiver(broadcastReceiver, IntentFilter(Broadcast.PACKAGE_REMOVED))
+        activity?.registerReceiver(broadcastReceiver, IntentFilter(Broadcast.PACKAGE_INSTALLED))
     }
 
     override fun onPause() {
         super.onPause()
-        activity?.unregisterReceiver(timeChangedReceiver)
+        activity?.unregisterReceiver(broadcastReceiver)
     }
 
     override fun onDestroy() {
@@ -191,13 +194,8 @@ class HomeFragment : Fragment() {
 
     private fun FragmentHomeBinding.setupUI() {
         setTimeDateAndFlow()
-        timer = Timer()
-        timer.doEvery(
-            duration = 1.seconds(),
-            withInitialDelay = 0.seconds(),
-        ) {
-            setTimeDateAndFlow()
-        }
+        refreshAppList()
+        refreshDateTime()
         rvApps.apply {
             layoutManager = GridLayoutManager(context, 4)
             adapter = homeAppsAdapter
@@ -265,6 +263,16 @@ class HomeFragment : Fragment() {
                 binding.tvTime.text = getHtmlFormattedTime(html)
                 binding.tvFlowType.text = "$day, ${convertLongToTime(timeNow, DateType.dd_MMM_yyyy)}  |  Work Flow"
             }
+        }
+    }
+
+    private fun refreshDateTime() {
+        timer = Timer()
+        timer.doEvery(
+            duration = 1.seconds(),
+            withInitialDelay = 0.seconds(),
+        ) {
+            setTimeDateAndFlow()
         }
     }
 

@@ -255,6 +255,7 @@
     <color name="md_indigo_A400">#3D5AFE</color>
     <color name="md_indigo_A700">#304FFE</color>
     <color name="md_indigo_dark">#001277</color>
+    <color name="md_indigo_darker">#000C50</color>
 
     <!-- blue -->
     <color name="md_blue_50">#E3F2FD</color>

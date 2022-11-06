@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+// https://stackoverflow.com/questions/4772425/change-date-format-in-a-java-string
+
 val dateFormatList = listOf(
     "dd-MMMM hh:mm",
     "dd-MM-yyyy",

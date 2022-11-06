@@ -60,7 +60,6 @@
                 android:layout_margin="16dp"
                 android:clipChildren="true"
                 android:clipToPadding="true"
-                app:cardBackgroundColor="@color/black"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"

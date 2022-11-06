@@ -7,12 +7,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInstaller.SessionParams
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import com.singularitycoder.flowlauncher.model.App
 import java.io.IOException
 
+// https://stackoverflow.com/questions/10297149/listen-for-app-installed-upgraded-broadcast-message-in-android
 
 /**
  * https://developer.android.com/training/package-visibility
@@ -120,4 +122,12 @@ fun App.enable(context: Context) {
 
 fun App.disable(context: Context) {
     context.packageManager.setApplicationEnabledSetting(this.packageName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0)
+}
+
+fun Context.isPackageInstalled(packageName: String): Boolean {
+    return try {
+        packageManager.getApplicationInfo(packageName, 0).enabled
+    } catch (e: NameNotFoundException) {
+        false
+    }
 }
