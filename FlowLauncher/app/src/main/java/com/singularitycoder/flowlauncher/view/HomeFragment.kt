@@ -13,6 +13,9 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.MenuRes
@@ -20,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -52,6 +56,11 @@ import javax.inject.Inject
 // Load apps in worker to avoud jank while reloading on resume
 // SOS signal - swipe to decline in 5 sec - send message to pre selected contacts
 // Notes n checklist widegt with quick add
+
+// Universal search
+// Compass in Glance
+// Current Lat Long in Glance
+// Steps count in Today
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -166,6 +175,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        webViewTest()
         binding.setupUI()
         binding.setupUserActionListeners()
     }
@@ -221,7 +231,7 @@ class HomeFragment : Fragment() {
                 position = position
             )
         }
-        fabProfile.setOnClickListener {
+        fabVoiceSearch.setOnClickListener {
             // Start Speech to Text
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                 putExtra(
@@ -232,6 +242,10 @@ class HomeFragment : Fragment() {
                 putExtra(RecognizerIntent.EXTRA_PROMPT, "Start Speaking Now!")
             }
             speechToTextResult.launch(intent)
+        }
+        fabVoiceSearch.setOnLongClickListener {
+            QuickSettingsBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, TAG_QUICK_SETTINGS_BOTTOM_SHEET)
+            false
         }
         rvApps.setOnLongClickListener {
             // Open flow switcher
@@ -326,6 +340,33 @@ class HomeFragment : Fragment() {
             withContext(Main) {
                 homeAppsAdapter.notifyDataSetChanged()
             }
+        }
+    }
+
+    private fun webViewTest() {
+        binding.webview.apply {
+            isVisible = false
+            settings.javaScriptEnabled = true
+            settings.domStorageEnabled = true
+            addJavascriptInterface(TwitterJavaScriptInterface(), "HTMLOUT") // Register a new JavaScript interface called HTMLOUT
+            webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView, url: String) {
+                    // This call inject JavaScript into the page which just finished loading.
+                    // loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');")
+                    loadUrl("javascript:window.HTMLOUT.processHTML('HTMLOUT'+document.getElementsByTagName('html')[0].innerHTML);")
+                    view.saveWebArchive(/*fileName*/ requireContext().internalFilesDir(fileName = "trendingTweets").absolutePath)
+                }
+            }
+            loadUrl("https://twitter.com/explore/tabs/trending")
+        }
+    }
+
+    var twitterTrendingHtml: String? = null
+    inner class TwitterJavaScriptInterface {
+        @JavascriptInterface
+        fun processHTML(html: String?) {
+            twitterTrendingHtml = html
+            println("twitterTrendingHtml: $twitterTrendingHtml")
         }
     }
 }

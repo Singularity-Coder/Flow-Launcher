@@ -54,17 +54,19 @@ class TrendingTweetsWorker(val context: Context, workerParams: WorkerParameters)
         }
     }
 
+    // Twitter load in webview with the below settings. Now all we need to do is somehow save the page locally and extract text
     // https://stackoverflow.com/questions/2376471/how-do-i-get-the-web-page-contents-from-a-webview
     @SuppressLint("SetJavaScriptEnabled")
     private suspend fun scrapeTwitterForTrendingTweetsFromWebView(dao: TrendingTweetDao) {
         WebView(context).apply {
             settings.javaScriptEnabled = true
+            settings.domStorageEnabled = true
             addJavascriptInterface(TwitterJavaScriptInterface(), "HTMLOUT") // Register a new JavaScript interface called HTMLOUT
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView, url: String) {
                     // This call inject JavaScript into the page which just finished loading.
 //                    loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');")
-                    loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');")
+                    loadUrl("javascript:window.HTMLOUT.processHTML($twitterTrendingHtml);")
                 }
             }
             loadUrl("https://twitter.com/explore/tabs/trending")

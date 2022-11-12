@@ -77,7 +77,7 @@ class TodayFragment : Fragment() {
         super.onResume()
         parseNewsWithWorker()
         parseWeatherWithWorker()
-        parseTrendingTweetsWithWorker()
+//        parseTrendingTweetsWithWorker()
     }
 
     private fun FragmentTodayBinding.setupUI() {
@@ -86,16 +86,16 @@ class TodayFragment : Fragment() {
         cardNews.performClick()
         setRemainders()
         listOf(
-            "1 Modi",
-            "2 Elon",
-            "3 Anime",
-            "4 Twitter",
-            "5 Bike Crash",
-            "6 Jump Jump",
-            "7 Abo Dabooo",
-            "8 Chaka Tak",
-            "9 Icecream Fry",
-            "10 Chocolate Noodles"
+            "1. Mooodi",
+            "2. Dlon Lusk",
+            "3. Abhijit Chavda",
+            "4. Anime Mania",
+            "5. Bikaari war",
+            "6. Jump Jump",
+            "7. Abo Dabooo",
+            "8. Chaka Tak Chak",
+            "9. Icecream Fry",
+            "10. Chocolate Noodles"
         ).forEach { it: String ->
             val chip = Chip(requireContext()).apply {
                 text = it

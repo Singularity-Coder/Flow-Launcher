@@ -7,7 +7,7 @@ import com.singularitycoder.flowlauncher.model.QuoteColor
 
 const val FILE_PROVIDER_AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider"
 const val REQUEST_CODE_VIDEO = 1001
-const val TAG_ADD_CONTACT_MODAL_BOTTOM_SHEET = "TAG_ADD_CONTACT_MODAL_BOTTOM_SHEET"
+const val TAG_QUICK_SETTINGS_BOTTOM_SHEET = "TAG_QUICK_SETTINGS_BOTTOM_SHEET"
 const val THIRTY_DAYS_IN_MILLIS = 2.592e9
 const val TWENTY_FOUR_HOURS_IN_MILLIS = 8.64e7
 
