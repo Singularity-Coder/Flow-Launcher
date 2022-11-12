@@ -106,10 +106,10 @@ class NewsWorker(val context: Context, workerParams: WorkerParameters) : Corouti
 
                 dao.insert(
                     News(
-                        imageUrl = imageUrl ?: "",
-                        title = headline ?: "",
-                        source = source ?: "",
-                        time = time ?: "",
+                        imageUrl = imageUrl,
+                        title = headline,
+                        source = source,
+                        time = time,
                         link = try {
                             link.replaceFirst(".", "https://news.google.com") ?: ""
                         } catch (e: Exception) {

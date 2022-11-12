@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.work.*
 import coil.load
+import com.google.android.material.chip.Chip
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentTodayBinding
 import com.singularitycoder.flowlauncher.helper.*
@@ -19,8 +20,10 @@ import com.singularitycoder.flowlauncher.helper.blur.BlurBox
 import com.singularitycoder.flowlauncher.helper.blur.BlurEngine
 import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
 import com.singularitycoder.flowlauncher.model.News
+import com.singularitycoder.flowlauncher.model.TrendingTweet
 import com.singularitycoder.flowlauncher.model.Weather
 import com.singularitycoder.flowlauncher.worker.NewsWorker
+import com.singularitycoder.flowlauncher.worker.TrendingTweetsWorker
 import com.singularitycoder.flowlauncher.worker.WeatherWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.Main
@@ -74,6 +77,7 @@ class TodayFragment : Fragment() {
         super.onResume()
         parseNewsWithWorker()
         parseWeatherWithWorker()
+        parseTrendingTweetsWithWorker()
     }
 
     private fun FragmentTodayBinding.setupUI() {
@@ -81,6 +85,30 @@ class TodayFragment : Fragment() {
         tvTemperature.text = getHtmlFormattedTime(html)
         cardNews.performClick()
         setRemainders()
+        listOf(
+            "1 Modi",
+            "2 Elon",
+            "3 Anime",
+            "4 Twitter",
+            "5 Bike Crash",
+            "6 Jump Jump",
+            "7 Abo Dabooo",
+            "8 Chaka Tak",
+            "9 Icecream Fry",
+            "10 Chocolate Noodles"
+        ).forEach { it: String ->
+            val chip = Chip(requireContext()).apply {
+                text = it
+                isCheckable = false
+                isClickable = false
+                chipBackgroundColor = ColorStateList.valueOf(requireContext().color(com.singularitycoder.flowlauncher.R.color.black_50))
+//                setTextColor(nnContext.color(R.color.purple_500))
+                elevation = 0f
+                setOnClickListener {
+                }
+            }
+            chipGroupTrendingTweets.addView(chip)
+        }
     }
 
     private fun FragmentTodayBinding.setupUserActionListeners() {
@@ -177,15 +205,28 @@ class TodayFragment : Fragment() {
 
     private fun FragmentTodayBinding.observeForData() {
         sharedViewModel.weatherLiveData.observe(viewLifecycleOwner) { it: Weather? ->
-            ivWeather.load(it?.imageUrl) {
+            it ?: kotlin.run {
+                cardWeather.isVisible = false
+                return@observe
+            }
+            ivWeather.load(it.imageUrl) {
                 placeholder(com.singularitycoder.flowlauncher.R.drawable.ic_baseline_cloud_24)
             }
-            tvLocation.text = it?.location
-            tvWeatherCondition.text = "${it?.condition} @ ${it?.dateTime?.substringAfter(",")?.trim()}"
-            tvTemperature.text = getHtmlFormattedTime(html = "${it?.temperature}°&#x1D9C;")
+            tvLocation.text = it.location
+            tvWeatherCondition.text = "${it.condition} @ ${it.dateTime?.substringAfter(",")?.trim()}"
+            tvTemperature.text = getHtmlFormattedTime(html = "${it.temperature}°&#x1D9C;")
         }
         sharedViewModel.newsListLiveData.observe(viewLifecycleOwner) { it: List<News>? ->
-            newsList = it ?: emptyList()
+            newsList = it ?: kotlin.run {
+                cardNews.isVisible = false
+                emptyList()
+            }
+        }
+        sharedViewModel.trendingTweetListLiveData.observe(viewLifecycleOwner) { it: List<TrendingTweet>? ->
+            it ?: kotlin.run {
+                cardTwitterTrending.isVisible = false
+                return@observe
+            }
         }
     }
 
@@ -208,6 +249,39 @@ class TodayFragment : Fragment() {
     private fun showProgress(show: Boolean) {
         binding.progressCircular.isVisible = show
         binding.btnMenu.isVisible = show.not()
+    }
+
+    private fun parseWeatherWithWorker() {
+        val workManager = WorkManager.getInstance(requireContext())
+        val workConstraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val workRequest = OneTimeWorkRequestBuilder<WeatherWorker>()
+            .setConstraints(workConstraints)
+            .build()
+        workManager.enqueueUniqueWork(WorkerTag.WEATHER_PARSER, ExistingWorkPolicy.REPLACE, workRequest)
+        workManager.getWorkInfoByIdLiveData(workRequest.id).observe(this) { workInfo: WorkInfo? ->
+            when (workInfo?.state) {
+                WorkInfo.State.RUNNING -> {
+                    println("RUNNING: show Progress")
+                    showProgress(true)
+                }
+                WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
+                WorkInfo.State.SUCCEEDED -> {
+                    println("SUCCEEDED: showing Progress")
+                    showProgress(false)
+                }
+                WorkInfo.State.FAILED -> {
+                    println("FAILED: stop showing Progress")
+                    binding.root.showSnackBar("Something went wrong!")
+                    showProgress(false)
+                }
+                WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
+                WorkInfo.State.CANCELLED -> {
+                    println("CANCELLED: stop showing Progress")
+                    showProgress(false)
+                }
+                else -> Unit
+            }
+        }
     }
 
     private fun parseNewsWithWorker() {
@@ -248,13 +322,13 @@ class TodayFragment : Fragment() {
         }
     }
 
-    private fun parseWeatherWithWorker() {
+    private fun parseTrendingTweetsWithWorker() {
         val workManager = WorkManager.getInstance(requireContext())
         val workConstraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-        val workRequest = OneTimeWorkRequestBuilder<WeatherWorker>()
+        val workRequest = OneTimeWorkRequestBuilder<TrendingTweetsWorker>()
             .setConstraints(workConstraints)
             .build()
-        workManager.enqueueUniqueWork(WorkerTag.WEATHER_PARSER, ExistingWorkPolicy.REPLACE, workRequest)
+        workManager.enqueueUniqueWork(WorkerTag.TRENDING_TWEETS_PARSER, ExistingWorkPolicy.REPLACE, workRequest)
         workManager.getWorkInfoByIdLiveData(workRequest.id).observe(this) { workInfo: WorkInfo? ->
             when (workInfo?.state) {
                 WorkInfo.State.RUNNING -> {
@@ -264,10 +338,6 @@ class TodayFragment : Fragment() {
                 WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
                 WorkInfo.State.SUCCEEDED -> {
                     println("SUCCEEDED: showing Progress")
-                    val isWorkComplete = workInfo.outputData.getBoolean(KEY_IS_WORK_COMPLETE, false)
-                    if (isWorkComplete) {
-//                        WorkManager.getInstance(requireContext()).cancelAllWorkByTag(WorkerTag.WEATHER_PARSER)
-                    }
                     showProgress(false)
                 }
                 WorkInfo.State.FAILED -> {

@@ -76,7 +76,7 @@ class PublicHolidaysWorker(val context: Context, workerParams: WorkerParameters)
                     Holiday(
                         imageUrl = imageUrl,
                         title = title,
-                        date = date ?: "",
+                        date = date,
                         link = link,
                         location = location,
                         header = header,

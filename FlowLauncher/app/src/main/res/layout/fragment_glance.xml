@@ -77,7 +77,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -131,11 +131,11 @@
             android:layout_margin="16dp"
             android:clipChildren="true"
             android:clipToPadding="true"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/card_glance_images"
-            app:strokeColor="@color/black_100"
+            app:strokeColor="@color/black_50"
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -184,11 +184,11 @@
             android:layout_margin="16dp"
             android:clipChildren="true"
             android:clipToPadding="true"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/card_take_action"
-            app:strokeColor="@color/black_100"
+            app:strokeColor="@color/black_50"
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -246,10 +246,10 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:orientation="vertical"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
             app:layout_constraintTop_toBottomOf="@+id/card_remainders"
-            app:strokeColor="@color/black_100"
+            app:strokeColor="@color/black_50"
             app:strokeWidth="1dp">
 
             <RelativeLayout
@@ -258,7 +258,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="104dp"
                     android:background="@color/purple_200" />
 
                 <DatePicker
@@ -280,11 +280,11 @@
             android:layout_margin="16dp"
             android:clipChildren="true"
             android:clipToPadding="true"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/card_calendar"
-            app:strokeColor="@color/black_100"
+            app:strokeColor="@color/black_50"
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -341,7 +341,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:orientation="vertical"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
             app:layout_constraintTop_toBottomOf="@+id/card_public_holidays">
 

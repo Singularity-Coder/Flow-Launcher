@@ -60,7 +60,7 @@
                 android:layout_margin="16dp"
                 android:clipChildren="true"
                 android:clipToPadding="true"
-                app:cardCornerRadius="8dp"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_today_title">
@@ -145,11 +145,11 @@
                 android:layout_margin="16dp"
                 android:clipChildren="true"
                 android:clipToPadding="true"
-                app:cardCornerRadius="8dp"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/card_news"
-                app:strokeColor="@color/black_100"
+                app:strokeColor="@color/black_50"
                 app:strokeWidth="1dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -228,11 +228,11 @@
                 android:layout_margin="16dp"
                 android:clipChildren="true"
                 android:clipToPadding="true"
-                app:cardCornerRadius="8dp"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/card_weather"
-                app:strokeColor="@color/black_100"
+                app:strokeColor="@color/black_50"
                 app:strokeWidth="1dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -282,13 +282,63 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_twitter_trending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:clipChildren="true"
+                android:clipToPadding="true"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_remainders"
+                app:strokeColor="@color/black_50"
+                app:strokeWidth="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tv_twitter_trending_placeholder"
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:ellipsize="end"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="2"
+                        android:text="Trending on Twitter"
+                        android:textColor="@color/title_color"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chip_group_trending_tweets"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_twitter_trending_placeholder"
+                        app:singleLine="false" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_quotes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                app:cardCornerRadius="8dp"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/card_remainders">
+                app:layout_constraintTop_toBottomOf="@+id/card_twitter_trending">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_quotes"

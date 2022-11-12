@@ -36,4 +36,8 @@ object DbModule {
     @Singleton
     @Provides
     fun injectHolidayDao(db: FlowDatabase): HolidayDao = db.holidayDao()
+
+    @Singleton
+    @Provides
+    fun injectTrendingTweetsDao(db: FlowDatabase): TrendingTweetDao = db.trendingTweetsDao()
 }

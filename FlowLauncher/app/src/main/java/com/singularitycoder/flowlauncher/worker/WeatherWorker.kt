@@ -52,11 +52,11 @@ class WeatherWorker(val context: Context, workerParams: WorkerParameters) : Coro
 
                     dao.insert(
                         Weather(
-                            temperature = temperature ?: "",
-                            condition = condition ?: "",
+                            temperature = temperature,
+                            condition = condition,
                             imageUrl = "https:$imageUrl",
-                            location = location ?: "",
-                            dateTime = dateTime ?: "",
+                            location = location,
+                            dateTime = dateTime,
                         )
                     )
                 }
