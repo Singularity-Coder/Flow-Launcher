@@ -87,7 +87,7 @@ class TodayFragment : Fragment() {
         setRemainders()
         listOf(
             "1. Mooodi",
-            "2. Dlon Lusk",
+            "2. Melon Musk",
             "3. Abhijit Chavda",
             "4. Anime Mania",
             "5. Bikaari war",
