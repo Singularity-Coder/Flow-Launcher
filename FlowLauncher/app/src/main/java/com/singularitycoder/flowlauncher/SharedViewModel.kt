@@ -30,7 +30,7 @@ class SharedViewModel @Inject constructor(
     var trendingTweetListLiveData: LiveData<List<TrendingTweet>> = MutableLiveData<List<TrendingTweet>>()
         private set
 
-    var flowImageListLiveData: LiveData<List<FlowImage>> = MutableLiveData<List<FlowImage>>()
+    var glanceImageListLiveData: LiveData<List<GlanceImage>> = MutableLiveData<List<GlanceImage>>()
         private set
     var youtubeVideoListLiveData: LiveData<List<YoutubeVideo>> = MutableLiveData<List<YoutubeVideo>>()
         private set
@@ -44,7 +44,7 @@ class SharedViewModel @Inject constructor(
         holidayListLiveData = holidayDao.getAllHolidaysLiveData()
         trendingTweetListLiveData = trendingTweetDao.getAllTrendingTweetsLiveData()
 
-        flowImageListLiveData = flowImageDao.getAllLiveData()
+        glanceImageListLiveData = flowImageDao.getAllLiveData()
         youtubeVideoListLiveData = youtubeVideoDao.getAllLiveData()
         quoteListLiveData = quoteDao.getAllLiveData()
     }
@@ -53,8 +53,8 @@ class SharedViewModel @Inject constructor(
         quoteDao.insert(quote)
     }
 
-    fun addFlowImageToDb(flowImage: FlowImage) = viewModelScope.launch {
-        flowImageDao.insert(flowImage)
+    fun addFlowImageToDb(glanceImage: GlanceImage) = viewModelScope.launch {
+        flowImageDao.insert(glanceImage)
     }
 
     fun addYoutubeVideoToDb(youtubeVideo: YoutubeVideo) = viewModelScope.launch {

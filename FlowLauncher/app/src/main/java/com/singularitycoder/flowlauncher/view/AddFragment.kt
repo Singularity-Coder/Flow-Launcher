@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentAddBinding
 import com.singularitycoder.flowlauncher.helper.constants.AddItemType
-import com.singularitycoder.flowlauncher.model.FlowImage
+import com.singularitycoder.flowlauncher.model.GlanceImage
 import com.singularitycoder.flowlauncher.model.Quote
 import com.singularitycoder.flowlauncher.model.YoutubeVideo
 
@@ -58,10 +58,10 @@ class AddFragment : Fragment() {
     }
 
     private fun FragmentAddBinding.observeForData() {
-        sharedViewModel.flowImageListLiveData.observe(viewLifecycleOwner) { flowImageList: List<FlowImage>? ->
-            if (flowImageList.isNullOrEmpty()) return@observe
+        sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { glanceImageList: List<GlanceImage>? ->
+            if (glanceImageList.isNullOrEmpty()) return@observe
             if (listType != AddItemType.FLOW_IMAGE) return@observe
-            addItemAdapter.itemsList = flowImageList.map {
+            addItemAdapter.itemsList = glanceImageList.map {
                 val item = AddItem(
                     link = it.link,
                     title = it.title

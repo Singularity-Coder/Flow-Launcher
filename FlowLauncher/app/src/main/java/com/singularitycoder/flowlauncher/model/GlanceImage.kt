@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(tableName = Table.FLOW_IMAGE)
-data class FlowImage(
+data class GlanceImage(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val link: String,
     val title: String

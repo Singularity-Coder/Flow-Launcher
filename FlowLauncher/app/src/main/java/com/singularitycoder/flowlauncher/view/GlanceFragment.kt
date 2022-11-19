@@ -130,10 +130,8 @@ class GlanceFragment : Fragment() {
 
         var currentYoutubeVideoPosition = 0
         cardYoutubeVideos.setOnClickListener {
-//            val youtubeVideoId = youtubeVideoList.getOrNull(currentYoutubeVideoPosition)?.videoId
             val youtubeVideo = youtubeVideoList.getOrNull(currentYoutubeVideoPosition)
-            val youtubeVideoId = youtubeVideo?.videoId
-            val youtubeVideoThumbnailUrl = youtubeVideoId?.toYoutubeThumbnailUrl()
+            val youtubeVideoThumbnailUrl = youtubeVideo?.videoId?.toYoutubeThumbnailUrl()
             ivThumbnail.load(youtubeVideoThumbnailUrl) {
                 placeholder(com.singularitycoder.flowlauncher.R.color.black)
                 error(com.singularitycoder.flowlauncher.R.color.md_red_dark)
@@ -141,7 +139,7 @@ class GlanceFragment : Fragment() {
             tvVideoTitle.text = youtubeVideo?.title ?: ""
             btnPlayYoutubeVideo.setOnClickListener {
                 val intent = Intent(requireContext(), YoutubeVideoActivity::class.java).apply {
-                    putExtra(IntentKey.YOUTUBE_VIDEO_ID, youtubeVideoId)
+                    putExtra(IntentKey.YOUTUBE_VIDEO_ID, youtubeVideo?.videoId)
                     putParcelableArrayListExtra(IntentKey.YOUTUBE_VIDEO_LIST, ArrayList(youtubeVideoList))
                 }
                 startActivity(intent)
@@ -189,7 +187,7 @@ class GlanceFragment : Fragment() {
             updateHolidaysView(it)
         }
         sharedViewModel.youtubeVideoListLiveData.observe(viewLifecycleOwner) { it: List<YoutubeVideo>? ->
-            if (it.isNullOrEmpty()) return@observe
+            it ?: return@observe
             youtubeVideoList = it.ifEmpty {
                 allYoutubeVideos
             }

@@ -12,7 +12,7 @@ import com.singularitycoder.flowlauncher.model.*
         Weather::class,
         Holiday::class,
         TrendingTweet::class,
-        FlowImage::class,
+        GlanceImage::class,
         YoutubeVideo::class,
         Quote::class,
     ],
