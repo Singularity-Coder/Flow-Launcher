@@ -254,16 +254,22 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingTop="12dp">
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="104dp"
-                    android:background="@color/purple_200" />
+                    android:background="@color/purple_200"
+                    android:visibility="gone" />
 
-                <DatePicker
+                <!--DatePicker style="@style/ThemeOverlay.App.DatePicker"-->
+                <!--android:dateTextAppearance="@style/CalenderViewDateCustomText"-->
+                <!--android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"-->
+                <!--android:focusedMonthDateColor="@style/CalenderViewWeekCustomText"-->
+                <!--android:weekNumberColor="@color/purple_500"-->
+                <CalendarView
                     android:id="@+id/date_picker"
-                    style="@style/ThemeOverlay.App.DatePicker"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
@@ -271,7 +277,8 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="22dp"
                     android:scaleX="1.1"
-                    android:scaleY="1.1" />
+                    android:scaleY="1.1"
+                    android:theme="@style/Widget.CalendarView.Custom" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -362,10 +369,11 @@
                 <View
                     android:id="@+id/view_black_fade"
                     android:layout_width="match_parent"
-                    android:layout_height="64dp"
+                    android:layout_height="0dp"
                     android:background="@drawable/background_black_gradient_fade"
                     android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail" />
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_video_title"
