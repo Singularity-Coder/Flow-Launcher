@@ -3,7 +3,7 @@ package com.singularitycoder.flowlauncher
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.singularitycoder.flowlauncher.helper.Broadcast
+import com.singularitycoder.flowlauncher.helper.constants.Broadcast
 
 class CustomBroadcastReceiver : BroadcastReceiver() {
 

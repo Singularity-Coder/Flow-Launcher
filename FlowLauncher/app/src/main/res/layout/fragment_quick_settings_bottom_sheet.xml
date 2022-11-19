@@ -63,7 +63,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_baseline_brightness_7_24"
+                android:src="@drawable/ic_round_wb_sunny_24"
                 app:layout_constraintBottom_toBottomOf="@+id/slider_brightness"
                 app:layout_constraintStart_toStartOf="@+id/slider_brightness"
                 app:layout_constraintTop_toTopOf="@+id/slider_brightness"
@@ -313,6 +313,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
+                app:dividerColor="@color/black_100"
                 app:layout_constraintTop_toBottomOf="@+id/layout_settings" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -325,7 +326,7 @@
                 <com.singularitycoder.flowlauncher.helper.swipebutton.SwipeButton
                     android:id="@+id/swipe_btn_sos"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="54dp"
                     android:layout_margin="16dp"
                     app:button_bottom_padding="14dp"
                     app:button_image_disabled="@drawable/ic_round_sos_24"
@@ -345,7 +346,7 @@
                 <com.singularitycoder.flowlauncher.helper.swipebutton.SwipeButton
                     android:id="@+id/swipe_btn_panic"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="54dp"
                     android:layout_margin="16dp"
                     app:button_bottom_padding="14dp"
                     app:button_image_disabled="@drawable/ic_round_emergency_24"
@@ -353,7 +354,7 @@
                     app:button_left_padding="16dp"
                     app:button_right_padding="16dp"
                     app:button_top_padding="14dp"
-                    app:inner_text="Swipe to unlock panic mode"
+                    app:inner_text="Swipe to enable panic mode"
                     app:inner_text_bottom_padding="16dp"
                     app:inner_text_color="@color/md_red_200"
                     app:inner_text_size="16sp"

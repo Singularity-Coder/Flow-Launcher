@@ -3,7 +3,7 @@ package com.singularitycoder.flowlauncher.di
 import android.content.Context
 import androidx.room.Room
 import com.singularitycoder.flowlauncher.db.*
-import com.singularitycoder.flowlauncher.helper.Db
+import com.singularitycoder.flowlauncher.helper.constants.Db
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,4 +40,16 @@ object DbModule {
     @Singleton
     @Provides
     fun injectTrendingTweetsDao(db: FlowDatabase): TrendingTweetDao = db.trendingTweetsDao()
+
+    @Singleton
+    @Provides
+    fun injectQuoteDao(db: FlowDatabase): QuoteDao = db.quoteDao()
+
+    @Singleton
+    @Provides
+    fun injectYoutubeVideoDao(db: FlowDatabase): YoutubeVideoDao = db.youtubeVideoDao()
+
+    @Singleton
+    @Provides
+    fun injectFlowImageDao(db: FlowDatabase): FlowImageDao = db.flowImageDao()
 }

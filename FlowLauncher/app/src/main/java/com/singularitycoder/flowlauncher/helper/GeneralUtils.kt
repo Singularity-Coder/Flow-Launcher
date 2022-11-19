@@ -15,15 +15,14 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.provider.CallLog
 import android.provider.Settings
 import android.text.Spanned
 import android.util.TypedValue
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.View.MeasureSpec
-import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
 import android.widget.*
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -42,6 +41,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.singularitycoder.flowlauncher.R
+import com.singularitycoder.flowlauncher.view.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -433,6 +433,83 @@ fun Context.missedCallCount(): Int {
     } catch (e: Exception) {
         0
     }
+}
+
+fun Context.isFlashAvailable(): Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
+
+// https://stackoverflow.com/questions/5608720/android-preventing-double-click-on-a-button
+fun View.onSafeClick(
+    delayAfterClick: Long = 1.seconds(),
+    onSafeClick: (Pair<View?, Boolean>) -> Unit
+) {
+    val onSafeClickListener = OnSafeClickListener(delayAfterClick, onSafeClick)
+    setOnClickListener(onSafeClickListener)
+}
+
+class OnSafeClickListener(
+    private val delayAfterClick: Long,
+    private val onSafeClick: (Pair<View?, Boolean>) -> Unit
+) : View.OnClickListener {
+    private var lastClickTime = 0L
+    private var isClicked = false
+
+    override fun onClick(v: View?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            v?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+        }
+        val elapsedRealtime = SystemClock.elapsedRealtime()
+        if (elapsedRealtime - lastClickTime < delayAfterClick) return
+        lastClickTime = elapsedRealtime
+        v?.startAnimation(AlphaAnimation(1F, 0.8F))
+//        v?.setTouchEffect()
+        isClicked = !isClicked
+        onSafeClick(v to isClicked)
+    }
+}
+
+fun MainActivity.showScreen(
+    fragment: Fragment,
+    tag: String,
+    isAdd: Boolean = false
+) {
+    if (isAdd) {
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.slide_to_left, R.anim.slide_to_right, R.anim.slide_to_left, R.anim.slide_to_right)
+            .add(R.id.fl_container, fragment, tag)
+            .addToBackStack(null)
+            .commit()
+    } else {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fl_container, fragment, tag)
+            .commit()
+    }
+}
+
+fun Activity?.avoidScreenShots() {
+    this ?: return
+    window?.setFlags(
+        WindowManager.LayoutParams.FLAG_SECURE,
+        WindowManager.LayoutParams.FLAG_SECURE
+    )
+}
+
+fun Activity?.fullScreen() {
+    this ?: return
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        window.insetsController?.hide(WindowInsets.Type.statusBars())
+    } else {
+        @Suppress("DEPRECATION")
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
+    }
+}
+
+fun String.toYoutubeThumbnailUrl(): String {
+    val imageUrl = "https://img.youtube.com/vi/$this/0.jpg"
+    println("Image url: $imageUrl")
+    return imageUrl
 }
 
 object FlowUtils {

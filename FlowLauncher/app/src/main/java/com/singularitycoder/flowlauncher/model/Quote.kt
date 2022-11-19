@@ -3,10 +3,15 @@ package com.singularitycoder.flowlauncher.model
 import android.os.Parcelable
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.singularitycoder.flowlauncher.helper.constants.Table
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Entity(tableName = Table.QUOTE)
 data class Quote(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val quote: String,
     val author: String,
 ) : Parcelable

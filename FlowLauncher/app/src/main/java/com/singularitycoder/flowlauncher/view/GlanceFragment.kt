@@ -1,7 +1,6 @@
 package com.singularitycoder.flowlauncher.view
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +11,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.work.*
+import coil.load
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentGlanceBinding
 import com.singularitycoder.flowlauncher.helper.*
+import com.singularitycoder.flowlauncher.helper.constants.*
 import com.singularitycoder.flowlauncher.model.Holiday
+import com.singularitycoder.flowlauncher.model.YoutubeVideo
 import com.singularitycoder.flowlauncher.worker.PublicHolidaysWorker
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -51,6 +53,8 @@ class GlanceFragment : Fragment() {
     private val sharedViewModel: SharedViewModel by viewModels()
     private lateinit var binding: FragmentGlanceBinding
 
+    private var youtubeVideoList = listOf<YoutubeVideo>()
+
     private val callSmsPermissionsResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, @JvmSuppressWildcards Boolean>? ->
         permissions ?: return@registerForActivityResult
         permissions.entries.forEach { it: Map.Entry<String, @JvmSuppressWildcards Boolean> ->
@@ -85,9 +89,9 @@ class GlanceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.observeForData()
         binding.setupUI()
         binding.setupUserActionListeners()
-        binding.observeForData()
     }
 
     override fun onResume() {
@@ -97,8 +101,10 @@ class GlanceFragment : Fragment() {
         if (timeNow > lastHolidayFetchTime + TWENTY_FOUR_HOURS_IN_MILLIS) {
             parsePublicHolidaysWithWorker()
         }
+        binding.cardYoutubeVideos.performClick()
     }
 
+    // https://stackoverflow.com/questions/30239627/how-to-change-the-style-of-a-datepicker-in-android
     private fun FragmentGlanceBinding.setupUI() {
         ivGlanceImage.layoutParams.height = deviceWidth() - 32.dpToPx()
         tvImageCount.text = "${1}/${tempImageDrawableList.size}"
@@ -108,7 +114,7 @@ class GlanceFragment : Fragment() {
 
     private fun FragmentGlanceBinding.setupUserActionListeners() {
         var currentImagePosition = 0
-        ivGlanceImage.setOnClickListener {
+        cardGlanceImages.setOnClickListener {
             doAfter(3.seconds()) {
                 cardImageCount.isVisible = false
             }
@@ -121,42 +127,57 @@ class GlanceFragment : Fragment() {
                 currentImagePosition++
             }
         }
-        ivGlanceImage.setOnLongClickListener {
-            // Add or remove images. new bottom sheet
-            false
-        }
+
+        var currentYoutubeVideoPosition = 0
         cardYoutubeVideos.setOnClickListener {
-            // Open youtube video in new screen. Auto oriented horizontally
+//            val youtubeVideoId = youtubeVideoList.getOrNull(currentYoutubeVideoPosition)?.videoId
+            val youtubeVideo = youtubeVideoList.getOrNull(currentYoutubeVideoPosition)
+            val youtubeVideoId = youtubeVideo?.videoId
+            val youtubeVideoThumbnailUrl = youtubeVideoId?.toYoutubeThumbnailUrl()
+            ivThumbnail.load(youtubeVideoThumbnailUrl) {
+                placeholder(com.singularitycoder.flowlauncher.R.color.black)
+                error(com.singularitycoder.flowlauncher.R.color.md_red_dark)
+            }
+            tvVideoTitle.text = youtubeVideo?.title ?: ""
+            btnPlayYoutubeVideo.setOnClickListener {
+                val intent = Intent(requireContext(), YoutubeVideoActivity::class.java).apply {
+                    putExtra(IntentKey.YOUTUBE_VIDEO_ID, youtubeVideoId)
+                    putParcelableArrayListExtra(IntentKey.YOUTUBE_VIDEO_LIST, ArrayList(youtubeVideoList))
+                }
+                startActivity(intent)
+            }
+            if (currentYoutubeVideoPosition == youtubeVideoList.lastIndex) {
+                currentYoutubeVideoPosition = 0
+            } else {
+                currentYoutubeVideoPosition++
+            }
         }
-        cardYoutubeVideos.setOnLongClickListener {
-            // Add or remove youtube video. new bottom sheet
-            false
-        }
+
         btnMenu.setOnClickListener { view: View? ->
             view ?: return@setOnClickListener
-            val glanceOptions = listOf("Add Media", "Add Remainders", "Add Youtube Videos")
+            val glanceOptions = listOf("Add Image", "Add Remainders", "Add Youtube Videos")
             requireContext().showPopup(
                 view = view,
                 menuList = glanceOptions
             ) { position: Int ->
                 when (glanceOptions[position]) {
                     glanceOptions[0] -> {
-                        root.showSnackBar(glanceOptions[0])
+                        (requireActivity() as? MainActivity)?.showScreen(AddFragment.newInstance(AddItemType.FLOW_IMAGE), FragmentsTag.ADD_ITEM, isAdd = true)
                     }
                     glanceOptions[1] -> {
                         root.showSnackBar(glanceOptions[1])
                     }
                     glanceOptions[2] -> {
-                        root.showSnackBar(glanceOptions[2])
+                        (requireActivity() as? MainActivity)?.showScreen(AddFragment.newInstance(AddItemType.YOUTUBE_VIDEO), FragmentsTag.ADD_ITEM, isAdd = true)
                     }
                 }
             }
         }
-        binding.layoutUnreadSms.root.setOnClickListener {
+        layoutUnreadSms.root.setOnClickListener {
             // TODO fix this
             requireContext().sendSms("", "")
         }
-        binding.layoutMissedCalls.root.setOnClickListener {
+        layoutMissedCalls.root.setOnClickListener {
             // TODO fix this
             requireContext().openDialer("")
         }
@@ -166,6 +187,12 @@ class GlanceFragment : Fragment() {
         sharedViewModel.holidayListLiveData.observe(viewLifecycleOwner) { it: List<Holiday>? ->
             if (it.isNullOrEmpty()) return@observe
             updateHolidaysView(it)
+        }
+        sharedViewModel.youtubeVideoListLiveData.observe(viewLifecycleOwner) { it: List<YoutubeVideo>? ->
+            if (it.isNullOrEmpty()) return@observe
+            youtubeVideoList = it.ifEmpty {
+                allYoutubeVideos
+            }
         }
     }
 

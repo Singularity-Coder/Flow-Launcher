@@ -6,7 +6,7 @@ import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.singularitycoder.flowlauncher.db.FlowDatabase
 import com.singularitycoder.flowlauncher.db.HolidayDao
-import com.singularitycoder.flowlauncher.helper.KEY_IS_WORK_COMPLETE
+import com.singularitycoder.flowlauncher.helper.constants.KEY_IS_WORK_COMPLETE
 import com.singularitycoder.flowlauncher.helper.Preferences
 import com.singularitycoder.flowlauncher.helper.timeNow
 import com.singularitycoder.flowlauncher.model.Holiday

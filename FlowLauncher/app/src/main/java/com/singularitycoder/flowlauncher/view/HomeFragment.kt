@@ -27,10 +27,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.singularitycoder.flowlauncher.*
+import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.databinding.FragmentHomeBinding
 import com.singularitycoder.flowlauncher.db.ContactDao
 import com.singularitycoder.flowlauncher.helper.*
+import com.singularitycoder.flowlauncher.helper.constants.BottomSheetTag
+import com.singularitycoder.flowlauncher.helper.constants.Broadcast
+import com.singularitycoder.flowlauncher.helper.constants.SpeechAction
 import com.singularitycoder.flowlauncher.model.App
 import com.singularitycoder.flowlauncher.model.Contact
 import dagger.hilt.android.AndroidEntryPoint
@@ -244,7 +247,7 @@ class HomeFragment : Fragment() {
             speechToTextResult.launch(intent)
         }
         fabVoiceSearch.setOnLongClickListener {
-            QuickSettingsBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, TAG_QUICK_SETTINGS_BOTTOM_SHEET)
+            QuickSettingsBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.QUICK_SETTINGS_BOTTOM_SHEET)
             false
         }
         rvApps.setOnLongClickListener {

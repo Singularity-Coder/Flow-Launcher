@@ -6,7 +6,7 @@ import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.singularitycoder.flowlauncher.db.FlowDatabase
 import com.singularitycoder.flowlauncher.db.NewsDao
-import com.singularitycoder.flowlauncher.helper.KEY_IS_WORK_COMPLETE
+import com.singularitycoder.flowlauncher.helper.constants.KEY_IS_WORK_COMPLETE
 import com.singularitycoder.flowlauncher.model.News
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -16,7 +16,6 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Element
 
 // https://www.youtube.com/watch?v=SWEqYNbURCg
 class NewsWorker(val context: Context, workerParams: WorkerParameters) : CoroutineWorker(context, workerParams) {

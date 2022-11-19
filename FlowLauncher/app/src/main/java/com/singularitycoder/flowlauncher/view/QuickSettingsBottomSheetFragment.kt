@@ -1,28 +1,27 @@
 package com.singularitycoder.flowlauncher.view
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.slider.Slider
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.databinding.FragmentQuickSettingsBottomSheetBinding
-import com.singularitycoder.flowlauncher.helper.color
-import com.singularitycoder.flowlauncher.helper.dpToPx
-import com.singularitycoder.flowlauncher.helper.drawable
-import com.singularitycoder.flowlauncher.helper.setTransparentBackground
+import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.swipebutton.OnStateChangeListener
 import dagger.hilt.android.AndroidEntryPoint
+
 
 // Try Blur background
 
@@ -98,7 +97,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             setImageDrawable(requireContext().drawable(R.drawable.cell_tower_black_24dp))
         }
         layoutBluetooth.apply {
-            ivIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_baseline_bluetooth_24))
+            ivIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_bluetooth_24))
             tvPlaceholder.text = "Bluetooth"
             tvName.text = "Not Connected"
         }
@@ -106,7 +105,9 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             setImageDrawable(requireContext().drawable(R.drawable.ic_round_airplanemode_active_24))
         }
         layoutTorch.ivAppIcon.apply {
+            // https://stackoverflow.com/questions/6068803/how-to-turn-on-front-flash-light-programmatically-in-android#:~:text=For%20turning%20on%2Foff%20flashlight%3A&text=The%20main%20parameter%20used%20here,to%20turn%20on%20camera%20flashlight.
             setImageDrawable(requireContext().drawable(R.drawable.ic_round_flashlight_on_24))
+            if (requireContext().isFlashAvailable().not()) return@apply
         }
         layoutLocation.ivAppIcon.apply {
             setImageDrawable(requireContext().drawable(R.drawable.location_on_black_24dp))
@@ -163,6 +164,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
+    // https://stackoverflow.com/questions/41693154/custom-seekbar-thumb-size-color-and-background
     private fun FragmentQuickSettingsBottomSheetBinding.setupUserActionListeners() {
 //        sliderBrightness.apply {
 //            valueFrom = 0.0F
@@ -195,32 +197,106 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 //            }
 //        }
         swipeBtnSos.apply {
-            setButtonBackground(requireContext().drawable(R.drawable.gradient_red))
+            setButtonBackground(requireContext().drawable(R.drawable.gradient_red_panic))
             setOnStateChangeListener(object : OnStateChangeListener {
                 override fun onStateChange(active: Boolean) {
                     Toast.makeText(requireContext(), "State: " + active, Toast.LENGTH_SHORT).show()
                     if (active) {
-                        setButtonBackground(requireContext().drawable(R.drawable.gradient_red))
+                        setButtonBackground(requireContext().drawable(R.drawable.gradient_red_panic))
                     } else {
-                        setButtonBackground(requireContext().drawable(R.drawable.gradient_red))
+                        setButtonBackground(requireContext().drawable(R.drawable.gradient_red_panic))
                     }
                 }
             })
             setDisabledStateNotAnimated()
         }
         swipeBtnPanic.apply {
-            setButtonBackground(requireContext().drawable(R.drawable.gradient_red))
+            setButtonBackground(requireContext().drawable(R.drawable.gradient_red_panic))
             setOnStateChangeListener(object : OnStateChangeListener {
                 override fun onStateChange(active: Boolean) {
                     Toast.makeText(requireContext(), "State: " + active, Toast.LENGTH_SHORT).show()
                     if (active) {
-                        setButtonBackground(requireContext().drawable(R.drawable.gradient_red))
+                        setButtonBackground(requireContext().drawable(R.drawable.gradient_red_panic))
                     } else {
-                        setButtonBackground(requireContext().drawable(R.drawable.gradient_red))
+                        setButtonBackground(requireContext().drawable(R.drawable.gradient_red_panic))
                     }
                 }
             })
             setDisabledStateNotAnimated()
+        }
+        sliderBrightness.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                println("seekbar progress: $progress")
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                println("seekbar touch started!")
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                println("seekbar touch stopped!")
+            }
+        })
+        sliderVolume.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                println("seekbar progress: $progress")
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                println("seekbar touch started!")
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                println("seekbar touch stopped!")
+            }
+        })
+        layoutWifi.root.onSafeClick {
+
+        }
+        layoutNetwork.root.onSafeClick {
+
+        }
+        layoutBluetooth.root.onSafeClick {
+
+        }
+        layoutAirplaneMode.root.onSafeClick {
+
+        }
+        layoutTorch.root.onSafeClick {
+
+        }
+        layoutLocation.root.onSafeClick {
+
+        }
+        layoutCamera.root.onSafeClick {
+
+        }
+        layoutBarcodeScanner.root.onSafeClick {
+
+        }
+        layoutAlarm.root.onSafeClick {
+
+        }
+        layoutTimer.root.onSafeClick {
+
+        }
+        layoutQuickNote.root.onSafeClick {
+
+        }
+        layoutRotateScreen.root.onSafeClick {
+
+        }
+        layoutSettings.root.onSafeClick {
+
+        }
+        layoutNotifications.root.onSafeClick {
+
+        }
+        layoutLockScreen.root.onSafeClick {
+
+        }
+        layoutPower.root.onSafeClick {
+
         }
     }
 

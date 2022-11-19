@@ -12,6 +12,9 @@ import com.singularitycoder.flowlauncher.model.*
         Weather::class,
         Holiday::class,
         TrendingTweet::class,
+        FlowImage::class,
+        YoutubeVideo::class,
+        Quote::class,
     ],
     version = 1,
     exportSchema = false
@@ -27,5 +30,8 @@ abstract class FlowDatabase : RoomDatabase() {
     abstract fun weatherDao(): WeatherDao
     abstract fun holidayDao(): HolidayDao
     abstract fun trendingTweetsDao(): TrendingTweetDao
+    abstract fun flowImageDao(): FlowImageDao
+    abstract fun quoteDao(): QuoteDao
+    abstract fun youtubeVideoDao(): YoutubeVideoDao
 }
 

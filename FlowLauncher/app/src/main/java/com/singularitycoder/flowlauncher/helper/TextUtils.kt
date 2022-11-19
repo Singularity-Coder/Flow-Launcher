@@ -1,10 +1,8 @@
 package com.singularitycoder.flowlauncher.helper
 
-import android.R
 import android.app.Activity
 import android.content.ClipboardManager
 import android.content.Context
-import android.graphics.Typeface
 import android.os.Build
 import android.text.InputType
 import android.text.method.DigitsKeyListener
@@ -16,7 +14,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.FontRes
-import androidx.annotation.RawRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowInsetsCompat
 import kotlinx.coroutines.CoroutineScope
@@ -86,7 +83,8 @@ val View.isKeyboardVisible: Boolean
         false
     }
 
-fun TextView.typeface(context: Context, @FontRes typefaceRes: Int) {
+// https://stackoverflow.com/questions/12128331/how-to-change-fontfamily-of-textview-in-android
+fun TextView.setTypeface(context: Context, @FontRes typefaceRes: Int) {
     val typeface = ResourcesCompat.getFont(context, typefaceRes)
     setTypeface(typeface)
 }

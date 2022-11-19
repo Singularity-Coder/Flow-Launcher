@@ -16,6 +16,7 @@
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
 
     <!--For all/other package/app visibility - https://developer.android.com/training/package-visibility-->
     <!--https://stackoverflow.com/questions/63246442/android-11-r-return-empty-list-when-querying-intent-for-action-image-capture-->
@@ -72,6 +73,16 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
+            android:name=".view.ExoPlayerActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:turnScreenOn="true" />
+        <activity
+            android:name=".view.YoutubeVideoActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:turnScreenOn="true" />
 
         <receiver
             android:name=".CustomBroadcastReceiver"

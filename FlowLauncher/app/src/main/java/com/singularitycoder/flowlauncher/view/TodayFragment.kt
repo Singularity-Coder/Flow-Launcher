@@ -1,7 +1,6 @@
 package com.singularitycoder.flowlauncher.view
 
 import android.content.res.ColorStateList
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +15,8 @@ import com.google.android.material.chip.Chip
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentTodayBinding
 import com.singularitycoder.flowlauncher.helper.*
-import com.singularitycoder.flowlauncher.helper.blur.BlurBox
-import com.singularitycoder.flowlauncher.helper.blur.BlurEngine
 import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
+import com.singularitycoder.flowlauncher.helper.constants.*
 import com.singularitycoder.flowlauncher.model.News
 import com.singularitycoder.flowlauncher.model.TrendingTweet
 import com.singularitycoder.flowlauncher.model.Weather
@@ -26,10 +24,7 @@ import com.singularitycoder.flowlauncher.worker.NewsWorker
 import com.singularitycoder.flowlauncher.worker.TrendingTweetsWorker
 import com.singularitycoder.flowlauncher.worker.WeatherWorker
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.system.measureTimeMillis
 
 // Refresh on every swipe
 // Rearrangable cards
@@ -124,6 +119,7 @@ class TodayFragment : Fragment() {
                         root.showSnackBar(todayOptions[0])
                     }
                     todayOptions[1] -> {
+                        (requireActivity() as? MainActivity)?.showScreen(AddFragment.newInstance(AddItemType.QUOTE), FragmentsTag.ADD_ITEM, isAdd = true)
                         root.showSnackBar(todayOptions[1])
                     }
                 }
@@ -149,7 +145,7 @@ class TodayFragment : Fragment() {
             // TODO replace this with db list
             tvQuote.text = "${animeQuoteList[calculatedQuotePosition].quote}\n\n- ${animeQuoteList[calculatedQuotePosition].author}"
             tvQuote.setTextColor(requireContext().color(quoteColorList[calculatedGradientPosition].textColor))
-            tvQuote.typeface(requireContext(), typefaceList[calculatedTypefacePosition])
+            tvQuote.setTypeface(requireContext(), typefaceList[calculatedTypefacePosition])
             clQuotes.background = requireContext().drawable(quoteColorList[calculatedGradientPosition].gradientColor)
             ivQuoteBackground.imageTintList = ColorStateList.valueOf(requireContext().color(quoteColorList[calculatedGradientPosition].iconColor))
             quotePosition++

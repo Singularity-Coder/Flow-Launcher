@@ -13,7 +13,7 @@ import com.gargoylesoftware.htmlunit.WebClient
 import com.gargoylesoftware.htmlunit.html.HtmlPage
 import com.singularitycoder.flowlauncher.db.FlowDatabase
 import com.singularitycoder.flowlauncher.db.TrendingTweetDao
-import com.singularitycoder.flowlauncher.helper.KEY_IS_WORK_COMPLETE
+import com.singularitycoder.flowlauncher.helper.constants.KEY_IS_WORK_COMPLETE
 import com.singularitycoder.flowlauncher.model.TrendingTweet
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn

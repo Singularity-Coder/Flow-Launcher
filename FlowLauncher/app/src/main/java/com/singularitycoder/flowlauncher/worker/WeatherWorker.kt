@@ -5,7 +5,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.singularitycoder.flowlauncher.db.FlowDatabase
-import com.singularitycoder.flowlauncher.helper.KEY_IS_WORK_COMPLETE
+import com.singularitycoder.flowlauncher.helper.constants.KEY_IS_WORK_COMPLETE
 import com.singularitycoder.flowlauncher.model.Weather
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn

@@ -2,7 +2,7 @@ package com.singularitycoder.flowlauncher.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.singularitycoder.flowlauncher.helper.Table
+import com.singularitycoder.flowlauncher.helper.constants.Table
 import com.singularitycoder.flowlauncher.model.Contact
 
 @Dao

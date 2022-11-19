@@ -25,25 +25,32 @@ import com.singularitycoder.flowlauncher.helper.color
  * more info: https://stackoverflow.com/questions/14910226/how-to-make-slide-to-unlock-button-in-android
  */
 class SwipeButton : RelativeLayout {
-    private var swipeButtonInner: ImageView? = null
-    private var initialX = 0f
-    var isActive = false
-        private set
-    private var centerText: TextView? = null
-    private var background: ViewGroup? = null
-    private var disabledDrawable: Drawable? = null
-    private var enabledDrawable: Drawable? = null
-    private var onStateChangeListener: OnStateChangeListener? = null
-    private var onActiveListener: OnActiveListener? = null
-    private var collapsedWidth = 0
-    private var collapsedHeight = 0
-    private var layer: LinearLayout? = null
+
     private var trailEnabled = false
     private var hasActivationState = false
+    var isActive = false
+        private set
+
+    private var initialX = 0f
+    private var collapsedWidth = 0
+    private var collapsedHeight = 0
+
     private var buttonLeftPadding = 0f
     private var buttonTopPadding = 0f
     private var buttonRightPadding = 0f
     private var buttonBottomPadding = 0f
+
+    private var swipeButtonInner: ImageView? = null
+    private var layer: LinearLayout? = null
+
+    private var centerText: TextView? = null
+    private var background: ViewGroup? = null
+
+    private var disabledDrawable: Drawable? = null
+    private var enabledDrawable: Drawable? = null
+
+    private var onStateChangeListener: OnStateChangeListener? = null
+    private var onActiveListener: OnActiveListener? = null
 
     constructor(context: Context) : super(context) {
         init(context, null, -1, -1)

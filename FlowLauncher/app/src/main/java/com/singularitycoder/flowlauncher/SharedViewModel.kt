@@ -3,15 +3,11 @@ package com.singularitycoder.flowlauncher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.singularitycoder.flowlauncher.db.HolidayDao
-import com.singularitycoder.flowlauncher.db.NewsDao
-import com.singularitycoder.flowlauncher.db.TrendingTweetDao
-import com.singularitycoder.flowlauncher.db.WeatherDao
-import com.singularitycoder.flowlauncher.model.Holiday
-import com.singularitycoder.flowlauncher.model.News
-import com.singularitycoder.flowlauncher.model.TrendingTweet
-import com.singularitycoder.flowlauncher.model.Weather
+import androidx.lifecycle.viewModelScope
+import com.singularitycoder.flowlauncher.db.*
+import com.singularitycoder.flowlauncher.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +16,9 @@ class SharedViewModel @Inject constructor(
     newsDao: NewsDao,
     holidayDao: HolidayDao,
     trendingTweetDao: TrendingTweetDao,
+    private val flowImageDao: FlowImageDao,
+    private val youtubeVideoDao: YoutubeVideoDao,
+    private val quoteDao: QuoteDao
 ) : ViewModel() {
 
     var weatherLiveData: LiveData<Weather> = MutableLiveData<Weather>()
@@ -31,10 +30,34 @@ class SharedViewModel @Inject constructor(
     var trendingTweetListLiveData: LiveData<List<TrendingTweet>> = MutableLiveData<List<TrendingTweet>>()
         private set
 
+    var flowImageListLiveData: LiveData<List<FlowImage>> = MutableLiveData<List<FlowImage>>()
+        private set
+    var youtubeVideoListLiveData: LiveData<List<YoutubeVideo>> = MutableLiveData<List<YoutubeVideo>>()
+        private set
+    var quoteListLiveData: LiveData<List<Quote>> = MutableLiveData<List<Quote>>()
+        private set
+
+
     init {
         weatherLiveData = weatherDao.getLatestWeatherLiveData()
         newsListLiveData = newsDao.getAllNewsLiveData()
         holidayListLiveData = holidayDao.getAllHolidaysLiveData()
         trendingTweetListLiveData = trendingTweetDao.getAllTrendingTweetsLiveData()
+
+        flowImageListLiveData = flowImageDao.getAllLiveData()
+        youtubeVideoListLiveData = youtubeVideoDao.getAllLiveData()
+        quoteListLiveData = quoteDao.getAllLiveData()
+    }
+
+    fun addQuoteToDb(quote: Quote) = viewModelScope.launch {
+        quoteDao.insert(quote)
+    }
+
+    fun addFlowImageToDb(flowImage: FlowImage) = viewModelScope.launch {
+        flowImageDao.insert(flowImage)
+    }
+
+    fun addYoutubeVideoToDb(youtubeVideo: YoutubeVideo) = viewModelScope.launch {
+        youtubeVideoDao.insert(youtubeVideo)
     }
 }

@@ -156,6 +156,7 @@
     <color name="black">#FF000000</color>
     <color name="black_50">#F1F1F1</color>
     <color name="black_100">#E6E6E6</color>
+    <color name="black_150">#D8D8D8</color>
     <color name="white">#FFFFFFFF</color>
 
     <color name="title_color">#1D1D1F</color>
