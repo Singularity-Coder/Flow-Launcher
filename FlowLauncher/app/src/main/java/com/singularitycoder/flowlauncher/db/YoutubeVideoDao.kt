@@ -35,4 +35,7 @@ interface YoutubeVideoDao {
 
     @Query("DELETE FROM ${Table.YOUTUBE_VIDEO}")
     suspend fun deleteAll()
+
+    @Query("DELETE FROM ${Table.YOUTUBE_VIDEO} WHERE videoId LIKE :videoId")
+    suspend fun deleteByVideoId(videoId: String): Int
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--https://developer.android.com/reference/androidx/core/content/FileProvider-->
+    <files-path
+        name="take_images"
+        path="." />
+    <files-path
+        name="take_videos"
+        path="." />
+</paths>

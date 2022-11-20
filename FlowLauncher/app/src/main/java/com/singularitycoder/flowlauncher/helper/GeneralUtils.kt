@@ -23,6 +23,7 @@ import android.util.TypedValue
 import android.view.*
 import android.view.View.MeasureSpec
 import android.view.animation.AlphaAnimation
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -512,6 +513,20 @@ fun String.toYoutubeThumbnailUrl(): String {
     val imageUrl = "https://img.youtube.com/vi/$this/0.jpg"
     println("Image url: $imageUrl")
     return imageUrl
+}
+
+// https://stackoverflow.com/questions/2004344/how-do-i-handle-imeoptions-done-button-click
+fun EditText.onImeClick(
+    imeAction: Int = EditorInfo.IME_ACTION_DONE,
+    callback: () -> Unit
+) {
+    setOnEditorActionListener { _, actionId, _ ->
+        if (actionId == imeAction) {
+            callback.invoke()
+            return@setOnEditorActionListener true
+        }
+        false
+    }
 }
 
 object FlowUtils {

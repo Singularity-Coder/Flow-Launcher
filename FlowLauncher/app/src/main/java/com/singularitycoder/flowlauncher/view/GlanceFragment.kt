@@ -16,6 +16,7 @@ import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentGlanceBinding
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.*
+import com.singularitycoder.flowlauncher.model.GlanceImage
 import com.singularitycoder.flowlauncher.model.Holiday
 import com.singularitycoder.flowlauncher.model.YoutubeVideo
 import com.singularitycoder.flowlauncher.worker.PublicHolidaysWorker
@@ -54,6 +55,7 @@ class GlanceFragment : Fragment() {
     private lateinit var binding: FragmentGlanceBinding
 
     private var youtubeVideoList = listOf<YoutubeVideo>()
+    private var glanceImageList = listOf<GlanceImage>()
 
     private val callSmsPermissionsResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, @JvmSuppressWildcards Boolean>? ->
         permissions ?: return@registerForActivityResult
@@ -102,12 +104,12 @@ class GlanceFragment : Fragment() {
             parsePublicHolidaysWithWorker()
         }
         binding.cardYoutubeVideos.performClick()
+        binding.cardGlanceImages.performClick()
     }
 
     // https://stackoverflow.com/questions/30239627/how-to-change-the-style-of-a-datepicker-in-android
     private fun FragmentGlanceBinding.setupUI() {
         ivGlanceImage.layoutParams.height = deviceWidth() - 32.dpToPx()
-        tvImageCount.text = "${1}/${tempImageDrawableList.size}"
         setupRemaindersCard()
         setupTakeActionCard()
     }
@@ -119,9 +121,13 @@ class GlanceFragment : Fragment() {
                 cardImageCount.isVisible = false
             }
             cardImageCount.isVisible = true
-            tvImageCount.text = "${currentImagePosition + 1}/${tempImageDrawableList.size}"
-            ivGlanceImage.setImageDrawable(requireContext().drawable(tempImageDrawableList[currentImagePosition]))
-            if (currentImagePosition == tempImageDrawableList.lastIndex) {
+            tvImageCount.text = "${currentImagePosition + 1}/${glanceImageList.size}"
+//            ivGlanceImage.setImageDrawable(requireContext().drawable(tempImageDrawableList[currentImagePosition]))
+            ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
+                placeholder(com.singularitycoder.flowlauncher.R.color.black)
+                error(com.singularitycoder.flowlauncher.R.color.md_red_dark)
+            }
+            if (currentImagePosition == glanceImageList.lastIndex) {
                 currentImagePosition = 0
             } else {
                 currentImagePosition++
@@ -187,10 +193,17 @@ class GlanceFragment : Fragment() {
             updateHolidaysView(it)
         }
         sharedViewModel.youtubeVideoListLiveData.observe(viewLifecycleOwner) { it: List<YoutubeVideo>? ->
-            it ?: return@observe
-            youtubeVideoList = it.ifEmpty {
+            youtubeVideoList = it?.ifEmpty {
                 allYoutubeVideos
-            }
+            } ?: emptyList()
+        }
+        sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { imageList: List<GlanceImage>? ->
+            glanceImageList = imageList?.ifEmpty {
+                tempImageUrlList.map {
+                    GlanceImage(link = it, title = "")
+                }
+            } ?: emptyList()
+            tvImageCount.text = "${1}/${glanceImageList.size}"
         }
     }
 

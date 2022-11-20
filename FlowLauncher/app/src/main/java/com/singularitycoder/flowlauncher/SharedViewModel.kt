@@ -63,29 +63,15 @@ class SharedViewModel @Inject constructor(
 
     //--------------------------------------------------------------------------------
 
-    fun deleteQuoteFromDb(title: String) = viewModelScope.launch {
-        quoteDao.deleteByQuote(title)
+    fun deleteQuoteFromDb(link: String) = viewModelScope.launch {
+        quoteDao.deleteByTitle(link)
     }
 
-    fun deleteGlanceImageFromDb(glanceImage: GlanceImage) = viewModelScope.launch {
-        glanceImageDao.delete(glanceImage)
+    fun deleteGlanceImageFromDb(link: String) = viewModelScope.launch {
+        glanceImageDao.deleteByLink(link)
     }
 
-    fun deleteYoutubeVideoFromDb(youtubeVideo: YoutubeVideo) = viewModelScope.launch {
-        youtubeVideoDao.delete(youtubeVideo)
-    }
-
-    //--------------------------------------------------------------------------------
-
-    fun updateQuoteToDb(quote: Quote) = viewModelScope.launch {
-        quoteDao.update(quote)
-    }
-
-    fun updateGlanceImageToDb(glanceImage: GlanceImage) = viewModelScope.launch {
-        glanceImageDao.update(glanceImage)
-    }
-
-    fun updateYoutubeVideoToDb(youtubeVideo: YoutubeVideo) = viewModelScope.launch {
-        youtubeVideoDao.update(youtubeVideo)
+    fun deleteYoutubeVideoFromDb(videoId: String) = viewModelScope.launch {
+        youtubeVideoDao.deleteByVideoId(videoId)
     }
 }

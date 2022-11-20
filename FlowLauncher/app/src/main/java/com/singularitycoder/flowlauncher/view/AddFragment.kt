@@ -1,24 +1,33 @@
 package com.singularitycoder.flowlauncher.view
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentAddBinding
+import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.AddItemType
-import com.singularitycoder.flowlauncher.helper.hideKeyboard
-import com.singularitycoder.flowlauncher.helper.showAlertDialog
-import com.singularitycoder.flowlauncher.helper.showKeyboard
+import com.singularitycoder.flowlauncher.helper.constants.SpeechAction
+import com.singularitycoder.flowlauncher.model.Contact
 import com.singularitycoder.flowlauncher.model.GlanceImage
 import com.singularitycoder.flowlauncher.model.Quote
 import com.singularitycoder.flowlauncher.model.YoutubeVideo
+import kotlinx.coroutines.launch
 
 // TODO double back press to exit
 // TODO upload routines from csv
@@ -41,6 +50,35 @@ class AddFragment : Fragment() {
 
     private var listType: String? = null
 
+    private val readStoragePermissionResult = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isPermissionGranted: Boolean? ->
+        isPermissionGranted ?: return@registerForActivityResult
+        if (isPermissionGranted.not()) {
+            requireContext().showPermissionSettings()
+            return@registerForActivityResult
+        }
+
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "image/*"
+        }
+        if (intent.resolveActivity(requireContext().packageManager) == null) return@registerForActivityResult
+        imageSelectionResult.launch(intent)
+    }
+
+    private val imageSelectionResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it: ActivityResult? ->
+        if (it?.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+        val data = it.data ?: return@registerForActivityResult
+        val file = requireContext().readFileFromExternalDbAndWriteFileToInternalDb(data.data ?: Uri.EMPTY) ?: return@registerForActivityResult
+
+        println("originalImageUri: ${data.data}")
+
+        val glanceImage = GlanceImage(
+            link = file.absolutePath,
+            title = file.name
+        )
+        sharedViewModel.addGlanceImageToDb(glanceImage)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -60,6 +98,7 @@ class AddFragment : Fragment() {
         binding.setupUserActionListeners()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun FragmentAddBinding.observeForData() {
         sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { glanceImageList: List<GlanceImage>? ->
             if (glanceImageList.isNullOrEmpty()) return@observe
@@ -72,7 +111,8 @@ class AddFragment : Fragment() {
                 addItemList.add(item)
                 item
             }
-            addItemAdapter.notifyItemInserted(if (addItemAdapter.itemsList.isEmpty()) 0 else addItemAdapter.itemsList.lastIndex)
+//            addItemAdapter.notifyItemInserted(if (addItemAdapter.itemsList.isEmpty()) 0 else addItemAdapter.itemsList.lastIndex)
+            addItemAdapter.notifyDataSetChanged()
             etAddItem.setText("")
         }
         sharedViewModel.quoteListLiveData.observe(viewLifecycleOwner) { quoteList: List<Quote>? ->
@@ -86,7 +126,8 @@ class AddFragment : Fragment() {
                 addItemList.add(item)
                 item
             }
-            addItemAdapter.notifyItemInserted(if (addItemAdapter.itemsList.isEmpty()) 0 else addItemAdapter.itemsList.lastIndex)
+//            addItemAdapter.notifyItemInserted(if (addItemAdapter.itemsList.isEmpty()) 0 else addItemAdapter.itemsList.lastIndex)
+            addItemAdapter.notifyDataSetChanged()
             etAddItem.setText("")
         }
         sharedViewModel.youtubeVideoListLiveData.observe(viewLifecycleOwner) { youtubeVideoList: List<YoutubeVideo>? ->
@@ -100,7 +141,8 @@ class AddFragment : Fragment() {
                 addItemList.add(item)
                 item
             }
-            addItemAdapter.notifyItemInserted(if (addItemAdapter.itemsList.isEmpty()) 0 else addItemAdapter.itemsList.lastIndex)
+//            addItemAdapter.notifyItemInserted(if (addItemAdapter.itemsList.isEmpty()) 0 else addItemAdapter.itemsList.lastIndex)
+            addItemAdapter.notifyDataSetChanged()
             etAddItem.setText("")
         }
     }
@@ -129,7 +171,74 @@ class AddFragment : Fragment() {
         rvRoutineSteps.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = addItemAdapter
+            addItemAdapter.setListType(listType)
         }
+    }
+
+    private fun FragmentAddBinding.setupUserActionListeners() {
+        ibAddStep.setOnClickListener {
+            when (listType) {
+                AddItemType.QUOTE -> {
+                    val quote = Quote(
+                        title = etAddItem.text.toString().substringBeforeLast("by").trim(),
+                        author = etAddItem.text.toString().substringAfterLast("by").trim()
+                    )
+                    sharedViewModel.addQuoteToDb(quote)
+                }
+                AddItemType.YOUTUBE_VIDEO -> {
+                    val youtubeVideo = YoutubeVideo(
+                        videoId = etAddItem.text.toString().substringBefore(" ").substringAfter("watch?v=").trim(),
+                        title = etAddItem.text.toString().substringAfter(" ").trim()
+                    )
+                    sharedViewModel.addYoutubeVideoToDb(youtubeVideo)
+                }
+            }
+        }
+        fabAddFlowImage.setOnClickListener {
+            when (listType) {
+                AddItemType.GLANCE_IMAGE -> {
+                    readStoragePermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
+            }
+        }
+        ibBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStackImmediate()
+        }
+        addItemAdapter.setItemClickListener { it: AddItem ->
+            etAddItem.requestFocus()
+            etAddItem.showKeyboard()
+        }
+        addItemAdapter.setItemLongClickListener { it: AddItem ->
+            requireContext().showAlertDialog(
+                title = "Delete Item",
+                message = "This action cannot be undone. Are you sure?",
+                positiveBtnText = "Delete",
+                negativeBtnText = "Cancel",
+                positiveAction = {
+                    when (listType) {
+                        AddItemType.QUOTE -> {
+                           sharedViewModel.deleteQuoteFromDb(link = it.link)
+                        }
+                        AddItemType.YOUTUBE_VIDEO -> {
+                            sharedViewModel.deleteYoutubeVideoFromDb(videoId = it.link)
+                        }
+                        AddItemType.GLANCE_IMAGE -> {
+                            sharedViewModel.deleteGlanceImageFromDb(link = it.link)
+                        }
+                    }
+                }
+            )
+        }
+        rvRoutineSteps.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                etAddItem.requestFocus()
+                etAddItem.hideKeyboard()
+            }
+        })
+        etAddItem.onImeClick {
+            ibAddStep.performClick()
+        }
+
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
             /* Drag Directions */ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
             /* Swipe Directions */0
@@ -155,77 +264,6 @@ class AddFragment : Fragment() {
             ) = Unit
         }
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvRoutineSteps)
-    }
-
-    private fun FragmentAddBinding.setupUserActionListeners() {
-        ibAddStep.setOnClickListener {
-            when (listType) {
-                AddItemType.QUOTE -> {
-                    val quote = Quote(
-                        title = etAddItem.text.toString().substringBeforeLast("by").trim(),
-                        author = etAddItem.text.toString().substringAfterLast("by").trim()
-                    )
-                    sharedViewModel.addQuoteToDb(quote)
-                }
-                AddItemType.YOUTUBE_VIDEO -> {
-                    val youtubeVideo = YoutubeVideo(
-                        videoId = etAddItem.text.toString().substringBefore(" ").substringAfter("watch?v=").trim(),
-                        title = etAddItem.text.toString().substringAfter(" ").trim()
-                    )
-                    sharedViewModel.addYoutubeVideoToDb(youtubeVideo)
-                }
-            }
-        }
-        fabAddFlowImage.setOnClickListener {
-            when (listType) {
-                AddItemType.GLANCE_IMAGE -> {
-//                    val flowImage = FlowImage(
-//                        link = etAddItem.text.toString(),
-//                        title = ""
-//                    )
-//                    sharedViewModel.addFlowImageToDb(flowImage)
-                    // TODO show multi image picker
-                }
-            }
-        }
-        ibBack.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStackImmediate()
-        }
-        addItemAdapter.setItemClickListener { it: AddItem ->
-            etAddItem.requestFocus()
-            etAddItem.showKeyboard()
-        }
-        addItemAdapter.setItemLongClickListener { it: AddItem ->
-            requireContext().showAlertDialog(
-                title = "Delete Item",
-                message = "This action cannot be undone. Are you sure?",
-                positiveBtnText = "Delete",
-                negativeBtnText = "Cancel",
-                positiveAction = {
-                    when (listType) {
-                        AddItemType.QUOTE -> {
-                           sharedViewModel.deleteQuoteFromDb(title = it.title)
-                        }
-                        AddItemType.YOUTUBE_VIDEO -> {
-
-                        }
-                        AddItemType.GLANCE_IMAGE -> {
-
-                        }
-                    }
-                }
-            )
-        }
-        addItemAdapter.setCancelClickListener {
-            etAddItem.requestFocus()
-            etAddItem.hideKeyboard()
-        }
-        addItemAdapter.setUpdateClickListener {
-            etAddItem.requestFocus()
-            etAddItem.hideKeyboard()
-        }
-        // TODO IME check close keyboard
-        // TODO on scroll down close keyboard
     }
 }
 

@@ -5,15 +5,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.singularitycoder.flowlauncher.databinding.ListItemAddBinding
+import com.singularitycoder.flowlauncher.helper.constants.AddItemType
 
 class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var itemsList = emptyList<AddItem>()
     private var itemClickListener: (addItem: AddItem) -> Unit = {}
     private var itemLongClickListener: (addItem: AddItem) -> Unit = {}
-    private var updateClickListener: (addItem: AddItem) -> Unit = {}
-    private var cancelClickListener: (addItem: AddItem) -> Unit = {}
+    private var listType: String? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding = ListItemAddBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -36,12 +37,8 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         itemLongClickListener = listener
     }
 
-    fun setUpdateClickListener(listener: (addItem: AddItem) -> Unit) {
-        updateClickListener = listener
-    }
-
-    fun setCancelClickListener(listener: (addItem: AddItem) -> Unit) {
-        cancelClickListener = listener
+    fun setListType(listType: String?) {
+        this.listType = listType
     }
 
     inner class ItemViewHolder(
@@ -55,10 +52,15 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 tvStepNumber.text = bindingAdapterPosition.plus(1).toString()
 
                 root.setOnClickListener {
-                    clItemContainer.isVisible = false
-                    cardUpdateParent.isVisible = true
-                    etUpdateLink.setText(item.link)
-                    itemClickListener.invoke(item)
+//                    clItemContainer.isVisible = false
+//                    cardUpdateParent.isVisible = true
+//                    etUpdateLink.setText(item.link)
+//                    itemClickListener.invoke(item)
+                }
+
+                if (listType == AddItemType.GLANCE_IMAGE) {
+                    ivGlanceImage.isVisible = true
+                    ivGlanceImage.load(item.link)
                 }
 
                 root.setOnLongClickListener {
@@ -71,12 +73,10 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     cardUpdateParent.isVisible = false
                     item.link = etUpdateLink.text.toString()
                     notifyItemChanged(bindingAdapterPosition)
-                    updateClickListener.invoke(item)
                 }
                 ibCancelUpdate.setOnClickListener {
                     clItemContainer.isVisible = true
                     cardUpdateParent.isVisible = false
-                    cancelClickListener.invoke(item)
                 }
             }
         }

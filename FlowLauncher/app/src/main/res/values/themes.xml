@@ -63,4 +63,9 @@
     <style name="Widget.CalendarView.Custom" parent="android:Widget.CalendarView">
         <item name="colorAccent">@color/purple_500</item>
     </style>
+
+    <!--https://www.howtodoandroid.com/shapeableimageview-material-components-android/-->
+    <style name="ShapeAppearanceOverlay.App.CornerSize10Percent" parent="">
+        <item name="cornerSize">10%</item>
+    </style>
 </resources>

@@ -88,6 +88,22 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_link" />
 
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_glance_image"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ib_move"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
+                    app:srcCompat="@color/purple_500" />
+
                 <ImageButton
                     android:id="@+id/ib_move"
                     android:layout_width="40dp"

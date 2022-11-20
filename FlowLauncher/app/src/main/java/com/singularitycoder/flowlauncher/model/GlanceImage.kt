@@ -7,7 +7,7 @@ import com.singularitycoder.flowlauncher.helper.constants.Table
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity(tableName = Table.FLOW_IMAGE)
+@Entity(tableName = Table.GLANCE_IMAGE)
 data class GlanceImage(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val link: String,

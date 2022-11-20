@@ -33,6 +33,6 @@ interface QuoteDao {
     @Query("DELETE FROM ${Table.QUOTE}")
     suspend fun deleteAll()
 
-    @Query("DELETE FROM ${Table.QUOTE} WHERE title LIKE :title")
-    fun deleteByQuote(title: String): Int
+    @Query("DELETE FROM ${Table.QUOTE} WHERE title LIKE :link")
+    suspend fun deleteByTitle(link: String): Int
 }
