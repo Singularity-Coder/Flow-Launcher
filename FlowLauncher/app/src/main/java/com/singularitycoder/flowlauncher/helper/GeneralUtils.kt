@@ -77,6 +77,8 @@ fun Context.showPermissionSettings() {
 fun Context.showAlertDialog(
     title: String,
     message: String,
+    positiveBtnText: String,
+    negativeBtnText: String,
     positiveAction: () -> Unit = {},
     negativeAction: () -> Unit = {},
 ) {
@@ -88,10 +90,10 @@ fun Context.showAlertDialog(
         setTitle(title)
         setMessage(message)
         background = drawable(R.drawable.alert_dialog_bg)
-        setPositiveButton("Ok") { dialog, int ->
+        setPositiveButton(positiveBtnText) { dialog, int ->
             positiveAction.invoke()
         }
-        setNegativeButton("Cancel") { dialog, int ->
+        setNegativeButton(negativeBtnText) { dialog, int ->
             negativeAction.invoke()
         }
         val dialog = create()

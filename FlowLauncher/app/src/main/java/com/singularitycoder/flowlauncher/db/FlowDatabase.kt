@@ -30,7 +30,7 @@ abstract class FlowDatabase : RoomDatabase() {
     abstract fun weatherDao(): WeatherDao
     abstract fun holidayDao(): HolidayDao
     abstract fun trendingTweetsDao(): TrendingTweetDao
-    abstract fun flowImageDao(): FlowImageDao
+    abstract fun flowImageDao(): GlanceImageDao
     abstract fun quoteDao(): QuoteDao
     abstract fun youtubeVideoDao(): YoutubeVideoDao
 }

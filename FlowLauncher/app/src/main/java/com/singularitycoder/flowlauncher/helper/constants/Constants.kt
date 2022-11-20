@@ -12,8 +12,8 @@ const val REQUEST_CODE_VIDEO = 1001
 const val KEY_IS_WORK_COMPLETE = "KEY_IS_WORK_COMPLETE"
 const val FIRST_URL = "FIRST_URL"
 
-val THIRTY_DAYS_IN_MILLIS = TimeUnit.DAYS.toHours(30L)
-val TWENTY_FOUR_HOURS_IN_MILLIS = TimeUnit.HOURS.toHours(24L)
+val THIRTY_DAYS_IN_MILLIS = TimeUnit.DAYS.toMillis(30L)
+val TWENTY_FOUR_HOURS_IN_MILLIS = TimeUnit.HOURS.toMillis(24L)
 
 object BottomSheetTag {
     const val QUICK_SETTINGS_BOTTOM_SHEET = "QUICK_SETTINGS_BOTTOM_SHEET"
@@ -30,7 +30,7 @@ object IntentKey {
 
 object AddItemType {
     const val QUOTE = "QUOTE"
-    const val FLOW_IMAGE = "FLOW_IMAGE"
+    const val GLANCE_IMAGE = "FLOW_IMAGE"
     const val YOUTUBE_VIDEO = "YOUTUBE_VIDEO"
 }
 

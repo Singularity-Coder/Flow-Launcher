@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentAddBinding
 import com.singularitycoder.flowlauncher.helper.constants.AddItemType
+import com.singularitycoder.flowlauncher.helper.hideKeyboard
+import com.singularitycoder.flowlauncher.helper.showAlertDialog
+import com.singularitycoder.flowlauncher.helper.showKeyboard
 import com.singularitycoder.flowlauncher.model.GlanceImage
 import com.singularitycoder.flowlauncher.model.Quote
 import com.singularitycoder.flowlauncher.model.YoutubeVideo
@@ -60,7 +63,7 @@ class AddFragment : Fragment() {
     private fun FragmentAddBinding.observeForData() {
         sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { glanceImageList: List<GlanceImage>? ->
             if (glanceImageList.isNullOrEmpty()) return@observe
-            if (listType != AddItemType.FLOW_IMAGE) return@observe
+            if (listType != AddItemType.GLANCE_IMAGE) return@observe
             addItemAdapter.itemsList = glanceImageList.map {
                 val item = AddItem(
                     link = it.link,
@@ -77,7 +80,7 @@ class AddFragment : Fragment() {
             if (listType != AddItemType.QUOTE) return@observe
             addItemAdapter.itemsList = quoteList.map {
                 val item = AddItem(
-                    link = it.quote,
+                    link = it.title,
                     title = it.author
                 )
                 addItemList.add(item)
@@ -104,7 +107,7 @@ class AddFragment : Fragment() {
 
     private fun FragmentAddBinding.setupUI() {
         when (listType) {
-            AddItemType.FLOW_IMAGE -> {
+            AddItemType.GLANCE_IMAGE -> {
                 tvAddTitle.text = "Add Images"
                 etAddItem.hint = "Add an image"
                 cardAddItemParent.isVisible = false
@@ -112,13 +115,13 @@ class AddFragment : Fragment() {
             }
             AddItemType.QUOTE -> {
                 tvAddTitle.text = "Add Quotes"
-                etAddItem.hint = "Add a quote"
+                etAddItem.hint = "Quote Format: Quote by Author"
                 cardAddItemParent.isVisible = true
                 fabAddFlowImage.isVisible = false
             }
             AddItemType.YOUTUBE_VIDEO -> {
                 tvAddTitle.text = "Add Youtube Videos"
-                etAddItem.hint = "Add a Youtube video"
+                etAddItem.hint = "Video Format: Link Title"
                 cardAddItemParent.isVisible = true
                 fabAddFlowImage.isVisible = false
             }
@@ -159,15 +162,15 @@ class AddFragment : Fragment() {
             when (listType) {
                 AddItemType.QUOTE -> {
                     val quote = Quote(
-                        quote = etAddItem.text.toString().substringBeforeLast("by"),
-                        author = etAddItem.text.toString().substringAfterLast("by")
+                        title = etAddItem.text.toString().substringBeforeLast("by").trim(),
+                        author = etAddItem.text.toString().substringAfterLast("by").trim()
                     )
                     sharedViewModel.addQuoteToDb(quote)
                 }
                 AddItemType.YOUTUBE_VIDEO -> {
                     val youtubeVideo = YoutubeVideo(
-                        title = etAddItem.text.toString().substringBefore("\n"),
-                        videoId = etAddItem.text.toString().substringAfter("\n")
+                        videoId = etAddItem.text.toString().substringBefore(" ").substringAfter("watch?v=").trim(),
+                        title = etAddItem.text.toString().substringAfter(" ").trim()
                     )
                     sharedViewModel.addYoutubeVideoToDb(youtubeVideo)
                 }
@@ -175,7 +178,7 @@ class AddFragment : Fragment() {
         }
         fabAddFlowImage.setOnClickListener {
             when (listType) {
-                AddItemType.FLOW_IMAGE -> {
+                AddItemType.GLANCE_IMAGE -> {
 //                    val flowImage = FlowImage(
 //                        link = etAddItem.text.toString(),
 //                        title = ""
@@ -189,7 +192,37 @@ class AddFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStackImmediate()
         }
         addItemAdapter.setItemClickListener { it: AddItem ->
+            etAddItem.requestFocus()
+            etAddItem.showKeyboard()
+        }
+        addItemAdapter.setItemLongClickListener { it: AddItem ->
+            requireContext().showAlertDialog(
+                title = "Delete Item",
+                message = "This action cannot be undone. Are you sure?",
+                positiveBtnText = "Delete",
+                negativeBtnText = "Cancel",
+                positiveAction = {
+                    when (listType) {
+                        AddItemType.QUOTE -> {
+                           sharedViewModel.deleteQuoteFromDb(title = it.title)
+                        }
+                        AddItemType.YOUTUBE_VIDEO -> {
 
+                        }
+                        AddItemType.GLANCE_IMAGE -> {
+
+                        }
+                    }
+                }
+            )
+        }
+        addItemAdapter.setCancelClickListener {
+            etAddItem.requestFocus()
+            etAddItem.hideKeyboard()
+        }
+        addItemAdapter.setUpdateClickListener {
+            etAddItem.requestFocus()
+            etAddItem.hideKeyboard()
         }
         // TODO IME check close keyboard
         // TODO on scroll down close keyboard

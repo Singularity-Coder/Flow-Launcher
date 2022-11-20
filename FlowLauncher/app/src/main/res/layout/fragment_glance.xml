@@ -255,7 +255,9 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="12dp">
+                android:layout_marginStart="-16dp"
+                android:layout_marginEnd="-16dp"
+                android:layout_marginBottom="-28dp">
 
                 <View
                     android:layout_width="match_parent"
@@ -268,16 +270,16 @@
                 <!--android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"-->
                 <!--android:focusedMonthDateColor="@style/CalenderViewWeekCustomText"-->
                 <!--android:weekNumberColor="@color/purple_500"-->
+                <!--android:scaleX="1.1"-->
+                <!--android:scaleY="1.1"-->
+                <!--android:layout_width="wrap_content"-->
                 <CalendarView
                     android:id="@+id/date_picker"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
-                    android:layout_marginTop="22dp"
-                    android:scaleX="1.1"
-                    android:scaleY="1.1"
                     android:theme="@style/Widget.CalendarView.Custom" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -383,7 +385,8 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:elevation="8dp"
-                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:maxLines="3"
                     android:text="Video Title"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/white"

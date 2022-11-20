@@ -97,8 +97,8 @@ class GlanceFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         callSmsPermissionsResult.launch(callContactSmsPermissionList)
-        val lastHolidayFetchTime = Preferences.read(requireContext()).getLong(Preferences.KEY_LAST_HOLIDAYS_FETCH_TIME, timeNow - TWENTY_FOUR_HOURS_IN_MILLIS.toLong() - /* grace 3k mills */ 3000)
-        if (timeNow > lastHolidayFetchTime + TWENTY_FOUR_HOURS_IN_MILLIS) {
+        val lastHolidayFetchTime = Preferences.read(requireContext()).getLong(Preferences.KEY_LAST_HOLIDAYS_FETCH_TIME, timeNow - THIRTY_DAYS_IN_MILLIS - /* grace 3k mills */ 3000)
+        if (timeNow > lastHolidayFetchTime + THIRTY_DAYS_IN_MILLIS) {
             parsePublicHolidaysWithWorker()
         }
         binding.cardYoutubeVideos.performClick()
@@ -160,7 +160,7 @@ class GlanceFragment : Fragment() {
             ) { position: Int ->
                 when (glanceOptions[position]) {
                     glanceOptions[0] -> {
-                        (requireActivity() as? MainActivity)?.showScreen(AddFragment.newInstance(AddItemType.FLOW_IMAGE), FragmentsTag.ADD_ITEM, isAdd = true)
+                        (requireActivity() as? MainActivity)?.showScreen(AddFragment.newInstance(AddItemType.GLANCE_IMAGE), FragmentsTag.ADD_ITEM, isAdd = true)
                     }
                     glanceOptions[1] -> {
                         root.showSnackBar(glanceOptions[1])

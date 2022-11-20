@@ -143,7 +143,7 @@ class TodayFragment : Fragment() {
                 newsTypefacePosition
             } else newsTypefacePosition
             // TODO replace this with db list
-            tvQuote.text = "${animeQuoteList[calculatedQuotePosition].quote}\n\n- ${animeQuoteList[calculatedQuotePosition].author}"
+            tvQuote.text = "${animeQuoteList[calculatedQuotePosition].title}\n\n- ${animeQuoteList[calculatedQuotePosition].author}"
             tvQuote.setTextColor(requireContext().color(quoteColorList[calculatedGradientPosition].textColor))
             tvQuote.setTypeface(requireContext(), typefaceList[calculatedTypefacePosition])
             clQuotes.background = requireContext().drawable(quoteColorList[calculatedGradientPosition].gradientColor)

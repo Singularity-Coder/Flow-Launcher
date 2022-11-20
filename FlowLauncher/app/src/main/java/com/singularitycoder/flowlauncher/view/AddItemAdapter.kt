@@ -11,6 +11,9 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var itemsList = emptyList<AddItem>()
     private var itemClickListener: (addItem: AddItem) -> Unit = {}
+    private var itemLongClickListener: (addItem: AddItem) -> Unit = {}
+    private var updateClickListener: (addItem: AddItem) -> Unit = {}
+    private var cancelClickListener: (addItem: AddItem) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding = ListItemAddBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,6 +32,18 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         itemClickListener = listener
     }
 
+    fun setItemLongClickListener(listener: (addItem: AddItem) -> Unit) {
+        itemLongClickListener = listener
+    }
+
+    fun setUpdateClickListener(listener: (addItem: AddItem) -> Unit) {
+        updateClickListener = listener
+    }
+
+    fun setCancelClickListener(listener: (addItem: AddItem) -> Unit) {
+        cancelClickListener = listener
+    }
+
     inner class ItemViewHolder(
         private val itemBinding: ListItemAddBinding,
     ) : RecyclerView.ViewHolder(itemBinding.root) {
@@ -43,6 +58,12 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     clItemContainer.isVisible = false
                     cardUpdateParent.isVisible = true
                     etUpdateLink.setText(item.link)
+                    itemClickListener.invoke(item)
+                }
+
+                root.setOnLongClickListener {
+                    itemLongClickListener.invoke(item)
+                    false
                 }
 
                 ibApproveUpdate.setOnClickListener {
@@ -50,10 +71,12 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     cardUpdateParent.isVisible = false
                     item.link = etUpdateLink.text.toString()
                     notifyItemChanged(bindingAdapterPosition)
+                    updateClickListener.invoke(item)
                 }
                 ibCancelUpdate.setOnClickListener {
                     clItemContainer.isVisible = true
                     cardUpdateParent.isVisible = false
+                    cancelClickListener.invoke(item)
                 }
             }
         }

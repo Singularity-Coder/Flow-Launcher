@@ -10,6 +10,6 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = Table.YOUTUBE_VIDEO)
 data class YoutubeVideo(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val title: String,
-    val videoId: String
+    val videoId: String,
+    val title: String
 ) : Parcelable

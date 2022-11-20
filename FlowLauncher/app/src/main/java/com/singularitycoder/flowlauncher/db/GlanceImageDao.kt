@@ -6,7 +6,7 @@ import com.singularitycoder.flowlauncher.helper.constants.Table
 import com.singularitycoder.flowlauncher.model.GlanceImage
 
 @Dao
-interface FlowImageDao {
+interface GlanceImageDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(glanceImage: GlanceImage)

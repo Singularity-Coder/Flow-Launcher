@@ -51,5 +51,5 @@ object DbModule {
 
     @Singleton
     @Provides
-    fun injectFlowImageDao(db: FlowDatabase): FlowImageDao = db.flowImageDao()
+    fun injectFlowImageDao(db: FlowDatabase): GlanceImageDao = db.flowImageDao()
 }

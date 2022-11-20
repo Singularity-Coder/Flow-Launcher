@@ -12,7 +12,7 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = Table.QUOTE)
 data class Quote(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val quote: String,
+    val title: String,
     val author: String,
 ) : Parcelable
 

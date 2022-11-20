@@ -60,10 +60,6 @@
     </style>
 
     <!--https://stackoverflow.com/questions/9412402/change-calendarview-style-->
-    <style name="CustomCalender" parent="Theme.FlowLauncher">
-        <item name="android:calendarViewStyle">@style/Widget.CalendarView.Custom</item>
-    </style>
-
     <style name="Widget.CalendarView.Custom" parent="android:Widget.CalendarView">
         <item name="colorAccent">@color/purple_500</item>
     </style>

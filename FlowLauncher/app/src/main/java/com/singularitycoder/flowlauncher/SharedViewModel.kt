@@ -16,7 +16,7 @@ class SharedViewModel @Inject constructor(
     newsDao: NewsDao,
     holidayDao: HolidayDao,
     trendingTweetDao: TrendingTweetDao,
-    private val flowImageDao: FlowImageDao,
+    private val glanceImageDao: GlanceImageDao,
     private val youtubeVideoDao: YoutubeVideoDao,
     private val quoteDao: QuoteDao
 ) : ViewModel() {
@@ -44,7 +44,7 @@ class SharedViewModel @Inject constructor(
         holidayListLiveData = holidayDao.getAllHolidaysLiveData()
         trendingTweetListLiveData = trendingTweetDao.getAllTrendingTweetsLiveData()
 
-        glanceImageListLiveData = flowImageDao.getAllLiveData()
+        glanceImageListLiveData = glanceImageDao.getAllLiveData()
         youtubeVideoListLiveData = youtubeVideoDao.getAllLiveData()
         quoteListLiveData = quoteDao.getAllLiveData()
     }
@@ -53,11 +53,39 @@ class SharedViewModel @Inject constructor(
         quoteDao.insert(quote)
     }
 
-    fun addFlowImageToDb(glanceImage: GlanceImage) = viewModelScope.launch {
-        flowImageDao.insert(glanceImage)
+    fun addGlanceImageToDb(glanceImage: GlanceImage) = viewModelScope.launch {
+        glanceImageDao.insert(glanceImage)
     }
 
     fun addYoutubeVideoToDb(youtubeVideo: YoutubeVideo) = viewModelScope.launch {
         youtubeVideoDao.insert(youtubeVideo)
+    }
+
+    //--------------------------------------------------------------------------------
+
+    fun deleteQuoteFromDb(title: String) = viewModelScope.launch {
+        quoteDao.deleteByQuote(title)
+    }
+
+    fun deleteGlanceImageFromDb(glanceImage: GlanceImage) = viewModelScope.launch {
+        glanceImageDao.delete(glanceImage)
+    }
+
+    fun deleteYoutubeVideoFromDb(youtubeVideo: YoutubeVideo) = viewModelScope.launch {
+        youtubeVideoDao.delete(youtubeVideo)
+    }
+
+    //--------------------------------------------------------------------------------
+
+    fun updateQuoteToDb(quote: Quote) = viewModelScope.launch {
+        quoteDao.update(quote)
+    }
+
+    fun updateGlanceImageToDb(glanceImage: GlanceImage) = viewModelScope.launch {
+        glanceImageDao.update(glanceImage)
+    }
+
+    fun updateYoutubeVideoToDb(youtubeVideo: YoutubeVideo) = viewModelScope.launch {
+        youtubeVideoDao.update(youtubeVideo)
     }
 }
