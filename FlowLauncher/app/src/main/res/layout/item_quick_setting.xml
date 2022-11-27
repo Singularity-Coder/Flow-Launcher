@@ -6,6 +6,7 @@
     android:backgroundTint="@color/purple_50"
     app:cardCornerRadius="12dp"
     app:cardElevation="0dp"
+    app:rippleColor="@color/purple_200"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 

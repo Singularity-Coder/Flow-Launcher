@@ -61,6 +61,11 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "AKIRA (1988) vs. INVINCIBLE (2021)", videoId = "3X-z7_HtPWo"),
     YoutubeVideo(title = "Gunnam Hathaway Vs Gunnam Penelope", videoId = "IoD3c_z4VTE"),
     YoutubeVideo(title = "Mobile Suit Gundam: The Witch from Mercury - Aerial vs Dilanza", videoId = "ynlncEPmLvA"),
+    YoutubeVideo(title = "Fullmetal Alchemist - Ira vs Gula", videoId = "xBac1xg7jDE"),
+    YoutubeVideo(title = "Fullmetal Alchemist - Scar vs Bradley / Wrath", videoId = "-BrFWHXbttM"),
+    YoutubeVideo(title = "Fullmetal Alchemist - King bradley vs Greed Ling", videoId = "SEKlQpcM-_k"),
+    YoutubeVideo(title = "Fullmetal Alchemist - Greed vs Wrath", videoId = "L2-vOjf4SEk"),
+    YoutubeVideo(title = "Fullmetal Alchemist - Greed VS King Bradley", videoId = "l5lDEGEOcu4"),
 )
 
 val animeMusicList = listOf(

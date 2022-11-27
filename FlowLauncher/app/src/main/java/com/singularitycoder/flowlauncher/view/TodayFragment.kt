@@ -12,12 +12,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.work.*
 import coil.load
 import com.google.android.material.chip.Chip
+import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentTodayBinding
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
 import com.singularitycoder.flowlauncher.helper.constants.*
 import com.singularitycoder.flowlauncher.model.News
+import com.singularitycoder.flowlauncher.model.Quote
 import com.singularitycoder.flowlauncher.model.TrendingTweet
 import com.singularitycoder.flowlauncher.model.Weather
 import com.singularitycoder.flowlauncher.worker.NewsWorker
@@ -55,6 +57,7 @@ class TodayFragment : Fragment() {
     private lateinit var binding: FragmentTodayBinding
     private val sharedViewModel: SharedViewModel by viewModels()
     private var newsList = listOf<News>()
+    private var quoteList = listOf<Quote>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentTodayBinding.inflate(inflater, container, false)
@@ -73,6 +76,7 @@ class TodayFragment : Fragment() {
         parseNewsWithWorker()
         parseWeatherWithWorker()
 //        parseTrendingTweetsWithWorker()
+        if (quoteList.isNotEmpty()) binding.cardQuotes.performClick()
     }
 
     private fun FragmentTodayBinding.setupUI() {
@@ -126,32 +130,7 @@ class TodayFragment : Fragment() {
             }
         }
 
-        var quotePosition = 0
-        var gradientPosition = 0
-        var newsTypefacePosition = 0
-        cardQuotes.setOnClickListener {
-            val calculatedQuotePosition = if (quotePosition == animeQuoteList.size) {
-                quotePosition = 0
-                quotePosition
-            } else quotePosition
-            val calculatedGradientPosition = if (gradientPosition == gradientList.size) {
-                gradientPosition = 0
-                gradientPosition
-            } else gradientPosition
-            val calculatedTypefacePosition = if (newsTypefacePosition == typefaceList.size) {
-                newsTypefacePosition = 0
-                newsTypefacePosition
-            } else newsTypefacePosition
-            // TODO replace this with db list
-            tvQuote.text = "${animeQuoteList[calculatedQuotePosition].title}\n\n- ${animeQuoteList[calculatedQuotePosition].author}"
-            tvQuote.setTextColor(requireContext().color(quoteColorList[calculatedGradientPosition].textColor))
-            tvQuote.setTypeface(requireContext(), typefaceList[calculatedTypefacePosition])
-            clQuotes.background = requireContext().drawable(quoteColorList[calculatedGradientPosition].gradientColor)
-            ivQuoteBackground.imageTintList = ColorStateList.valueOf(requireContext().color(quoteColorList[calculatedGradientPosition].iconColor))
-            quotePosition++
-            gradientPosition++
-            newsTypefacePosition++
-        }
+        setOnQuoteClickListener()
 
         var newsPosition = 0
         var newsImagePosition = 0
@@ -167,7 +146,7 @@ class TodayFragment : Fragment() {
             } else newsImagePosition
             // TODO get actual news image.
             ivNewsImage.load(tempImageDrawableList[calculatedNewsImagePosition]) {
-                placeholder(com.singularitycoder.flowlauncher.R.color.black)
+                placeholder(R.color.black)
             }
             val source = if (newsList[calculatedNewsPosition].source.isNullOrBlank()) {
                 newsList[calculatedNewsPosition].link?.substringAfter("//")?.substringBefore("/")?.replace("www.", "")
@@ -223,6 +202,47 @@ class TodayFragment : Fragment() {
                 cardTwitterTrending.isVisible = false
                 return@observe
             }
+        }
+        sharedViewModel.quoteListLiveData.observe(viewLifecycleOwner) { it: List<Quote>? ->
+            quoteList = it?.ifEmpty {
+                animeQuoteList
+            } ?: emptyList()
+            try {
+                quotePosition = 0
+                gradientPosition = 0
+                newsTypefacePosition = 0
+                cardQuotes.performClick()
+            } catch (_: Exception) {
+            }
+        }
+    }
+
+    private var quotePosition = 0
+    private var gradientPosition = 0
+    private var newsTypefacePosition = 0
+    private fun FragmentTodayBinding.setOnQuoteClickListener() {
+        cardQuotes.setOnClickListener {
+            val calculatedQuotePosition = if (quotePosition == quoteList.size) {
+                quotePosition = 0
+                quotePosition
+            } else quotePosition
+            val calculatedGradientPosition = if (gradientPosition == gradientList.size) {
+                gradientPosition = 0
+                gradientPosition
+            } else gradientPosition
+            val calculatedTypefacePosition = if (newsTypefacePosition == typefaceList.size) {
+                newsTypefacePosition = 0
+                newsTypefacePosition
+            } else newsTypefacePosition
+            // TODO replace this with db list
+            tvQuote.text = "${quoteList[calculatedQuotePosition].title}\n\n- ${quoteList[calculatedQuotePosition].author}"
+            tvQuote.setTextColor(requireContext().color(quoteColorList[calculatedGradientPosition].textColor))
+            tvQuote.setTypeface(requireContext(), typefaceList[calculatedTypefacePosition])
+            clQuotes.background = requireContext().drawable(quoteColorList[calculatedGradientPosition].gradientColor)
+            ivQuoteBackground.imageTintList = ColorStateList.valueOf(requireContext().color(quoteColorList[calculatedGradientPosition].iconColor))
+            quotePosition++
+            gradientPosition++
+            newsTypefacePosition++
         }
     }
 

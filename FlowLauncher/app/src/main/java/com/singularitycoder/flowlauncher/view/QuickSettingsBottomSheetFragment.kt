@@ -147,11 +147,17 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
                 intArrayOf(-android.R.attr.state_checked), // unchecked
                 intArrayOf(android.R.attr.state_pressed) // pressed
             )
-            val colors = intArrayOf(
+            val colors500 = intArrayOf(
                 requireContext().color(R.color.md_red_500),
                 requireContext().color(R.color.title_color),
                 requireContext().color(R.color.md_red_500),
                 requireContext().color(R.color.md_red_500),
+            )
+            val colors200 = intArrayOf(
+                requireContext().color(R.color.md_red_200),
+                requireContext().color(R.color.title_color),
+                requireContext().color(R.color.md_red_200),
+                requireContext().color(R.color.md_red_200),
             )
             val colorsBackground = intArrayOf(
                 requireContext().color(R.color.md_red_50),
@@ -160,7 +166,8 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
                 requireContext().color(R.color.md_red_50),
             )
             root.backgroundTintList = ColorStateList(states, colorsBackground)
-            ivAppIcon.imageTintList = ColorStateList(states, colors)
+            ivAppIcon.imageTintList = ColorStateList(states, colors500)
+            root.rippleColor = ColorStateList(states, colors200)
         }
     }
 

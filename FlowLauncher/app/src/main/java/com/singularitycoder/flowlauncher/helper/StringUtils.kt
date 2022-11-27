@@ -20,3 +20,13 @@ fun String.toLowCase(): String = this.lowercase(Locale.getDefault())
 fun String.toUpCase(): String = this.uppercase(Locale.getDefault())
 
 fun String.capFirstChar(): String = this.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+
+fun String.substringBeforeLastIgnoreCase(delimiter: String, missingDelimiterValue: String = this): String {
+    val index = toLowCase().lastIndexOf(delimiter.toLowCase())
+    return if (index == -1) missingDelimiterValue else substring(0, index)
+}
+
+fun String.substringAfterLastIgnoreCase(delimiter: String, missingDelimiterValue: String? = null): String? {
+    val index = toLowCase().lastIndexOf(delimiter.toLowCase())
+    return if (index == -1) missingDelimiterValue else substring(index + delimiter.length, length)
+}

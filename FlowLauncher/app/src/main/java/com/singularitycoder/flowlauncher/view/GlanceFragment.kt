@@ -3,6 +3,7 @@ package com.singularitycoder.flowlauncher.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.work.*
 import coil.load
+import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentGlanceBinding
 import com.singularitycoder.flowlauncher.helper.*
@@ -52,10 +54,12 @@ class GlanceFragment : Fragment() {
     }
 
     private val sharedViewModel: SharedViewModel by viewModels()
-    private lateinit var binding: FragmentGlanceBinding
 
     private var youtubeVideoList = listOf<YoutubeVideo>()
     private var glanceImageList = listOf<GlanceImage>()
+
+    private lateinit var binding: FragmentGlanceBinding
+    private lateinit var currentGlanceImage: GlanceImage
 
     private val callSmsPermissionsResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, @JvmSuppressWildcards Boolean>? ->
         permissions ?: return@registerForActivityResult
@@ -103,8 +107,8 @@ class GlanceFragment : Fragment() {
         if (timeNow > lastHolidayFetchTime + THIRTY_DAYS_IN_MILLIS) {
             parsePublicHolidaysWithWorker()
         }
-        binding.cardYoutubeVideos.performClick()
-        binding.cardGlanceImages.performClick()
+        if (youtubeVideoList.isNotEmpty()) binding.cardYoutubeVideos.performClick()
+        if (glanceImageList.isNotEmpty()) binding.cardGlanceImages.performClick()
     }
 
     // https://stackoverflow.com/questions/30239627/how-to-change-the-style-of-a-datepicker-in-android
@@ -115,47 +119,29 @@ class GlanceFragment : Fragment() {
     }
 
     private fun FragmentGlanceBinding.setupUserActionListeners() {
-        var currentImagePosition = 0
-        cardGlanceImages.setOnClickListener {
-            doAfter(3.seconds()) {
-                cardImageCount.isVisible = false
-            }
-            cardImageCount.isVisible = true
-            tvImageCount.text = "${currentImagePosition + 1}/${glanceImageList.size}"
-//            ivGlanceImage.setImageDrawable(requireContext().drawable(tempImageDrawableList[currentImagePosition]))
-            ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
+//        cardGlanceImages.setOnTouchListener { v, motionEvent ->
+//            val eventType = motionEvent.actionMasked
+//            when (eventType) {
+//                MotionEvent.ACTION_UP -> {
+//                    // User lifted his finger up
+//                    ivGlanceImageExpanded.isVisible = false
+//                }
+//            }
+//            return@setOnTouchListener true
+//        }
+
+        cardGlanceImages.setOnLongClickListener {
+            ivGlanceImageExpanded.isVisible = true
+            ivGlanceImageExpanded.load(currentGlanceImage.link) {
                 placeholder(com.singularitycoder.flowlauncher.R.color.black)
                 error(com.singularitycoder.flowlauncher.R.color.md_red_dark)
             }
-            if (currentImagePosition == glanceImageList.lastIndex) {
-                currentImagePosition = 0
-            } else {
-                currentImagePosition++
-            }
+            return@setOnLongClickListener true
         }
 
-        var currentYoutubeVideoPosition = 0
-        cardYoutubeVideos.setOnClickListener {
-            val youtubeVideo = youtubeVideoList.getOrNull(currentYoutubeVideoPosition)
-            val youtubeVideoThumbnailUrl = youtubeVideo?.videoId?.toYoutubeThumbnailUrl()
-            ivThumbnail.load(youtubeVideoThumbnailUrl) {
-                placeholder(com.singularitycoder.flowlauncher.R.color.black)
-                error(com.singularitycoder.flowlauncher.R.color.md_red_dark)
-            }
-            tvVideoTitle.text = youtubeVideo?.title ?: ""
-            btnPlayYoutubeVideo.setOnClickListener {
-                val intent = Intent(requireContext(), YoutubeVideoActivity::class.java).apply {
-                    putExtra(IntentKey.YOUTUBE_VIDEO_ID, youtubeVideo?.videoId)
-                    putParcelableArrayListExtra(IntentKey.YOUTUBE_VIDEO_LIST, ArrayList(youtubeVideoList))
-                }
-                startActivity(intent)
-            }
-            if (currentYoutubeVideoPosition == youtubeVideoList.lastIndex) {
-                currentYoutubeVideoPosition = 0
-            } else {
-                currentYoutubeVideoPosition++
-            }
-        }
+        setOnGlanceImageClickListener()
+
+        setOnYoutubeVideoClickListener()
 
         btnMenu.setOnClickListener { view: View? ->
             view ?: return@setOnClickListener
@@ -187,6 +173,53 @@ class GlanceFragment : Fragment() {
         }
     }
 
+    private var currentImagePosition = 0
+    private fun FragmentGlanceBinding.setOnGlanceImageClickListener() {
+        cardGlanceImages.setOnClickListener {
+            doAfter(3.seconds()) {
+                cardImageCount.isVisible = false
+            }
+            cardImageCount.isVisible = true
+            currentGlanceImage = glanceImageList[currentImagePosition]
+            tvImageCount.text = "${currentImagePosition + 1}/${glanceImageList.size}"
+            //            ivGlanceImage.setImageDrawable(requireContext().drawable(tempImageDrawableList[currentImagePosition]))
+            ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
+                placeholder(R.color.black)
+                error(R.color.md_red_dark)
+            }
+            if (currentImagePosition == glanceImageList.lastIndex) {
+                currentImagePosition = 0
+            } else {
+                currentImagePosition++
+            }
+        }
+    }
+
+    private var currentYoutubeVideoPosition = 0
+    private fun FragmentGlanceBinding.setOnYoutubeVideoClickListener() {
+        cardYoutubeVideos.setOnClickListener {
+            val youtubeVideo = youtubeVideoList.getOrNull(currentYoutubeVideoPosition)
+            val youtubeVideoThumbnailUrl = youtubeVideo?.videoId?.toYoutubeThumbnailUrl()
+            ivThumbnail.load(youtubeVideoThumbnailUrl) {
+                placeholder(R.color.black)
+                error(R.color.md_red_dark)
+            }
+            tvVideoTitle.text = youtubeVideo?.title ?: ""
+            btnPlayYoutubeVideo.setOnClickListener {
+                val intent = Intent(requireContext(), YoutubeVideoActivity::class.java).apply {
+                    putExtra(IntentKey.YOUTUBE_VIDEO_ID, youtubeVideo?.videoId)
+                    putParcelableArrayListExtra(IntentKey.YOUTUBE_VIDEO_LIST, ArrayList(youtubeVideoList))
+                }
+                startActivity(intent)
+            }
+            if (currentYoutubeVideoPosition == youtubeVideoList.lastIndex) {
+                currentYoutubeVideoPosition = 0
+            } else {
+                currentYoutubeVideoPosition++
+            }
+        }
+    }
+
     private fun FragmentGlanceBinding.observeForData() {
         sharedViewModel.holidayListLiveData.observe(viewLifecycleOwner) { it: List<Holiday>? ->
             if (it.isNullOrEmpty()) return@observe
@@ -196,6 +229,11 @@ class GlanceFragment : Fragment() {
             youtubeVideoList = it?.ifEmpty {
                 allYoutubeVideos
             } ?: emptyList()
+            try {
+                currentYoutubeVideoPosition = 0
+                cardYoutubeVideos.performClick()
+            } catch (_: Exception) {
+            }
         }
         sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { imageList: List<GlanceImage>? ->
             glanceImageList = imageList?.ifEmpty {
@@ -204,6 +242,11 @@ class GlanceFragment : Fragment() {
                 }
             } ?: emptyList()
             tvImageCount.text = "${1}/${glanceImageList.size}"
+            try {
+                currentImagePosition = 0
+                cardGlanceImages.performClick()
+            } catch (_: Exception) {
+            }
         }
     }
 

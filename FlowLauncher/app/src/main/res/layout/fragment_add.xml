@@ -121,12 +121,12 @@
                 android:textColor="@color/title_color"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/card_add_step"
+                app:layout_constraintEnd_toStartOf="@+id/card_add_item"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_add_step"
+                android:id="@+id/card_add_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
@@ -138,7 +138,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageButton
-                    android:id="@+id/ib_add_step"
+                    android:id="@+id/ib_add_item"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@null"

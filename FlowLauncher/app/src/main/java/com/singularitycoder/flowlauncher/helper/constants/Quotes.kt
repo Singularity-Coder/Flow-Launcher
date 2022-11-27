@@ -350,7 +350,7 @@ val animeQuoteList = listOf(
         title = """
             Witch: You are indeed a rare and extraordinary person.
             King: Only because I stand on the predecessors shoulders.
-        """.trimIndentsAndNewLines(),
+        """.trimIndent(),
         author = "Burn That Witch"
     ),
     Quote(
@@ -536,5 +536,48 @@ val animeQuoteList = listOf(
     Quote(
         title = "Truth is something that must be handled slowly and carefully.",
         author = "Mobile Suit Gundam: Hathaway"
+    ),
+    Quote(
+        title = """
+            Human kind can not gain anything without first giving something in return. 
+            To obtain something of equal value must be lost. 
+            That is Alchemy's first law of equivalent exchange.
+        """.trimIndentsAndNewLines(),
+        author = "Fullmetal Alchemist"
+    ),
+    Quote(
+        title = "To train the mind, first train the body.",
+        author = "Fullmetal Alchemist"
+    ),
+    Quote(
+        title = "The greatest army in the world is one which does not fear death.",
+        author = "Fullmetal Alchemist"
+    ),
+    Quote(
+        title = """
+            A lesson without pain is meaningless. 
+            For you cannot gain anything without sacrificing something else 
+            in return, but once you have overcome it and made it your own...
+            you will gain an irreplaceable fullmetal heart.
+        """.trimIndentsAndNewLines(),
+        author = "Fullmetal Alchemist"
+    ),
+    Quote(
+        title = """
+            Water: 35 liters, Carbon: 20 kg, Ammonia: 4 liters, Lime:1.5 kg, 
+            Phosphrus: 800 g, salt: 250g, saltpeter:100g, Sulfer: 80g, 
+            Fluorine: 7.5 g, iron: 5.6 g, Silicon: 3g, 
+            and 15 other elements in small quantities.... 
+            thats the total chemical makeup of the average adult body. 
+            Modern science knows all of this, but there has never been a 
+            single example of succesful human trasmutation. 
+            It's like there's some missing ingredient..... 
+            Scientists have been trying to find it for hundreds of years, 
+            pouring tons of money into research, and to this day they don't have a theory. 
+            For that matter, the elements found in a human being is all junk that 
+            you can buy in any market with a child's allowance. 
+            Humans are pretty cheaply made.
+        """.trimIndentsAndNewLines(),
+        author = "Fullmetal Alchemist"
     )
 )

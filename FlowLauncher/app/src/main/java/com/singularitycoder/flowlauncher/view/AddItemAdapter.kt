@@ -47,7 +47,11 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         @SuppressLint("SetTextI18n")
         fun setData(item: AddItem) {
             itemBinding.apply {
-                tvLink.text = item.link
+                tvLink.text = if (listType == AddItemType.YOUTUBE_VIDEO) {
+                    "youtube.com/watch?v=${item.link}"
+                } else {
+                    item.link
+                }
                 tvTitle.text = item.title
                 tvStepNumber.text = bindingAdapterPosition.plus(1).toString()
 

@@ -5,6 +5,7 @@
     app:cardElevation="0dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:rippleColor="@color/purple_200"
     android:backgroundTint="@color/purple_50">
 
     <androidx.constraintlayout.widget.ConstraintLayout

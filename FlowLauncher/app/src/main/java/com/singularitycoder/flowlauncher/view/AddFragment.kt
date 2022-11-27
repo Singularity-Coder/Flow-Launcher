@@ -45,7 +45,7 @@ class AddFragment : Fragment() {
     private lateinit var binding: FragmentAddBinding
 
     private val addItemAdapter = AddItemAdapter()
-    private val addItemList = mutableListOf<AddItem>()
+    private var addItemList = mutableListOf<AddItem>()
     private val sharedViewModel by activityViewModels<SharedViewModel>()
 
     private var listType: String? = null
@@ -101,47 +101,41 @@ class AddFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun FragmentAddBinding.observeForData() {
         sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { glanceImageList: List<GlanceImage>? ->
-            if (glanceImageList.isNullOrEmpty()) return@observe
             if (listType != AddItemType.GLANCE_IMAGE) return@observe
-            addItemAdapter.itemsList = glanceImageList.map {
+            addItemAdapter.itemsList = glanceImageList?.map {
                 val item = AddItem(
                     link = it.link,
                     title = it.title
                 )
-                addItemList.add(item)
                 item
-            }
-//            addItemAdapter.notifyItemInserted(if (addItemAdapter.itemsList.isEmpty()) 0 else addItemAdapter.itemsList.lastIndex)
+            } ?: emptyList()
+            addItemList = addItemAdapter.itemsList.toMutableList()
             addItemAdapter.notifyDataSetChanged()
             etAddItem.setText("")
         }
         sharedViewModel.quoteListLiveData.observe(viewLifecycleOwner) { quoteList: List<Quote>? ->
-            if (quoteList.isNullOrEmpty()) return@observe
             if (listType != AddItemType.QUOTE) return@observe
-            addItemAdapter.itemsList = quoteList.map {
+            addItemAdapter.itemsList = quoteList?.map {
                 val item = AddItem(
                     link = it.title,
                     title = it.author
                 )
-                addItemList.add(item)
                 item
-            }
-//            addItemAdapter.notifyItemInserted(if (addItemAdapter.itemsList.isEmpty()) 0 else addItemAdapter.itemsList.lastIndex)
+            } ?: emptyList()
+            addItemList = addItemAdapter.itemsList.toMutableList()
             addItemAdapter.notifyDataSetChanged()
             etAddItem.setText("")
         }
         sharedViewModel.youtubeVideoListLiveData.observe(viewLifecycleOwner) { youtubeVideoList: List<YoutubeVideo>? ->
-            if (youtubeVideoList.isNullOrEmpty()) return@observe
             if (listType != AddItemType.YOUTUBE_VIDEO) return@observe
-            addItemAdapter.itemsList = youtubeVideoList.map {
+            addItemAdapter.itemsList = youtubeVideoList?.map {
                 val item = AddItem(
                     link = it.videoId,
                     title = it.title
                 )
-                addItemList.add(item)
                 item
-            }
-//            addItemAdapter.notifyItemInserted(if (addItemAdapter.itemsList.isEmpty()) 0 else addItemAdapter.itemsList.lastIndex)
+            } ?: emptyList()
+            addItemList = addItemAdapter.itemsList.toMutableList()
             addItemAdapter.notifyDataSetChanged()
             etAddItem.setText("")
         }
@@ -157,13 +151,13 @@ class AddFragment : Fragment() {
             }
             AddItemType.QUOTE -> {
                 tvAddTitle.text = "Add Quotes"
-                etAddItem.hint = "Quote Format: Quote by Author"
+                etAddItem.hint = "Format: Quote by Author"
                 cardAddItemParent.isVisible = true
                 fabAddFlowImage.isVisible = false
             }
             AddItemType.YOUTUBE_VIDEO -> {
                 tvAddTitle.text = "Add Youtube Videos"
-                etAddItem.hint = "Video Format: Link Title"
+                etAddItem.hint = "Format: Link Title"
                 cardAddItemParent.isVisible = true
                 fabAddFlowImage.isVisible = false
             }
@@ -175,22 +169,31 @@ class AddFragment : Fragment() {
         }
     }
 
+    // https://stackoverflow.com/questions/3467205/android-key-dispatching-timed-out
     private fun FragmentAddBinding.setupUserActionListeners() {
-        ibAddStep.setOnClickListener {
+        ibAddItem.setOnClickListener {
             when (listType) {
                 AddItemType.QUOTE -> {
-                    val quote = Quote(
-                        title = etAddItem.text.toString().substringBeforeLast("by").trim(),
-                        author = etAddItem.text.toString().substringAfterLast("by").trim()
-                    )
-                    sharedViewModel.addQuoteToDb(quote)
+                    lifecycleScope.launch {
+                        val quote = Quote(
+                            title = etAddItem.text.toString().substringBeforeLastIgnoreCase(" by ").trim(),
+                            author = etAddItem.text.toString().substringAfterLastIgnoreCase(" by ")?.trim() ?: "Unknown"
+                        )
+                        sharedViewModel.addQuoteToDb(quote)
+                    }
                 }
                 AddItemType.YOUTUBE_VIDEO -> {
-                    val youtubeVideo = YoutubeVideo(
-                        videoId = etAddItem.text.toString().substringBefore(" ").substringAfter("watch?v=").trim(),
-                        title = etAddItem.text.toString().substringAfter(" ").trim()
-                    )
-                    sharedViewModel.addYoutubeVideoToDb(youtubeVideo)
+                    lifecycleScope.launch {
+                        val videoId = etAddItem.text.toString().substringBefore(" ").substringAfter("watch?v=").trim()
+                        val cleanVideoId = if (videoId.contains("&")) {
+                            videoId.substringBefore("&")
+                        } else videoId
+                        val youtubeVideo = YoutubeVideo(
+                            videoId = cleanVideoId,
+                            title = etAddItem.text.toString().substringAfter(" ").trim()
+                        )
+                        sharedViewModel.addYoutubeVideoToDb(youtubeVideo)
+                    }
                 }
             }
         }
@@ -215,28 +218,24 @@ class AddFragment : Fragment() {
                 positiveBtnText = "Delete",
                 negativeBtnText = "Cancel",
                 positiveAction = {
-                    when (listType) {
-                        AddItemType.QUOTE -> {
-                           sharedViewModel.deleteQuoteFromDb(link = it.link)
-                        }
-                        AddItemType.YOUTUBE_VIDEO -> {
-                            sharedViewModel.deleteYoutubeVideoFromDb(videoId = it.link)
-                        }
-                        AddItemType.GLANCE_IMAGE -> {
-                            sharedViewModel.deleteGlanceImageFromDb(link = it.link)
+                    lifecycleScope.launch {
+                        when (listType) {
+                            AddItemType.QUOTE -> {
+                                sharedViewModel.deleteQuoteFromDb(link = it.link)
+                            }
+                            AddItemType.YOUTUBE_VIDEO -> {
+                                sharedViewModel.deleteYoutubeVideoFromDb(videoId = it.link)
+                            }
+                            AddItemType.GLANCE_IMAGE -> {
+                                sharedViewModel.deleteGlanceImageFromDb(link = it.link)
+                            }
                         }
                     }
                 }
             )
         }
-        rvRoutineSteps.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                etAddItem.requestFocus()
-                etAddItem.hideKeyboard()
-            }
-        })
         etAddItem.onImeClick {
-            ibAddStep.performClick()
+            ibAddItem.performClick()
         }
 
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
