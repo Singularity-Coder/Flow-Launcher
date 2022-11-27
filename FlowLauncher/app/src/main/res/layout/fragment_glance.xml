@@ -1,431 +1,456 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".view.GlanceFragment">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".view.GlanceFragment">
 
-        <TextView
-            android:id="@+id/tv_glance_title"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:paddingStart="16dp"
-            android:paddingTop="24dp"
-            android:paddingEnd="16dp"
-            android:text="Glance"
-            android:textAppearance="@style/TextAppearance.Material3.DisplaySmall"
-            android:textColor="@color/title_color"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content">
 
-        <ProgressBar
-            android:id="@+id/progress_circular"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="4dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_glance_title"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_menu"
-            style="@style/Widget.App.Button.IconOnly"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="4dp"
-            app:icon="@drawable/ic_round_more_horiz_24"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_glance_title"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!--https://www.pexels.com/photo/woman-wearing-sunhat-1382731/-->
-        <!--https://www.pexels.com/photo/woman-holding-her-hat-while-standing-in-front-of-pink-bougainvillea-flowers-1382730/-->
-        <!--https://www.pexels.com/photo/woman-s-face-1251247/-->
-        <!--https://www.pexels.com/photo/woman-wearing-sun-hat-and-white-dress-holding-pink-bougainvilleas-1382734/-->
-        <!--https://www.pexels.com/photo/photo-of-pod-of-dolphins-2422915/-->
-        <!--https://www.pexels.com/photo/two-person-on-boat-in-body-of-water-during-golden-hour-2850287/-->
-        <!--https://www.pexels.com/photo/pink-flowers-photograph-1083822/-->
-        <!--https://www.pexels.com/photo/gray-and-black-galaxy-wallpaper-2150/-->
-        <!--https://www.pexels.com/photo/silhouette-of-mountains-1323550/-->
-        <!--https://www.pexels.com/photo/gray-and-black-galaxy-wallpaper-2150/-->
-        <!--https://www.pexels.com/photo/boulder-cascade-creek-environment-219932/-->
-        <!--https://www.pexels.com/photo/man-riding-surfboard-in-wavy-ocean-7925859/-->
-        <!--https://www.pexels.com/photo/pink-waterlily-flower-in-full-bloom-921703/-->
-        <!--https://www.pexels.com/photo/photo-of-waterfalls-during-fall-season-1564655/-->
-        <!--https://www.pexels.com/photo/selective-focus-photo-of-cherry-blossoms-2832074/-->
-        <!--https://www.pexels.com/photo/selective-focus-photography-of-cherry-blossom-flowers-2179422/-->
-        <!--https://www.pexels.com/photo/blooming-pink-flower-on-branch-6781720/-->
-        <!--https://www.pexels.com/photo/cherry-blossom-tree-over-blue-sky-11623695/-->
-        <!--https://www.pexels.com/photo/gray-and-white-kitten-on-white-bed-2061057/-->
-        <!--https://www.pexels.com/photo/photo-of-a-white-pomeranian-puppy-2694561/-->
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_glance_images"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_glance_title">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/tv_glance_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingTop="24dp"
+                android:paddingEnd="16dp"
+                android:text="Glance"
+                android:textAppearance="@style/TextAppearance.Material3.DisplaySmall"
+                android:textColor="@color/title_color"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/iv_glance_image"
+            <ProgressBar
+                android:id="@+id/progress_circular"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_glance_title"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_menu"
+                style="@style/Widget.App.Button.IconOnly"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
+                app:icon="@drawable/ic_round_more_horiz_24"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_glance_title"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!--https://www.pexels.com/photo/woman-wearing-sunhat-1382731/-->
+            <!--https://www.pexels.com/photo/woman-holding-her-hat-while-standing-in-front-of-pink-bougainvillea-flowers-1382730/-->
+            <!--https://www.pexels.com/photo/woman-s-face-1251247/-->
+            <!--https://www.pexels.com/photo/woman-wearing-sun-hat-and-white-dress-holding-pink-bougainvilleas-1382734/-->
+            <!--https://www.pexels.com/photo/photo-of-pod-of-dolphins-2422915/-->
+            <!--https://www.pexels.com/photo/two-person-on-boat-in-body-of-water-during-golden-hour-2850287/-->
+            <!--https://www.pexels.com/photo/pink-flowers-photograph-1083822/-->
+            <!--https://www.pexels.com/photo/gray-and-black-galaxy-wallpaper-2150/-->
+            <!--https://www.pexels.com/photo/silhouette-of-mountains-1323550/-->
+            <!--https://www.pexels.com/photo/gray-and-black-galaxy-wallpaper-2150/-->
+            <!--https://www.pexels.com/photo/boulder-cascade-creek-environment-219932/-->
+            <!--https://www.pexels.com/photo/man-riding-surfboard-in-wavy-ocean-7925859/-->
+            <!--https://www.pexels.com/photo/pink-waterlily-flower-in-full-bloom-921703/-->
+            <!--https://www.pexels.com/photo/photo-of-waterfalls-during-fall-season-1564655/-->
+            <!--https://www.pexels.com/photo/selective-focus-photo-of-cherry-blossoms-2832074/-->
+            <!--https://www.pexels.com/photo/selective-focus-photography-of-cherry-blossom-flowers-2179422/-->
+            <!--https://www.pexels.com/photo/blooming-pink-flower-on-branch-6781720/-->
+            <!--https://www.pexels.com/photo/cherry-blossom-tree-over-blue-sky-11623695/-->
+            <!--https://www.pexels.com/photo/gray-and-white-kitten-on-white-bed-2061057/-->
+            <!--https://www.pexels.com/photo/photo-of-a-white-pomeranian-puppy-2694561/-->
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_glance_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_glance_title">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@color/purple_50"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/p3"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="wrap_content">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_image_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@color/transparent_white_50"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="1dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    <ImageView
+                        android:id="@+id/iv_glance_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="@color/purple_50"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/p3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/tv_image_count"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_full_screen"
+                        style="@style/Widget.App.Button.IconOnly"
+                        android:layout_width="30dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="8dp"
+                        android:backgroundTint="@color/white"
+                        app:icon="@drawable/ic_round_fullscreen_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/card_image_count"
+                        app:layout_constraintEnd_toStartOf="@+id/card_image_count"
+                        app:layout_constraintTop_toTopOf="@+id/card_image_count" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_image_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:paddingTop="4dp"
-                        android:paddingEnd="8dp"
-                        android:paddingBottom="4dp"
-                        android:text="0/10"
-                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                        android:textColor="@color/title_color" />
-                </com.google.android.material.card.MaterialCardView>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@color/transparent_white_50"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="1dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_take_action"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:clipChildren="true"
-            android:clipToPadding="true"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_glance_images"
-            app:strokeColor="@color/black_50"
-            app:strokeWidth="1dp">
+                        <TextView
+                            android:id="@+id/tv_image_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="8dp"
+                            android:paddingTop="4dp"
+                            android:paddingEnd="8dp"
+                            android:paddingBottom="4dp"
+                            android:text="0/10"
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                            android:textColor="@color/title_color" />
+                    </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_take_action"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="16dp">
+                android:layout_margin="16dp"
+                android:clipChildren="true"
+                android:clipToPadding="true"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_glance_images"
+                app:strokeColor="@color/black_50"
+                app:strokeWidth="1dp">
 
-                <TextView
-                    android:id="@+id/tv_take_action_placeholder"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:ellipsize="end"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLines="2"
-                    android:text="Take Action"
-                    android:textColor="@color/title_color"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <include
-                    android:id="@+id/layout_missed_calls"
-                    layout="@layout/layout_text_to_text"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_take_action_placeholder" />
+                    android:paddingBottom="16dp">
 
-                <include
-                    android:id="@+id/layout_unread_sms"
-                    layout="@layout/layout_text_to_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/layout_missed_calls" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/tv_take_action_placeholder"
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:ellipsize="end"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="2"
+                        android:text="Take Action"
+                        android:textColor="@color/title_color"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_remainders"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:clipChildren="true"
-            android:clipToPadding="true"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_take_action"
-            app:strokeColor="@color/black_50"
-            app:strokeWidth="1dp">
+                    <include
+                        android:id="@+id/layout_missed_calls"
+                        layout="@layout/layout_text_to_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_take_action_placeholder" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+                    <include
+                        android:id="@+id/layout_unread_sms"
+                        layout="@layout/layout_text_to_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/layout_missed_calls" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_remainders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="16dp">
+                android:layout_margin="16dp"
+                android:clipChildren="true"
+                android:clipToPadding="true"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_take_action"
+                app:strokeColor="@color/black_50"
+                app:strokeWidth="1dp">
 
-                <TextView
-                    android:id="@+id/tv_remainders_placeholder"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:ellipsize="end"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLines="2"
-                    android:text="Reminders"
-                    android:textColor="@color/title_color"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <include
-                    android:id="@+id/remainder_1"
-                    layout="@layout/layout_text_to_text"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_remainders_placeholder" />
+                    android:paddingBottom="16dp">
 
-                <include
-                    android:id="@+id/remainder_2"
-                    layout="@layout/layout_text_to_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/remainder_1" />
+                    <TextView
+                        android:id="@+id/tv_remainders_placeholder"
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:ellipsize="end"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="2"
+                        android:text="Reminders"
+                        android:textColor="@color/title_color"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <include
-                    android:id="@+id/remainder_3"
-                    layout="@layout/layout_text_to_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/remainder_2" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <include
+                        android:id="@+id/remainder_1"
+                        layout="@layout/layout_text_to_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_remainders_placeholder" />
 
-        <!--https://stackoverflow.com/questions/47467550/how-to-override-height-and-width-of-date-picker-to-fill-the-parent-layout-->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_calendar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="vertical"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/card_remainders"
-            app:strokeColor="@color/black_50"
-            app:strokeWidth="1dp">
+                    <include
+                        android:id="@+id/remainder_2"
+                        layout="@layout/layout_text_to_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/remainder_1" />
 
-            <RelativeLayout
+                    <include
+                        android:id="@+id/remainder_3"
+                        layout="@layout/layout_text_to_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/remainder_2" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--https://stackoverflow.com/questions/47467550/how-to-override-height-and-width-of-date-picker-to-fill-the-parent-layout-->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_calendar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="-16dp"
-                android:layout_marginEnd="-16dp"
-                android:layout_marginBottom="-28dp">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/card_remainders"
+                app:strokeColor="@color/black_50"
+                app:strokeWidth="1dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="104dp"
-                    android:background="@color/purple_200"
-                    android:visibility="gone" />
-
-                <!--DatePicker style="@style/ThemeOverlay.App.DatePicker"-->
-                <!--android:dateTextAppearance="@style/CalenderViewDateCustomText"-->
-                <!--android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"-->
-                <!--android:focusedMonthDateColor="@style/CalenderViewWeekCustomText"-->
-                <!--android:weekNumberColor="@color/purple_500"-->
-                <!--android:scaleX="1.1"-->
-                <!--android:scaleY="1.1"-->
-                <!--android:layout_width="wrap_content"-->
-                <CalendarView
-                    android:id="@+id/date_picker"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:theme="@style/Widget.CalendarView.Custom" />
-            </RelativeLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    android:layout_marginStart="-16dp"
+                    android:layout_marginEnd="-16dp"
+                    android:layout_marginBottom="-28dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_public_holidays"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:clipChildren="true"
-            android:clipToPadding="true"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_calendar"
-            app:strokeColor="@color/black_50"
-            app:strokeWidth="1dp">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="104dp"
+                        android:background="@color/purple_200"
+                        android:visibility="gone" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+                    <!--DatePicker style="@style/ThemeOverlay.App.DatePicker"-->
+                    <!--android:dateTextAppearance="@style/CalenderViewDateCustomText"-->
+                    <!--android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"-->
+                    <!--android:focusedMonthDateColor="@style/CalenderViewWeekCustomText"-->
+                    <!--android:weekNumberColor="@color/purple_500"-->
+                    <!--android:scaleX="1.1"-->
+                    <!--android:scaleY="1.1"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <CalendarView
+                        android:id="@+id/date_picker"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:theme="@style/Widget.CalendarView.Custom" />
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_public_holidays"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="16dp">
+                android:layout_margin="16dp"
+                android:clipChildren="true"
+                android:clipToPadding="true"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_calendar"
+                app:strokeColor="@color/black_50"
+                app:strokeWidth="1dp">
 
-                <TextView
-                    android:id="@+id/tv_holidays_placeholder"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:ellipsize="end"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLines="2"
-                    android:text="Public Holidays"
-                    android:textColor="@color/title_color"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <include
-                    android:id="@+id/holiday_1"
-                    layout="@layout/layout_text_to_text"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_holidays_placeholder" />
+                    android:paddingBottom="16dp">
 
-                <include
-                    android:id="@+id/holiday_2"
-                    layout="@layout/layout_text_to_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/holiday_1" />
+                    <TextView
+                        android:id="@+id/tv_holidays_placeholder"
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:ellipsize="end"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="2"
+                        android:text="Public Holidays"
+                        android:textColor="@color/title_color"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <include
-                    android:id="@+id/holiday_3"
-                    layout="@layout/layout_text_to_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/holiday_2" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <include
+                        android:id="@+id/holiday_1"
+                        layout="@layout/layout_text_to_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_holidays_placeholder" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_youtube_videos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="vertical"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/card_public_holidays">
+                    <include
+                        android:id="@+id/holiday_2"
+                        layout="@layout/layout_text_to_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/holiday_1" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+                    <include
+                        android:id="@+id/holiday_3"
+                        layout="@layout/layout_text_to_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/holiday_2" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_youtube_videos"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/card_public_holidays">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_thumbnail"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="208dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/p11"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="wrap_content">
 
-                <View
-                    android:id="@+id/view_black_fade"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:background="@drawable/background_black_gradient_fade"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_thumbnail"
+                        android:layout_width="match_parent"
+                        android:layout_height="208dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/p11"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_video_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:elevation="8dp"
-                    android:ellipsize="end"
-                    android:maxLines="3"
-                    android:text="Video Title"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_play_youtube_video"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    <View
+                        android:id="@+id/view_black_fade"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:background="@drawable/background_black_gradient_fade"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_play_youtube_video"
-                    android:layout_width="wrap_content"
-                    android:layout_height="44dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:backgroundTint="@color/white"
-                    android:elevation="0dp"
-                    android:text="Play"
-                    android:textAllCaps="false"
-                    android:textColor="@color/purple_500"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:shapeAppearance="@style/RoundSmall" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_video_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:elevation="8dp"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:text="Video Title"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_play_youtube_video"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/card_youtube_videos" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_play_youtube_video"
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:backgroundTint="@color/white"
+                        android:elevation="0dp"
+                        android:text="Play"
+                        android:textAllCaps="false"
+                        android:textColor="@color/purple_500"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:shapeAppearance="@style/RoundSmall" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        <ImageView
-            android:id="@+id/iv_glance_image_expanded"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/purple_50"
-            android:scaleType="fitCenter"
-            android:src="@drawable/p3"
-            android:visibility="gone" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@+id/card_youtube_videos" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <ImageView
+        android:id="@+id/iv_glance_image_expanded_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/p3"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_glance_image_expanded"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/p3"
+        android:visibility="gone" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.work.*
 import coil.load
 import com.google.android.material.chip.Chip
@@ -16,7 +15,6 @@ import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentTodayBinding
 import com.singularitycoder.flowlauncher.helper.*
-import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
 import com.singularitycoder.flowlauncher.helper.constants.*
 import com.singularitycoder.flowlauncher.model.News
 import com.singularitycoder.flowlauncher.model.Quote
@@ -26,7 +24,6 @@ import com.singularitycoder.flowlauncher.worker.NewsWorker
 import com.singularitycoder.flowlauncher.worker.TrendingTweetsWorker
 import com.singularitycoder.flowlauncher.worker.WeatherWorker
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 // Refresh on every swipe
 // Rearrangable cards
@@ -134,7 +131,6 @@ class TodayFragment : Fragment() {
 
         var newsPosition = 0
         var newsImagePosition = 0
-        val blurEngine = BlurStackOptimized()
         cardNews.setOnClickListener {
             val calculatedNewsPosition = if (newsPosition == newsList.size) {
                 newsPosition = 0
@@ -157,17 +153,6 @@ class TodayFragment : Fragment() {
             tvTitle.text = newsList[calculatedNewsPosition].title
             btnFullStory.setOnClickListener {
                 requireActivity().openWithChrome(url = newsList[calculatedNewsPosition].link ?: "")
-            }
-            lifecycleScope.launch {
-                val radius = 5
-//                val measureTime = measureTimeMillis {
-//                    val bitmapToBlur = (ivNewsImage.drawable as BitmapDrawable).bitmap
-//                    val blurredBitmap = blurEngine.blur(bitmapToBlur, radius)
-//                    doAfter(10.seconds()) {
-//                        ivNewsImage.setImageBitmap(blurredBitmap)
-//                    }
-//                }
-//                println("Time $measureTime ms with Radius: $radius using ${blurEngine.getType()}")
             }
             newsPosition++
             newsImagePosition++
@@ -207,13 +192,10 @@ class TodayFragment : Fragment() {
             quoteList = it?.ifEmpty {
                 animeQuoteList
             } ?: emptyList()
-            try {
-                quotePosition = 0
-                gradientPosition = 0
-                newsTypefacePosition = 0
-                cardQuotes.performClick()
-            } catch (_: Exception) {
-            }
+            quotePosition = 0
+            gradientPosition = 0
+            newsTypefacePosition = 0
+            cardQuotes.performClick()
         }
     }
 

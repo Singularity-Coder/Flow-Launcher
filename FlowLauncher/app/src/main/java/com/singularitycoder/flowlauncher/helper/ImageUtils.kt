@@ -2,6 +2,8 @@ package com.singularitycoder.flowlauncher
 
 import android.content.Context
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
@@ -10,6 +12,7 @@ import android.renderscript.Matrix4f
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicColorMatrix
 import androidx.annotation.RequiresApi
+
 
 // https://stackoverflow.com/questions/5699810/how-to-change-bitmap-image-color-in-android
 // https://stackoverflow.com/questions/3373860/convert-a-bitmap-to-grayscale-in-android#comment15100006_7727183
@@ -241,4 +244,24 @@ fun Bitmap.sharp(): Bitmap? {
         }
     }
     return bmpBlurred
+}
+
+// https://stackoverflow.com/questions/3035692/how-to-convert-a-drawable-to-a-bitmap
+fun Drawable.toBitmap(): Bitmap? {
+    var bitmap: Bitmap? = null
+    if (this is BitmapDrawable) {
+        val bitmapDrawable = this
+        if (bitmapDrawable.bitmap != null) {
+            return bitmapDrawable.bitmap
+        }
+    }
+    bitmap = if (this.intrinsicWidth <= 0 || this.intrinsicHeight <= 0) {
+        Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888) // Single color bitmap will be created of 1x1 pixel
+    } else {
+        Bitmap.createBitmap(this.intrinsicWidth, this.intrinsicHeight, Bitmap.Config.ARGB_8888)
+    }
+    val canvas = Canvas(bitmap)
+    this.setBounds(0, 0, canvas.width, canvas.height)
+    this.draw(canvas)
+    return bitmap
 }

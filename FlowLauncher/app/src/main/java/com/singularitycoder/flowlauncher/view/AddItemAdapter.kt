@@ -60,6 +60,8 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 //                    cardUpdateParent.isVisible = true
 //                    etUpdateLink.setText(item.link)
 //                    itemClickListener.invoke(item)
+
+
                 }
 
                 if (listType == AddItemType.GLANCE_IMAGE) {

@@ -50,10 +50,7 @@ class SharedViewModel @Inject constructor(
     }
 
     fun addQuoteToDb(quote: Quote) = viewModelScope.launch {
-        try {
-            quoteDao.insert(quote)
-        } catch (e: Exception) {
-        }
+        quoteDao.insert(quote)
     }
 
     fun addGlanceImageToDb(glanceImage: GlanceImage) = viewModelScope.launch {
@@ -67,10 +64,7 @@ class SharedViewModel @Inject constructor(
     //--------------------------------------------------------------------------------
 
     fun deleteQuoteFromDb(link: String) = viewModelScope.launch {
-        try {
-            quoteDao.deleteByTitle(link)
-        } catch (e: Exception) {
-        }
+        quoteDao.deleteByTitle(link)
     }
 
     fun deleteGlanceImageFromDb(link: String) = viewModelScope.launch {

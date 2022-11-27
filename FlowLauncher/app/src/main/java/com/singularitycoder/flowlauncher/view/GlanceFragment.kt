@@ -1,6 +1,8 @@
 package com.singularitycoder.flowlauncher.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -11,18 +13,27 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.work.*
+import coil.ImageLoader
 import coil.load
+import coil.request.ImageRequest
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentGlanceBinding
 import com.singularitycoder.flowlauncher.helper.*
+import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
 import com.singularitycoder.flowlauncher.helper.constants.*
 import com.singularitycoder.flowlauncher.model.GlanceImage
 import com.singularitycoder.flowlauncher.model.Holiday
 import com.singularitycoder.flowlauncher.model.YoutubeVideo
+import com.singularitycoder.flowlauncher.toBitmap
 import com.singularitycoder.flowlauncher.worker.PublicHolidaysWorker
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.system.measureTimeMillis
 
 // Refresh on every swipe
 // Rearrangable cards
@@ -118,25 +129,52 @@ class GlanceFragment : Fragment() {
         setupTakeActionCard()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun FragmentGlanceBinding.setupUserActionListeners() {
-//        cardGlanceImages.setOnTouchListener { v, motionEvent ->
-//            val eventType = motionEvent.actionMasked
-//            when (eventType) {
-//                MotionEvent.ACTION_UP -> {
-//                    // User lifted his finger up
-//                    ivGlanceImageExpanded.isVisible = false
-//                }
-//            }
-//            return@setOnTouchListener true
-//        }
-
-        cardGlanceImages.setOnLongClickListener {
-            ivGlanceImageExpanded.isVisible = true
-            ivGlanceImageExpanded.load(currentGlanceImage.link) {
-                placeholder(com.singularitycoder.flowlauncher.R.color.black)
-                error(com.singularitycoder.flowlauncher.R.color.md_red_dark)
+        btnFullScreen.setOnTouchListener { v, motionEvent ->
+            val eventType = motionEvent.actionMasked
+            when (eventType) {
+                MotionEvent.ACTION_DOWN -> {
+                    // User touched screen with finger
+                    ivGlanceImageExpandedBackground.isVisible = true
+                    ivGlanceImageExpanded.isVisible = true
+                    lifecycleScope.launch {
+                        val imageRequest = ImageRequest.Builder(requireContext()).data(currentGlanceImage.link).listener(
+                            onStart = {
+                                // set your progressbar visible here
+                            },
+                            onSuccess = { request, metadata ->
+                                // set your progressbar invisible here
+                            }
+                        ).build()
+                        val drawable = ImageLoader(requireContext()).execute(imageRequest).drawable
+//                        ivGlanceImageExpandedBackground.setImageDrawable(drawable)
+//                        val bitmapToBlur = drawable?.toBitmap()
+                        withContext(Main) {
+                            ivGlanceImageExpanded.load(drawable)
+                            val blurEngine = BlurStackOptimized()
+                            val measureTime = measureTimeMillis {
+                                // FIXME strangely even after waiting for the bitmap to load completely it crashes. It loads the default drawable set to it in xml though
+                                val bitmapToBlur = (ivGlanceImageExpandedBackground.drawable as BitmapDrawable).bitmap
+                                val blurredBitmap = blurEngine.blur(image = bitmapToBlur, radius = 40)
+                                ivGlanceImageExpandedBackground.setImageBitmap(blurredBitmap)
+                            }
+                            println("Time $measureTime ms with Radius: 40 using ${blurEngine.getType()}")
+                        }
+                    }
+                }
+                MotionEvent.ACTION_UP -> {
+                    // User lifted his finger up
+                    ivGlanceImageExpanded.isVisible = false
+                    ivGlanceImageExpandedBackground.isVisible = false
+                }
             }
-            return@setOnLongClickListener true
+            return@setOnTouchListener true
+        }
+
+        ivGlanceImageExpandedBackground.setOnClickListener {
+            ivGlanceImageExpanded.isVisible = false
+            ivGlanceImageExpandedBackground.isVisible = false
         }
 
         setOnGlanceImageClickListener()
@@ -176,13 +214,10 @@ class GlanceFragment : Fragment() {
     private var currentImagePosition = 0
     private fun FragmentGlanceBinding.setOnGlanceImageClickListener() {
         cardGlanceImages.setOnClickListener {
-            doAfter(3.seconds()) {
-                cardImageCount.isVisible = false
-            }
             cardImageCount.isVisible = true
             currentGlanceImage = glanceImageList[currentImagePosition]
             tvImageCount.text = "${currentImagePosition + 1}/${glanceImageList.size}"
-            //            ivGlanceImage.setImageDrawable(requireContext().drawable(tempImageDrawableList[currentImagePosition]))
+//            ivGlanceImageExpandedBackground.load(glanceImageList[currentImagePosition].link)
             ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
                 placeholder(R.color.black)
                 error(R.color.md_red_dark)
@@ -229,11 +264,8 @@ class GlanceFragment : Fragment() {
             youtubeVideoList = it?.ifEmpty {
                 allYoutubeVideos
             } ?: emptyList()
-            try {
-                currentYoutubeVideoPosition = 0
-                cardYoutubeVideos.performClick()
-            } catch (_: Exception) {
-            }
+            currentYoutubeVideoPosition = 0
+            cardYoutubeVideos.performClick()
         }
         sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { imageList: List<GlanceImage>? ->
             glanceImageList = imageList?.ifEmpty {
@@ -242,11 +274,8 @@ class GlanceFragment : Fragment() {
                 }
             } ?: emptyList()
             tvImageCount.text = "${1}/${glanceImageList.size}"
-            try {
-                currentImagePosition = 0
-                cardGlanceImages.performClick()
-            } catch (_: Exception) {
-            }
+            currentImagePosition = 0
+            cardGlanceImages.performClick()
         }
     }
 
