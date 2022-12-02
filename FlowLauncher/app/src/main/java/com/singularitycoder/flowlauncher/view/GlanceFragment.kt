@@ -27,13 +27,11 @@ import com.singularitycoder.flowlauncher.helper.constants.*
 import com.singularitycoder.flowlauncher.model.GlanceImage
 import com.singularitycoder.flowlauncher.model.Holiday
 import com.singularitycoder.flowlauncher.model.YoutubeVideo
-import com.singularitycoder.flowlauncher.toBitmap
 import com.singularitycoder.flowlauncher.worker.PublicHolidaysWorker
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.system.measureTimeMillis
 
 // Refresh on every swipe
 // Rearrangable cards
@@ -139,27 +137,14 @@ class GlanceFragment : Fragment() {
                     ivGlanceImageExpandedBackground.isVisible = true
                     ivGlanceImageExpanded.isVisible = true
                     lifecycleScope.launch {
-                        val imageRequest = ImageRequest.Builder(requireContext()).data(currentGlanceImage.link).listener(
-                            onStart = {
-                                // set your progressbar visible here
-                            },
-                            onSuccess = { request, metadata ->
-                                // set your progressbar invisible here
-                            }
-                        ).build()
-                        val drawable = ImageLoader(requireContext()).execute(imageRequest).drawable
-//                        ivGlanceImageExpandedBackground.setImageDrawable(drawable)
-//                        val bitmapToBlur = drawable?.toBitmap()
-                        withContext(Main) {
-                            ivGlanceImageExpanded.load(drawable)
-                            val blurEngine = BlurStackOptimized()
-                            val measureTime = measureTimeMillis {
-                                // FIXME strangely even after waiting for the bitmap to load completely it crashes. It loads the default drawable set to it in xml though
-                                val bitmapToBlur = (ivGlanceImageExpandedBackground.drawable as BitmapDrawable).bitmap
-                                val blurredBitmap = blurEngine.blur(image = bitmapToBlur, radius = 40)
-                                ivGlanceImageExpandedBackground.setImageBitmap(blurredBitmap)
-                            }
-                            println("Time $measureTime ms with Radius: 40 using ${blurEngine.getType()}")
+                        val blurredBitmapFile = context?.internalFilesDir(fileName = "glance_mage_$currentImagePosition.jpg")
+                        if (blurredBitmapFile?.exists()?.not() == true) {
+                            blurBitmapForBackground()
+                        }
+                        val bitmapToBlur = blurredBitmapFile?.toBitmap() ?: return@launch
+                        withContext(Dispatchers.Main) {
+                            val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 30)
+                            ivGlanceImageExpandedBackground.setImageBitmap(blurredBitmap)
                         }
                     }
                 }
@@ -211,17 +196,38 @@ class GlanceFragment : Fragment() {
         }
     }
 
+    private suspend fun blurBitmapForBackground() {
+        val imageRequest = ImageRequest.Builder(requireContext()).data(currentGlanceImage.link).listener(
+            onStart = {
+                // set your progressbar visible here
+            },
+            onSuccess = { request, metadata ->
+                // set your progressbar invisible here
+            }
+        ).build()
+        val drawable = ImageLoader(requireContext()).execute(imageRequest).drawable
+        val bitmapToBlurAndSave = (drawable as BitmapDrawable).bitmap
+        requireContext().saveBitmapToInternalStorage(
+            fileName = "glance_mage_$currentImagePosition.jpg",
+            bitmap = bitmapToBlurAndSave
+        )
+    }
+
     private var currentImagePosition = 0
     private fun FragmentGlanceBinding.setOnGlanceImageClickListener() {
         cardGlanceImages.setOnClickListener {
             cardImageCount.isVisible = true
             currentGlanceImage = glanceImageList[currentImagePosition]
             tvImageCount.text = "${currentImagePosition + 1}/${glanceImageList.size}"
-//            ivGlanceImageExpandedBackground.load(glanceImageList[currentImagePosition].link)
             ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
                 placeholder(R.color.black)
                 error(R.color.md_red_dark)
             }
+            lifecycleScope.launch {
+                blurBitmapForBackground()
+            }
+            ivGlanceImageExpanded.load(glanceImageList[currentImagePosition].link)
+            ivGlanceImageExpandedBackground.load(R.drawable.black_wall)
             if (currentImagePosition == glanceImageList.lastIndex) {
                 currentImagePosition = 0
             } else {

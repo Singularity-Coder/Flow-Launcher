@@ -160,22 +160,11 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="16dp">
 
-                    <ImageView
-                        android:id="@+id/iv_weather"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:scaleType="fitEnd"
-                        android:src="@drawable/thunderstorm_black_24dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
                     <TextView
                         android:id="@+id/tv_location"
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:ellipsize="end"
                         android:fontFamily="sans-serif-thin"
@@ -184,8 +173,8 @@
                         android:text="Bengaluru @ 3:30 PM"
                         android:textColor="@color/title_color"
                         android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@+id/tv_temperature"
-                        app:layout_constraintStart_toEndOf="@+id/iv_weather"
+                        app:layout_constraintEnd_toStartOf="@+id/iv_weather"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/iv_weather" />
 
                     <TextView
@@ -193,7 +182,6 @@
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:ellipsize="end"
                         android:fontFamily="sans-serif-thin"
@@ -201,9 +189,20 @@
                         android:maxLines="1"
                         android:text="Thunder storms"
                         android:textColor="@android:color/darker_gray"
-                        app:layout_constraintEnd_toStartOf="@+id/tv_temperature"
-                        app:layout_constraintStart_toEndOf="@+id/iv_weather"
+                        app:layout_constraintEnd_toStartOf="@+id/iv_weather"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_location" />
+
+                    <ImageView
+                        android:id="@+id/iv_weather"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:scaleType="fitEnd"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/thunderstorm_black_24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_temperature"/>
 
                     <TextView
                         android:id="@+id/tv_temperature"

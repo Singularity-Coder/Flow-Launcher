@@ -285,7 +285,7 @@ val animeQuoteList = listOf(
             Strong men create good times.
             Good times create weak men.
             Weak men create hard times.
-        """.trimIndentsAndNewLines(),
+        """.trimIndent(),
         author = "Unknown"
     ),
     Quote(
@@ -483,7 +483,7 @@ val animeQuoteList = listOf(
         title = """
             When you run, you gain one by not losing. 
             But if you move forward, whether you win or not there are 2 things u gain. Experience and pride. Trust as well.
-        """.trimIndent(),
+        """.trimIndentsAndNewLines(),
         author = "Mobile Suit Gundam: The Witch from Mercury"
     ),
     Quote(

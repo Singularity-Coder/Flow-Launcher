@@ -3,6 +3,8 @@ package com.singularitycoder.flowlauncher.helper
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.core.content.ContextCompat
@@ -13,6 +15,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+
 
 fun File?.customPath(directory: String?, fileName: String?): String {
     var path = this?.absolutePath
@@ -115,4 +118,30 @@ fun Context.copyFileToInternalStorage(
 
 fun Context.isOldStorageReadPermissionGranted(): Boolean {
     return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+}
+
+// https://stackoverflow.com/questions/15662258/how-to-save-a-bitmap-on-internal-storage
+fun Context.saveBitmapToInternalStorage(fileName: String?, bitmap: Bitmap?) {
+//    val root: String = Environment.getExternalStorageDirectory().absolutePath
+//    val myDir = File("$root/saved_images").also {
+    val myFile = internalFilesDir(fileName = fileName).also {
+//        if (it.exists().not()) it.mkdirs() else it.delete()
+        if (it.exists().not()) it.createNewFile() else return
+    }
+//    val file = File(myDir, fileName).also {
+//        if (it.exists().not()) it.createNewFile()
+//    }
+//    if (file.exists()) file.delete()
+    try {
+        val out = FileOutputStream(myFile)
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, out)
+        out.flush()
+        out.close()
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+fun File?.toBitmap(): Bitmap? {
+    return BitmapFactory.decodeFile(this?.absolutePath)
 }

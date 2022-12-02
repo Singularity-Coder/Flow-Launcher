@@ -29,8 +29,8 @@ import com.singularitycoder.flowlauncher.model.Quote
 import com.singularitycoder.flowlauncher.model.YoutubeVideo
 import kotlinx.coroutines.launch
 
-// TODO double back press to exit
-// TODO upload routines from csv
+// TODO upload stuff from csv
+// TODO Export stuff to csv
 class AddFragment : Fragment() {
 
     companion object {
@@ -93,6 +93,7 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        deleteAllFilesFrom(directory = requireContext().internalFilesDir(), withName = "glance_mage_")
         binding.observeForData()
         binding.setupUI()
         binding.setupUserActionListeners()
@@ -207,9 +208,14 @@ class AddFragment : Fragment() {
         ibBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStackImmediate()
         }
-        addItemAdapter.setItemClickListener { it: AddItem ->
-            etAddItem.requestFocus()
-            etAddItem.showKeyboard()
+        addItemAdapter.setItemClickListener { item: AddItem ->
+            root.context.clipboard()?.text = when (listType) {
+                AddItemType.YOUTUBE_VIDEO -> "https://www.youtube.com/watch?v=${item.link} item.title"
+                AddItemType.QUOTE -> "${item.link} by ${item.title}"
+                AddItemType.GLANCE_IMAGE -> item.link
+                else -> ""
+            }
+            root.showSnackBar(message = "Copied", anchorView = cardAddItemParent)
         }
         addItemAdapter.setItemLongClickListener { it: AddItem ->
             requireContext().showAlertDialog(

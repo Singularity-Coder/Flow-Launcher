@@ -66,6 +66,7 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "Fullmetal Alchemist - King bradley vs Greed Ling", videoId = "SEKlQpcM-_k"),
     YoutubeVideo(title = "Fullmetal Alchemist - Greed vs Wrath", videoId = "L2-vOjf4SEk"),
     YoutubeVideo(title = "Fullmetal Alchemist - Greed VS King Bradley", videoId = "l5lDEGEOcu4"),
+    YoutubeVideo(title = "Asuka's Death - End Of Evangelion", videoId = "OO-1Yyi5KPY"),
 )
 
 val animeMusicList = listOf(

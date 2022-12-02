@@ -7,7 +7,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.singularitycoder.flowlauncher.databinding.ListItemAddBinding
+import com.singularitycoder.flowlauncher.helper.clipboard
 import com.singularitycoder.flowlauncher.helper.constants.AddItemType
+import com.singularitycoder.flowlauncher.helper.showSnackBar
 
 class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -59,9 +61,7 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 //                    clItemContainer.isVisible = false
 //                    cardUpdateParent.isVisible = true
 //                    etUpdateLink.setText(item.link)
-//                    itemClickListener.invoke(item)
-
-
+                    itemClickListener.invoke(item)
                 }
 
                 if (listType == AddItemType.GLANCE_IMAGE) {

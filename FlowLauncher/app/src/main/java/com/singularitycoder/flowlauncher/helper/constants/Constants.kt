@@ -97,6 +97,8 @@ val typefaceList = listOf(
     R.font.kaushan_script_regular,
     R.font.dancing_script_regular,
     R.font.caviar_dreams_bold,
+    R.font.milkshake,
+    R.font.yeseva_one_regular,
 
     // fontspring.com
     R.font.cabrito_didone_regular,
@@ -171,7 +173,9 @@ val tempImageDrawableList = listOf(
     R.drawable.p20,
 )
 
+// Just because the code is open source doesnt mean these are. These are just for show. Purchase them from original source for commercial use.
 val tempImageUrlList = listOf(
+    // Pexels
     "https://images.pexels.com/photos/1382731/pexels-photo-1382731.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     "https://images.pexels.com/photos/1382730/pexels-photo-1382730.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     "https://images.pexels.com/photos/1251247/pexels-photo-1251247.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
@@ -191,6 +195,71 @@ val tempImageUrlList = listOf(
     "https://images.pexels.com/photos/11623695/pexels-photo-11623695.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     "https://images.pexels.com/photos/2061057/pexels-photo-2061057.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     "https://images.pexels.com/photos/2694561/pexels-photo-2694561.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+
+    // WLOP - Art Station - I am speechless
+    "https://cdna.artstation.com/p/assets/images/images/037/291/422/large/wlop-33se.jpg?1620016916",
+    "https://cdnb.artstation.com/p/assets/images/images/031/648/147/large/wlop-3se.jpg?1604222403",
+    "https://cdnb.artstation.com/p/assets/images/images/054/497/061/large/wlop-1se.jpg?1664691512",
+    "https://cdnb.artstation.com/p/assets/images/images/054/088/453/large/wlop-2se.jpg?1663735786",
+    "https://cdna.artstation.com/p/assets/images/images/053/461/876/large/wlop-66se.jpg?1662278693",
+    "https://cdna.artstation.com/p/assets/images/images/053/058/242/large/wlop-65se.jpg?1661324815",
+    "https://cdnb.artstation.com/p/assets/images/images/051/594/225/large/wlop-34se.jpg?1657692924",
+    "https://cdnb.artstation.com/p/assets/images/images/045/923/541/large/wlop-23se.jpg?1643862531",
+    "https://cdnb.artstation.com/p/assets/images/images/045/259/505/large/wlop-10se.jpg?1642308657",
+    "https://cdna.artstation.com/p/assets/images/images/021/083/124/large/wl-op-3s.jpg?1570338646",
+
+    // DADACHYO - Deviant Art - Pure eye candy
+    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcm5wxy-01c67715-302b-4e8b-b872-40ef1fbd5124.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNtNXd4eS0wMWM2NzcxNS0zMDJiLTRlOGItYjg3Mi00MGVmMWZiZDUxMjQuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.08E9WxlJdLbOr8jX1urteeyl9rqeRq6nbqwzvbbRcuE",
+    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcg8sz8-5a0af99e-f9b7-464f-ba73-8a224058dcf0.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNnOHN6OC01YTBhZjk5ZS1mOWI3LTQ2NGYtYmE3My04YTIyNDA1OGRjZjAuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.GpGFRW4jswQNqPQPtxlg8ed64LMJc5mi3LvWlXdLP6c",
+    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcddx6a-6a5545a1-34f3-412b-9cb9-72da94e9d147.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNkZHg2YS02YTU1NDVhMS0zNGYzLTQxMmItOWNiOS03MmRhOTRlOWQxNDcuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.mgggg51YkJKkNI27dlWseejSkFPBd386HrBH_7i7uCw",
+    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dbrcn12-08622bce-b04c-4c84-9f96-2d6c868bb242.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGJyY24xMi0wODYyMmJjZS1iMDRjLTRjODQtOWY5Ni0yZDZjODY4YmIyNDIuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ehZt-O964201iQyAo-sE6rqyV8VqEynDxrf40jH3h8Y",
+    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dbqj7er-cc1a8948-c577-4ca6-99ca-e5b58f69b996.jpg/v1/fill/w_800,h_943,q_75,strp/dadachyo_1014_by_dadachyo_dbqj7er-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTQzIiwicGF0aCI6IlwvZlwvOTZmNTFjM2UtM2FiYS00ZjdjLTk4Y2ItY2RkOWUyYWNkYWY5XC9kYnFqN2VyLWNjMWE4OTQ4LWM1NzctNGNhNi05OWNhLWU1YjU4ZjY5Yjk5Ni5qcGciLCJ3aWR0aCI6Ijw9ODAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.1Ik7EiQpkcQWCz2oaIQwMbq9EkSXgFFT3odriUSmS2o",
+    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dc2y0sc-5110e5ae-8706-4a0b-b391-3b41421a8d73.jpg/v1/fill/w_600,h_740,q_75,strp/20180212_by_dadachyo_dc2y0sc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzQwIiwicGF0aCI6IlwvZlwvOTZmNTFjM2UtM2FiYS00ZjdjLTk4Y2ItY2RkOWUyYWNkYWY5XC9kYzJ5MHNjLTUxMTBlNWFlLTg3MDYtNGEwYi1iMzkxLTNiNDE0MjFhOGQ3My5qcGciLCJ3aWR0aCI6Ijw9NjAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.XDaqNsaAkMgpWtMiIfS7u5fq-WgQE9YXFz7-evro1fU",
+    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcjzk9k-ca9621d8-8554-45ab-8578-a02adf06a7d3.jpg/v1/fill/w_1066,h_750,q_70,strp/romantic_mermaid_by_dadachyo_dcjzk9k-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTAwIiwicGF0aCI6IlwvZlwvOTZmNTFjM2UtM2FiYS00ZjdjLTk4Y2ItY2RkOWUyYWNkYWY5XC9kY2p6azlrLWNhOTYyMWQ4LTg1NTQtNDVhYi04NTc4LWEwMmFkZjA2YTdkMy5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.xhLUoJtyV-_0BSPWDN4hvCweFO7aFYq3zcpzPDWrOUA",
+    "https://cdna.artstation.com/p/assets/images/images/031/928/910/large/dadachyo-20170616-1000.jpg?1605006164",
+    "https://cdna.artstation.com/p/assets/images/images/007/049/694/large/dadachyo-ddc-20170425-900jpg.jpg?1503318185",
+
+    // Z.W. Gu
+    "https://cdna.artstation.com/p/assets/images/images/023/848/644/large/z-w-gu-5b.jpg?1580520356",
+
+    // Kittichai Rueangchaichan (Razaras)
+    "https://cdna.artstation.com/p/assets/images/images/054/361/876/large/kittichai-rueangchaichan-razaras-my-room-23-p.jpg?1664365930",
+    "https://cdnb.artstation.com/p/assets/images/images/052/530/045/large/kittichai-rueangchaichan-razaras-my-room-21-p.jpg?1660045409",
+    "https://cdnb.artstation.com/p/assets/images/images/056/163/393/large/kittichai-rueangchaichan-razaras-my-room-27-e1p.jpg?1668601359",
+    "https://cdnb.artstation.com/p/assets/images/images/038/461/001/large/kittichai-rueangchaichan-razaras-oracle-my-room-p.jpg?1623162296",
+    "https://cdna.artstation.com/p/assets/images/images/050/367/312/large/kittichai-rueangchaichan-razaras-my-room-18-p1.jpg?1654686559",
+
+    // tyna. xi
+    "https://cdna.artstation.com/p/assets/images/images/056/578/432/large/tyna-xi-12.jpg?1669618820",
+
+    // Pexels
+    "https://i.pinimg.com/originals/27/1d/58/271d58601cabeabd44d73c99b8c8a113.jpg",
+    "https://images.pexels.com/photos/1496373/pexels-photo-1496373.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/45848/kumamoto-japan-aso-cloud-45848.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/1222561/pexels-photo-1222561.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/531321/pexels-photo-531321.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/797947/pexels-photo-797947.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/426894/pexels-photo-426894.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/2559484/pexels-photo-2559484.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/2397651/pexels-photo-2397651.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/1114897/pexels-photo-1114897.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/4666754/pexels-photo-4666754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/247421/pexels-photo-247421.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/1042828/pexels-photo-1042828.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/13556748/pexels-photo-13556748.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/3227984/pexels-photo-3227984.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/391522/pexels-photo-391522.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/1403550/pexels-photo-1403550.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/2765872/pexels-photo-2765872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/1336924/pexels-photo-1336924.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/6611628/pexels-photo-6611628.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/5319953/pexels-photo-5319953.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/12735759/pexels-photo-12735759.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/5326990/pexels-photo-5326990.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/5277693/pexels-photo-5277693.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/663317/pexels-photo-663317.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/2175952/pexels-photo-2175952.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 )
 
 val gradientList = listOf(
