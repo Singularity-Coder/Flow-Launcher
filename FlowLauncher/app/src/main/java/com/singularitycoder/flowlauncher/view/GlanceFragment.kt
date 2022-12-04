@@ -189,6 +189,11 @@ class GlanceFragment : Fragment() {
         sliderGlanceImage.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 println("seekbar progress: $progress")
+                ivGlanceImage.load(glanceImageList[progress].link) {
+                    placeholder(R.color.black)
+                    error(R.color.md_red_dark)
+                }
+                tvImageCount.text = "${progress + 1}/${glanceImageList.size}"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -205,6 +210,13 @@ class GlanceFragment : Fragment() {
         sliderYoutubeVideos.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 println("seekbar progress: $progress")
+                val youtubeVideo = youtubeVideoList.getOrNull(progress)
+                val youtubeVideoThumbnailUrl = youtubeVideo?.videoId?.toYoutubeThumbnailUrl()
+                ivVideoThumbnail.load(youtubeVideoThumbnailUrl) {
+                    placeholder(R.color.black)
+                    error(R.color.md_red_dark)
+                }
+                tvVideoTitle.text = youtubeVideo?.title ?: ""
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -308,7 +320,7 @@ class GlanceFragment : Fragment() {
         cardYoutubeVideos.setOnClickListener {
             val youtubeVideo = youtubeVideoList.getOrNull(currentYoutubeVideoPosition)
             val youtubeVideoThumbnailUrl = youtubeVideo?.videoId?.toYoutubeThumbnailUrl()
-            ivThumbnail.load(youtubeVideoThumbnailUrl) {
+            ivVideoThumbnail.load(youtubeVideoThumbnailUrl) {
                 placeholder(R.color.black)
                 error(R.color.md_red_dark)
             }
