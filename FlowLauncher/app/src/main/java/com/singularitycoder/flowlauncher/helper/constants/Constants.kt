@@ -196,7 +196,7 @@ val tempImageUrlList = listOf(
     "https://images.pexels.com/photos/2061057/pexels-photo-2061057.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     "https://images.pexels.com/photos/2694561/pexels-photo-2694561.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
 
-    // WLOP - Art Station - I am speechless
+    // https://www.artstation.com/wlop - I am speechless
     "https://cdna.artstation.com/p/assets/images/images/037/291/422/large/wlop-33se.jpg?1620016916",
     "https://cdnb.artstation.com/p/assets/images/images/031/648/147/large/wlop-3se.jpg?1604222403",
     "https://cdnb.artstation.com/p/assets/images/images/054/497/061/large/wlop-1se.jpg?1664691512",
@@ -208,7 +208,7 @@ val tempImageUrlList = listOf(
     "https://cdnb.artstation.com/p/assets/images/images/045/259/505/large/wlop-10se.jpg?1642308657",
     "https://cdna.artstation.com/p/assets/images/images/021/083/124/large/wl-op-3s.jpg?1570338646",
 
-    // DADACHYO - Deviant Art - Pure eye candy
+    // https://www.artstation.com/dadachyo - Pure eye candy
     "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcm5wxy-01c67715-302b-4e8b-b872-40ef1fbd5124.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNtNXd4eS0wMWM2NzcxNS0zMDJiLTRlOGItYjg3Mi00MGVmMWZiZDUxMjQuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.08E9WxlJdLbOr8jX1urteeyl9rqeRq6nbqwzvbbRcuE",
     "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcg8sz8-5a0af99e-f9b7-464f-ba73-8a224058dcf0.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNnOHN6OC01YTBhZjk5ZS1mOWI3LTQ2NGYtYmE3My04YTIyNDA1OGRjZjAuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.GpGFRW4jswQNqPQPtxlg8ed64LMJc5mi3LvWlXdLP6c",
     "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcddx6a-6a5545a1-34f3-412b-9cb9-72da94e9d147.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNkZHg2YS02YTU1NDVhMS0zNGYzLTQxMmItOWNiOS03MmRhOTRlOWQxNDcuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.mgggg51YkJKkNI27dlWseejSkFPBd386HrBH_7i7uCw",
@@ -219,25 +219,33 @@ val tempImageUrlList = listOf(
     "https://cdna.artstation.com/p/assets/images/images/031/928/910/large/dadachyo-20170616-1000.jpg?1605006164",
     "https://cdna.artstation.com/p/assets/images/images/007/049/694/large/dadachyo-ddc-20170425-900jpg.jpg?1503318185",
 
-    // Z.W. Gu
+    // https://www.artstation.com/guweiz
     "https://cdna.artstation.com/p/assets/images/images/023/848/644/large/z-w-gu-5b.jpg?1580520356",
 
-    // Kittichai Rueangchaichan (Razaras)
+    // https://www.artstation.com/razaras
     "https://cdna.artstation.com/p/assets/images/images/054/361/876/large/kittichai-rueangchaichan-razaras-my-room-23-p.jpg?1664365930",
     "https://cdnb.artstation.com/p/assets/images/images/052/530/045/large/kittichai-rueangchaichan-razaras-my-room-21-p.jpg?1660045409",
     "https://cdnb.artstation.com/p/assets/images/images/056/163/393/large/kittichai-rueangchaichan-razaras-my-room-27-e1p.jpg?1668601359",
     "https://cdnb.artstation.com/p/assets/images/images/038/461/001/large/kittichai-rueangchaichan-razaras-oracle-my-room-p.jpg?1623162296",
     "https://cdna.artstation.com/p/assets/images/images/050/367/312/large/kittichai-rueangchaichan-razaras-my-room-18-p1.jpg?1654686559",
 
-    // tyna. xi
-    "https://cdna.artstation.com/p/assets/images/images/056/578/432/large/tyna-xi-12.jpg?1669618820",
-
-    // Eli Fabien
+    // https://www.artstation.com/203
     "https://cdna.artstation.com/p/assets/images/images/002/794/298/large/zhang-weicheng-lx17.jpg?1465805961",
-    "https://cdna.artstation.com/p/assets/images/images/009/569/946/large/eli-chang-lx55.jpg?1550113910",
 
     // https://www.pinterest.com/kaatcreative/
     "https://i.pinimg.com/originals/27/1d/58/271d58601cabeabd44d73c99b8c8a113.jpg",
+
+    // https://www.artstation.com/ksenia_o
+    "https://cdnb.artstation.com/p/assets/images/images/014/397/469/large/ksenia-ovchinnikova-07.jpg?1543824755",
+
+    // https://www.artstation.com/danny008
+    "https://cdnb.artstation.com/p/assets/images/images/046/145/245/large/dannylailai-3.jpg?1644407304",
+    "https://cdna.artstation.com/p/assets/images/images/055/287/746/large/dannylailai-.jpg?1666603911",
+    "https://cdna.artstation.com/p/assets/images/images/043/142/984/large/dannylailai-.jpg?1636438625",
+
+    // https://www.artstation.com/syiyiyiyiyiyi
+    "https://cdnb.artstation.com/p/assets/images/images/037/068/003/large/yyyan-.jpg?1619406568",
+    "https://cdnb.artstation.com/p/assets/images/images/028/614/947/large/-9c430cc5ly1g986qdan7fj21ww2pgkjr.jpg?1594976637",
 
     // Pexels
     "https://images.pexels.com/photos/1496373/pexels-photo-1496373.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",

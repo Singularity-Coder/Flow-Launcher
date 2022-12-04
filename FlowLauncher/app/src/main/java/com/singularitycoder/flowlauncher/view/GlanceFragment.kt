@@ -123,7 +123,7 @@ class GlanceFragment : Fragment() {
 
     // https://stackoverflow.com/questions/30239627/how-to-change-the-style-of-a-datepicker-in-android
     private fun FragmentGlanceBinding.setupUI() {
-        ivGlanceImage.layoutParams.height = deviceWidth() - 24.dpToPx() // 32 is 16dp padding left + 16 dp padding right - 8 dp seekbar height
+        ivGlanceImage.layoutParams.height = deviceWidth() - 32.dpToPx() // 32 is 16dp padding left + 16 dp padding right
         setupRemaindersCard()
         setupTakeActionCard()
     }

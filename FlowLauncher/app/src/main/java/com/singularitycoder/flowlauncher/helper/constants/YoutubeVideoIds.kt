@@ -63,6 +63,7 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "AKIRA (1988) vs. INVINCIBLE (2021)", videoId = "3X-z7_HtPWo"),
     YoutubeVideo(title = "Gunnam Hathaway Vs Gunnam Penelope", videoId = "IoD3c_z4VTE"),
     YoutubeVideo(title = "Mobile Suit Gundam: The Witch from Mercury - Aerial vs Dilanza", videoId = "ynlncEPmLvA"),
+    YoutubeVideo(title = "Mobile Suit Gundam: The Witch from Mercury - Aerial vs Everyone (from 12:40)", videoId = "FanOJFPG72U"),
     YoutubeVideo(title = "Fullmetal Alchemist - Ira vs Gula", videoId = "xBac1xg7jDE"),
     YoutubeVideo(title = "Fullmetal Alchemist - Scar vs Bradley / Wrath", videoId = "-BrFWHXbttM"),
     YoutubeVideo(title = "Fullmetal Alchemist - King bradley vs Greed Ling", videoId = "SEKlQpcM-_k"),
@@ -213,6 +214,7 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Tokyo Ghoul - White Silence", videoId = "BkrICLDQ3T4"),
     YoutubeVideo(title = "Sayuri - Bake a Cake", videoId = "SLHHvR1Iss4"),
     YoutubeVideo(title = "Erased : 01 - Only I am missing", videoId = "xc74Bm__cP8"),
+    YoutubeVideo(title = "Re: Gundam The Witch of Mercury (Witch of Mercury)", videoId = "L2Kl8lxUbfg"), // This is probably better than the original.
 )
 
 val epicAnimeMomentsList = listOf(
