@@ -5,6 +5,8 @@ import com.singularitycoder.flowlauncher.model.YoutubeVideo
 val animeFightsList = listOf(
     YoutubeVideo(title = "Shock 1, 2, 3 (by Terkoiz)", videoId = "MoDGzRa1LW0"),
     YoutubeVideo(title = "Combat gods", videoId = "d_qGO4GrbQM"),
+    YoutubeVideo(title = "Red vs Black 2021 (by Micromist)", videoId = "rcw3jMJHNHY"),
+    YoutubeVideo(title = "Show Me What You Got Collab (hosted by Effie)", videoId = "inzFiLjzWtw"), // I think we have reached the pinnacle of fight choreo.
     YoutubeVideo(title = "True Powers - Furnox VS Avellom", videoId = "LCLxMrXKZYc"),
     YoutubeVideo(title = "Boruto - Naruto, Sasuke, and Boruto vs Momoshiki", videoId = "CZJBkQQTiCo"),
     YoutubeVideo(title = "Naruto - Madara vs shinobi alliance", videoId = "689C1gEksqs"),

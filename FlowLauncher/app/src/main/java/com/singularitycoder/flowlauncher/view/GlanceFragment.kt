@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
@@ -122,7 +123,7 @@ class GlanceFragment : Fragment() {
 
     // https://stackoverflow.com/questions/30239627/how-to-change-the-style-of-a-datepicker-in-android
     private fun FragmentGlanceBinding.setupUI() {
-        ivGlanceImage.layoutParams.height = deviceWidth() - 32.dpToPx()
+        ivGlanceImage.layoutParams.height = deviceWidth() - 24.dpToPx() // 32 is 16dp padding left + 16 dp padding right - 8 dp seekbar height
         setupRemaindersCard()
         setupTakeActionCard()
     }
@@ -134,19 +135,7 @@ class GlanceFragment : Fragment() {
             when (eventType) {
                 MotionEvent.ACTION_DOWN -> {
                     // User touched screen with finger
-                    ivGlanceImageExpandedBackground.isVisible = true
-                    ivGlanceImageExpanded.isVisible = true
-                    lifecycleScope.launch {
-                        val blurredBitmapFile = context?.internalFilesDir(fileName = "glance_mage_$currentImagePosition.jpg")
-                        if (blurredBitmapFile?.exists()?.not() == true) {
-                            blurBitmapForBackground()
-                        }
-                        val bitmapToBlur = blurredBitmapFile?.toBitmap() ?: return@launch
-                        withContext(Dispatchers.Main) {
-                            val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 30)
-                            ivGlanceImageExpandedBackground.setImageBitmap(blurredBitmap)
-                        }
-                    }
+                    onMotionEventActionDown()
                 }
                 MotionEvent.ACTION_UP -> {
                     // User lifted his finger up
@@ -186,13 +175,90 @@ class GlanceFragment : Fragment() {
                 }
             }
         }
+
         layoutUnreadSms.root.setOnClickListener {
             // TODO fix this
             requireContext().sendSms("", "")
         }
+
         layoutMissedCalls.root.setOnClickListener {
             // TODO fix this
             requireContext().openDialer("")
+        }
+
+        sliderGlanceImage.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                println("seekbar progress: $progress")
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                println("seekbar touch started!")
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                println("seekbar touch stopped!")
+                currentImagePosition = seekBar.progress
+                cardGlanceImages.performClick()
+            }
+        })
+
+        sliderYoutubeVideos.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                println("seekbar progress: $progress")
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                println("seekbar touch started!")
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                println("seekbar touch stopped!")
+                currentYoutubeVideoPosition = seekBar.progress
+                cardYoutubeVideos.performClick()
+            }
+        })
+    }
+
+    private fun FragmentGlanceBinding.observeForData() {
+        sharedViewModel.holidayListLiveData.observe(viewLifecycleOwner) { it: List<Holiday>? ->
+            if (it.isNullOrEmpty()) return@observe
+            updateHolidaysView(it)
+        }
+        sharedViewModel.youtubeVideoListLiveData.observe(viewLifecycleOwner) { it: List<YoutubeVideo>? ->
+            youtubeVideoList = it?.ifEmpty {
+                allYoutubeVideos
+            } ?: emptyList()
+            sliderYoutubeVideos.max = youtubeVideoList.lastIndex
+            currentYoutubeVideoPosition = 0
+            cardYoutubeVideos.performClick()
+        }
+        sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { imageList: List<GlanceImage>? ->
+            glanceImageList = imageList?.ifEmpty {
+                tempImageUrlList.map {
+                    GlanceImage(link = it, title = "")
+                }
+            } ?: emptyList()
+            tvImageCount.text = "${1}/${glanceImageList.size}"
+            sliderGlanceImage.max = glanceImageList.lastIndex
+            currentImagePosition = 0
+            cardGlanceImages.performClick()
+        }
+    }
+
+
+    private fun FragmentGlanceBinding.onMotionEventActionDown() {
+        ivGlanceImageExpandedBackground.isVisible = true
+        ivGlanceImageExpanded.isVisible = true
+        lifecycleScope.launch {
+            val blurredBitmapFile = context?.internalFilesDir(fileName = "glance_mage_$currentImagePosition.jpg")
+            if (blurredBitmapFile?.exists()?.not() == true) {
+                blurBitmapForBackground()
+            }
+            val bitmapToBlur = blurredBitmapFile?.toBitmap() ?: return@launch
+            withContext(Dispatchers.Main) {
+                val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 30)
+                ivGlanceImageExpandedBackground.setImageBitmap(blurredBitmap)
+            }
         }
     }
 
@@ -228,6 +294,7 @@ class GlanceFragment : Fragment() {
             }
             ivGlanceImageExpanded.load(glanceImageList[currentImagePosition].link)
             ivGlanceImageExpandedBackground.load(R.drawable.black_wall)
+            sliderGlanceImage.progress = currentImagePosition
             if (currentImagePosition == glanceImageList.lastIndex) {
                 currentImagePosition = 0
             } else {
@@ -246,6 +313,7 @@ class GlanceFragment : Fragment() {
                 error(R.color.md_red_dark)
             }
             tvVideoTitle.text = youtubeVideo?.title ?: ""
+            sliderYoutubeVideos.progress = currentYoutubeVideoPosition
             btnPlayYoutubeVideo.setOnClickListener {
                 val intent = Intent(requireContext(), YoutubeVideoActivity::class.java).apply {
                     putExtra(IntentKey.YOUTUBE_VIDEO_ID, youtubeVideo?.videoId)
@@ -258,30 +326,6 @@ class GlanceFragment : Fragment() {
             } else {
                 currentYoutubeVideoPosition++
             }
-        }
-    }
-
-    private fun FragmentGlanceBinding.observeForData() {
-        sharedViewModel.holidayListLiveData.observe(viewLifecycleOwner) { it: List<Holiday>? ->
-            if (it.isNullOrEmpty()) return@observe
-            updateHolidaysView(it)
-        }
-        sharedViewModel.youtubeVideoListLiveData.observe(viewLifecycleOwner) { it: List<YoutubeVideo>? ->
-            youtubeVideoList = it?.ifEmpty {
-                allYoutubeVideos
-            } ?: emptyList()
-            currentYoutubeVideoPosition = 0
-            cardYoutubeVideos.performClick()
-        }
-        sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { imageList: List<GlanceImage>? ->
-            glanceImageList = imageList?.ifEmpty {
-                tempImageUrlList.map {
-                    GlanceImage(link = it, title = "")
-                }
-            } ?: emptyList()
-            tvImageCount.text = "${1}/${glanceImageList.size}"
-            currentImagePosition = 0
-            cardGlanceImages.performClick()
         }
     }
 

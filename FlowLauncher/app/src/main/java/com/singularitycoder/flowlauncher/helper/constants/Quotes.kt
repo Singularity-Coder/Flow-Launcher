@@ -579,5 +579,12 @@ val animeQuoteList = listOf(
             Humans are pretty cheaply made.
         """.trimIndentsAndNewLines(),
         author = "Fullmetal Alchemist"
-    )
-)
+    ),
+    Quote(
+        title = """
+            For every high, there is a low.
+            For every winner there is a loser.
+        """.trimIndent(),
+        author = "One Punch Man"
+    ),
+).shuffled()

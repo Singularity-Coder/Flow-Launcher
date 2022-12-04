@@ -232,8 +232,14 @@ val tempImageUrlList = listOf(
     // tyna. xi
     "https://cdna.artstation.com/p/assets/images/images/056/578/432/large/tyna-xi-12.jpg?1669618820",
 
-    // Pexels
+    // Eli Fabien
+    "https://cdna.artstation.com/p/assets/images/images/002/794/298/large/zhang-weicheng-lx17.jpg?1465805961",
+    "https://cdna.artstation.com/p/assets/images/images/009/569/946/large/eli-chang-lx55.jpg?1550113910",
+
+    // https://www.pinterest.com/kaatcreative/
     "https://i.pinimg.com/originals/27/1d/58/271d58601cabeabd44d73c99b8c8a113.jpg",
+
+    // Pexels
     "https://images.pexels.com/photos/1496373/pexels-photo-1496373.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     "https://images.pexels.com/photos/45848/kumamoto-japan-aso-cloud-45848.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     "https://images.pexels.com/photos/1222561/pexels-photo-1222561.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
