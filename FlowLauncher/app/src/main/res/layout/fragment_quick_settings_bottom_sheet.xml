@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_top_rounded"
     android:orientation="vertical"
-    tools:context=".view.QuickSettingsBottomSheetFragment">
+    tools:context=".quickSettings.QuickSettingsBottomSheetFragment">
 
     <ImageView
         android:id="@+id/iv_drag_handle"

@@ -1,7 +1,7 @@
 package com.singularitycoder.flowlauncher.helper.constants
 
 import com.singularitycoder.flowlauncher.helper.trimIndentsAndNewLines
-import com.singularitycoder.flowlauncher.model.Quote
+import com.singularitycoder.flowlauncher.today.model.Quote
 
 val animeQuoteList = listOf(
     Quote(

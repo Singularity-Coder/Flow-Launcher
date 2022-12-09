@@ -1,6 +1,6 @@
 package com.singularitycoder.flowlauncher.helper.constants
 
-import com.singularitycoder.flowlauncher.model.YoutubeVideo
+import com.singularitycoder.flowlauncher.glance.model.YoutubeVideo
 
 val animeFightsList = listOf(
     YoutubeVideo(title = "Shock 1, 2, 3 (by Terkoiz)", videoId = "MoDGzRa1LW0"),
@@ -8,6 +8,7 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "Red vs Black 2021 (by Micromist)", videoId = "rcw3jMJHNHY"),
     YoutubeVideo(title = "Show Me What You Got Collab (hosted by Effie)", videoId = "inzFiLjzWtw"), // I think we have reached the pinnacle of fight choreo.
     YoutubeVideo(title = "True Powers - Furnox VS Avellom", videoId = "LCLxMrXKZYc"),
+    YoutubeVideo(title = "KJ's Final Ride (by Stealth & King)", videoId = "bIr6EZslGV8"),
     YoutubeVideo(title = "Boruto - Naruto, Sasuke, and Boruto vs Momoshiki", videoId = "CZJBkQQTiCo"),
     YoutubeVideo(title = "Naruto - Madara vs shinobi alliance", videoId = "689C1gEksqs"),
     YoutubeVideo(title = "Fate/Apocrypha - Siegfried VS Karna [60FPS]", videoId = "i_kPukc6bkE"),
@@ -167,6 +168,8 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Mobile Suit Gundam: Hathaway - 83UeI", videoId = "J7a_AKOhAxE"),
     YoutubeVideo(title = "Mobile Suit Gundam: Hathaway - [I]", videoId = "grV2F8RKR8k"),
     YoutubeVideo(title = "Mobile Suit Gundam: Hathaway - 20200723zr", videoId = "R7EcmWRSGwg"),
+    YoutubeVideo(title = "Takashi Ohmama - The Witch From Mercury", videoId = "we1q-unjRq0"),
+    YoutubeVideo(title = "Enryu - Re: Gundam The Witch of Mercury (Witch of Mercury)", videoId = "L2Kl8lxUbfg"),
     YoutubeVideo(title = "Evolution of Gundam Hathaway 1989-2021 - Novel | Game | Movie", videoId = "Q9sInjYvZ-Q"), // BGM is great
     YoutubeVideo(title = "Solo Leveling - Official Trailer", videoId = "OsJryfXUFXE"),
     YoutubeVideo(title = "Sawano Hiroyuki Playlist - Avid, Tranquility, CRY, CRYst-Alise, e of s, ViEW, narrative, ninelie ＜cry-v＞, Binary Star, Unti-L, Cage, 0.vers, oldToday, mot1on, No differences, Till I, scaPEGoat", videoId = "PUSkqc1amgI"),
@@ -214,7 +217,6 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Tokyo Ghoul - White Silence", videoId = "BkrICLDQ3T4"),
     YoutubeVideo(title = "Sayuri - Bake a Cake", videoId = "SLHHvR1Iss4"),
     YoutubeVideo(title = "Erased : 01 - Only I am missing", videoId = "xc74Bm__cP8"),
-    YoutubeVideo(title = "Re: Gundam The Witch of Mercury (Witch of Mercury)", videoId = "L2Kl8lxUbfg"), // This is probably better than the original.
 )
 
 val epicAnimeMomentsList = listOf(

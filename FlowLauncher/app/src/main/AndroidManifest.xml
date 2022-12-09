@@ -59,7 +59,7 @@
         <!-- android:stateNotNeeded="true"-->
         <!-- android:clearTaskOnLaunch="true"-->
         <activity
-            android:name=".view.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,12 +76,12 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.ExoPlayerActivity"
+            android:name=".glance.view.ExoPlayerActivity"
             android:exported="false"
             android:screenOrientation="landscape"
             android:turnScreenOn="true" />
         <activity
-            android:name=".view.YoutubeVideoActivity"
+            android:name=".glance.view.YoutubeVideoActivity"
             android:exported="false"
             android:screenOrientation="landscape"
             android:turnScreenOn="true" />

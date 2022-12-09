@@ -121,20 +121,20 @@ fun Context.isOldStorageReadPermissionGranted(): Boolean {
 }
 
 // https://stackoverflow.com/questions/15662258/how-to-save-a-bitmap-on-internal-storage
-fun Context.saveBitmapToInternalStorage(fileName: String?, bitmap: Bitmap?) {
+fun Bitmap?.saveToInternalStorage(
+    fileName: String,
+    fileDir: String,
+) {
 //    val root: String = Environment.getExternalStorageDirectory().absolutePath
-//    val myDir = File("$root/saved_images").also {
-    val myFile = internalFilesDir(fileName = fileName).also {
-//        if (it.exists().not()) it.mkdirs() else it.delete()
+    val directory = File(fileDir).also {
+        if (it.exists().not()) it.mkdirs()
+    }
+    val file = File(/* parent = */ directory, /* child = */ fileName).also {
         if (it.exists().not()) it.createNewFile() else return
     }
-//    val file = File(myDir, fileName).also {
-//        if (it.exists().not()) it.createNewFile()
-//    }
-//    if (file.exists()) file.delete()
     try {
-        val out = FileOutputStream(myFile)
-        bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, out)
+        val out = FileOutputStream(file)
+        this?.compress(Bitmap.CompressFormat.JPEG, 90, out)
         out.flush()
         out.close()
     } catch (e: Exception) {

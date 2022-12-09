@@ -2,8 +2,8 @@ package com.singularitycoder.flowlauncher.helper.constants
 
 import com.singularitycoder.flowlauncher.BuildConfig
 import com.singularitycoder.flowlauncher.R
-import com.singularitycoder.flowlauncher.model.QuoteColor
-import com.singularitycoder.flowlauncher.view.AddFragment
+import com.singularitycoder.flowlauncher.addEditMedia.view.AddFragment
+import com.singularitycoder.flowlauncher.today.model.QuoteColor
 import java.util.concurrent.TimeUnit
 
 const val FILE_PROVIDER_AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider"
@@ -39,6 +39,8 @@ object Db {
 }
 
 object Table {
+    const val APP = "table_app"
+    const val APP_FLOW = "table_app_flow"
     const val CONTACT = "table_contact"
     const val NEWS = "table_news"
     const val WEATHER = "table_weather"
@@ -110,14 +112,12 @@ val typefaceList = listOf(
     R.font.fiorina_title_light,
     R.font.fiorina_title_light_italic,
     R.font.sovba_regular,
-    R.font.dhanna_soft_regular_italic,
     R.font.jt_leonor_light,
     R.font.pons_rounded_slab_regular,
     R.font.haboro_regular,
     R.font.lagu_sans_light,
     R.font.cardillac_light,
     R.font.contax_sans_55_regular,
-    R.font.contax_sans_56_italic,
     R.font.fertigo_pro_regular,
     R.font.wreath_halftone_regular,
     R.font.civita_light,
@@ -140,7 +140,6 @@ val typefaceList = listOf(
     R.font.primer_print_regular,
     R.font.primer_print_bold,
     R.font.cyntho_next_light,
-    R.font.cyntho_next_light_italic,
     R.font.jt_marnie_light,
     R.font.solitas_serif_normal_regular,
     R.font.goudy_serial_regular,
@@ -148,6 +147,13 @@ val typefaceList = listOf(
     R.font.radiata_medium,
     R.font.belda_normal_regular,
     R.font.recharge_bold,
+
+    // Google Fonts
+    R.font.courgette_regular,
+    R.font.montserrat_alternates_regular,
+    R.font.cookie_regular,
+    R.font.oleo_script_regular,
+    R.font.playball_regular,
 )
 
 val tempImageDrawableList = listOf(
@@ -246,6 +252,11 @@ val tempImageUrlList = listOf(
     // https://www.artstation.com/syiyiyiyiyiyi
     "https://cdnb.artstation.com/p/assets/images/images/037/068/003/large/yyyan-.jpg?1619406568",
     "https://cdnb.artstation.com/p/assets/images/images/028/614/947/large/-9c430cc5ly1g986qdan7fj21ww2pgkjr.jpg?1594976637",
+
+    // https://www.artstation.com/7200ss
+    "https://cdnb.artstation.com/p/assets/images/images/005/840/803/large/sangsoo-jeong-android18.jpg?1494165857",
+    "https://cdna.artstation.com/p/assets/images/images/046/618/948/large/sangsoo-jeong-traditionalarmorgirl-4crop.jpg?1645557954",
+    "https://cdna.artstation.com/p/assets/images/images/056/705/036/large/sangsoo-jeong-traditionalarmorgirl-8taracrop.jpg?1669895743",
 
     // Pexels
     "https://images.pexels.com/photos/1496373/pexels-photo-1496373.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",

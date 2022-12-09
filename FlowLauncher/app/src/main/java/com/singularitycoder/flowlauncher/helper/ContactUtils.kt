@@ -6,7 +6,7 @@ import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.ContactsContract
-import com.singularitycoder.flowlauncher.model.Contact
+import com.singularitycoder.flowlauncher.home.model.Contact
 import java.io.InputStream
 
 // https://stackoverflow.com/questions/12562151/android-get-all-contacts

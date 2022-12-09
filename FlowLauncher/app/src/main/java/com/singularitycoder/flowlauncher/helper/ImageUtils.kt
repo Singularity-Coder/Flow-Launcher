@@ -80,7 +80,7 @@ val purpleFilter2 = floatArrayOf(
 )
 
 // https://stackoverflow.com/questions/3373860/convert-a-bitmap-to-grayscale-in-android
-fun Bitmap.toGrayscale(): Bitmap? {
+fun Bitmap.toGrayscaleFilter(): Bitmap? {
     val bitmapGrayScaled = Bitmap.createBitmap(
         /* width = */ this.width,
         /* height = */ this.height,
@@ -102,7 +102,7 @@ fun Bitmap.toGrayscale(): Bitmap? {
     return bitmapGrayScaled
 }
 
-fun Bitmap.toBlueScale(): Bitmap? {
+fun Bitmap.toBlueFilter(): Bitmap? {
     val bitmapGrayScaled = Bitmap.createBitmap(
         /* width = */ this.width,
         /* height = */ this.height,
@@ -264,4 +264,13 @@ fun Drawable.toBitmap(): Bitmap? {
     this.setBounds(0, 0, canvas.width, canvas.height)
     this.draw(canvas)
     return bitmap
+}
+
+fun Context.path(drawable: Drawable) {
+    val resId: Int = this.resources.getIdentifier("imageNameHere", "drawable", this.packageName)
+}
+
+fun getURLForResource(resourceId: Int): String? {
+    //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+    return Uri.parse("android.resource://" + R::class.java.getPackage().name + "/" + resourceId).toString()
 }

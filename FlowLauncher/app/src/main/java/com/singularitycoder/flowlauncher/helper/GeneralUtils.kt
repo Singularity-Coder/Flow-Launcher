@@ -42,7 +42,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.singularitycoder.flowlauncher.R
-import com.singularitycoder.flowlauncher.view.MainActivity
+import com.singularitycoder.flowlauncher.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -8,10 +8,11 @@ import android.content.Intent
 import android.content.pm.PackageInstaller.SessionParams
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
+import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import com.singularitycoder.flowlauncher.model.App
+import com.singularitycoder.flowlauncher.home.model.App
 import java.io.IOException
 
 // https://stackoverflow.com/questions/10297149/listen-for-app-installed-upgraded-broadcast-message-in-android
@@ -24,7 +25,6 @@ import java.io.IOException
  * To allow your app to see all other installed apps, Android 11 introduces the QUERY_ALL_PACKAGES permission.
  * */
 fun Context.appList(): List<App> {
-    val appList = mutableListOf<App>()
     val intent = Intent(Intent.ACTION_MAIN, null).apply {
         addCategory(Intent.CATEGORY_LAUNCHER)
     }
@@ -33,16 +33,18 @@ fun Context.appList(): List<App> {
     } else {
         packageManager.queryIntentActivities(intent, 0)
     }
-    for (item in allApps) {
-        val app = App().apply {
-            title = item.loadLabel(packageManager).toString()
-            packageName = item.activityInfo.packageName
-            icon = item.activityInfo.loadIcon(packageManager)
+    return allApps.map { item: ResolveInfo? ->
+//        val bitmap = (item.activityInfo.loadIcon(packageManager) as BitmapDrawable).bitmap
+//        val appIconName = "app_icon_${item.activityInfo.packageName}".replace(oldValue = ".", newValue = "_")
+//        val appIconDir = "${filesDir.absolutePath}/app_icons"
+//        bitmap.saveToInternalStorage(appIconName, appIconDir)
+        App().apply {
+            title = item?.loadLabel(packageManager).toString()
+            packageName = item?.activityInfo?.packageName ?: ""
+            icon = item?.activityInfo?.loadIcon(packageManager)
             println("packageName: $packageName")
         }
-        appList.add(app)
     }
-    return appList
 }
 
 fun Activity.launchApp(packageName: String) {
