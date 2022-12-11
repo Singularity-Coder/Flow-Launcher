@@ -168,7 +168,8 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Mobile Suit Gundam: Hathaway - 83UeI", videoId = "J7a_AKOhAxE"),
     YoutubeVideo(title = "Mobile Suit Gundam: Hathaway - [I]", videoId = "grV2F8RKR8k"),
     YoutubeVideo(title = "Mobile Suit Gundam: Hathaway - 20200723zr", videoId = "R7EcmWRSGwg"),
-    YoutubeVideo(title = "Takashi Ohmama - The Witch From Mercury", videoId = "we1q-unjRq0"),
+    YoutubeVideo(title = "Takashi Ohmama - The Witch From Mercury", videoId = "we1q-unjRq0"), // This is so epic
+    YoutubeVideo(title = "Takashi Ohmama - Asticassia", videoId = "TxSWWaXl20g"), // The title for this should be "Hope"
     YoutubeVideo(title = "Enryu - Re: Gundam The Witch of Mercury (Witch of Mercury)", videoId = "L2Kl8lxUbfg"),
     YoutubeVideo(title = "Evolution of Gundam Hathaway 1989-2021 - Novel | Game | Movie", videoId = "Q9sInjYvZ-Q"), // BGM is great
     YoutubeVideo(title = "Solo Leveling - Official Trailer", videoId = "OsJryfXUFXE"),

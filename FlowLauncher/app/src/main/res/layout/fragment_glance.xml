@@ -102,29 +102,42 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_full_screen"
+                        android:id="@+id/btn_show_in_browser"
                         style="@style/Widget.App.Button.IconOnly"
                         android:layout_width="30dp"
                         android:layout_height="0dp"
                         android:layout_marginEnd="8dp"
                         android:backgroundTint="@color/screen_background"
                         android:elevation="1dp"
+                        app:icon="@drawable/ic_round_open_in_new_24_2"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_full_screen"
+                        app:layout_constraintBottom_toBottomOf="@+id/card_image_count"
+                        app:layout_constraintTop_toTopOf="@+id/card_image_count" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_full_screen"
+                        style="@style/Widget.App.Button.IconOnly"
+                        android:layout_width="30dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="16dp"
+                        android:backgroundTint="@color/screen_background"
+                        android:elevation="1dp"
                         app:icon="@drawable/ic_round_fullscreen_24"
                         app:layout_constraintBottom_toBottomOf="@+id/card_image_count"
-                        app:layout_constraintEnd_toStartOf="@+id/card_image_count"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/card_image_count" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_image_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginBottom="16dp"
                         app:cardBackgroundColor="@color/screen_background"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="1dp"
                         app:layout_constraintBottom_toBottomOf="@+id/iv_glance_image"
-                        app:layout_constraintEnd_toEndOf="parent">
+                        app:layout_constraintStart_toStartOf="parent">
 
                         <TextView
                             android:id="@+id/tv_image_count"

@@ -92,10 +92,14 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        deleteAllFilesFrom(directory = requireContext().internalFilesDir(directory = "glance_images"), withName = "glance_image_")
         binding.observeForData()
         binding.setupUI()
         binding.setupUserActionListeners()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        deleteAllFilesFrom(directory = requireContext().internalFilesDir(directory = "glance_images"), withName = "glance_image_")
     }
 
     @SuppressLint("NotifyDataSetChanged")

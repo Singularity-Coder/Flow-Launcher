@@ -158,6 +158,14 @@ class GlanceFragment : Fragment() {
             ivGlanceImageExpandedBackground.isVisible = false
         }
 
+        btnShowInBrowser.setOnClickListener {
+            requireActivity().openWithChrome(
+                glanceImageList[currentImagePosition].title.ifBlank {
+                    glanceImageList[currentImagePosition].link
+                }
+            )
+        }
+
         setOnGlanceImageClickListener()
 
         setOnYoutubeVideoClickListener()
@@ -253,9 +261,7 @@ class GlanceFragment : Fragment() {
         }
         sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { imageList: List<GlanceImage>? ->
             glanceImageList = imageList?.ifEmpty {
-                tempImageUrlList.map {
-                    GlanceImage(link = it, title = "")
-                }
+                tempImageUrlList
             } ?: emptyList()
             tvImageCount.text = "${1}/${glanceImageList.size}"
             sliderGlanceImage.max = glanceImageList.lastIndex
