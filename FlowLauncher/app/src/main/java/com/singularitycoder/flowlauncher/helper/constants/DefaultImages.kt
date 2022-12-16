@@ -65,16 +65,38 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/D3hiTIQV4AIOA3u?format=jpg&name=4096x4096", title = "https://twitter.com/Merasgar"),
 
     // https://www.artstation.com/dadachyo - Pure eye candy
-    GlanceImage(link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcm5wxy-01c67715-302b-4e8b-b872-40ef1fbd5124.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNtNXd4eS0wMWM2NzcxNS0zMDJiLTRlOGItYjg3Mi00MGVmMWZiZDUxMjQuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.08E9WxlJdLbOr8jX1urteeyl9rqeRq6nbqwzvbbRcuE", title = "https://www.artstation.com/dadachyo"),
-    GlanceImage(link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcg8sz8-5a0af99e-f9b7-464f-ba73-8a224058dcf0.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNnOHN6OC01YTBhZjk5ZS1mOWI3LTQ2NGYtYmE3My04YTIyNDA1OGRjZjAuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.GpGFRW4jswQNqPQPtxlg8ed64LMJc5mi3LvWlXdLP6c", title = "https://www.artstation.com/dadachyo"),
-    GlanceImage(link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcddx6a-6a5545a1-34f3-412b-9cb9-72da94e9d147.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNkZHg2YS02YTU1NDVhMS0zNGYzLTQxMmItOWNiOS03MmRhOTRlOWQxNDcuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.mgggg51YkJKkNI27dlWseejSkFPBd386HrBH_7i7uCw", title = "https://www.artstation.com/dadachyo"),
-    GlanceImage(link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dbrcn12-08622bce-b04c-4c84-9f96-2d6c868bb242.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGJyY24xMi0wODYyMmJjZS1iMDRjLTRjODQtOWY5Ni0yZDZjODY4YmIyNDIuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ehZt-O964201iQyAo-sE6rqyV8VqEynDxrf40jH3h8Y", title = "https://www.artstation.com/dadachyo"),
-    GlanceImage(link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dbqj7er-cc1a8948-c577-4ca6-99ca-e5b58f69b996.jpg/v1/fill/w_800,h_943,q_75,strp/dadachyo_1014_by_dadachyo_dbqj7er-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTQzIiwicGF0aCI6IlwvZlwvOTZmNTFjM2UtM2FiYS00ZjdjLTk4Y2ItY2RkOWUyYWNkYWY5XC9kYnFqN2VyLWNjMWE4OTQ4LWM1NzctNGNhNi05OWNhLWU1YjU4ZjY5Yjk5Ni5qcGciLCJ3aWR0aCI6Ijw9ODAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.1Ik7EiQpkcQWCz2oaIQwMbq9EkSXgFFT3odriUSmS2o", title = "https://www.artstation.com/dadachyo"),
-    GlanceImage(link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dc2y0sc-5110e5ae-8706-4a0b-b391-3b41421a8d73.jpg/v1/fill/w_600,h_740,q_75,strp/20180212_by_dadachyo_dc2y0sc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzQwIiwicGF0aCI6IlwvZlwvOTZmNTFjM2UtM2FiYS00ZjdjLTk4Y2ItY2RkOWUyYWNkYWY5XC9kYzJ5MHNjLTUxMTBlNWFlLTg3MDYtNGEwYi1iMzkxLTNiNDE0MjFhOGQ3My5qcGciLCJ3aWR0aCI6Ijw9NjAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.XDaqNsaAkMgpWtMiIfS7u5fq-WgQE9YXFz7-evro1fU", title = "https://www.artstation.com/dadachyo"),
-    GlanceImage(link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcjzk9k-ca9621d8-8554-45ab-8578-a02adf06a7d3.jpg/v1/fill/w_1066,h_750,q_70,strp/romantic_mermaid_by_dadachyo_dcjzk9k-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTAwIiwicGF0aCI6IlwvZlwvOTZmNTFjM2UtM2FiYS00ZjdjLTk4Y2ItY2RkOWUyYWNkYWY5XC9kY2p6azlrLWNhOTYyMWQ4LTg1NTQtNDVhYi04NTc4LWEwMmFkZjA2YTdkMy5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.xhLUoJtyV-_0BSPWDN4hvCweFO7aFYq3zcpzPDWrOUA", title = "https://www.artstation.com/dadachyo"),
+    GlanceImage(
+        link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcm5wxy-01c67715-302b-4e8b-b872-40ef1fbd5124.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNtNXd4eS0wMWM2NzcxNS0zMDJiLTRlOGItYjg3Mi00MGVmMWZiZDUxMjQuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.08E9WxlJdLbOr8jX1urteeyl9rqeRq6nbqwzvbbRcuE",
+        title = "https://www.artstation.com/dadachyo"
+    ),
+    GlanceImage(
+        link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcg8sz8-5a0af99e-f9b7-464f-ba73-8a224058dcf0.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNnOHN6OC01YTBhZjk5ZS1mOWI3LTQ2NGYtYmE3My04YTIyNDA1OGRjZjAuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.GpGFRW4jswQNqPQPtxlg8ed64LMJc5mi3LvWlXdLP6c",
+        title = "https://www.artstation.com/dadachyo"
+    ),
+    GlanceImage(
+        link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcddx6a-6a5545a1-34f3-412b-9cb9-72da94e9d147.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNkZHg2YS02YTU1NDVhMS0zNGYzLTQxMmItOWNiOS03MmRhOTRlOWQxNDcuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.mgggg51YkJKkNI27dlWseejSkFPBd386HrBH_7i7uCw",
+        title = "https://www.artstation.com/dadachyo"
+    ),
+    GlanceImage(
+        link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dbrcn12-08622bce-b04c-4c84-9f96-2d6c868bb242.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGJyY24xMi0wODYyMmJjZS1iMDRjLTRjODQtOWY5Ni0yZDZjODY4YmIyNDIuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ehZt-O964201iQyAo-sE6rqyV8VqEynDxrf40jH3h8Y",
+        title = "https://www.artstation.com/dadachyo"
+    ),
+    GlanceImage(
+        link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dbqj7er-cc1a8948-c577-4ca6-99ca-e5b58f69b996.jpg/v1/fill/w_800,h_943,q_75,strp/dadachyo_1014_by_dadachyo_dbqj7er-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTQzIiwicGF0aCI6IlwvZlwvOTZmNTFjM2UtM2FiYS00ZjdjLTk4Y2ItY2RkOWUyYWNkYWY5XC9kYnFqN2VyLWNjMWE4OTQ4LWM1NzctNGNhNi05OWNhLWU1YjU4ZjY5Yjk5Ni5qcGciLCJ3aWR0aCI6Ijw9ODAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.1Ik7EiQpkcQWCz2oaIQwMbq9EkSXgFFT3odriUSmS2o",
+        title = "https://www.artstation.com/dadachyo"
+    ),
+    GlanceImage(
+        link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dc2y0sc-5110e5ae-8706-4a0b-b391-3b41421a8d73.jpg/v1/fill/w_600,h_740,q_75,strp/20180212_by_dadachyo_dc2y0sc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzQwIiwicGF0aCI6IlwvZlwvOTZmNTFjM2UtM2FiYS00ZjdjLTk4Y2ItY2RkOWUyYWNkYWY5XC9kYzJ5MHNjLTUxMTBlNWFlLTg3MDYtNGEwYi1iMzkxLTNiNDE0MjFhOGQ3My5qcGciLCJ3aWR0aCI6Ijw9NjAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.XDaqNsaAkMgpWtMiIfS7u5fq-WgQE9YXFz7-evro1fU",
+        title = "https://www.artstation.com/dadachyo"
+    ),
+    GlanceImage(
+        link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcjzk9k-ca9621d8-8554-45ab-8578-a02adf06a7d3.jpg/v1/fill/w_1066,h_750,q_70,strp/romantic_mermaid_by_dadachyo_dcjzk9k-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTAwIiwicGF0aCI6IlwvZlwvOTZmNTFjM2UtM2FiYS00ZjdjLTk4Y2ItY2RkOWUyYWNkYWY5XC9kY2p6azlrLWNhOTYyMWQ4LTg1NTQtNDVhYi04NTc4LWEwMmFkZjA2YTdkMy5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.xhLUoJtyV-_0BSPWDN4hvCweFO7aFYq3zcpzPDWrOUA",
+        title = "https://www.artstation.com/dadachyo"
+    ),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/031/928/910/large/dadachyo-20170616-1000.jpg?1605006164", title = "https://www.artstation.com/dadachyo"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/007/049/694/large/dadachyo-ddc-20170425-900jpg.jpg?1503318185", title = "https://www.artstation.com/dadachyo"),
     GlanceImage(link = "https://pbs.twimg.com/media/FBgAS8yUYAQSq9O?format=jpg&name=900x900", title = "https://www.artstation.com/dadachyo"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EdCvllaUEAMv7L0?format=jpg&name=medium", title = "https://www.artstation.com/dadachyo"),
 
     // https://www.artstation.com/ragu6
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/050/901/853/large/ragu-asset.jpg?1655966434", title = "https://www.artstation.com/ragu6"),
@@ -231,4 +253,21 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/047/832/306/large/anato-finnstark-webpetit.jpg?1648558309", title = "https://www.artstation.com/anto-finnstark"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/024/406/355/large/anato-finnstark-sekiro-dragon-s-blood-by-anatofinnstark-dd6ng9p-fullview.jpg?1582302584", title = "https://www.artstation.com/anto-finnstark"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/048/771/324/large/anato-finnstark-the-blade-of-miquella-by-anatofinnstark-df49r6q-fullview.jpg?1650906784", title = "https://www.artstation.com/anto-finnstark"),
+
+    // https://www.artstation.com/xision
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/040/678/062/large/xision-wu-6.jpg?1629569223", title = "https://www.artstation.com/xision"),
+
+    // https://www.artstation.com/shanqiao
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/000/735/191/large/shan-qiao-shan-qiao-term2-dp2-week9-001.jpg?1431846469", title = "https://www.artstation.com/shanqiao"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/029/230/562/large/shan-qiao-worlds2020-full-kv-1920x1080-002.jpg?1596859093", title = "https://www.artstation.com/shanqiao"),
+
+    // https://www.pinterest.com/emilyqb2191/
+    GlanceImage(link = "https://i.pinimg.com/564x/be/1c/8c/be1c8c91a07e8e211d0808508fe713ed.jpg", title = "https://www.pinterest.com/emilyqb2191/"),
+
+    // https://www.artstation.com/vvhohvv
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/015/174/771/large/vvhohvv-xx-a-7.jpg?1547365214", title = "https://www.artstation.com/vvhohvv"),
+
+    // https://www.pinterest.com/polverina/
+    GlanceImage(link = "https://i.pinimg.com/564x/78/e8/c9/78e8c9e339d313e9c0af15169a2db5b6.jpg", title = "https://www.pinterest.com/polverina/"),
+
 )

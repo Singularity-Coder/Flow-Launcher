@@ -24,11 +24,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-4dp"
-        android:text="Select Apps for this Flow"
+        android:text="Select Apps"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintTop_toBottomOf="@+id/iv_drag_handle" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -42,16 +48,15 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_apps"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:itemCount="6"
-                tools:listitem="@layout/list_item_app" />
+                tools:listitem="@layout/list_item_app_selector" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

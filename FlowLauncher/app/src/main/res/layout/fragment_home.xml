@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".home.view.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,10 +45,10 @@
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:scrollbars="none"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_flow_type"
             tools:itemCount="6"
             tools:listitem="@layout/list_item_app" />
@@ -55,9 +56,9 @@
 
     <WebView
         android:id="@+id/webview"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_voice_search"

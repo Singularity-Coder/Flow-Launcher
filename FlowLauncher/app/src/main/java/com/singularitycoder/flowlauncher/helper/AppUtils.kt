@@ -9,6 +9,7 @@ import android.content.pm.PackageInstaller.SessionParams
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
 import android.content.pm.ResolveInfo
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -34,16 +35,23 @@ fun Context.appList(): List<App> {
         packageManager.queryIntentActivities(intent, 0)
     }
     return allApps.map { item: ResolveInfo? ->
-//        val bitmap = (item.activityInfo.loadIcon(packageManager) as BitmapDrawable).bitmap
-//        val appIconName = "app_icon_${item.activityInfo.packageName}".replace(oldValue = ".", newValue = "_")
-//        val appIconDir = "${filesDir.absolutePath}/app_icons"
-//        bitmap.saveToInternalStorage(appIconName, appIconDir)
         App().apply {
             title = item?.loadLabel(packageManager).toString()
             packageName = item?.activityInfo?.packageName ?: ""
             icon = item?.activityInfo?.loadIcon(packageManager)
             println("packageName: $packageName")
         }
+    }
+}
+
+fun Context.appInfoList(): List<ResolveInfo?> {
+    val intent = Intent(Intent.ACTION_MAIN, null).apply {
+        addCategory(Intent.CATEGORY_LAUNCHER)
+    }
+    return if (Build.VERSION.SDK_INT > 33) {
+        packageManager.queryIntentActivities(intent, PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_DEFAULT_ONLY.toLong()))
+    } else {
+        packageManager.queryIntentActivities(intent, 0)
     }
 }
 

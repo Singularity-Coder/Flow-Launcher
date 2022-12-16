@@ -142,6 +142,22 @@ fun Bitmap?.saveToInternalStorage(
     }
 }
 
+fun deleteBitmapFromInternalStorage(
+    fileName: String,
+    fileDir: String,
+) {
+    val directory = File(fileDir).also {
+        if (it.exists().not()) return
+    }
+    File(/* parent = */ directory, /* child = */ fileName).also {
+        if (it.exists()) it.delete()
+    }
+}
+
 fun File?.toBitmap(): Bitmap? {
     return BitmapFactory.decodeFile(this?.absolutePath)
+}
+
+fun Context.getHomeLayoutBlurredImageFileDir(): String {
+    return "${filesDir.absolutePath}/common_images"
 }

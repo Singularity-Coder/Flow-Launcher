@@ -10,5 +10,6 @@ import com.singularitycoder.flowlauncher.helper.constants.Table
 data class App(
     var title: String = "",
     @PrimaryKey var packageName: String = "",
+    var iconPath: String = "",
     @Ignore var icon: Drawable? = null,
 )

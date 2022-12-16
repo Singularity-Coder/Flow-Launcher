@@ -1,35 +1,40 @@
 package com.singularitycoder.flowlauncher.addEditAppFlow.view
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
-import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.singularitycoder.flowlauncher.R
+import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.databinding.FragmentAppSelectorBottomSheetBinding
-import com.singularitycoder.flowlauncher.databinding.FragmentQuickSettingsBottomSheetBinding
 import com.singularitycoder.flowlauncher.helper.*
-import com.singularitycoder.flowlauncher.helper.swipebutton.OnStateChangeListener
+import com.singularitycoder.flowlauncher.home.model.App
+import com.singularitycoder.flowlauncher.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-// Letter strip
+// TODO Letter strip
+// Start worker for fetching apps
+// Maybe pagination for room
+// Shimmer loading until it fetches all apps from DB
 @AndroidEntryPoint
-class AppSelectorFragment : BottomSheetDialogFragment() {
+class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = AppSelectorFragment()
+        fun newInstance() = AppSelectorBottomSheetFragment()
     }
+
+    private val homeViewModel: HomeViewModel by viewModels()
+    private val appSelectorAdapter: AppSelectorAdapter by lazy { AppSelectorAdapter() }
 
     private lateinit var binding: FragmentAppSelectorBottomSheetBinding
 
@@ -44,6 +49,10 @@ class AppSelectorFragment : BottomSheetDialogFragment() {
         binding.setupUI()
         binding.setupUserActionListeners()
         binding.observeForData()
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     // https://stackoverflow.com/questions/42301845/android-bottom-sheet-after-state-changed
@@ -62,8 +71,21 @@ class AppSelectorFragment : BottomSheetDialogFragment() {
     }
 
     // https://stackoverflow.com/questions/15543186/how-do-i-create-colorstatelist-programmatically
+    @SuppressLint("NotifyDataSetChanged")
     private fun FragmentAppSelectorBottomSheetBinding.setupUI() {
         setBottomSheetBehaviour()
+        rvApps.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = appSelectorAdapter
+        }
+//        appSelectorAdapter.selectedAppList = requireContext().appInfoList().map { item: ResolveInfo? ->
+//            App().apply {
+//                title = item?.loadLabel(requireContext().packageManager).toString()
+//                packageName = item?.activityInfo?.packageName ?: ""
+//                icon = item?.activityInfo?.loadIcon(requireContext().packageManager)
+//            }
+//        }
+//        appSelectorAdapter.notifyDataSetChanged()
     }
 
     // https://stackoverflow.com/questions/41693154/custom-seekbar-thumb-size-color-and-background
@@ -105,7 +127,11 @@ class AppSelectorFragment : BottomSheetDialogFragment() {
         })
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun FragmentAppSelectorBottomSheetBinding.observeForData() {
-
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = homeViewModel.appListStateFlow) { it: List<App> ->
+            appSelectorAdapter.selectedAppList = it
+            appSelectorAdapter.notifyDataSetChanged()
+        }
     }
 }

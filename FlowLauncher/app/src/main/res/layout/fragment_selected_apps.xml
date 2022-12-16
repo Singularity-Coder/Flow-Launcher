@@ -7,7 +7,7 @@
     app:cardCornerRadius="16dp"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
-    tools:context=".addEditAppFlow.view.SelectedAppsFragment">
+    tools:context=".addEditAppFlow.view.FlowAppsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -11,6 +11,7 @@ import android.renderscript.Allocation
 import android.renderscript.Matrix4f
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicColorMatrix
+import android.view.View
 import androidx.annotation.RequiresApi
 
 
@@ -266,6 +267,37 @@ fun Drawable.toBitmap(): Bitmap? {
     return bitmap
 }
 
+fun Drawable.toGrayAndBlueFilteredBitmap(): Bitmap? {
+    var bitmap: Bitmap? = null
+    if (this is BitmapDrawable) {
+        val bitmapDrawable = this
+        if (bitmapDrawable.bitmap != null) {
+            return bitmapDrawable.bitmap
+        }
+    }
+    bitmap = if (this.intrinsicWidth <= 0 || this.intrinsicHeight <= 0) {
+        Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888) // Single color bitmap will be created of 1x1 pixel
+    } else {
+        Bitmap.createBitmap(this.intrinsicWidth, this.intrinsicHeight, Bitmap.Config.ARGB_8888)
+    }
+    val canvas = Canvas(bitmap)
+    val paint = Paint()
+    val colorMatrix = ColorMatrix().apply {
+        setSaturation(0f)
+    }
+    val colorMatrixColorFilter = ColorMatrixColorFilter(colorMatrix)
+    paint.colorFilter = colorMatrixColorFilter
+    canvas.drawBitmap(
+        /* bitmap = */ bitmap,
+        /* left = */ 0f,
+        /* top = */ 0f,
+        /* paint = */ paint
+    )
+    this.setBounds(0, 0, canvas.width, canvas.height)
+    this.draw(canvas)
+    return bitmap
+}
+
 fun Context.path(drawable: Drawable) {
     val resId: Int = this.resources.getIdentifier("imageNameHere", "drawable", this.packageName)
 }
@@ -273,4 +305,32 @@ fun Context.path(drawable: Drawable) {
 fun getURLForResource(resourceId: Int): String? {
     //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
     return Uri.parse("android.resource://" + R::class.java.getPackage().name + "/" + resourceId).toString()
+}
+
+// https://stackoverflow.com/questions/7200535/how-to-convert-views-to-bitmaps
+// https://www.youtube.com/watch?v=laySURtxUTk
+/** When layout not inflated yet. Measure the view first before extracting the bitmap.
+ * Else the width and height will be 0. Which means u cant do view.width & view.height.
+ * If unsure of width and height specify MeasureSpec.UNSPECIFIED */
+fun View.toBitmapOf(width: Int, height: Int): Bitmap? = try {
+    this.measure(
+        /* widthMeasureSpec = */ View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+        /* heightMeasureSpec = */ View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY)
+    )
+    val bitmap = Bitmap.createBitmap(
+        /* width = */ this.measuredWidth,
+        /* height = */ this.measuredHeight,
+        /* config = */ Bitmap.Config.ARGB_8888 // Each pixel is set to 4 bytes of memory in this config
+    )
+    this.layout(
+        /* l = */ 0,
+        /* t = */ 0,
+        /* r = */ this.measuredWidth,
+        /* b = */ this.measuredHeight
+    )
+    this.draw(Canvas(bitmap /* The canvas is drawn on the bitmap */)) // We are basically drawing the view on the Canvas
+    bitmap
+} catch (e: Exception) {
+    println("Error: $e")
+    null
 }

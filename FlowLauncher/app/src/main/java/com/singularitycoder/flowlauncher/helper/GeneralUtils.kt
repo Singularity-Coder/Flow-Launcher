@@ -35,6 +35,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -45,6 +48,8 @@ import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.reflect.Method
 import java.util.*
@@ -527,6 +532,19 @@ fun EditText.onImeClick(
         }
         false
     }
+}
+
+fun <T> AppCompatActivity.collectLatestLifecycleFlow(flow: Flow<T>, collect: suspend (T) -> Unit) {
+    lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED) {
+            flow.collectLatest(collect)
+        }
+    }
+}
+
+// https://stackoverflow.com/questions/22192291/how-to-change-the-status-bar-color-in-android
+fun Activity.setStatusBarColor(@ColorRes color: Int) {
+    window.statusBarColor = ContextCompat.getColor(this, color)
 }
 
 object FlowUtils {

@@ -280,7 +280,7 @@ class GlanceFragment : Fragment() {
                 /* child = */ "glance_image_$currentImagePosition.jpg"
             )
             if (blurredBitmapFile.exists().not()) {
-                blurBitmapForBackground()
+                blurBitmapForImageBackground()
             }
             val bitmapToBlur = blurredBitmapFile.toBitmap() ?: return@launch
             withContext(Dispatchers.Main) {
@@ -290,7 +290,7 @@ class GlanceFragment : Fragment() {
         }
     }
 
-    private suspend fun blurBitmapForBackground() {
+    private suspend fun blurBitmapForImageBackground() {
         val imageRequest = ImageRequest.Builder(requireContext()).data(currentGlanceImage.link).listener(
             onStart = {
                 // set your progressbar visible here
@@ -318,7 +318,7 @@ class GlanceFragment : Fragment() {
                 error(R.color.md_red_dark)
             }
             lifecycleScope.launch {
-                blurBitmapForBackground()
+                blurBitmapForImageBackground()
             }
             ivGlanceImageExpanded.load(glanceImageList[currentImagePosition].link)
             ivGlanceImageExpandedBackground.load(R.drawable.black_wall)

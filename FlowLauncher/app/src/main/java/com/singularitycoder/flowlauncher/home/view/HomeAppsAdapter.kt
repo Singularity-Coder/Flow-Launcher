@@ -4,18 +4,10 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.singularitycoder.flowlauncher.databinding.ListItemAppBinding
 import com.singularitycoder.flowlauncher.home.model.App
-import com.singularitycoder.flowlauncher.toBlueFilter
-import com.singularitycoder.flowlauncher.toGrayscaleFilter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -51,13 +43,7 @@ class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun setData(app: App) {
             itemBinding.apply {
                 tvAppName.text = app.title
-                CoroutineScope(IO).launch {
-                    // In order to avoid performing this on every scroll, store the icons separately with the filters added. But thats too much work
-                    val bitmap = app.icon?.toBitmap()?.toGrayscaleFilter()?.toBlueFilter()
-                    withContext(Main) {
-                        ivAppIcon.load(bitmap)
-                    }
-                }
+                ivAppIcon.load(app.iconPath)
                 root.setOnClickListener {
                     itemClickListener.invoke(app, bindingAdapterPosition)
                 }

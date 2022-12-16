@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -23,28 +24,36 @@ import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.work.*
+import coil.ImageLoader
+import coil.request.ImageRequest
+import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.addEditAppFlow.view.AddEditFlowFragment
 import com.singularitycoder.flowlauncher.databinding.FragmentHomeBinding
 import com.singularitycoder.flowlauncher.helper.*
-import com.singularitycoder.flowlauncher.helper.constants.BottomSheetTag
-import com.singularitycoder.flowlauncher.helper.constants.Broadcast
-import com.singularitycoder.flowlauncher.helper.constants.SpeechAction
+import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
+import com.singularitycoder.flowlauncher.helper.constants.*
 import com.singularitycoder.flowlauncher.home.dao.ContactDao
 import com.singularitycoder.flowlauncher.home.model.App
 import com.singularitycoder.flowlauncher.home.model.Contact
+import com.singularitycoder.flowlauncher.home.viewmodel.HomeViewModel
+import com.singularitycoder.flowlauncher.home.worker.AppWorker
 import com.singularitycoder.flowlauncher.quickSettings.QuickSettingsBottomSheetFragment
+import com.singularitycoder.flowlauncher.toBitmapOf
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 import java.util.*
 import javax.inject.Inject
 
@@ -68,6 +77,12 @@ import javax.inject.Inject
 // Current Lat Long in Glance
 // Steps count in Today
 
+// Touch Effect similar to Ratio Launcher - https://developer.android.com/develop/ui/views/touch-and-input/gestures/movement
+// https://guides.codepath.com/android/gestures-and-touch-events
+// https://developer.android.com/develop/ui/views/touch-and-input/gestures
+// On search fab touch - vertical list - show options -> voice search, change flow, notifications, quick settings, universal search
+// On search fab touch - horizontal list - Phone app, sms app, camera app
+
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
@@ -83,12 +98,13 @@ class HomeFragment : Fragment() {
     private lateinit var timer: Timer
 
     private val homeAppsAdapter by lazy { HomeAppsAdapter() }
+    private val homeViewModel: HomeViewModel by viewModels()
 
-    private var homeAppsList = listOf<App>()
     private var speechAction = SpeechAction.NONE
     private var contactName = ""
     private var messageBody = ""
-    private var removeAppPosition = 0
+    private var removedAppPosition = 0
+    private var removedApp: App? = null
 
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
@@ -98,7 +114,12 @@ class HomeFragment : Fragment() {
                     setTimeDateAndFlow()
                 }
                 Broadcast.PACKAGE_REMOVED -> {
-                    homeAppsAdapter.notifyItemRemoved(removeAppPosition)
+                    homeViewModel.removeAppFromDb(removedApp)
+                    // TODO remove icon as well
+                    val appIconName = "app_icon_${removedApp?.packageName}".replace(oldValue = ".", newValue = "_")
+                    val appIconDir = "${requireContext().filesDir?.absolutePath}/app_icons"
+                    deleteBitmapFromInternalStorage(appIconName, appIconDir)
+//                    homeAppsAdapter.notifyItemRemoved(removedAppPosition)
                 }
                 // FIXME not working
                 Broadcast.PACKAGE_INSTALLED -> {
@@ -140,7 +161,7 @@ class HomeFragment : Fragment() {
         result ?: return@registerForActivityResult
         if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
         val data: Intent? = result.data
-        CoroutineScope(IO).launch {
+        lifecycleScope.launch(IO) {
             val text = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()?.trim()
             println("speech result: $text")
             when (text?.substringBefore(" ")?.toLowCase()) {
@@ -184,12 +205,13 @@ class HomeFragment : Fragment() {
         webViewTest()
         binding.setupUI()
         binding.setupUserActionListeners()
+        observeForData()
     }
 
     override fun onResume() {
         super.onResume()
         // Check if app count modified. if so then trigger apsp
-        if (homeAppsAdapter.homeAppList.size != requireContext().appList().size) {
+        if (homeAppsAdapter.homeAppList.size != requireContext().appInfoList().size) {
             refreshAppList()
         }
         println("This triggers everytime we switch the screen in viewpager")
@@ -250,7 +272,7 @@ class HomeFragment : Fragment() {
             speechToTextResult.launch(intent)
         }
         fabVoiceSearch.setOnLongClickListener {
-            QuickSettingsBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.QUICK_SETTINGS_BOTTOM_SHEET)
+            QuickSettingsBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.QUICK_SETTINGS)
             false
         }
         rvApps.setOnLongClickListener {
@@ -265,8 +287,57 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private fun observeForData() {
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = homeViewModel.appListStateFlow) { it: List<App> ->
+            homeAppsAdapter.homeAppList = it
+            homeAppsAdapter.notifyDataSetChanged()
+            blurAndSaveBitmapForImageBackground()
+        }
+
+//        homeViewModel.appListLiveData.observe(viewLifecycleOwner) { it: List<App>? ->
+//            homeAppsAdapter.homeAppList = it ?: emptyList()
+//            homeAppsAdapter.notifyDataSetChanged()
+//        }
+    }
+
+    private suspend fun blurAndSaveBitmapForImageBackground() {
+        val blurredBitmapFile = File(
+            /* parent = */ requireContext().getHomeLayoutBlurredImageFileDir(),
+            /* child = */ HOME_LAYOUT_BLURRED_IMAGE
+        )
+        if (blurredBitmapFile.exists()) {
+            blurredBitmapFile.delete()
+        }
+        val homeLayoutBitmap = prepareHomeLayoutBitmap()
+        val imageRequest = ImageRequest.Builder(requireContext()).data(homeLayoutBitmap).listener(
+            onStart = {
+                // set your progressbar visible here
+            },
+            onSuccess = { request, metadata ->
+                // set your progressbar invisible here
+            }
+        ).build()
+        val drawable = ImageLoader(requireContext()).execute(imageRequest).drawable
+        val bitmapToBlur = (drawable as BitmapDrawable).bitmap
+        val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 50)
+        blurredBitmap.saveToInternalStorage(
+            fileName = HOME_LAYOUT_BLURRED_IMAGE,
+            fileDir = requireContext().getHomeLayoutBlurredImageFileDir(),
+        )
+    }
+
+    private fun prepareHomeLayoutBitmap(): BitmapDrawable? {
+        val imageLayout = binding.root
+        val bitmapDrawableOfLayout = imageLayout.toBitmapOf(
+            width = deviceWidth(),
+            height = deviceHeight()
+        )?.toDrawable(requireContext().resources)
+        return bitmapDrawableOfLayout
+    }
+
     private fun setTimeDateAndFlow() {
-        CoroutineScope(IO).launch {
+        lifecycleScope.launch(IO) {
             // https://stackoverflow.com/questions/5369682/how-to-get-current-time-and-date-in-android#:~:text=Date%3B%20Date%20currentTime%20%3D%20Calendar.,getTime()%3B
             // https://stackoverflow.com/questions/7672597/how-to-get-timezone-from-android-mobile
             println("Time now: ${Calendar.getInstance().time}") // Sat Oct 08 00:58:23 GMT+05:30 2022
@@ -335,19 +406,48 @@ class HomeFragment : Fragment() {
     }
 
     private fun removeApp(app: App, position: Int) {
-        removeAppPosition = position
+        removedAppPosition = position
+        removedApp = app
         requireActivity().uninstallApp(app.packageName)
     }
 
     private fun refreshAppList() {
-        // Start worker
-        lifecycleScope.launch {
-            homeAppsList = requireContext().appList().sortedBy { it.title }
-            homeAppsAdapter.homeAppList = homeAppsList
-            withContext(Main) {
-                homeAppsAdapter.notifyDataSetChanged()
+        parseAppsWithWorker()
+    }
+
+    private fun parseAppsWithWorker() {
+        val workManager = WorkManager.getInstance(requireContext())
+        val workRequest = OneTimeWorkRequestBuilder<AppWorker>().build()
+        workManager.enqueueUniqueWork(WorkerTag.APPS_PARSER, ExistingWorkPolicy.REPLACE, workRequest)
+        workManager.getWorkInfoByIdLiveData(workRequest.id).observe(viewLifecycleOwner) { workInfo: WorkInfo? ->
+            when (workInfo?.state) {
+                WorkInfo.State.RUNNING -> {
+                    println("RUNNING: show Progress")
+                    showProgress(true)
+                }
+                WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
+                WorkInfo.State.SUCCEEDED -> {
+                    println("SUCCEEDED: showing Progress")
+                    showProgress(false)
+                }
+                WorkInfo.State.FAILED -> {
+                    println("FAILED: stop showing Progress")
+                    binding.root.showSnackBar("Something went wrong!")
+                    showProgress(false)
+                }
+                WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
+                WorkInfo.State.CANCELLED -> {
+                    println("CANCELLED: stop showing Progress")
+                    showProgress(false)
+                }
+                else -> Unit
             }
         }
+    }
+
+    private fun showProgress(show: Boolean) {
+        if (homeAppsAdapter.homeAppList.isNotEmpty()) return
+        // TODO shimmer load
     }
 
     @SuppressLint("SetJavaScriptEnabled")

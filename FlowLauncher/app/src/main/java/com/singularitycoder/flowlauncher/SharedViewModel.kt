@@ -33,32 +33,27 @@ class SharedViewModel @Inject constructor(
     private val quoteDao: QuoteDao
 ) : ViewModel() {
 
-    var weatherLiveData: LiveData<Weather> = MutableLiveData<Weather>()
-        private set
-    var newsListLiveData: LiveData<List<News>> = MutableLiveData<List<News>>()
-        private set
-    var holidayListLiveData: LiveData<List<Holiday>> = MutableLiveData<List<Holiday>>()
-        private set
-    var trendingTweetListLiveData: LiveData<List<TrendingTweet>> = MutableLiveData<List<TrendingTweet>>()
-        private set
+    val weatherLiveData: LiveData<Weather> by lazy {
+        weatherDao.getLatestWeatherLiveData()
+    }
+    val newsListLiveData: LiveData<List<News>> by lazy {
+        newsDao.getAllNewsLiveData()
+    }
+    val holidayListLiveData: LiveData<List<Holiday>> by lazy {
+        holidayDao.getAllHolidaysLiveData()
+    }
+    val trendingTweetListLiveData: LiveData<List<TrendingTweet>> by lazy {
+        trendingTweetDao.getAllTrendingTweetsLiveData()
+    }
 
-    var glanceImageListLiveData: LiveData<List<GlanceImage>> = MutableLiveData<List<GlanceImage>>()
-        private set
-    var youtubeVideoListLiveData: LiveData<List<YoutubeVideo>> = MutableLiveData<List<YoutubeVideo>>()
-        private set
-    var quoteListLiveData: LiveData<List<Quote>> = MutableLiveData<List<Quote>>()
-        private set
-
-
-    init {
-        weatherLiveData = weatherDao.getLatestWeatherLiveData()
-        newsListLiveData = newsDao.getAllNewsLiveData()
-        holidayListLiveData = holidayDao.getAllHolidaysLiveData()
-        trendingTweetListLiveData = trendingTweetDao.getAllTrendingTweetsLiveData()
-
-        glanceImageListLiveData = glanceImageDao.getAllLiveData()
-        youtubeVideoListLiveData = youtubeVideoDao.getAllLiveData()
-        quoteListLiveData = quoteDao.getAllLiveData()
+    val glanceImageListLiveData: LiveData<List<GlanceImage>> by lazy {
+        glanceImageDao.getAllLiveData()
+    }
+    val youtubeVideoListLiveData: LiveData<List<YoutubeVideo>> by lazy {
+        youtubeVideoDao.getAllLiveData()
+    }
+    val quoteListLiveData: LiveData<List<Quote>> by lazy {
+        quoteDao.getAllLiveData()
     }
 
     fun addQuoteToDb(quote: Quote) = viewModelScope.launch {

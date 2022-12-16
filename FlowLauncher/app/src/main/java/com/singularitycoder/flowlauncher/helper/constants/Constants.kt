@@ -12,11 +12,14 @@ const val REQUEST_CODE_VIDEO = 1001
 const val KEY_IS_WORK_COMPLETE = "KEY_IS_WORK_COMPLETE"
 const val FIRST_URL = "FIRST_URL"
 
+const val HOME_LAYOUT_BLURRED_IMAGE = "home_layout_blurred_image.jpg"
+
 val THIRTY_DAYS_IN_MILLIS = TimeUnit.DAYS.toMillis(30L)
 val TWENTY_FOUR_HOURS_IN_MILLIS = TimeUnit.HOURS.toMillis(24L)
 
 object BottomSheetTag {
-    const val QUICK_SETTINGS_BOTTOM_SHEET = "QUICK_SETTINGS_BOTTOM_SHEET"
+    const val QUICK_SETTINGS = "QUICK_SETTINGS_BOTTOM_SHEET"
+    const val APP_SELECTOR = "QUICK_SETTINGS_BOTTOM_SHEET"
 }
 
 object FragmentsTag {
@@ -58,6 +61,7 @@ object Broadcast {
 }
 
 object WorkerTag {
+    const val APPS_PARSER = "WORKER_TAG_APPS_PARSER"
     const val NEWS_PARSER = "WORKER_TAG_NEWS_PARSER"
     const val WEATHER_PARSER = "WORKER_TAG_WEATHER_PARSER"
     const val PUBLIC_HOLIDAYS_PARSER = "WORKER_TAG_PUBLIC_HOLIDAYS_PARSER"
@@ -82,78 +86,6 @@ val daysMap = mapOf(
     "fri" to "Friday",
     "sat" to "Saturday",
     "sun" to "Sunday",
-)
-
-val typefaceList = listOf(
-    // fontsquirrel.com
-    R.font.didonesque_roman_regular,
-    R.font.blackjack,
-    R.font.arizonia_regular,
-    R.font.abril_fatface_regular,
-    R.font.comfortaa_thin,
-    R.font.sofia_regular,
-    R.font.quicksand_regular,
-    R.font.playfair_displaysc_regular,
-    R.font.pacifico,
-    R.font.lobster,
-    R.font.kaushan_script_regular,
-    R.font.dancing_script_regular,
-    R.font.caviar_dreams_bold,
-    R.font.milkshake,
-    R.font.yeseva_one_regular,
-
-    // fontspring.com
-    R.font.cabrito_didone_regular,
-    R.font.sangli_regular,
-    R.font.oblik_classic_bold_italic,
-    R.font.alethia_next_light_italic,
-    R.font.cushy_regular,
-    R.font.alma_mono_regular,
-    R.font.fiorina_title_light,
-    R.font.fiorina_title_light_italic,
-    R.font.sovba_regular,
-    R.font.jt_leonor_light,
-    R.font.pons_rounded_slab_regular,
-    R.font.haboro_regular,
-    R.font.lagu_sans_light,
-    R.font.cardillac_light,
-    R.font.contax_sans_55_regular,
-    R.font.fertigo_pro_regular,
-    R.font.wreath_halftone_regular,
-    R.font.civita_light,
-    R.font.zekton_regular,
-    R.font.carrara_light,
-    R.font.merge_light,
-    R.font.corda_light,
-    R.font.queulat_regular,
-    R.font.questa_grande_regular,
-    R.font.neuro_political_regular,
-    R.font.verona_serial_regular,
-    R.font.stratford_serial_regular,
-    R.font.mufan_pfs,
-    R.font.worcester_serial_regular,
-    R.font.beround_semibold,
-    R.font.mono_fonto_regular,
-    R.font.vanberg,
-    R.font.larabiefont_regular,
-    R.font.queulat_soft_regular,
-    R.font.primer_print_regular,
-    R.font.primer_print_bold,
-    R.font.cyntho_next_light,
-    R.font.jt_marnie_light,
-    R.font.solitas_serif_normal_regular,
-    R.font.goudy_serial_regular,
-    R.font.sangli_normal_regular,
-    R.font.radiata_medium,
-    R.font.belda_normal_regular,
-    R.font.recharge_bold,
-
-    // Google Fonts
-    R.font.courgette_regular,
-    R.font.montserrat_alternates_regular,
-    R.font.cookie_regular,
-    R.font.oleo_script_regular,
-    R.font.playball_regular,
 )
 
 val tempImageDrawableList = listOf(

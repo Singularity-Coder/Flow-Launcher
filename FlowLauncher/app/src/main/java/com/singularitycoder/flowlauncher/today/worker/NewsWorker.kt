@@ -73,7 +73,7 @@ class NewsWorker(val context: Context, workerParams: WorkerParameters) : Corouti
                         imageUrl = imageUrl,
                         title = headline,
                         source = source ?: "",
-                        time = time ?: "",
+                        time = time.replace(oldValue = "LIVE", newValue = ""),
                         link = link
                     )
                 )

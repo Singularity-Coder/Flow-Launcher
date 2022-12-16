@@ -12,16 +12,16 @@ import com.singularitycoder.flowlauncher.helper.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SelectedAppsFragment : Fragment() {
+class FlowAppsFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = SelectedAppsFragment()
+        fun newInstance() = FlowAppsFragment()
     }
 
     private lateinit var binding: FragmentSelectedAppsBinding
 
-    private val selectedAppsAdapter by lazy { SelectedAppsAdapter() }
+    private val flowAppsAdapter by lazy { FlowAppsAdapter() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSelectedAppsBinding.inflate(inflater, container, false)
@@ -38,7 +38,7 @@ class SelectedAppsFragment : Fragment() {
     private fun FragmentSelectedAppsBinding.setupUI() {
         rvApps.apply {
             layoutManager = GridLayoutManager(context, 4)
-            adapter = selectedAppsAdapter
+            adapter = flowAppsAdapter
             addItemDecoration(
                 GridSpacingItemDecoration(
                     spanCount = 4 /* columns */,
