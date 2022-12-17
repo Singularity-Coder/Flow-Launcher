@@ -290,7 +290,7 @@ class GlanceFragment : Fragment() {
         }
     }
 
-    private suspend fun blurBitmapForImageBackground() {
+    private suspend fun blurBitmapForImageBackground() = try {
         val imageRequest = ImageRequest.Builder(requireContext()).data(currentGlanceImage.link).listener(
             onStart = {
                 // set your progressbar visible here
@@ -305,6 +305,7 @@ class GlanceFragment : Fragment() {
             fileName = "glance_image_$currentImagePosition.jpg",
             fileDir = glanceImageFileDir,
         )
+    } catch (_: Exception) {
     }
 
     private var currentImagePosition = 0

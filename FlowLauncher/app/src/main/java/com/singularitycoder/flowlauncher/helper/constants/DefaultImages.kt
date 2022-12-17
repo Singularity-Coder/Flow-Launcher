@@ -37,6 +37,7 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://images.pexels.com/photos/1382734/pexels-photo-1382734.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
 
     // https://www.artstation.com/wlop - I am speechless
+    // https://www.pixiv.net/en/users/2188232/artworks
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/037/291/422/large/wlop-33se.jpg?1620016916", title = "https://www.artstation.com/wlop"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/031/648/147/large/wlop-3se.jpg?1604222403", title = "https://www.artstation.com/wlop"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/054/497/061/large/wlop-1se.jpg?1664691512", title = "https://www.artstation.com/wlop"),
@@ -98,6 +99,24 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FBgAS8yUYAQSq9O?format=jpg&name=900x900", title = "https://www.artstation.com/dadachyo"),
     GlanceImage(link = "https://pbs.twimg.com/media/EdCvllaUEAMv7L0?format=jpg&name=medium", title = "https://www.artstation.com/dadachyo"),
 
+    // https://www.pixiv.net/en/users/2240866/artworks - Artist 'O'ne
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/044/310/900/large/o-ne-87423019-p1.jpg?1639646200", title = "https://www.artstation.com/ua21b57a7"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/044/144/710/large/o-ne-750.jpg?1639208268", title = "https://www.artstation.com/ua21b57a7"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/044/240/589/large/o-ne-3.jpg?1639474447", title = "https://www.artstation.com/ua21b57a7"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/044/636/074/large/o-ne-a-1227.jpg?1640689450", title = "https://www.artstation.com/ua21b57a7"),
+
+    // https://www.pixiv.net/en/users/6277505/artworks - Artist Dalcefo
+    GlanceImage(
+        link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/6d2c2aba-65b5-4a04-b8c3-212797145c5f/dfj6p90-01a48269-3723-4181-b97f-4e1ac74144ca.png/v1/fill/w_1095,h_730,q_70,strp/that_day_by_dalcefo_dfj6p90-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9ODU0IiwicGF0aCI6IlwvZlwvNmQyYzJhYmEtNjViNS00YTA0LWI4YzMtMjEyNzk3MTQ1YzVmXC9kZmo2cDkwLTAxYTQ4MjY5LTM3MjMtNDE4MS1iOTdmLTRlMWFjNzQxNDRjYS5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.cVa9fbu163EI8E2KVGFdIQWPCFS1edqvjpuNmBuQn78",
+        title = "https://www.deviantart.com/dalcefo/art/That-Day-939218004"
+    ),
+
+    // https://www.artstation.com/sayhana
+    // https://www.pixiv.net/en/users/1443093
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/008/818/685/large/hana-lin-unnamed-2-50.jpg?1515506780", title = "https://www.artstation.com/sayhana"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/004/366/337/large/hana-lin-0718-2b.jpg?1483003956", title = "https://www.artstation.com/sayhana"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/027/528/657/large/hana-lin-0608-2kpxup-ok-s40-2.jpg?1591796411", title = "https://www.artstation.com/sayhana"),
+
     // https://www.artstation.com/ragu6
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/050/901/853/large/ragu-asset.jpg?1655966434", title = "https://www.artstation.com/ragu6"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/050/874/467/large/ragu-asset.jpg?1655902445", title = "https://www.artstation.com/ragu6"),
@@ -133,7 +152,10 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://i.pinimg.com/originals/eb/5c/9e/eb5c9ec133d65dd7c5c4f686111daa25.jpg", title = "https://www.pinterest.com/hatri022/"),
 
     // https://www.artstation.com/nixeu
+    // https://www.pixiv.net/en/users/49552835
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/037/354/690/large/n-i-x-e-u-sand-01.jpg?1620159845", title = "https://www.artstation.com/nixeu"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/056/286/043/large/n-i-x-e-u-l1tt.jpg?1668882444", title = "https://www.artstation.com/nixeu"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/057/018/142/large/n-i-x-e-u-light-tt.jpg?1670611204", title = "https://www.artstation.com/nixeu"),
 
     // https://www.artstation.com/erak
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/047/574/457/4k/erak-note-25.jpg?1647930707", title = "https://www.artstation.com/erak"),
@@ -247,9 +269,7 @@ val tempImageUrlList = listOf(
 
     // https://www.artstation.com/anto-finnstark
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/004/547/650/large/anato-finnstark-strange-encounter-speedpaint-1h50-by-anatofinnstark-davi08m.jpg?1484497660", title = "https://www.artstation.com/anto-finnstark"),
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/005/725/925/large/anato-finnstark-guardian-of-the-tree-by-anatofinnstark-db7alen.jpg?1493305353", title = "https://www.artstation.com/anto-finnstark"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/004/636/051/large/anato-finnstark-the-guardian.jpg?1485190416", title = "https://www.artstation.com/anto-finnstark"),
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/005/978/291/large/anato-finnstark-bx-journey-speedpaint30min-by-anatofinnstark-db9mew3.jpg?1495127804", title = "https://www.artstation.com/anto-finnstark"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/047/832/306/large/anato-finnstark-webpetit.jpg?1648558309", title = "https://www.artstation.com/anto-finnstark"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/024/406/355/large/anato-finnstark-sekiro-dragon-s-blood-by-anatofinnstark-dd6ng9p-fullview.jpg?1582302584", title = "https://www.artstation.com/anto-finnstark"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/048/771/324/large/anato-finnstark-the-blade-of-miquella-by-anatofinnstark-df49r6q-fullview.jpg?1650906784", title = "https://www.artstation.com/anto-finnstark"),
@@ -264,10 +284,6 @@ val tempImageUrlList = listOf(
     // https://www.pinterest.com/emilyqb2191/
     GlanceImage(link = "https://i.pinimg.com/564x/be/1c/8c/be1c8c91a07e8e211d0808508fe713ed.jpg", title = "https://www.pinterest.com/emilyqb2191/"),
 
-    // https://www.artstation.com/vvhohvv
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/015/174/771/large/vvhohvv-xx-a-7.jpg?1547365214", title = "https://www.artstation.com/vvhohvv"),
-
     // https://www.pinterest.com/polverina/
     GlanceImage(link = "https://i.pinimg.com/564x/78/e8/c9/78e8c9e339d313e9c0af15169a2db5b6.jpg", title = "https://www.pinterest.com/polverina/"),
-
-)
+    )

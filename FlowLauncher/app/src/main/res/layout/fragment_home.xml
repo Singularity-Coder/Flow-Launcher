@@ -54,6 +54,18 @@
             tools:listitem="@layout/list_item_app" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <include
+        android:id="@+id/layout_shimmer_app_loader"
+        layout="@layout/layout_shimmer_app_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="128dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_flow_type"/>
+
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"

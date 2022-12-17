@@ -36,6 +36,23 @@ class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         itemLongClickListener = listener
     }
 
+    // https://stackoverflow.com/questions/12075645/detect-when-baseadapter-notifydatasetchanged-finished
+    @SuppressLint("NotifyDataSetChanged")
+    fun notifyDataSetChangedCustom(
+        completion: () -> Unit
+    ) {
+        val adapter = this
+        val observer = object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                adapter.unregisterAdapterDataObserver(this)
+                completion.invoke()
+            }
+        }
+        registerAdapterDataObserver(observer)
+        notifyDataSetChanged()
+    }
+
     inner class HomeAppViewHolder(
         private val itemBinding: ListItemAppBinding,
     ) : RecyclerView.ViewHolder(itemBinding.root) {

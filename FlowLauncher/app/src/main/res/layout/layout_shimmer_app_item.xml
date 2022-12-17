@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_shimmer_item_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:clipChildren="true"
+    android:clipToPadding="true"
+    android:orientation="horizontal"
+    android:paddingBottom="48dp">
+
+    <View
+        android:id="@+id/v1"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_rounded_shimmer_view"
+        app:layout_constraintEnd_toStartOf="@+id/v2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/v2"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_rounded_shimmer_view"
+        app:layout_constraintEnd_toStartOf="@+id/v3"
+        app:layout_constraintStart_toEndOf="@+id/v1"
+        app:layout_constraintTop_toTopOf="@+id/v1" />
+
+    <View
+        android:id="@+id/v3"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_rounded_shimmer_view"
+        app:layout_constraintEnd_toStartOf="@+id/v4"
+        app:layout_constraintStart_toEndOf="@+id/v2"
+        app:layout_constraintTop_toTopOf="@+id/v2" />
+
+    <View
+        android:id="@+id/v4"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_rounded_shimmer_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/v3"
+        app:layout_constraintTop_toTopOf="@+id/v2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

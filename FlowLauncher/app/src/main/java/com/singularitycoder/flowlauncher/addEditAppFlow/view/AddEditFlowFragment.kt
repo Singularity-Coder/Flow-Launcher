@@ -1,29 +1,30 @@
 package com.singularitycoder.flowlauncher.addEditAppFlow.view
 
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
+import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
+import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentAddEditFlowBinding
-import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
+import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.BottomSheetTag
 import com.singularitycoder.flowlauncher.helper.constants.HOME_LAYOUT_BLURRED_IMAGE
-import com.singularitycoder.flowlauncher.helper.dpToPx
-import com.singularitycoder.flowlauncher.helper.getHomeLayoutBlurredImageFileDir
-import com.singularitycoder.flowlauncher.helper.setStatusBarColor
-import com.singularitycoder.flowlauncher.helper.toBitmap
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -52,6 +53,10 @@ class AddEditFlowFragment : Fragment() {
 
     private lateinit var binding: FragmentAddEditFlowBinding
 
+    private val appFlowViewModel: AppFlowViewModel by viewModels()
+    private var flowList = listOf<AppFlow>()
+    private var selectedFlowPosition = 0
+
     private val viewPager2PageChangeListener = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
             super.onPageScrollStateChanged(state)
@@ -61,6 +66,8 @@ class AddEditFlowFragment : Fragment() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
             println("viewpager2: onPageSelected")
+            selectedFlowPosition = position
+            addBottomDots(currentPage = position)
         }
 
         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -76,10 +83,11 @@ class AddEditFlowFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().setStatusBarColor(R.color.black)
+        requireActivity().setStatusBarColor(R.color.purple_500)
         setUpViewPager()
         binding.setupUI()
         binding.setupUserActionListeners()
+        setupObservers()
     }
 
     override fun onDestroy() {
@@ -104,7 +112,6 @@ class AddEditFlowFragment : Fragment() {
     }
 
     private fun FragmentAddEditFlowBinding.setupUI() {
-        listOf("Edit Name", "Add Apps")
         lifecycleScope.launch {
             val blurredBitmapFile = File(
                 /* parent = */ requireContext().getHomeLayoutBlurredImageFileDir(),
@@ -119,29 +126,61 @@ class AddEditFlowFragment : Fragment() {
     }
 
     private fun FragmentAddEditFlowBinding.setupUserActionListeners() {
-//        btnAddApps.setOnClickListener {
-//            AppSelectorBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.APP_SELECTOR)
-//        }
+        btnMenu.setOnClickListener { view: View? ->
+            view ?: return@setOnClickListener
+            val options = listOf("Edit Name", "Add Apps")
+            requireContext().showPopup(
+                view = view,
+                menuList = options
+            ) { position: Int ->
+                when (options[position]) {
+                    options[0] -> {
+                        lifecycleScope.launch(Main) {
+                            tvFlowName.requestFocus()
+                            delay(500)
+                            tvFlowName.showKeyboard()
+                            tvFlowName.setSelection(tvFlowName.text.length)
+                        }
+                    }
+                    options[1] -> {
+                        AppSelectorBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.APP_SELECTOR)
+                        root.showSnackBar(options[1])
+                    }
+                }
+            }
+        }
+
+        btnDone.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStackImmediate()
+        }
+    }
+
+    private fun setupObservers() {
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
+            flowList = it
+            val selectedFlow = it.getOrNull(selectedFlowPosition)
+
+        }
     }
 
     fun addBottomDots(currentPage: Int) {
-        val tvDotsArray = arrayOfNulls<TextView>(/* get flows list size */0)
+        val tvDotsArray = arrayOfNulls<TextView>(flowList.size)
         binding.llDots.removeAllViews()
-        for (i in tvDotsArray.indices) {
-            tvDotsArray[i] = TextView(requireContext()).apply {
-                text = Html.fromHtml("&#8226;")
+        tvDotsArray.indices.forEach { i: Int ->
+            tvDotsArray[i] = TextView(context).apply {
+                text = HtmlCompat.fromHtml("&#8226;", HtmlCompat.FROM_HTML_MODE_LEGACY)
                 textSize = 35f
-                setTextColor(resources.getColor(R.color.purple_200))
+                setTextColor(requireContext().color(R.color.purple_200))
             }
             binding.llDots.addView(tvDotsArray[i])
         }
         if (tvDotsArray.isNotEmpty()) {
-            tvDotsArray[currentPage]!!.setTextColor(resources.getColor(R.color.purple_500))
+            tvDotsArray[currentPage]?.setTextColor(requireContext().color(R.color.purple_500))
         }
     }
 
     inner class MainViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
-        override fun getItemCount(): Int = 3
+        override fun getItemCount(): Int = flowList.size
         override fun createFragment(position: Int): Fragment = FlowAppsFragment.newInstance()
     }
 }

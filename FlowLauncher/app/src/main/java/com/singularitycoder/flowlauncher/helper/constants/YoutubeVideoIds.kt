@@ -206,7 +206,7 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Uchouten Kazoku - Suibun Okiniiri no You desu", videoId = "RJFwlHyGAsc"),
     YoutubeVideo(title = "Uchouten Kazoku - Ebisugawa no Musume, Kaisei", videoId = "xplxAEr0xG0"),
     YoutubeVideo(title = "Uchouten Kazoku - Hodo Hodo no Eikou are", videoId = "mIjOgDMpMkU"),
-    YoutubeVideo(title = "Uchouten Kazoku - Que Sera Sera (TV Size)", videoId = "9v2DACnQ7KE"),
+    YoutubeVideo(title = "Uchouten Kazoku - Que Sera Sera", videoId = "1oRldlObfhk"),
     YoutubeVideo(title = "Your Name - Sparkle - Movie Ver", videoId = "a2GujJZfXpg"),
     YoutubeVideo(title = "Your Name - Sparkle", videoId = "-pHfPJGatgE"),
     YoutubeVideo(title = "Your Name - Nandemonaiya - Movie Ver", videoId = "n89SKAymNfA"),

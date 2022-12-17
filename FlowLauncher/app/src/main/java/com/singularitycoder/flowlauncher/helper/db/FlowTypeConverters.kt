@@ -3,6 +3,7 @@ package com.singularitycoder.flowlauncher.helper.db
 import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import com.singularitycoder.flowlauncher.helper.FlowUtils
+import com.singularitycoder.flowlauncher.home.model.App
 import com.singularitycoder.flowlauncher.today.model.Remainder
 import java.lang.reflect.Type
 
@@ -12,7 +13,7 @@ import java.lang.reflect.Type
 
 // https://stackoverflow.com/questions/46585075/android-how-to-make-type-converters-for-room-generic-for-all-list-of-objects
 abstract class FlowTypeConverter<T> {
-    private val type: Type = object : TypeToken<List<T>>() {}.type
+    val type: Type = object : TypeToken<List<T>>() {}.type
 
     @TypeConverter
     fun listToString(value: List<T>): String = FlowUtils.gson.toJson(value, type)
@@ -24,3 +25,14 @@ abstract class FlowTypeConverter<T> {
 class StringListConverter : FlowTypeConverter<String>()
 class IntListConverter : FlowTypeConverter<Int>()
 class RemainderListConverter : FlowTypeConverter<Remainder>()
+//class AppListConverter : FlowTypeConverter<App>()
+
+class AppListConverter {
+    val type: Type = object : TypeToken<List<App>>() {}.type
+
+    @TypeConverter
+    fun listToString(value: List<App>): String = FlowUtils.gson.toJson(value, type)
+
+    @TypeConverter
+    fun stringToList(value: String): List<App> = FlowUtils.gson.fromJson(value, type)
+}

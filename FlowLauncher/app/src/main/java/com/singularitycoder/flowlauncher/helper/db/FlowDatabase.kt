@@ -37,10 +37,11 @@ import com.singularitycoder.flowlauncher.today.model.Weather
         YoutubeVideo::class,
         Quote::class,
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(
+    AppListConverter::class,
     RemainderListConverter::class,
     StringListConverter::class,
     IntListConverter::class

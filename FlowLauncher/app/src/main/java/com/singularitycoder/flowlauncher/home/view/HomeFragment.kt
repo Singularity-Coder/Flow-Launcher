@@ -36,7 +36,9 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
+import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
 import com.singularitycoder.flowlauncher.addEditAppFlow.view.AddEditFlowFragment
+import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentHomeBinding
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
@@ -99,6 +101,7 @@ class HomeFragment : Fragment() {
 
     private val homeAppsAdapter by lazy { HomeAppsAdapter() }
     private val homeViewModel: HomeViewModel by viewModels()
+    private val appFlowViewModel: AppFlowViewModel by viewModels()
 
     private var speechAction = SpeechAction.NONE
     private var contactName = ""
@@ -289,9 +292,23 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observeForData() {
-        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = homeViewModel.appListStateFlow) { it: List<App> ->
-            homeAppsAdapter.homeAppList = it
-            homeAppsAdapter.notifyDataSetChanged()
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = homeViewModel.appListStateFlow) { appList: List<App> ->
+            appFlowViewModel.addDefaultFlow(
+                AppFlow(
+                    appFlowName = "Default Flow",
+                    isSelected = true,
+                    appList = appList
+                )
+            )
+        }
+
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
+            val selectedFlow = it.firstOrNull { it.isSelected }
+            homeAppsAdapter.homeAppList = selectedFlow?.appList ?: emptyList()
+            withContext(Main) {
+                // https://stackoverflow.com/questions/43221847/cannot-call-this-method-while-recyclerview-is-computing-a-layout-or-scrolling-wh
+                homeAppsAdapter.notifyDataSetChanged()
+            }
             blurAndSaveBitmapForImageBackground()
         }
 
@@ -301,7 +318,7 @@ class HomeFragment : Fragment() {
 //        }
     }
 
-    private suspend fun blurAndSaveBitmapForImageBackground() {
+    private suspend fun blurAndSaveBitmapForImageBackground() = try {
         val blurredBitmapFile = File(
             /* parent = */ requireContext().getHomeLayoutBlurredImageFileDir(),
             /* child = */ HOME_LAYOUT_BLURRED_IMAGE
@@ -325,6 +342,7 @@ class HomeFragment : Fragment() {
             fileName = HOME_LAYOUT_BLURRED_IMAGE,
             fileDir = requireContext().getHomeLayoutBlurredImageFileDir(),
         )
+    } catch (_: Exception) {
     }
 
     private fun prepareHomeLayoutBitmap(): BitmapDrawable? {
@@ -445,9 +463,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showProgress(show: Boolean) {
+    private fun showProgress(isShow: Boolean) {
         if (homeAppsAdapter.homeAppList.isNotEmpty()) return
-        // TODO shimmer load
+        binding.layoutShimmerAppLoader.root.isVisible = isShow
     }
 
     @SuppressLint("SetJavaScriptEnabled")
