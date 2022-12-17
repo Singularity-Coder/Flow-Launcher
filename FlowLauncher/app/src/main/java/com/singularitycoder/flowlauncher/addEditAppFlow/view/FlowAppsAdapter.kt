@@ -32,7 +32,7 @@ class FlowAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun setData(app: App) {
             itemBinding.apply {
                 tvAppName.text = app.title
-                ivAppIcon.load(app.icon)
+                ivAppIcon.load(app.iconPath)
             }
         }
     }

@@ -34,7 +34,7 @@ class AppSelectorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemBinding.apply {
                 tvAppName.text = app.title
                 tvPackageName.text = app.packageName
-                ivAppIcon.load(app.icon)
+                ivAppIcon.load(app.iconPath)
             }
         }
     }

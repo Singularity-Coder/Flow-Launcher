@@ -22,7 +22,6 @@ import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.BottomSheetTag
 import com.singularitycoder.flowlauncher.helper.constants.HOME_LAYOUT_BLURRED_IMAGE
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -67,7 +66,8 @@ class AddEditFlowFragment : Fragment() {
             super.onPageSelected(position)
             println("viewpager2: onPageSelected")
             selectedFlowPosition = position
-            addBottomDots(currentPage = position)
+            addBottomDots(currentPage = selectedFlowPosition)
+            binding.tvFlowName.setText(flowList[position].appFlowName)
         }
 
         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -84,10 +84,10 @@ class AddEditFlowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().setStatusBarColor(R.color.purple_500)
-        setUpViewPager()
+        binding.setUpViewPager()
         binding.setupUI()
         binding.setupUserActionListeners()
-        setupObservers()
+        binding.setupObservers()
     }
 
     override fun onDestroy() {
@@ -96,18 +96,22 @@ class AddEditFlowFragment : Fragment() {
         binding.viewpagerAddEditFlow.unregisterOnPageChangeCallback(viewPager2PageChangeListener)
     }
 
-    private fun setUpViewPager() {
-        binding.viewpagerAddEditFlow.apply {
+    private fun FragmentAddEditFlowBinding.setUpViewPager() {
+        viewpagerAddEditFlow.apply {
             adapter = MainViewPagerAdapter(fragmentManager = requireActivity().supportFragmentManager, lifecycle = lifecycle)
             registerOnPageChangeCallback(viewPager2PageChangeListener)
 //            setShowSideItems(pageMarginPx = 24.dpToPx(), offsetPx = 32.dpToPx())
             clipToPadding = false
             clipChildren = false
             offscreenPageLimit = 3
-            setPageTransformer { page, position ->
-                val offset = position * -(2 * /* offsetPx */ 32.dpToPx() + /* pageMarginPx */ 24.dpToPx())
-                page.translationX = -offset
-            }
+//            setPageTransformer { page, position ->
+//                val offset = position * -(2 * /* offsetPx */ 32.dpToPx() + /* pageMarginPx */ 24.dpToPx())
+//                page.translationX = -offset
+//            }
+//            binding.viewPager.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
+//            binding.viewPager.setCurrentItem(0);
+//            binding.viewPager.getAdapter().notifyDataSetChanged();
+            setPageTransformer(DepthPageTransformer())
         }
     }
 
@@ -119,7 +123,7 @@ class AddEditFlowFragment : Fragment() {
             )
             if (blurredBitmapFile.exists().not()) return@launch
             val blurredBitmap = blurredBitmapFile.toBitmap() ?: return@launch
-            withContext(Dispatchers.Main) {
+            withContext(Main) {
                 ivBackground.setImageBitmap(blurredBitmap)
             }
         }
@@ -155,22 +159,25 @@ class AddEditFlowFragment : Fragment() {
         }
     }
 
-    private fun setupObservers() {
+    private fun FragmentAddEditFlowBinding.setupObservers() {
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
-            flowList = it
+            flowList = it.toMutableList().apply {
+                add(AppFlow("Add new Flow", false, emptyList()))
+            }
+            viewpagerAddEditFlow.adapter?.notifyItemInserted(selectedFlowPosition)
             val selectedFlow = it.getOrNull(selectedFlowPosition)
-
+            addBottomDots(currentPage = selectedFlowPosition)
         }
     }
 
-    fun addBottomDots(currentPage: Int) {
+    private fun addBottomDots(currentPage: Int) {
         val tvDotsArray = arrayOfNulls<TextView>(flowList.size)
         binding.llDots.removeAllViews()
         tvDotsArray.indices.forEach { i: Int ->
             tvDotsArray[i] = TextView(context).apply {
                 text = HtmlCompat.fromHtml("&#8226;", HtmlCompat.FROM_HTML_MODE_LEGACY)
                 textSize = 35f
-                setTextColor(requireContext().color(R.color.purple_200))
+                setTextColor(requireContext().color(R.color.white))
             }
             binding.llDots.addView(tvDotsArray[i])
         }
@@ -181,6 +188,6 @@ class AddEditFlowFragment : Fragment() {
 
     inner class MainViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
         override fun getItemCount(): Int = flowList.size
-        override fun createFragment(position: Int): Fragment = FlowAppsFragment.newInstance()
+        override fun createFragment(position: Int): Fragment = FlowAppsFragment.newInstance(isAddFlow = position == flowList.lastIndex)
     }
 }

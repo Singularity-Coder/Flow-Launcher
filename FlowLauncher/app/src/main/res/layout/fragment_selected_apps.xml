@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="16dp"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
+    app:cardCornerRadius="16dp"
     tools:context=".addEditAppFlow.view.FlowAppsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,6 +27,36 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="6"
             tools:listitem="@layout/list_item_app" />
+
+        <LinearLayout
+            android:id="@+id/ll_add_flow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/iv_add"
+                android:layout_width="112dp"
+                android:layout_height="112dp"
+                android:src="@drawable/ic_round_add_24"
+                app:tint="@color/purple_500" />
+
+            <TextView
+                android:id="@+id/tv_add_flow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Flow"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="@color/purple_500" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

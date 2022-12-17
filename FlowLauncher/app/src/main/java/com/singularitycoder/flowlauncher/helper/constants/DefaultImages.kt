@@ -17,6 +17,7 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/Fi60NViagAAWs2Q?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fi60NVjakAEDHT2?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fi60N9_agAADQTz?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FkJVG5AaEAEAW1D?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
 
     // Pexels
     GlanceImage(link = "https://images.pexels.com/photos/2422915/pexels-photo-2422915.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
@@ -66,6 +67,7 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/D3hiTIQV4AIOA3u?format=jpg&name=4096x4096", title = "https://twitter.com/Merasgar"),
 
     // https://www.artstation.com/dadachyo - Pure eye candy
+    // https://www.pixiv.net/en/users/6491752
     GlanceImage(
         link = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96f51c3e-3aba-4f7c-98cb-cdd9e2acdaf9/dcm5wxy-01c67715-302b-4e8b-b872-40ef1fbd5124.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk2ZjUxYzNlLTNhYmEtNGY3Yy05OGNiLWNkZDllMmFjZGFmOVwvZGNtNXd4eS0wMWM2NzcxNS0zMDJiLTRlOGItYjg3Mi00MGVmMWZiZDUxMjQuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.08E9WxlJdLbOr8jX1urteeyl9rqeRq6nbqwzvbbRcuE",
         title = "https://www.artstation.com/dadachyo"
@@ -155,7 +157,6 @@ val tempImageUrlList = listOf(
     // https://www.pixiv.net/en/users/49552835
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/037/354/690/large/n-i-x-e-u-sand-01.jpg?1620159845", title = "https://www.artstation.com/nixeu"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/056/286/043/large/n-i-x-e-u-l1tt.jpg?1668882444", title = "https://www.artstation.com/nixeu"),
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/057/018/142/large/n-i-x-e-u-light-tt.jpg?1670611204", title = "https://www.artstation.com/nixeu"),
 
     // https://www.artstation.com/erak
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/047/574/457/4k/erak-note-25.jpg?1647930707", title = "https://www.artstation.com/erak"),
@@ -286,4 +287,14 @@ val tempImageUrlList = listOf(
 
     // https://www.pinterest.com/polverina/
     GlanceImage(link = "https://i.pinimg.com/564x/78/e8/c9/78e8c9e339d313e9c0af15169a2db5b6.jpg", title = "https://www.pinterest.com/polverina/"),
+
+    // https://www.artstation.com/stato
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/000/683/186/large/stato-ozo-stato-fan01.jpg?1443932383", title = "https://www.artstation.com/stato"),
+
+    // http://ayakasuda.com/
+    // https://www.pixiv.net/en/users/205294/artworks
+    GlanceImage(link = "http://ayakasuda.com/images/org16.jpg", title = "http://ayakasuda.com/"),
+    GlanceImage(link = "http://ayakasuda.com/images/org24.png", title = "http://ayakasuda.com/"),
+    GlanceImage(link = "http://ayakasuda.com/images/org18.png", title = "http://ayakasuda.com/"),
+    GlanceImage(link = "http://ayakasuda.com/images/org36.jpg", title = "http://ayakasuda.com/"),
     )

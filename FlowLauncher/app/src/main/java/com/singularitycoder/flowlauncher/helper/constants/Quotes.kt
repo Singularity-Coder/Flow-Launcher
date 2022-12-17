@@ -587,4 +587,11 @@ val animeQuoteList = listOf(
         """.trimIndent(),
         author = "One Punch Man"
     ),
+    Quote(
+        title = """
+            When I move, I make sure to rob even the most minute chance of victory from my enemy. 
+            It goes double for increasingly dangerous opponents.
+        """.trimIndentsAndNewLines(),
+        author = "Magic Emperor"
+    ),
 ).shuffled()
