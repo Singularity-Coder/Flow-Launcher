@@ -53,6 +53,7 @@ import com.singularitycoder.flowlauncher.toBitmapOf
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -214,9 +215,9 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         // Check if app count modified. if so then trigger apsp
-        if (homeAppsAdapter.homeAppList.size != requireContext().appInfoList().size) {
-            refreshAppList()
-        }
+//        if (homeAppsAdapter.homeAppList.size != requireContext().appInfoList().size) {
+//            refreshAppList()
+//        }
         println("This triggers everytime we switch the screen in viewpager")
         activity?.registerReceiver(broadcastReceiver, IntentFilter(Broadcast.TIME_CHANGED))
         activity?.registerReceiver(broadcastReceiver, IntentFilter(Broadcast.PACKAGE_REMOVED))
@@ -308,8 +309,8 @@ class HomeFragment : Fragment() {
             withContext(Main) {
                 // https://stackoverflow.com/questions/43221847/cannot-call-this-method-while-recyclerview-is-computing-a-layout-or-scrolling-wh
                 homeAppsAdapter.notifyDataSetChanged()
+                blurAndSaveBitmapForImageBackground()
             }
-            blurAndSaveBitmapForImageBackground()
         }
 
 //        homeViewModel.appListLiveData.observe(viewLifecycleOwner) { it: List<App>? ->
@@ -318,31 +319,33 @@ class HomeFragment : Fragment() {
 //        }
     }
 
-    private suspend fun blurAndSaveBitmapForImageBackground() = try {
-        val blurredBitmapFile = File(
-            /* parent = */ requireContext().getHomeLayoutBlurredImageFileDir(),
-            /* child = */ HOME_LAYOUT_BLURRED_IMAGE
-        )
-        if (blurredBitmapFile.exists()) {
-            blurredBitmapFile.delete()
-        }
-        val homeLayoutBitmap = prepareHomeLayoutBitmap()
-        val imageRequest = ImageRequest.Builder(requireContext()).data(homeLayoutBitmap).listener(
-            onStart = {
-                // set your progressbar visible here
-            },
-            onSuccess = { request, metadata ->
-                // set your progressbar invisible here
+    private fun blurAndSaveBitmapForImageBackground() = lifecycleScope.launch {
+        try {
+            val blurredBitmapFile = File(
+                /* parent = */ requireContext().getHomeLayoutBlurredImageFileDir(),
+                /* child = */ HOME_LAYOUT_BLURRED_IMAGE
+            )
+            if (blurredBitmapFile.exists()) {
+                blurredBitmapFile.delete()
             }
-        ).build()
-        val drawable = ImageLoader(requireContext()).execute(imageRequest).drawable
-        val bitmapToBlur = (drawable as BitmapDrawable).bitmap
-        val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 50)
-        blurredBitmap.saveToInternalStorage(
-            fileName = HOME_LAYOUT_BLURRED_IMAGE,
-            fileDir = requireContext().getHomeLayoutBlurredImageFileDir(),
-        )
-    } catch (_: Exception) {
+            val homeLayoutBitmap = prepareHomeLayoutBitmap()
+            val imageRequest = ImageRequest.Builder(requireContext()).data(homeLayoutBitmap).listener(
+                onStart = {
+                    // set your progressbar visible here
+                },
+                onSuccess = { request, metadata ->
+                    // set your progressbar invisible here
+                }
+            ).build()
+            val drawable = ImageLoader(requireContext()).execute(imageRequest).drawable
+            val bitmapToBlur = (drawable as BitmapDrawable).bitmap
+            val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 50)
+            blurredBitmap.saveToInternalStorage(
+                fileName = HOME_LAYOUT_BLURRED_IMAGE,
+                fileDir = requireContext().getHomeLayoutBlurredImageFileDir(),
+            )
+        } catch (_: Exception) {
+        }
     }
 
     private fun prepareHomeLayoutBitmap(): BitmapDrawable? {
@@ -464,7 +467,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun showProgress(isShow: Boolean) {
-        if (homeAppsAdapter.homeAppList.isNotEmpty()) return
+//        if (homeAppsAdapter.homeAppList.isNotEmpty()) return
         binding.layoutShimmerAppLoader.root.isVisible = isShow
     }
 
