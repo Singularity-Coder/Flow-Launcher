@@ -146,8 +146,10 @@ class AddEditFlowFragment : Fragment() {
                         }
                     }
                     options[1] -> {
-                        AppSelectorBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.APP_SELECTOR)
-                        root.showSnackBar(options[1])
+                        AppSelectorBottomSheetFragment.newInstance(selectedFlowPosition).show(
+                            requireActivity().supportFragmentManager,
+                            BottomSheetTag.APP_SELECTOR
+                        )
                     }
                     options[2] -> {
                         appFlowViewModel.deleteAppFlow(appFlow = flowList[selectedFlowPosition])

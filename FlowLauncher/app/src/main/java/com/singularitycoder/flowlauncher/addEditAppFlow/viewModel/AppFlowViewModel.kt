@@ -40,6 +40,10 @@ class AppFlowViewModel @Inject constructor(
 
     suspend fun deleteAllAppFlows() = appFlowDao.deleteAll()
 
+    suspend fun getAppFlowById(id: Long) = appFlowDao.getAppFlowById(id)
+
+    suspend fun updateAppFlow(appFlow: AppFlow) = appFlowDao.update(appFlow)
+
     fun deleteAppFlow(appFlow: AppFlow) = viewModelScope.launch {
         appFlowDao.delete(appFlow)
     }

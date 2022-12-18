@@ -10,17 +10,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.singularitycoder.flowlauncher.MainActivity
+import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
+import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentAppSelectorBottomSheetBinding
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.home.model.App
 import com.singularitycoder.flowlauncher.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 // TODO Letter strip
 // Maybe pagination for room
@@ -30,13 +34,27 @@ class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = AppSelectorBottomSheetFragment()
+        fun newInstance(selectedFlowPosition: Int) = AppSelectorBottomSheetFragment().apply {
+            arguments = Bundle().apply {
+                putInt(SELECTED_FLOW_POSITION, selectedFlowPosition)
+            }
+        }
     }
 
     private val homeViewModel: HomeViewModel by viewModels()
+    private val appFlowViewModel: AppFlowViewModel by viewModels()
     private val appSelectorAdapter: AppSelectorAdapter by lazy { AppSelectorAdapter() }
 
+    private val selectedAppsList = mutableListOf<App>()
+
+    private var selectedFlowPosition = 0
+
     private lateinit var binding: FragmentAppSelectorBottomSheetBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        selectedFlowPosition = arguments?.getInt(SELECTED_FLOW_POSITION, 0) ?: 0
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAppSelectorBottomSheetBinding.inflate(inflater, container, false)
@@ -88,9 +106,32 @@ class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
         appSelectorAdapter.notifyDataSetChanged()
     }
 
-    // https://stackoverflow.com/questions/41693154/custom-seekbar-thumb-size-color-and-background
     private fun FragmentAppSelectorBottomSheetBinding.setupUserActionListeners() {
+        btnDone.setOnClickListener {
+            lifecycleScope.launch {
+                val appFlow = appFlowViewModel.getAppFlowById(selectedFlowPosition + 1L)
+                appFlowViewModel.updateAppFlow(
+                    appFlow = AppFlow(
+                        id = appFlow?.id ?: -1,
+                        appFlowName = appFlow?.appFlowName ?: "",
+                        isSelected = appFlow?.isSelected ?: false,
+                        appList = selectedAppsList
+                    )
+                )
+            }
+        }
 
+        appSelectorAdapter.setCheckboxListener { isChecked: Boolean, app: App ->
+            if (isChecked) selectedAppsList.add(app) else selectedAppsList.remove(app)
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun FragmentAppSelectorBottomSheetBinding.observeForData() {
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = homeViewModel.appListStateFlow) { it: List<App> ->
+            appSelectorAdapter.selectedAppList = it
+            appSelectorAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun setBottomSheetBehaviour() {
@@ -126,12 +167,6 @@ class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
             }
         })
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun FragmentAppSelectorBottomSheetBinding.observeForData() {
-        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = homeViewModel.appListStateFlow) { it: List<App> ->
-            appSelectorAdapter.selectedAppList = it
-            appSelectorAdapter.notifyDataSetChanged()
-        }
-    }
 }
+
+const val SELECTED_FLOW_POSITION = "SELECTED_FLOW_POSITION"

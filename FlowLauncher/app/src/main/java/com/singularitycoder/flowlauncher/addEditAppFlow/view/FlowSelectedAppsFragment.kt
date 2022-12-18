@@ -16,6 +16,7 @@ import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewMod
 import com.singularitycoder.flowlauncher.databinding.FragmentSelectedAppsBinding
 import com.singularitycoder.flowlauncher.helper.GridSpacingItemDecoration
 import com.singularitycoder.flowlauncher.helper.collectLatestLifecycleFlow
+import com.singularitycoder.flowlauncher.helper.constants.BottomSheetTag
 import com.singularitycoder.flowlauncher.helper.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.Main
@@ -90,6 +91,13 @@ class FlowSelectedAppsFragment : Fragment() {
         }
 
         setAddNewFlowClickListener()
+
+        btnShowAppSelectorSheet.setOnClickListener {
+            AppSelectorBottomSheetFragment.newInstance(position).show(
+                requireActivity().supportFragmentManager,
+                BottomSheetTag.APP_SELECTOR
+            )
+        }
     }
 
     private fun FragmentSelectedAppsBinding.setAddNewFlowClickListener() {

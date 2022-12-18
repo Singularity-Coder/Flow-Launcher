@@ -12,6 +12,7 @@ import com.singularitycoder.flowlauncher.home.model.App
 class AppSelectorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var selectedAppList = listOf<App>()
+    private var checkboxListener: (isChecked: Boolean, app: App) -> Unit = { isChecked, app -> }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding = ListItemAppSelectorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,6 +27,10 @@ class AppSelectorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int = position
 
+    fun setCheckboxListener(checkboxListener: (isChecked: Boolean, app: App) -> Unit) {
+        this.checkboxListener = checkboxListener
+    }
+
     inner class AppFlowViewHolder(
         private val itemBinding: ListItemAppSelectorBinding,
     ) : RecyclerView.ViewHolder(itemBinding.root) {
@@ -35,6 +40,12 @@ class AppSelectorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 tvAppName.text = app.title
                 tvPackageName.text = app.packageName
                 ivAppIcon.load(app.iconPath)
+                root.setOnClickListener {
+                    checkboxApp.performClick()
+                }
+                checkboxApp.setOnCheckedChangeListener { buttonView, isChecked ->
+                    checkboxListener.invoke(isChecked, app)
+                }
             }
         }
     }

@@ -19,6 +19,10 @@ interface AppFlowDao {
     @Query("SELECT * FROM ${Table.APP_FLOW} WHERE appFlowName LIKE :name LIMIT 1")
     suspend fun getAppFlowByName(name: String): AppFlow?
 
+    @Transaction
+    @Query("SELECT * FROM ${Table.APP_FLOW} WHERE id = :id")
+    suspend fun getAppFlowById(id: Long): AppFlow?
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(appFlow: AppFlow)
 

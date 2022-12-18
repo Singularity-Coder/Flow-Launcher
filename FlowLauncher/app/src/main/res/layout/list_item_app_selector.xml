@@ -8,27 +8,31 @@
         android:id="@+id/checkbox_app"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:checked="true"
+        android:layout_marginStart="12dp"
+        android:buttonTint="@color/purple_500"
+        android:checked="false"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
         android:text=""
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/ll_app_titles" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_app_titles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/card_app_image"
         app:layout_constraintStart_toEndOf="@+id/checkbox_app"
+        app:layout_constraintEnd_toStartOf="@+id/card_app_image"
         app:layout_constraintTop_toTopOf="@+id/card_app_image">
 
         <TextView
             android:id="@+id/tv_app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:ellipsize="end"
             android:lines="1"
             android:text="Chrome"
@@ -40,9 +44,9 @@
             android:id="@+id/tv_package_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:ellipsize="end"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
+            android:ellipsize="end"
             android:lines="1"
             android:text="com.google.chrome"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
@@ -59,7 +63,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/purple_50"
-        app:cardCornerRadius="16dp"
+        app:cardCornerRadius="14dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="4dp">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
@@ -80,8 +84,8 @@
 
                 <ImageView
                     android:id="@+id/iv_app_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:scaleType="centerCrop"
                     android:src="@color/purple_50" />
             </com.google.android.material.card.MaterialCardView>
