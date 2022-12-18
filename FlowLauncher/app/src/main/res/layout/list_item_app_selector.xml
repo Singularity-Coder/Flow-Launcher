@@ -21,11 +21,11 @@
         android:id="@+id/ll_app_titles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginEnd="16dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/card_app_image"
-        app:layout_constraintStart_toEndOf="@+id/checkbox_app"
         app:layout_constraintEnd_toStartOf="@+id/card_app_image"
+        app:layout_constraintStart_toEndOf="@+id/checkbox_app"
         app:layout_constraintTop_toTopOf="@+id/card_app_image">
 
         <TextView
@@ -96,6 +96,7 @@
         android:id="@+id/divider_bottom"
         android:layout_width="0dp"
         android:layout_height="1dp"
+        app:dividerColor="@color/black_50"
         app:dividerInsetEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/card_app_image"

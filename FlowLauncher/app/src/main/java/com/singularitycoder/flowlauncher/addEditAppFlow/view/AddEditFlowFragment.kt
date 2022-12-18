@@ -193,7 +193,7 @@ class AddEditFlowFragment : Fragment() {
             binding.llDots.addView(tvDotsArray[i])
         }
         if (tvDotsArray.isNotEmpty()) {
-            tvDotsArray[currentPage]?.setTextColor(requireContext().color(R.color.purple_500))
+            tvDotsArray.getOrNull(currentPage)?.setTextColor(requireContext().color(R.color.purple_500))
         }
     }
 

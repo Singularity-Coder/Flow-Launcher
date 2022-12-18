@@ -64,13 +64,10 @@ class FlowSelectedAppsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.setupUI()
         binding.setupUserActionListeners()
-        observeForData()
+        binding.observeForData()
     }
 
     private fun FragmentSelectedAppsBinding.setupUI() {
-        rvApps.isVisible = isAddFlow.not()
-        llAddFlow.isVisible = isAddFlow
-        rvApps.isVisible = isAddFlow.not()
         rvApps.apply {
             layoutManager = GridLayoutManager(context, 4)
             adapter = flowAppsAdapter
@@ -90,19 +87,7 @@ class FlowSelectedAppsFragment : Fragment() {
             // root.layoutParams.width = deviceWidth() - 60.dpToPx()
         }
 
-        setAddNewFlowClickListener()
-
-        btnShowAppSelectorSheet.setOnClickListener {
-            AppSelectorBottomSheetFragment.newInstance(position).show(
-                requireActivity().supportFragmentManager,
-                BottomSheetTag.APP_SELECTOR
-            )
-        }
-    }
-
-    private fun FragmentSelectedAppsBinding.setAddNewFlowClickListener() {
-        if (isAddFlow.not()) return
-        root.setOnClickListener {
+        llAddFlow.setOnClickListener {
             lifecycleScope.launch {
                 appFlowViewModel.deleteAllAppFlows()
                 val allAppFlows = appFlowViewModel.getAllAppFlows().map {
@@ -119,16 +104,26 @@ class FlowSelectedAppsFragment : Fragment() {
                 )
             }
         }
+
+        btnShowAppSelectorSheet.setOnClickListener {
+            AppSelectorBottomSheetFragment.newInstance(position).show(
+                requireActivity().supportFragmentManager,
+                BottomSheetTag.APP_SELECTOR
+            )
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun observeForData() {
-        // observe from App Flow table - get list of apps selected along with FLow Name
+    private fun FragmentSelectedAppsBinding.observeForData() {
         // Set list items grid view along with Text field for adding Flow name
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
+            isAddFlow = it.size == position
+            rvApps.isVisible = isAddFlow.not()
+            llAddFlow.isVisible = isAddFlow
+            rvApps.isVisible = isAddFlow.not()
             if (isAddFlow) return@collectLatestLifecycleFlow
-            binding.llNoAppsPlaceholder.isVisible = it.isEmpty()
             val selectedFlow = it.getOrNull(position)
+            binding.llNoAppsPlaceholder.isVisible = selectedFlow?.appList?.isEmpty() == true
             flowAppsAdapter.flowAppList = selectedFlow?.appList ?: emptyList()
             withContext(Main) {
                 // https://stackoverflow.com/questions/43221847/cannot-call-this-method-while-recyclerview-is-computing-a-layout-or-scrolling-wh
