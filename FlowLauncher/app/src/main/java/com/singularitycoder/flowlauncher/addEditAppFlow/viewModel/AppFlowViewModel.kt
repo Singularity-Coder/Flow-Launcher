@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.singularitycoder.flowlauncher.addEditAppFlow.dao.AppFlowDao
 import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
-import com.singularitycoder.flowlauncher.home.model.App
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,7 +32,15 @@ class AppFlowViewModel @Inject constructor(
             }
     }
 
-    fun addDefaultFlow(appFlow: AppFlow) = viewModelScope.launch {
-        appFlowDao.insert(appFlow)
+    suspend fun addAppFlow(appFlow: AppFlow) = appFlowDao.insert(appFlow)
+
+    suspend fun addAllAppFlows(appFlowList: List<AppFlow>) = appFlowDao.insertAll(appFlowList)
+
+    suspend fun getAllAppFlows(): List<AppFlow> = appFlowDao.getAll()
+
+    suspend fun deleteAllAppFlows() = appFlowDao.deleteAll()
+
+    fun deleteAppFlow(appFlow: AppFlow) = viewModelScope.launch {
+        appFlowDao.delete(appFlow)
     }
 }

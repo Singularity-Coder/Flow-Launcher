@@ -4,10 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
     app:cardCornerRadius="16dp"
-    tools:context=".addEditAppFlow.view.FlowAppsFragment">
+    tools:context=".addEditAppFlow.view.FlowSelectedAppsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,7 +24,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="6"
-            tools:listitem="@layout/list_item_app" />
+            tools:listitem="@layout/list_item_app"
+            tools:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/ll_add_flow"
@@ -56,6 +55,43 @@
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textColor="@color/purple_500" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_no_apps_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_no_apps_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add some apps to get started"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="@android:color/darker_gray" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_show_app_selector_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/purple_500"
+                android:elevation="0dp"
+                android:text="Add Apps"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:cornerRadius="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

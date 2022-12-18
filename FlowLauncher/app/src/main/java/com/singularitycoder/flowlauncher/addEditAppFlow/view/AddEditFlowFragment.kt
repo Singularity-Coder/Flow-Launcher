@@ -1,5 +1,6 @@
 package com.singularitycoder.flowlauncher.addEditAppFlow.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,9 +40,7 @@ import java.io.File
 // Button to add remove apps
 // On Clicking the card they select that flow
 
-// Add flow name - bottom sheet - this adds frag in viewpager
-// Then add
-// change status bar color
+// On add flow click -> add new frag with Flow 1 ->
 @AndroidEntryPoint
 class AddEditFlowFragment : Fragment() {
 
@@ -87,7 +86,7 @@ class AddEditFlowFragment : Fragment() {
         binding.setUpViewPager()
         binding.setupUI()
         binding.setupUserActionListeners()
-        binding.setupObservers()
+        binding.observeForData()
     }
 
     override fun onDestroy() {
@@ -132,7 +131,7 @@ class AddEditFlowFragment : Fragment() {
     private fun FragmentAddEditFlowBinding.setupUserActionListeners() {
         btnMenu.setOnClickListener { view: View? ->
             view ?: return@setOnClickListener
-            val options = listOf("Edit Name", "Add Apps")
+            val options = listOf("Edit Name", "Add Apps", "Remove Flow")
             requireContext().showPopup(
                 view = view,
                 menuList = options
@@ -150,23 +149,33 @@ class AddEditFlowFragment : Fragment() {
                         AppSelectorBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.APP_SELECTOR)
                         root.showSnackBar(options[1])
                     }
+                    options[2] -> {
+                        appFlowViewModel.deleteAppFlow(appFlow = flowList[selectedFlowPosition])
+                    }
                 }
             }
         }
 
         btnDone.setOnClickListener {
+
+        }
+
+        btnCancel.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStackImmediate()
         }
     }
 
-    private fun FragmentAddEditFlowBinding.setupObservers() {
+    @SuppressLint("NotifyDataSetChanged")
+    private fun FragmentAddEditFlowBinding.observeForData() {
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
             flowList = it.toMutableList().apply {
-                add(AppFlow("Add new Flow", false, emptyList()))
+                add(AppFlow(appFlowName = "Add Flow", isSelected = false, appList = emptyList()))
             }
-            viewpagerAddEditFlow.adapter?.notifyItemInserted(selectedFlowPosition)
-            val selectedFlow = it.getOrNull(selectedFlowPosition)
+//            viewpagerAddEditFlow.adapter?.notifyItemInserted(selectedFlowPosition)
+            viewpagerAddEditFlow.adapter?.notifyDataSetChanged()
+//            val selectedFlow = it.getOrNull(selectedFlowPosition)
             addBottomDots(currentPage = selectedFlowPosition)
+            viewpagerAddEditFlow.currentItem = selectedFlowPosition
         }
     }
 
@@ -188,6 +197,9 @@ class AddEditFlowFragment : Fragment() {
 
     inner class MainViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
         override fun getItemCount(): Int = flowList.size
-        override fun createFragment(position: Int): Fragment = FlowAppsFragment.newInstance(isAddFlow = position == flowList.lastIndex)
+        override fun createFragment(position: Int): Fragment = FlowSelectedAppsFragment.newInstance(
+            isAddFlow = position == flowList.lastIndex,
+            position = position
+        )
     }
 }

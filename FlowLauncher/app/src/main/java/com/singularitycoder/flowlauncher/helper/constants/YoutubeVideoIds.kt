@@ -3,8 +3,9 @@ package com.singularitycoder.flowlauncher.helper.constants
 import com.singularitycoder.flowlauncher.glance.model.YoutubeVideo
 
 val animeFightsList = listOf(
+    YoutubeVideo(title = "Combat Gods 2", videoId = "axyvgpBNkpg"), // Greatest fight choreo. Period.
+    YoutubeVideo(title = "Combat Gods", videoId = "d_qGO4GrbQM"),
     YoutubeVideo(title = "Shock 1, 2, 3 (by Terkoiz)", videoId = "MoDGzRa1LW0"),
-    YoutubeVideo(title = "Combat gods", videoId = "d_qGO4GrbQM"),
     YoutubeVideo(title = "Red vs Black 2021 (by Micromist)", videoId = "rcw3jMJHNHY"),
     YoutubeVideo(title = "Show Me What You Got Collab (hosted by Effie)", videoId = "inzFiLjzWtw"), // I think we have reached the pinnacle of fight choreo.
     YoutubeVideo(title = "True Powers - Furnox VS Avellom", videoId = "LCLxMrXKZYc"),
@@ -409,6 +410,7 @@ val otherEpicMomentsList = listOf(
     YoutubeVideo(title = "Tai Chi Master (1993) - Junbao vs Chin Bo", videoId = "tC-UjteViSw"),
     YoutubeVideo(title = "Tai Chi Master (1993) - learning scene", videoId = "Hff__gBNB6A"),
     YoutubeVideo(title = "Black Adam All Scenes | (HD) | Superman/Shazam!: The Return of Black Adam", videoId = "GID5CJWt1VY"),
+    YoutubeVideo(title = "Charge - Blender Open Movie", videoId = "UXqq0ZvbOnk"),
 )
 
 val allYoutubeVideos = listOf(
@@ -417,4 +419,4 @@ val allYoutubeVideos = listOf(
     epicAnimeMomentsList,
     otherEpicMomentsList,
     otherMusicList
-).flatten()
+).flatten().shuffled()

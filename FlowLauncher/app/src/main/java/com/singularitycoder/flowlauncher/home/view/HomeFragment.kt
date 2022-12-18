@@ -53,7 +53,6 @@ import com.singularitycoder.flowlauncher.toBitmapOf
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -294,8 +293,10 @@ class HomeFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun observeForData() {
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = homeViewModel.appListStateFlow) { appList: List<App> ->
-            appFlowViewModel.addDefaultFlow(
+            if (appList.isEmpty()) return@collectLatestLifecycleFlow
+            appFlowViewModel.addAppFlow(
                 AppFlow(
+                    id = 1,
                     appFlowName = "Default Flow",
                     isSelected = true,
                     appList = appList

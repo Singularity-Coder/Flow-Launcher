@@ -7,7 +7,8 @@ import com.singularitycoder.flowlauncher.home.model.App
 
 @Entity(tableName = Table.APP_FLOW)
 data class AppFlow(
-    @PrimaryKey val appFlowName: String = "",
-    val isSelected: Boolean = false,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val appFlowName: String = "",
+    var isSelected: Boolean = false,
     val appList: List<App> = emptyList()
 )

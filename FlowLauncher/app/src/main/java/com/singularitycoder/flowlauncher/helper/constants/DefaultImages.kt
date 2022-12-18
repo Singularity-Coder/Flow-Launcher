@@ -49,6 +49,9 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/045/923/541/large/wlop-23se.jpg?1643862531", title = "https://www.artstation.com/wlop"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/045/259/505/large/wlop-10se.jpg?1642308657", title = "https://www.artstation.com/wlop"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/021/083/124/large/wl-op-3s.jpg?1570338646", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/001/337/630/large/wl-op-7s.jpg?1444639378", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/041/030/566/large/wlop-31se.jpg?1630556717", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/004/393/456/large/wl-op-6s.jpg?1483372034", title = "https://www.artstation.com/wlop"),
 
     // https://twitter.com/RDJlock - I am speechless again
     GlanceImage(link = "https://pbs.twimg.com/media/EagwCyHVAAA4dGr?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
@@ -126,6 +129,7 @@ val tempImageUrlList = listOf(
 
     // https://www.artstation.com/guweiz
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/023/848/644/large/z-w-gu-5b.jpg?1580520356", title = "https://www.artstation.com/guweiz"),
+    GlanceImage(link = "https://pbs.twimg.com/media/DPPs7dQVwAAM-QE?format=jpg&name=medium", title = "https://www.artstation.com/guweiz"),
 
     // https://www.artstation.com/razaras
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/054/361/876/large/kittichai-rueangchaichan-razaras-my-room-23-p.jpg?1664365930", title = "https://www.artstation.com/razaras"),
@@ -212,6 +216,10 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://i.pinimg.com/564x/53/87/ab/5387abd1faff9ee03ab1e830dc1fe5b9.jpg", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/7c/85/71/7c8571bba37a97fa53cbbbd539a17a03.jpg", title = "https://www.pinterest.com"),
 
+    // Sayako Kato
+    GlanceImage(link = "https://i.pinimg.com/564x/43/03/55/4303555013ee45610677d8c922ca0e06.jpg", title = "https://www.pinterest.com"),
+    GlanceImage(link = "https://i.pinimg.com/564x/51/76/d8/5176d8774b90f6d65a2fd784e2426ed0.jpg", title = "https://www.pinterest.com/nguyenhien12012002/"),
+
     // https://www.pinterest.com/medina5046/
     GlanceImage(link = "https://i.pinimg.com/564x/1e/16/71/1e1671869216466fd2a9b82e3dc7b5cd.jpg", title = "https://www.pinterest.com/medina5046/"),
 
@@ -293,8 +301,11 @@ val tempImageUrlList = listOf(
 
     // http://ayakasuda.com/
     // https://www.pixiv.net/en/users/205294/artworks
-    GlanceImage(link = "http://ayakasuda.com/images/org16.jpg", title = "http://ayakasuda.com/"),
-    GlanceImage(link = "http://ayakasuda.com/images/org24.png", title = "http://ayakasuda.com/"),
-    GlanceImage(link = "http://ayakasuda.com/images/org18.png", title = "http://ayakasuda.com/"),
-    GlanceImage(link = "http://ayakasuda.com/images/org36.jpg", title = "http://ayakasuda.com/"),
-    )
+    GlanceImage(link = "https://i.pinimg.com/564x/cb/ba/c6/cbbac618741bd7556582b521fe470940.jpg", title = "http://ayakasuda.com/"),
+    GlanceImage(link = "https://static.zerochan.net/Suda.Ayaka.full.3580598.png", title = "https://www.zerochan.net/3580598"),
+    GlanceImage(link = "https://static.zerochan.net/Suda.Ayaka.full.2726449.png", title = "https://www.zerochan.net/2726449"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EvZDJd0UcAELEsJ?format=jpg&name=small", title = "http://ayakasuda.com/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/c7/90/f6/c790f67e19d50cb35be9d2a99c8304c8.jpg", title = "http://ayakasuda.com/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/40/a1/9d/40a19df4d1fd1d8e297c74338e8ef0d2.jpg", title = "http://ayakasuda.com/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/2c/ad/8a/2cad8a4f8ae9a0d4e99aa36e28d67b4d.jpg", title = "http://ayakasuda.com/"),
+)

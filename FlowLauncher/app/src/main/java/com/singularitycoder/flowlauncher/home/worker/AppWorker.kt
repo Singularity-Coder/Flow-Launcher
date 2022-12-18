@@ -52,7 +52,7 @@ class AppWorker(val context: Context, workerParams: WorkerParameters) : Coroutin
                         println("packageName: $packageName")
                     }
                 }.also {
-//                    dao.deleteAll()
+                    dao.deleteAll()
                     dao.insertAll(it.sortedBy { it.title })
                 }
                 Result.success(sendResult(isWorkComplete = true))

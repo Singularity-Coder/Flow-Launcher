@@ -70,14 +70,26 @@
         android:layout_height="32dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:gravity="start"
         android:orientation="horizontal"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_done"
-        app:layout_constraintEnd_toStartOf="@+id/btn_done"
+        app:layout_constraintEnd_toStartOf="@+id/btn_cancel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btn_done"
         tools:background="@color/purple_200" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_cancel"
+        style="@style/Widget.App.Button.IconOnly"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/white"
+        app:icon="@drawable/ic_round_close_24"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_done"
+        app:layout_constraintTop_toTopOf="@+id/btn_done"
+        app:layout_constraintEnd_toStartOf="@+id/btn_done"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_done"
@@ -86,8 +98,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/white"
-        android:text="Done"
         android:elevation="0dp"
+        android:text="Done"
         android:textAllCaps="false"
         android:textColor="@color/purple_500"
         app:cornerRadius="24dp"

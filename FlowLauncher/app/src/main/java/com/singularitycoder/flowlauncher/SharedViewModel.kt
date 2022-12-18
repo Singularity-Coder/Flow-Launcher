@@ -1,7 +1,6 @@
 package com.singularitycoder.flowlauncher
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.singularitycoder.flowlauncher.glance.dao.GlanceImageDao
@@ -56,6 +55,8 @@ class SharedViewModel @Inject constructor(
         quoteDao.getAllLiveData()
     }
 
+    //--------------------------------------------------------------------------------
+
     fun addQuoteToDb(quote: Quote) = viewModelScope.launch {
         quoteDao.insert(quote)
     }
@@ -81,4 +82,6 @@ class SharedViewModel @Inject constructor(
     fun deleteYoutubeVideoFromDb(videoId: String) = viewModelScope.launch {
         youtubeVideoDao.deleteByVideoId(videoId)
     }
+
+    //--------------------------------------------------------------------------------
 }

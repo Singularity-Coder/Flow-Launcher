@@ -3,6 +3,7 @@ package com.singularitycoder.flowlauncher.addEditAppFlow.view
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.pm.ResolveInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +23,6 @@ import com.singularitycoder.flowlauncher.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO Letter strip
-// Start worker for fetching apps
 // Maybe pagination for room
 // Shimmer loading until it fetches all apps from DB
 @AndroidEntryPoint
@@ -78,14 +78,14 @@ class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = appSelectorAdapter
         }
-//        appSelectorAdapter.selectedAppList = requireContext().appInfoList().map { item: ResolveInfo? ->
-//            App().apply {
-//                title = item?.loadLabel(requireContext().packageManager).toString()
-//                packageName = item?.activityInfo?.packageName ?: ""
-//                icon = item?.activityInfo?.loadIcon(requireContext().packageManager)
-//            }
-//        }
-//        appSelectorAdapter.notifyDataSetChanged()
+        appSelectorAdapter.selectedAppList = requireContext().appInfoList().map { item: ResolveInfo? ->
+            App().apply {
+                title = item?.loadLabel(requireContext().packageManager).toString()
+                packageName = item?.activityInfo?.packageName ?: ""
+                icon = item?.activityInfo?.loadIcon(requireContext().packageManager)
+            }
+        }
+        appSelectorAdapter.notifyDataSetChanged()
     }
 
     // https://stackoverflow.com/questions/41693154/custom-seekbar-thumb-size-color-and-background
