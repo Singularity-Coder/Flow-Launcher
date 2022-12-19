@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="0dp"
             android:ellipsize="end"
             android:lines="1"
             android:text="com.google.chrome"
