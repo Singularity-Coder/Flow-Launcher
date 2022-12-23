@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
 import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
@@ -18,6 +19,7 @@ import com.singularitycoder.flowlauncher.helper.GridSpacingItemDecoration
 import com.singularitycoder.flowlauncher.helper.collectLatestLifecycleFlow
 import com.singularitycoder.flowlauncher.helper.constants.BottomSheetTag
 import com.singularitycoder.flowlauncher.helper.dpToPx
+import com.singularitycoder.flowlauncher.helper.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -30,29 +32,34 @@ class FlowSelectedAppsFragment : Fragment() {
         @JvmStatic
         fun newInstance(
             isAddFlow: Boolean,
-            position: Int
+            position: Int,
+            appFlowId: Long
         ) = FlowSelectedAppsFragment().apply {
             arguments = Bundle().apply {
                 putBoolean(ARG_PARAM_IS_ADD_FLOW, isAddFlow)
                 putInt(ARG_PARAM_POSITION, position)
+                putLong(ARG_PARAM_APP_FLOW_ID, appFlowId)
             }
         }
     }
 
     private lateinit var binding: FragmentSelectedAppsBinding
 
-    private val flowAppsAdapter by lazy { FlowAppsAdapter() }
+    private val selectedAppsAdapter by lazy { SelectedAppsAdapter() }
     private val appFlowViewModel: AppFlowViewModel by viewModels()
 
     private var isAddFlow = false
     private var position = 0
+    private var appFlowId = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isAddFlow = arguments?.getBoolean(ARG_PARAM_IS_ADD_FLOW) ?: false
         position = arguments?.getInt(ARG_PARAM_POSITION) ?: 0
+        appFlowId = arguments?.getLong(ARG_PARAM_APP_FLOW_ID) ?: 0L
         println("logggggg isAddFlow: $isAddFlow")
         println("logggggg position: $position")
+        println("logggggg appFlowId: $appFlowId")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -70,7 +77,7 @@ class FlowSelectedAppsFragment : Fragment() {
     private fun FragmentSelectedAppsBinding.setupUI() {
         rvApps.apply {
             layoutManager = GridLayoutManager(context, 4)
-            adapter = flowAppsAdapter
+            adapter = selectedAppsAdapter
             addItemDecoration(
                 GridSpacingItemDecoration(
                     spanCount = 4 /* columns */,
@@ -84,21 +91,18 @@ class FlowSelectedAppsFragment : Fragment() {
     private fun FragmentSelectedAppsBinding.setupUserActionListeners() {
         root.viewTreeObserver.addOnGlobalLayoutListener {
             // Do this when view inflate complete
-            // root.layoutParams.width = deviceWidth() - 60.dpToPx()
         }
 
         llAddFlow.setOnClickListener {
+            cardAddFlow.performClick()
+        }
+
+        cardAddFlow.setOnClickListener {
             lifecycleScope.launch {
-                appFlowViewModel.deleteAllAppFlows()
-                val allAppFlows = appFlowViewModel.getAllAppFlows().map {
-                    it.isSelected = false
-                    it
-                }
-                appFlowViewModel.addAllAppFlows(allAppFlows)
                 appFlowViewModel.addAppFlow(
                     AppFlow(
-                        appFlowName = "App Flow ${allAppFlows.size + 1}",
-                        isSelected = true,
+                        appFlowName = "App Flow",
+                        isSelected = false,
                         appList = emptyList()
                     )
                 )
@@ -106,16 +110,26 @@ class FlowSelectedAppsFragment : Fragment() {
         }
 
         btnShowAppSelectorSheet.setOnClickListener {
-            AppSelectorBottomSheetFragment.newInstance(position).show(
-                requireActivity().supportFragmentManager,
-                BottomSheetTag.APP_SELECTOR
+            AppSelectorBottomSheetFragment.newInstance(selectedFlowId = appFlowId).show(
+                /* manager = */ requireActivity().supportFragmentManager,
+                /* tag = */ BottomSheetTag.APP_SELECTOR
             )
         }
+
+        rvApps.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) requireActivity().hideKeyboard()
+            }
+        })
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun FragmentSelectedAppsBinding.observeForData() {
-        // Set list items grid view along with Text field for adding Flow name
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
             isAddFlow = it.size == position
             rvApps.isVisible = isAddFlow.not()
@@ -124,10 +138,11 @@ class FlowSelectedAppsFragment : Fragment() {
             if (isAddFlow) return@collectLatestLifecycleFlow
             val selectedFlow = it.getOrNull(position)
             binding.llNoAppsPlaceholder.isVisible = selectedFlow?.appList?.isEmpty() == true
-            flowAppsAdapter.flowAppList = selectedFlow?.appList ?: emptyList()
+            selectedAppsAdapter.flowAppList = selectedFlow?.appList ?: emptyList()
             withContext(Main) {
                 // https://stackoverflow.com/questions/43221847/cannot-call-this-method-while-recyclerview-is-computing-a-layout-or-scrolling-wh
-                flowAppsAdapter.notifyDataSetChanged()
+                selectedAppsAdapter.notifyDataSetChanged()
+                layoutShimmerAppLoader.shimmerLoader.isVisible = false
             }
         }
     }
@@ -135,3 +150,4 @@ class FlowSelectedAppsFragment : Fragment() {
 
 private const val ARG_PARAM_IS_ADD_FLOW = "ARG_PARAM_POSITION"
 private const val ARG_PARAM_POSITION = "ARG_PARAM_POSITION"
+private const val ARG_PARAM_APP_FLOW_ID = "ARG_PARAM_APP_FLOW_ID"

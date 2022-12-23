@@ -50,7 +50,7 @@ inline fun deleteAllFilesFrom(
     crossinline onDone: () -> Unit = {}
 ) {
     CoroutineScope(Dispatchers.Default).launch {
-        directory?.listFiles()?.forEach files@{ it: File? ->
+        directory?.listFiles()?.filter { it.exists() }?.forEach files@{ it: File? ->
             it ?: return@files
             if (it.name.contains(withName)) {
                 if (it.exists()) it.delete()

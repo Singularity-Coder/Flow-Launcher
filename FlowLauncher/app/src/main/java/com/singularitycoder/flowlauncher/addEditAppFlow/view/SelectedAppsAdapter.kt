@@ -8,7 +8,7 @@ import coil.load
 import com.singularitycoder.flowlauncher.databinding.ListItemAppBinding
 import com.singularitycoder.flowlauncher.home.model.App
 
-class FlowAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SelectedAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var flowAppList = listOf<App>()
 

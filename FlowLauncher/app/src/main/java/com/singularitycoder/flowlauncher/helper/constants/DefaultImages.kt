@@ -17,47 +17,38 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/Fi60NViagAAWs2Q?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fi60NVjakAEDHT2?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fi60N9_agAADQTz?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
-    GlanceImage(link = "https://pbs.twimg.com/media/FkJVG5AaEAEAW1D?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FkYnv1HagAAFx9D?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FkYnxwkagAAJRp3?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FffZY-BagAEebmm?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FffZKuwaYAAfoLx?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Ff0AYlrakAAEk5k?format=jpg&name=4096x4096", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FexsOIOaMAA0psc?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FekiUlUagAE9Uvw?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FekiUlbakAEmtVy?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FekibJ8akAEfg9V?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FekibJ8aYAIdFyF?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FdmByaBagAAAY9l?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FdmByaXaEAA7Imd?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FdmByaiagAAWoWx?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FdmByauaUAAxpY9?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
 
     // Pexels
+    GlanceImage(link = "https://images.pexels.com/photos/1251247/pexels-photo-1251247.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/2422915/pexels-photo-2422915.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/2850287/pexels-photo-2850287.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/2150/sky-space-dark-galaxy.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/1323550/pexels-photo-1323550.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
+    GlanceImage(link = "https://images.pexels.com/photos/1382730/pexels-photo-1382730.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/7925859/pexels-photo-7925859.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/921703/pexels-photo-921703.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/1564655/pexels-photo-1564655.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
+    GlanceImage(link = "https://images.pexels.com/photos/1382731/pexels-photo-1382731.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/2832074/pexels-photo-2832074.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/2179422/pexels-photo-2179422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/6781720/pexels-photo-6781720.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/2061057/pexels-photo-2061057.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/2694561/pexels-photo-2694561.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
-    GlanceImage(link = "https://images.pexels.com/photos/1382731/pexels-photo-1382731.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
-    GlanceImage(link = "https://images.pexels.com/photos/1382730/pexels-photo-1382730.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
-    GlanceImage(link = "https://images.pexels.com/photos/1251247/pexels-photo-1251247.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
     GlanceImage(link = "https://images.pexels.com/photos/1382734/pexels-photo-1382734.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
-
-    // https://www.artstation.com/wlop - I am speechless
-    // https://www.pixiv.net/en/users/2188232/artworks
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/037/291/422/large/wlop-33se.jpg?1620016916", title = "https://www.artstation.com/wlop"),
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/031/648/147/large/wlop-3se.jpg?1604222403", title = "https://www.artstation.com/wlop"),
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/054/497/061/large/wlop-1se.jpg?1664691512", title = "https://www.artstation.com/wlop"),
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/054/088/453/large/wlop-2se.jpg?1663735786", title = "https://www.artstation.com/wlop"),
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/053/461/876/large/wlop-66se.jpg?1662278693", title = "https://www.artstation.com/wlop"),
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/053/058/242/large/wlop-65se.jpg?1661324815", title = "https://www.artstation.com/wlop"),
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/051/594/225/large/wlop-34se.jpg?1657692924", title = "https://www.artstation.com/wlop"),
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/045/923/541/large/wlop-23se.jpg?1643862531", title = "https://www.artstation.com/wlop"),
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/045/259/505/large/wlop-10se.jpg?1642308657", title = "https://www.artstation.com/wlop"),
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/021/083/124/large/wl-op-3s.jpg?1570338646", title = "https://www.artstation.com/wlop"),
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/001/337/630/large/wl-op-7s.jpg?1444639378", title = "https://www.artstation.com/wlop"),
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/041/030/566/large/wlop-31se.jpg?1630556717", title = "https://www.artstation.com/wlop"),
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/004/393/456/large/wl-op-6s.jpg?1483372034", title = "https://www.artstation.com/wlop"),
-
-    // https://twitter.com/RDJlock - I am speechless again
-    GlanceImage(link = "https://pbs.twimg.com/media/EagwCyHVAAA4dGr?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
-    GlanceImage(link = "https://pbs.twimg.com/media/ETjvnx6UwAA2Zqn?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
-    GlanceImage(link = "https://pbs.twimg.com/media/FHDOOANXMAUqOPH?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
-    GlanceImage(link = "https://pbs.twimg.com/media/FRgcKPWUUAAAsTk?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
 
     // https://twitter.com/Merasgar - 🤯🤯🤯
     GlanceImage(link = "https://pbs.twimg.com/media/EJKTngwUEAAG2zx?format=jpg&name=4096x4096", title = "https://twitter.com/Merasgar"),
@@ -65,9 +56,24 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/EQTXzS2VAAACeqt?format=jpg&name=4096x4096", title = "https://twitter.com/Merasgar"),
     GlanceImage(link = "https://pbs.twimg.com/media/EJKVL46U8AEH7C7?format=jpg&name=4096x4096", title = "https://twitter.com/Merasgar"),
     GlanceImage(link = "https://pbs.twimg.com/media/EJKUaHJUcAEihKx?format=jpg&name=4096x4096", title = "https://twitter.com/Merasgar"),
-    GlanceImage(link = "https://pbs.twimg.com/media/EBfFUXKU4AEqQXo?format=jpg&name=large", title = "https://twitter.com/Merasgar"),
     GlanceImage(link = "https://pbs.twimg.com/media/EAADTdfVAAAy45S?format=jpg&name=4096x4096", title = "https://twitter.com/Merasgar"),
-    GlanceImage(link = "https://pbs.twimg.com/media/D3hiTIQV4AIOA3u?format=jpg&name=4096x4096", title = "https://twitter.com/Merasgar"),
+
+    // https://www.artstation.com/wlop - I am speechless
+    // https://www.pixiv.net/en/users/2188232/artworks
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/037/291/422/large/wlop-33se.jpg?1620016916", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/031/648/147/large/wlop-3se.jpg?1604222403", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/053/461/876/large/wlop-66se.jpg?1662278693", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/053/058/242/large/wlop-65se.jpg?1661324815", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/054/088/453/large/wlop-2se.jpg?1663735786", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/051/594/225/large/wlop-34se.jpg?1657692924", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/045/923/541/large/wlop-23se.jpg?1643862531", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/021/083/124/large/wl-op-3s.jpg?1570338646", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/001/337/630/large/wl-op-7s.jpg?1444639378", title = "https://www.artstation.com/wlop"),
+
+    // https://twitter.com/RDJlock - I am speechless again
+    GlanceImage(link = "https://pbs.twimg.com/media/EagwCyHVAAA4dGr?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FHDOOANXMAUqOPH?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FRgcKPWUUAAAsTk?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
 
     // https://www.artstation.com/dadachyo - Pure eye candy
     // https://www.pixiv.net/en/users/6491752
@@ -107,8 +113,8 @@ val tempImageUrlList = listOf(
     // https://www.pixiv.net/en/users/2240866/artworks - Artist 'O'ne
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/044/310/900/large/o-ne-87423019-p1.jpg?1639646200", title = "https://www.artstation.com/ua21b57a7"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/044/144/710/large/o-ne-750.jpg?1639208268", title = "https://www.artstation.com/ua21b57a7"),
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/044/240/589/large/o-ne-3.jpg?1639474447", title = "https://www.artstation.com/ua21b57a7"),
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/044/636/074/large/o-ne-a-1227.jpg?1640689450", title = "https://www.artstation.com/ua21b57a7"),
+    GlanceImage(link = "https://i.pinimg.com/564x/f0/7b/cf/f07bcf9ae448b752b56bdd06aea2cca4.jpg", title = "https://www.artstation.com/ua21b57a7"),
+    GlanceImage(link = "https://i.pinimg.com/564x/9b/5e/d6/9b5ed69ef89b265fc493a446482b4ab4.jpg", title = "https://www.artstation.com/ua21b57a7"),
 
     // https://www.pixiv.net/en/users/6277505/artworks - Artist Dalcefo
     GlanceImage(
@@ -124,12 +130,10 @@ val tempImageUrlList = listOf(
 
     // https://www.artstation.com/ragu6
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/050/901/853/large/ragu-asset.jpg?1655966434", title = "https://www.artstation.com/ragu6"),
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/050/874/467/large/ragu-asset.jpg?1655902445", title = "https://www.artstation.com/ragu6"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/051/292/459/large/ragu-asset.jpg?1656943551", title = "https://www.artstation.com/ragu6"),
 
     // https://www.artstation.com/guweiz
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/023/848/644/large/z-w-gu-5b.jpg?1580520356", title = "https://www.artstation.com/guweiz"),
-    GlanceImage(link = "https://pbs.twimg.com/media/DPPs7dQVwAAM-QE?format=jpg&name=medium", title = "https://www.artstation.com/guweiz"),
 
     // https://www.artstation.com/razaras
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/054/361/876/large/kittichai-rueangchaichan-razaras-my-room-23-p.jpg?1664365930", title = "https://www.artstation.com/razaras"),
@@ -137,16 +141,12 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/056/163/393/large/kittichai-rueangchaichan-razaras-my-room-27-e1p.jpg?1668601359", title = "https://www.artstation.com/razaras"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/050/367/312/large/kittichai-rueangchaichan-razaras-my-room-18-p1.jpg?1654686559", title = "https://www.artstation.com/razaras"),
 
-    // https://www.artstation.com/203
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/002/794/298/large/zhang-weicheng-lx17.jpg?1465805961", title = "https://www.artstation.com/203"),
-
     // https://www.pinterest.com/kaatcreative/
     GlanceImage(link = "https://i.pinimg.com/originals/27/1d/58/271d58601cabeabd44d73c99b8c8a113.jpg", title = "https://www.pinterest.com/kaatcreative/"),
 
     // https://www.artstation.com/danny008
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/046/145/245/large/dannylailai-3.jpg?1644407304", title = "https://www.artstation.com/danny008"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/055/287/746/large/dannylailai-.jpg?1666603911", title = "https://www.artstation.com/danny008"),
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/043/142/984/large/dannylailai-.jpg?1636438625", title = "https://www.artstation.com/danny008"),
 
     // https://www.artstation.com/7200ss
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/046/618/948/large/sangsoo-jeong-traditionalarmorgirl-4crop.jpg?1645557954", title = "https://www.artstation.com/7200ss"),
@@ -160,18 +160,11 @@ val tempImageUrlList = listOf(
     // https://www.artstation.com/nixeu
     // https://www.pixiv.net/en/users/49552835
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/037/354/690/large/n-i-x-e-u-sand-01.jpg?1620159845", title = "https://www.artstation.com/nixeu"),
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/056/286/043/large/n-i-x-e-u-l1tt.jpg?1668882444", title = "https://www.artstation.com/nixeu"),
-
-    // https://www.artstation.com/erak
-    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/047/574/457/4k/erak-note-25.jpg?1647930707", title = "https://www.artstation.com/erak"),
 
     // https://www.artstation.com/somartist
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/043/973/284/large/philipp-a-urlich-forest.jpg?1638783447", title = "https://www.artstation.com/somartist"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/036/076/234/large/philipp-a-urlich-valleylake-5.jpg?1616664152", title = "https://www.artstation.com/somartist"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/029/609/977/large/philipp-a-urlich-cpncept227.jpg?1598095958", title = "https://www.artstation.com/somartist"),
-
-    // https://www.behance.net/zuco
-    GlanceImage(link = "https://mir-s3-cdn-cf.behance.net/project_modules/fs/566454158629937.638f485370ef0.jpg", title = "https://www.behance.net/zuco"),
 
     // https://twitter.com/Bestdaimt
     GlanceImage(link = "https://pbs.twimg.com/media/E1vaXbrVcAE_k-S?format=jpg&name=4096x4096", title = "https://twitter.com/Bestdaimt"),
@@ -182,9 +175,6 @@ val tempImageUrlList = listOf(
 
     // https://twistedsifter.com/2016/07/jupiter-from-below/
     GlanceImage(link = "https://twistedsifter.com/wp-content/uploads/2016/07/jupiter-from-below-nasa.jpg", title = "https://twistedsifter.com/2016/07/jupiter-from-below/"),
-
-    // https://www.artstation.com/whimmy
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/052/738/306/large/whimmy-miaogirl.jpg?1660567375", title = "https://www.artstation.com/whimmy"),
 
     // http://archive.boston.com/bigpicture/2008/12/hubble_space_telescope_advent.html
     GlanceImage(link = "https://cache.boston.com/universal/bigpicture/21_0612.jpg", title = "http://archive.boston.com/bigpicture/2008/12/hubble_space_telescope_advent.html"),
@@ -227,7 +217,7 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/003/845/234/large/jean-michel-bihorel-seyyal-002-mid.jpg?1477911823", title = "https://www.artstation.com/jmbihorel"),
 
     // https://www.pinterest.com/wallpapersmug/
-    GlanceImage(link = "https://i.pinimg.com/564x/08/33/5a/08335a4afc4921c0f767f2b6e02c6467.jpg", title = "https://www.pinterest.com/wallpapersmug/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/31/49/6f/31496ffe59c46768d09de2519498f7dc.jpg", title = "https://www.pinterest.com/wallpapersmug/"),
 
     // https://www.pinterest.com/katsuki13bakugo14/
     GlanceImage(link = "https://i.pinimg.com/564x/74/6c/ca/746ccab65ddb51b97f712440d784e8e4.jpg", title = "https://www.pinterest.com/katsuki13bakugo14/"),
@@ -271,10 +261,7 @@ val tempImageUrlList = listOf(
 
     // https://twitter.com/vlfdus__0
     GlanceImage(link = "https://pbs.twimg.com/media/FRB1VI4aUAAMWnI?format=jpg&name=large", title = "https://twitter.com/vlfdus__0"),
-    GlanceImage(link = "https://pbs.twimg.com/media/FTXiK19aAAEAdZv?format=jpg&name=large", title = "https://twitter.com/vlfdus__0"),
     GlanceImage(link = "https://pbs.twimg.com/media/FNYRfMLagAQOVfF?format=jpg&name=large", title = "https://twitter.com/vlfdus__0"),
-    GlanceImage(link = "https://pbs.twimg.com/media/FKw4ZT_aAAAKu1q?format=jpg&name=large", title = "https://twitter.com/vlfdus__0"),
-    GlanceImage(link = "https://pbs.twimg.com/media/FIo6OtgacAQEbo-?format=jpg&name=large", title = "https://twitter.com/vlfdus__0"),
 
     // https://www.artstation.com/anto-finnstark
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/004/547/650/large/anato-finnstark-strange-encounter-speedpaint-1h50-by-anatofinnstark-davi08m.jpg?1484497660", title = "https://www.artstation.com/anto-finnstark"),
@@ -284,14 +271,11 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/048/771/324/large/anato-finnstark-the-blade-of-miquella-by-anatofinnstark-df49r6q-fullview.jpg?1650906784", title = "https://www.artstation.com/anto-finnstark"),
 
     // https://www.artstation.com/xision
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/040/678/062/large/xision-wu-6.jpg?1629569223", title = "https://www.artstation.com/xision"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/040/678/071/large/xision-wu-5.jpg?1629569220", title = "https://www.artstation.com/xision"),
 
     // https://www.artstation.com/shanqiao
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/000/735/191/large/shan-qiao-shan-qiao-term2-dp2-week9-001.jpg?1431846469", title = "https://www.artstation.com/shanqiao"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/029/230/562/large/shan-qiao-worlds2020-full-kv-1920x1080-002.jpg?1596859093", title = "https://www.artstation.com/shanqiao"),
-
-    // https://www.pinterest.com/emilyqb2191/
-    GlanceImage(link = "https://i.pinimg.com/564x/be/1c/8c/be1c8c91a07e8e211d0808508fe713ed.jpg", title = "https://www.pinterest.com/emilyqb2191/"),
 
     // https://www.pinterest.com/polverina/
     GlanceImage(link = "https://i.pinimg.com/564x/78/e8/c9/78e8c9e339d313e9c0af15169a2db5b6.jpg", title = "https://www.pinterest.com/polverina/"),
@@ -303,9 +287,12 @@ val tempImageUrlList = listOf(
     // https://www.pixiv.net/en/users/205294/artworks
     GlanceImage(link = "https://i.pinimg.com/564x/cb/ba/c6/cbbac618741bd7556582b521fe470940.jpg", title = "http://ayakasuda.com/"),
     GlanceImage(link = "https://static.zerochan.net/Suda.Ayaka.full.3580598.png", title = "https://www.zerochan.net/3580598"),
-    GlanceImage(link = "https://static.zerochan.net/Suda.Ayaka.full.2726449.png", title = "https://www.zerochan.net/2726449"),
-    GlanceImage(link = "https://pbs.twimg.com/media/EvZDJd0UcAELEsJ?format=jpg&name=small", title = "http://ayakasuda.com/"),
     GlanceImage(link = "https://i.pinimg.com/564x/c7/90/f6/c790f67e19d50cb35be9d2a99c8304c8.jpg", title = "http://ayakasuda.com/"),
-    GlanceImage(link = "https://i.pinimg.com/564x/40/a1/9d/40a19df4d1fd1d8e297c74338e8ef0d2.jpg", title = "http://ayakasuda.com/"),
     GlanceImage(link = "https://i.pinimg.com/564x/2c/ad/8a/2cad8a4f8ae9a0d4e99aa36e28d67b4d.jpg", title = "http://ayakasuda.com/"),
+
+    // https://www.artstation.com/airipan
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/051/928/801/large/airi-pan-lightbox-badgeart-2022-airipan-small.jpg?1658508647", title = "https://www.artstation.com/airipan"),
+
+    // https://in.pinterest.com/areliorozcobalucas955/
+    GlanceImage(link = "https://i.pinimg.com/564x/bb/96/91/bb9691786adf6059699ab27c7e755d53.jpg", title = "https://in.pinterest.com/areliorozcobalucas955/"),
 )

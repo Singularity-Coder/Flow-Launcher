@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -23,24 +25,17 @@ import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.BottomSheetTag
 import com.singularitycoder.flowlauncher.helper.constants.HOME_LAYOUT_BLURRED_IMAGE
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-// TODO
-// Add remove apps - new checklist screen
-// Add new flow - new card in view pager
+// TODO Disable apps that are not selected
+// TODO Button to add remove apps - uncheck in add apps frag
+// TODO categorise add apps frag by alphabet
 
-// Disable apps that are not selected
-// Set recycler view for apps
-// Flow name
-
-// Button to add remove apps
-// On Clicking the card they select that flow
-
-// On add flow click -> add new frag with Flow 1 ->
 @AndroidEntryPoint
 class AddEditFlowFragment : Fragment() {
 
@@ -66,7 +61,12 @@ class AddEditFlowFragment : Fragment() {
             println("viewpager2: onPageSelected")
             selectedFlowPosition = position
             addBottomDots(currentPage = selectedFlowPosition)
-            binding.tvFlowName.setText(flowList[position].appFlowName)
+            binding.etFlowName.setText(flowList[position].appFlowName)
+            binding.btnMenu.isVisible = position != 0 && position != flowList.lastIndex
+            binding.btnDone.isInvisible = position == flowList.lastIndex
+            binding.btnCancel.isInvisible = position == flowList.lastIndex
+            binding.etFlowName.isEnabled = position != 0 && position != flowList.lastIndex
+
         }
 
         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -131,7 +131,7 @@ class AddEditFlowFragment : Fragment() {
     private fun FragmentAddEditFlowBinding.setupUserActionListeners() {
         btnMenu.setOnClickListener { view: View? ->
             view ?: return@setOnClickListener
-            val options = listOf("Edit Name", "Add Apps", "Remove Flow")
+            val options = listOf("Edit Name", "Add Apps", "Remove")
             requireContext().showPopup(
                 view = view,
                 menuList = options
@@ -139,14 +139,14 @@ class AddEditFlowFragment : Fragment() {
                 when (options[position]) {
                     options[0] -> {
                         lifecycleScope.launch(Main) {
-                            tvFlowName.requestFocus()
+                            etFlowName.requestFocus()
                             delay(500)
-                            tvFlowName.showKeyboard()
-                            tvFlowName.setSelection(tvFlowName.text.length)
+                            etFlowName.showKeyboard()
+                            etFlowName.setSelection(etFlowName.text.length)
                         }
                     }
                     options[1] -> {
-                        AppSelectorBottomSheetFragment.newInstance(selectedFlowPosition).show(
+                        AppSelectorBottomSheetFragment.newInstance(selectedFlowId = flowList[position].id).show(
                             requireActivity().supportFragmentManager,
                             BottomSheetTag.APP_SELECTOR
                         )
@@ -158,8 +158,40 @@ class AddEditFlowFragment : Fragment() {
             }
         }
 
-        btnDone.setOnClickListener {
+        etFlowName.onImeClick {
+            lifecycleScope.launch {
+                // TODO change this to db query and pass app name and id
+                val appFlow = appFlowViewModel.getAppFlowById(flowList[selectedFlowPosition].id)
+                appFlowViewModel.updateAppFlow(
+                    appFlow = AppFlow(
+                        id = appFlow?.id ?: -1,
+                        appFlowName = etFlowName.text.toString(),
+                        isSelected = appFlow?.isSelected ?: false,
+                        appList = appFlow?.appList ?: emptyList()
+                    )
+                )
+                withContext(Main) {
+                    etFlowName.requestFocus()
+                    etFlowName.hideKeyboard()
+                    etFlowName.clearFocus()
+                }
+            }
+        }
 
+        btnDone.setOnClickListener {
+            // set the current flow to isSelected true
+            lifecycleScope.launch(IO) {
+                val selectedAppFlow = appFlowViewModel.getAppFlowById(flowList[selectedFlowPosition].id)
+                val allAppFlows = appFlowViewModel.getAllAppFlows().map {
+                    it.isSelected = selectedAppFlow?.id == it.id
+                    it
+                }
+//                appFlowViewModel.deleteAllAppFlows()
+                appFlowViewModel.addAllAppFlows(allAppFlows)
+                withContext(Main) {
+                    requireActivity().supportFragmentManager.popBackStackImmediate()
+                }
+            }
         }
 
         btnCancel.setOnClickListener {
@@ -173,10 +205,8 @@ class AddEditFlowFragment : Fragment() {
             flowList = it.toMutableList().apply {
                 add(AppFlow(appFlowName = "Add Flow", isSelected = false, appList = emptyList()))
             }
-//            viewpagerAddEditFlow.adapter?.notifyItemInserted(selectedFlowPosition)
-            viewpagerAddEditFlow.adapter?.notifyDataSetChanged()
-//            val selectedFlow = it.getOrNull(selectedFlowPosition)
             addBottomDots(currentPage = selectedFlowPosition)
+            viewpagerAddEditFlow.adapter?.notifyDataSetChanged()
             viewpagerAddEditFlow.currentItem = selectedFlowPosition
         }
     }
@@ -201,7 +231,8 @@ class AddEditFlowFragment : Fragment() {
         override fun getItemCount(): Int = flowList.size
         override fun createFragment(position: Int): Fragment = FlowSelectedAppsFragment.newInstance(
             isAddFlow = position == flowList.lastIndex,
-            position = position
+            position = position,
+            appFlowId = flowList[position].id
         )
     }
 }

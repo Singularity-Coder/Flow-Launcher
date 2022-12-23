@@ -62,15 +62,13 @@ import javax.inject.Inject
 // Maybe option to change color
 // 12 hr, 24 hr clock
 // Time listener
-// Fav Walls - My Wall - set of 10 fav images - Glance
-// FIXME the grid is still not center positioned
+// FIXME align app grid to the edges
 // Letter strip for app search
 // Probably some kind of doc for quick access of commonly used apps.
 
 // TODO Unable to detect package installed. Check further - https://stackoverflow.com/questions/11392183/how-to-check-programmatically-if-an-application-is-installed-or-not-in-android
 // TODO store install uninstall package flags in db and listen to flag changes and then refresh screen
 
-// Load apps in worker to avoud jank while reloading on resume
 // SOS signal - swipe to decline in 5 sec - send message to pre selected contacts
 // Notes n checklist widegt with quick add
 
@@ -108,6 +106,7 @@ class HomeFragment : Fragment() {
     private var messageBody = ""
     private var removedAppPosition = 0
     private var removedApp: App? = null
+    private var flowName: String? = ""
 
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
@@ -279,12 +278,11 @@ class HomeFragment : Fragment() {
             false
         }
         rvApps.setOnLongClickListener {
-            // Open flow switcher
-            (requireActivity() as AppCompatActivity).showScreen(AddEditFlowFragment.newInstance(), AddEditFlowFragment::class.java.simpleName)
+            root.performLongClick()
             false
         }
         root.setOnLongClickListener {
-            // Open flow switcher
+            blurAndSaveBitmapForImageBackground()
             (requireActivity() as AppCompatActivity).showScreen(AddEditFlowFragment.newInstance(), AddEditFlowFragment::class.java.simpleName)
             false
         }
@@ -294,6 +292,10 @@ class HomeFragment : Fragment() {
     private fun observeForData() {
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = homeViewModel.appListStateFlow) { appList: List<App> ->
             if (appList.isEmpty()) return@collectLatestLifecycleFlow
+            val allAppFlows = appFlowViewModel.getAllAppFlows()
+            if (allAppFlows.firstOrNull()?.appList.isNullOrEmpty().not()) {
+                return@collectLatestLifecycleFlow
+            }
             appFlowViewModel.addAppFlow(
                 AppFlow(
                     id = 1,
@@ -306,7 +308,10 @@ class HomeFragment : Fragment() {
 
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
             val selectedFlow = it.firstOrNull { it.isSelected }
+            val isFlowNameHasFlow = selectedFlow?.appFlowName?.toLowCase()?.contains("flow") == true
+            flowName = if (isFlowNameHasFlow) selectedFlow?.appFlowName else "${selectedFlow?.appFlowName} Flow"
             homeAppsAdapter.homeAppList = selectedFlow?.appList ?: emptyList()
+            enableDisableApps(selectedFlow)
             withContext(Main) {
                 // https://stackoverflow.com/questions/43221847/cannot-call-this-method-while-recyclerview-is-computing-a-layout-or-scrolling-wh
                 homeAppsAdapter.notifyDataSetChanged()
@@ -320,15 +325,26 @@ class HomeFragment : Fragment() {
 //        }
     }
 
+    private fun enableDisableApps(selectedFlow: AppFlow?) = lifecycleScope.launch {
+        val defaultFlowApps = appFlowViewModel.getAppFlowById(id = 1L)?.appList
+        selectedFlow?.appList?.forEach { selectedApp: App ->
+            selectedApp.enable(requireContext())
+        }
+        defaultFlowApps?.forEach { defaultApp: App ->
+            val isDefaultAppNotPresentInSelectedApp = selectedFlow?.appList?.map { it.packageName }?.contains(defaultApp.packageName)?.not() == true
+            if (isDefaultAppNotPresentInSelectedApp) {
+                defaultApp.disable(requireContext())
+            }
+        }
+    }
+
     private fun blurAndSaveBitmapForImageBackground() = lifecycleScope.launch {
         try {
             val blurredBitmapFile = File(
                 /* parent = */ requireContext().getHomeLayoutBlurredImageFileDir(),
                 /* child = */ HOME_LAYOUT_BLURRED_IMAGE
             )
-            if (blurredBitmapFile.exists()) {
-                blurredBitmapFile.delete()
-            }
+            if (blurredBitmapFile.exists()) return@launch
             val homeLayoutBitmap = prepareHomeLayoutBitmap()
             val imageRequest = ImageRequest.Builder(requireContext()).data(homeLayoutBitmap).listener(
                 onStart = {
@@ -374,7 +390,7 @@ class HomeFragment : Fragment() {
 
             withContext(Main) {
                 binding.tvTime.text = getHtmlFormattedTime(html)
-                binding.tvFlowType.text = "$day, ${convertLongToTime(timeNow, DateType.dd_MMM_yyyy)}  |  Work Flow"
+                binding.tvFlowType.text = "$day, ${convertLongToTime(timeNow, DateType.dd_MMM_yyyy)}  |  $flowName"
             }
         }
     }

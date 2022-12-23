@@ -124,14 +124,16 @@ fun Context.showAppInfo(app: App) {
 // https://stackoverflow.com/questions/38315805/enable-disable-packages-programmatically
 // https://developer.android.com/reference/android/content/pm/PackageManager#setApplicationEnabledSetting(java.lang.String,%20int,%20int)
 // https://android.stackexchange.com/questions/143560/how-to-disable-third-party-apps-without-uninstall
-fun App.enable(context: Context) {
+fun App.enable(context: Context) = try {
     context.packageManager.setApplicationEnabledSetting(this.packageName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0)
 //    val runtime = Runtime.getRuntime() // Execute shell commands
 //    runtime.exec("pm disable ${app.packageName}")
+} catch (_: Exception) {
 }
 
-fun App.disable(context: Context) {
+fun App.disable(context: Context) = try {
     context.packageManager.setApplicationEnabledSetting(this.packageName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0)
+} catch (_: Exception) {
 }
 
 fun Context.isPackageInstalled(packageName: String): Boolean {

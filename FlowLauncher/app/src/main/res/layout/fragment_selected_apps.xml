@@ -40,12 +40,24 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible">
 
-            <ImageView
-                android:id="@+id/iv_add"
-                android:layout_width="112dp"
-                android:layout_height="112dp"
-                android:src="@drawable/ic_round_add_24"
-                app:tint="@color/purple_500" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_add_flow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/purple_50"
+                app:cardCornerRadius="64dp"
+                app:cardElevation="0dp"
+                app:rippleColor="@color/purple_200">
+
+                <ImageView
+                    android:id="@+id/iv_add"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="24dp"
+                    android:src="@drawable/ic_round_add_24"
+                    android:visibility="visible"
+                    app:tint="@color/purple_500" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/tv_add_flow"
@@ -54,7 +66,8 @@
                 android:text="Add Flow"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                android:textColor="@color/purple_500" />
+                android:textColor="@color/purple_500"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -68,7 +81,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_no_apps_placeholder"
@@ -94,5 +107,13 @@
                 app:layout_constraintEnd_toEndOf="parent" />
         </LinearLayout>
 
+        <include
+            android:id="@+id/layout_shimmer_app_loader"
+            layout="@layout/layout_shimmer_app_loader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="48dp"
+            android:visibility="visible"
+            tools:visibility="gone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

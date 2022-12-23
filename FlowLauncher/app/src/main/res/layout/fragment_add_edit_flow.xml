@@ -20,7 +20,7 @@
         android:background="@color/black" />
 
     <EditText
-        android:id="@+id/tv_flow_name"
+        android:id="@+id/et_flow_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -29,6 +29,7 @@
         android:background="@null"
         android:elevation="4dp"
         android:ellipsize="end"
+        android:imeOptions="actionDone"
         android:inputType="textCapWords"
         android:maxLines="1"
         android:padding="0dp"
@@ -49,8 +50,9 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="4dp"
         android:backgroundTint="@color/white"
+        android:elevation="4dp"
         app:icon="@drawable/ic_round_more_horiz_24"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_flow_name"
+        app:layout_constraintBottom_toBottomOf="@+id/et_flow_name"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.viewpager2.widget.ViewPager2
@@ -59,9 +61,10 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
+        android:elevation="0dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toTopOf="@+id/btn_done"
-        app:layout_constraintTop_toBottomOf="@+id/tv_flow_name"
+        app:layout_constraintTop_toBottomOf="@+id/et_flow_name"
         tools:background="@color/white" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -86,19 +89,21 @@
         android:layout_height="36dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/white"
+        android:elevation="4dp"
         app:icon="@drawable/ic_round_close_24"
         app:layout_constraintBottom_toBottomOf="@+id/btn_done"
-        app:layout_constraintTop_toTopOf="@+id/btn_done"
-        app:layout_constraintEnd_toStartOf="@+id/btn_done"/>
+        app:layout_constraintEnd_toStartOf="@+id/btn_done"
+        app:layout_constraintTop_toTopOf="@+id/btn_done" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_done"
+        style="@style/Widget.App.Button.IconOnly"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="36dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/white"
-        android:elevation="0dp"
+        android:elevation="4dp"
         android:text="Done"
         android:textAllCaps="false"
         android:textColor="@color/purple_500"

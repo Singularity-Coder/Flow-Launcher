@@ -110,8 +110,8 @@
                         android:backgroundTint="@color/screen_background"
                         android:elevation="1dp"
                         app:icon="@drawable/ic_round_open_in_new_24_2"
-                        app:layout_constraintEnd_toStartOf="@+id/btn_full_screen"
                         app:layout_constraintBottom_toBottomOf="@+id/card_image_count"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_full_screen"
                         app:layout_constraintTop_toTopOf="@+id/card_image_count" />
 
                     <com.google.android.material.button.MaterialButton
@@ -454,6 +454,7 @@
                         android:textColor="@color/purple_500"
                         app:layout_constraintBottom_toBottomOf="@+id/iv_video_thumbnail"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:rippleColor="@color/purple_200"
                         app:shapeAppearance="@style/RoundSmall" />
 
                     <SeekBar

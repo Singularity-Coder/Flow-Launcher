@@ -3,9 +3,9 @@ package com.singularitycoder.flowlauncher.addEditAppFlow.view
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.singularitycoder.flowlauncher.databinding.ListItemAppBinding
 import com.singularitycoder.flowlauncher.databinding.ListItemAppSelectorBinding
 import com.singularitycoder.flowlauncher.home.model.App
 
@@ -37,6 +37,9 @@ class AppSelectorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         @SuppressLint("SetTextI18n")
         fun setData(app: App) {
             itemBinding.apply {
+                tvAlphabet.isVisible = app.isAlphabetShown
+                tvAlphabet.text = app.title.subSequence(0, 1)
+                checkboxApp.isChecked = app.isSelected
                 tvAppName.text = app.title
                 tvPackageName.text = app.packageName
                 ivAppIcon.load(app.iconPath)

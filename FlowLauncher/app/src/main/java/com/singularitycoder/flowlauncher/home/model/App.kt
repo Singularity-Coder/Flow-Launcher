@@ -12,4 +12,6 @@ data class App(
     @PrimaryKey var packageName: String = "",
     var iconPath: String = "",
     @Ignore var icon: Drawable? = null,
+    @Ignore var isAlphabetShown: Boolean = false,
+    @Ignore var isSelected: Boolean = false,
 )
