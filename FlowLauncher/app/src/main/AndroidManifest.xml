@@ -21,6 +21,8 @@
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <!--For all/other package/app visibility - https://developer.android.com/training/package-visibility-->
     <!--https://stackoverflow.com/questions/63246442/android-11-r-return-empty-list-when-querying-intent-for-action-image-capture-->

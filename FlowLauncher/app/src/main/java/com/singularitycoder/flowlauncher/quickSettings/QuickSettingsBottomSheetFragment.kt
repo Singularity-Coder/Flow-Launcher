@@ -1,5 +1,6 @@
 package com.singularitycoder.flowlauncher.quickSettings
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.*
 import android.content.res.ColorStateList
@@ -64,12 +65,13 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 
     private val volumeBroadcast = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
+            val volumeFactor = Math.ceil(100.0 / 15.0).toInt() // Step size of volume
             when (intent?.action) {
                 Broadcast.VOLUME_RAISED -> {
-                    binding.sliderVolume.progress = binding.sliderVolume.progress + 1
+                    binding.sliderVolume.progress = (binding.sliderVolume.progress / volumeFactor) + volumeFactor
                 }
                 Broadcast.VOLUME_LOWERED -> {
-                    binding.sliderVolume.progress = binding.sliderVolume.progress - 1
+                    binding.sliderVolume.progress = (binding.sliderVolume.progress / volumeFactor) - volumeFactor
                 }
             }
         }
@@ -118,7 +120,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
     private fun FragmentQuickSettingsBottomSheetBinding.setupUI() {
         setBottomSheetBehaviour()
         setCurrentScreenBrightness()
-        sliderVolume.max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        setCurrentVolume()
         layoutWifi.apply {
             ivIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_wifi_24))
             tvPlaceholder.text = "Wifi"
@@ -202,6 +204,18 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
+    @SuppressLint("NewApi")
+    private fun setCurrentVolume() {
+        println(
+            """
+            current volume: ${audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)}
+            max volume 15: ${audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)}
+            min volume 0: ${audioManager.getStreamMinVolume(AudioManager.STREAM_MUSIC)}
+        """.trimIndent()
+        )
+        binding.sliderVolume.progress = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) * Math.ceil(100.0 / 15.0).toInt()
+    }
+
     // https://stackoverflow.com/questions/41693154/custom-seekbar-thumb-size-color-and-background
     private fun FragmentQuickSettingsBottomSheetBinding.setupUserActionListeners() {
 //        sliderBrightness.apply {
@@ -283,7 +297,9 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 println("seekbar progress: $progress")
                 // https://stackoverflow.com/questions/40925722/how-to-increase-and-decrease-the-volume-programmatically-in-android
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0)
+                val volumeFactor = Math.ceil(100.0 / 15.0).toInt() // Step size of volume
+                val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress / volumeFactor, 0)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -345,7 +361,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun setCurrentScreenBrightness() {
-        val currentScreenBrightness = Math.floor(requireContext().getScreenBrightness() / 2.55)
+        val currentScreenBrightness = Math.ceil(requireContext().getScreenBrightness() / 2.55)
         binding.sliderBrightness.progress = currentScreenBrightness.toInt()
     }
 
