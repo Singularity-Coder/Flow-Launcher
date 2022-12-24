@@ -388,10 +388,14 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         binding.layoutAirplaneMode.apply {
             if (requireContext().isAirplaneModeEnabled()) {
                 ivAppIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_airplanemode_active_24))
-                root.setCardBackgroundColor(requireContext().color(R.color.purple_50))
+                val colorsBackground = intArrayOf(requireContext().color(R.color.purple_50))
+                val states = arrayOf(intArrayOf(android.R.attr.state_enabled))
+                root.backgroundTintList = ColorStateList(states, colorsBackground)
             } else {
                 ivAppIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_airplanemode_inactive_24))
-                root.setCardBackgroundColor(requireContext().color(R.color.black_50))
+                val colorsBackground = intArrayOf(requireContext().color(R.color.black_50))
+                val states = arrayOf(intArrayOf(android.R.attr.state_enabled))
+                root.backgroundTintList = ColorStateList(states, colorsBackground)
             }
         }
     }

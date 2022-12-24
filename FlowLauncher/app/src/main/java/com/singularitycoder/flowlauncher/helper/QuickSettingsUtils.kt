@@ -81,20 +81,18 @@ fun Context.isCameraPermissionGranted(): Boolean {
 }
 
 fun Context.isAirplaneModeEnabled(): Boolean {
-    return Settings.System.getInt(
+    return Settings.Global.getInt(
         contentResolver,
-        Settings.System.AIRPLANE_MODE_ON, 0
-    ) == 1
+        Settings.Global.AIRPLANE_MODE_ON, 0) != 0
 }
 
 // https://stackoverflow.com/questions/5533881/toggle-airplane-mode-in-android
 // https://dustinbreese.blogspot.com/2009/04/andoid-controlling-airplane-mode.html
 fun Context.setAirplaneMode(isEnabled: Boolean) {
     try {
-        Settings.System.putInt(
+        Settings.Global.putInt(
             contentResolver,
-            Settings.System.AIRPLANE_MODE_ON, if (isEnabled) 0 else 1
-        )
+            Settings.Global.AIRPLANE_MODE_ON, if (isEnabled) 1 else 0)
         // Post an intent to reload
         val intent = Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED).apply {
             putExtra("state", !isEnabled)
