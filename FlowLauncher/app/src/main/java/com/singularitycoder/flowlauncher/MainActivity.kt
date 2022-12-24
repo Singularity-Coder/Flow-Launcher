@@ -1,6 +1,9 @@
 package com.singularitycoder.flowlauncher
 
+import android.content.Intent
+import android.media.AudioManager
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -9,14 +12,19 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.singularitycoder.flowlauncher.databinding.ActivityMainBinding
 import com.singularitycoder.flowlauncher.glance.view.GlanceFragment
+import com.singularitycoder.flowlauncher.helper.constants.Broadcast
 import com.singularitycoder.flowlauncher.home.view.HomeFragment
 import com.singularitycoder.flowlauncher.today.view.TodayFragment
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 // https://steemit.com/utopian-io/@ideba/how-to-build-a-custom-android-launcher-and-home-screen-application-part-1
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var audioManager: AudioManager
 
     private lateinit var binding: ActivityMainBinding
 
@@ -42,6 +50,29 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpViewPager()
+    }
+
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        return when (event.keyCode) {
+            KeyEvent.KEYCODE_VOLUME_UP -> {
+                if (event.action == KeyEvent.ACTION_DOWN) {
+                    audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND)
+                    sendBroadcast(Intent(Broadcast.VOLUME_RAISED))
+                }
+                true
+            }
+            KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                if (event.action == KeyEvent.ACTION_DOWN) {
+                    audioManager.adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND)
+                    sendBroadcast(Intent(Broadcast.VOLUME_LOWERED))
+                }
+                true
+            }
+            KeyEvent.KEYCODE_POWER -> {
+                true
+            }
+            else -> super.dispatchKeyEvent(event)
+        }
     }
 
     override fun onDestroy() {

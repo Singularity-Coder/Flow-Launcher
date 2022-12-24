@@ -1,8 +1,9 @@
 package com.singularitycoder.flowlauncher.quickSettings
 
 import android.app.Dialog
-import android.content.DialogInterface
+import android.content.*
 import android.content.res.ColorStateList
+import android.media.AudioManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,8 +19,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.databinding.FragmentQuickSettingsBottomSheetBinding
 import com.singularitycoder.flowlauncher.helper.*
+import com.singularitycoder.flowlauncher.helper.constants.Broadcast
 import com.singularitycoder.flowlauncher.helper.swipebutton.OnStateChangeListener
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 // Try Blur background
@@ -44,7 +47,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // Brightness slider
 // Volume Slider
 
-// Accessibility permission api - to control power btn, notifcations, etc
+// Accessibility permission api - to control power btn, notifications, etc
 
 @AndroidEntryPoint
 class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
@@ -54,7 +57,23 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         fun newInstance() = QuickSettingsBottomSheetFragment()
     }
 
+    @Inject
+    lateinit var audioManager: AudioManager
+
     private lateinit var binding: FragmentQuickSettingsBottomSheetBinding
+
+    private val volumeBroadcast = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when (intent?.action) {
+                Broadcast.VOLUME_RAISED -> {
+                    binding.sliderVolume.progress = binding.sliderVolume.progress + 1
+                }
+                Broadcast.VOLUME_LOWERED -> {
+                    binding.sliderVolume.progress = binding.sliderVolume.progress - 1
+                }
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentQuickSettingsBottomSheetBinding.inflate(inflater, container, false)
@@ -67,6 +86,17 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         binding.setupUI()
         binding.setupUserActionListeners()
         binding.observeForData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.registerReceiver(volumeBroadcast, IntentFilter(Broadcast.VOLUME_RAISED))
+        activity?.registerReceiver(volumeBroadcast, IntentFilter(Broadcast.VOLUME_LOWERED))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.unregisterReceiver(volumeBroadcast)
     }
 
     // https://stackoverflow.com/questions/42301845/android-bottom-sheet-after-state-changed
@@ -88,6 +118,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
     private fun FragmentQuickSettingsBottomSheetBinding.setupUI() {
         setBottomSheetBehaviour()
         setCurrentScreenBrightness()
+        sliderVolume.max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         layoutWifi.apply {
             ivIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_wifi_24))
             tvPlaceholder.text = "Wifi"
@@ -236,8 +267,8 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
                 println("seekbar progress: $progress")
                 /** 1 unit of progress = 2.55 times progress. Seekbar range is 0 to 100 while brightness range is 0 to 255 */
 //                val brightness: Float = normalizedBrightness(brightness = progress.toFloat(), inMin = 0f, inMax = 100f, outMin = 0.0f, outMax = 255.0f)
-                val normalizedBrightness = Math.floor(progress * (255.0 / 100.0))
-                requireContext().setScreenBrightnessTo(value = normalizedBrightness.toInt())
+//                val normalizedBrightness = Math.floor(progress * (255.0 / 100.0))
+                requireActivity().setScreenBrightnessTo(value = progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -251,6 +282,8 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         sliderVolume.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 println("seekbar progress: $progress")
+                // https://stackoverflow.com/questions/40925722/how-to-increase-and-decrease-the-volume-programmatically-in-android
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {

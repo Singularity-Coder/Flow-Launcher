@@ -1,7 +1,9 @@
 package com.singularitycoder.flowlauncher.helper
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -34,8 +36,11 @@ fun normalizedBrightness(
 }
 
 // https://stackoverflow.com/questions/18312609/change-the-system-brightness-programmatically#:~:text=LayoutParams%20lp%20%3D%20window.,setAttributes(lp)%3B
-fun Context.setScreenBrightnessTo(value: Int) {
+fun Activity.setScreenBrightnessTo(value: Int) {
     Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, value)
+    val layoutParams = window.attributes
+    layoutParams.screenBrightness = value / 255f
+    window.attributes = layoutParams
 }
 
 // https://stackoverflow.com/questions/18312609/change-the-system-brightness-programmatically#:~:text=LayoutParams%20lp%20%3D%20window.,setAttributes(lp)%3B
@@ -50,4 +55,12 @@ fun Context.setScreenBrightnessToAuto() {
         Settings.System.SCREEN_BRIGHTNESS_MODE,
         Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL
     )
+}
+
+fun AudioManager.raiseVolume() {
+    adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND)
+}
+
+fun AudioManager.lowerVolume() {
+    adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND)
 }
