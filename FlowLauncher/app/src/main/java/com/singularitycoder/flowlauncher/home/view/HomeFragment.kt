@@ -274,7 +274,9 @@ class HomeFragment : Fragment() {
             speechToTextResult.launch(intent)
         }
         fabVoiceSearch.setOnLongClickListener {
-            QuickSettingsBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.QUICK_SETTINGS)
+            if (requireContext().isWriteSettingsPermissionGranted()) {
+                QuickSettingsBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.QUICK_SETTINGS)
+            }
             false
         }
         rvApps.setOnLongClickListener {

@@ -11,6 +11,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
@@ -44,8 +45,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
-import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.MainActivity
+import com.singularitycoder.flowlauncher.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -53,6 +54,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.reflect.Method
 import java.util.*
+
 
 val callContactSmsPermissionList = arrayOf(
     Manifest.permission.READ_CONTACTS,
@@ -68,6 +70,10 @@ fun Context.isCallContactSmsPermissionGranted(): Boolean {
             ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED
 }
 
+// https://stackoverflow.com/questions/32083410/cant-get-write-settings-permission
+fun Context.setRingtone(ringtoneUri: Uri) {
+    RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, ringtoneUri);
+}
 
 fun getHtmlFormattedTime(html: String): Spanned {
     return HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)

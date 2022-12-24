@@ -87,6 +87,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
     // https://stackoverflow.com/questions/15543186/how-do-i-create-colorstatelist-programmatically
     private fun FragmentQuickSettingsBottomSheetBinding.setupUI() {
         setBottomSheetBehaviour()
+        setCurrentScreenBrightness()
         layoutWifi.apply {
             ivIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_wifi_24))
             tvPlaceholder.text = "Wifi"
@@ -233,6 +234,10 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         sliderBrightness.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 println("seekbar progress: $progress")
+                /** 1 unit of progress = 2.55 times progress. Seekbar range is 0 to 100 while brightness range is 0 to 255 */
+//                val brightness: Float = normalizedBrightness(brightness = progress.toFloat(), inMin = 0f, inMax = 100f, outMin = 0.0f, outMax = 255.0f)
+                val normalizedBrightness = Math.floor(progress * (255.0 / 100.0))
+                requireContext().setScreenBrightnessTo(value = normalizedBrightness.toInt())
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -304,6 +309,11 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         layoutPower.root.onSafeClick {
 
         }
+    }
+
+    private fun setCurrentScreenBrightness() {
+        val currentScreenBrightness = Math.floor(requireContext().getScreenBrightness() / 2.55)
+        binding.sliderBrightness.progress = currentScreenBrightness.toInt()
     }
 
     private fun setBottomSheetBehaviour() {
