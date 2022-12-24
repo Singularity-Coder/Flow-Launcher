@@ -1,12 +1,16 @@
 package com.singularitycoder.flowlauncher.helper
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.core.content.ContextCompat
+
 
 // https://stackoverflow.com/questions/18312609/change-the-system-brightness-programmatically#:~:text=LayoutParams%20lp%20%3D%20window.,setAttributes(lp)%3B
 // https://stackoverflow.com/questions/32083410/cant-get-write-settings-permission
@@ -70,4 +74,32 @@ fun AudioManager.lowerVolume() {
 // https://stackoverflow.com/questions/19517417/opening-android-settings-programmatically
 fun Context.openSettings() {
     startActivity(Intent(Settings.ACTION_SETTINGS))
+}
+
+fun Context.isCameraPermissionGranted(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+}
+
+fun Context.isAirplaneModeEnabled(): Boolean {
+    return Settings.System.getInt(
+        contentResolver,
+        Settings.System.AIRPLANE_MODE_ON, 0
+    ) == 1
+}
+
+// https://stackoverflow.com/questions/5533881/toggle-airplane-mode-in-android
+// https://dustinbreese.blogspot.com/2009/04/andoid-controlling-airplane-mode.html
+fun Context.setAirplaneMode(isEnabled: Boolean) {
+    try {
+        Settings.System.putInt(
+            contentResolver,
+            Settings.System.AIRPLANE_MODE_ON, if (isEnabled) 0 else 1
+        )
+        // Post an intent to reload
+        val intent = Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED).apply {
+            putExtra("state", !isEnabled)
+        }
+        sendBroadcast(intent)
+    } catch (_: Exception) {
+    }
 }

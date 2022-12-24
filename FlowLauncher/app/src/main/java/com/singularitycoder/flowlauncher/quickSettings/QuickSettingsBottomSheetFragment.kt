@@ -16,6 +16,7 @@ import android.widget.FrameLayout
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
@@ -54,6 +55,9 @@ import javax.inject.Inject
 
 // Accessibility permission api - to control power btn, notifications, etc
 
+// Lock Unlock phone: https://stackoverflow.com/questions/14352648/how-to-lock-unlock-screen-programmatically
+// https://rdcworld-android.blogspot.com/2012/03/lock-phone-screen-programmtically.html
+
 @AndroidEntryPoint
 class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -70,7 +74,25 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentQuickSettingsBottomSheetBinding
 
-    private val volumeBroadcast = object : BroadcastReceiver() {
+    private val cameraPermissionResult = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean? ->
+        isGranted ?: return@registerForActivityResult
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.CAMERA)) {
+            requireContext().showPermissionSettings()
+            return@registerForActivityResult
+        }
+
+        if (isGranted.not()) {
+            requestCameraPermission()
+            return@registerForActivityResult
+        }
+
+        if (requireContext().isCameraPermissionGranted()) {
+            requireActivity().launchApp("com.android.camera2")
+        }
+    }
+
+    private val quickSettingsBroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val volumeFactor = Math.ceil(100.0 / 15.0).toInt() // Step size of volume
             when (intent?.action) {
@@ -99,13 +121,14 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        activity?.registerReceiver(volumeBroadcast, IntentFilter(Broadcast.VOLUME_RAISED))
-        activity?.registerReceiver(volumeBroadcast, IntentFilter(Broadcast.VOLUME_LOWERED))
+        activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter(Broadcast.VOLUME_RAISED))
+        activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter(Broadcast.VOLUME_LOWERED))
+        activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter("android.intent.action.SERVICE_STATE")) // For airplane mode
     }
 
     override fun onPause() {
         super.onPause()
-        activity?.unregisterReceiver(volumeBroadcast)
+        activity?.unregisterReceiver(quickSettingsBroadcastReceiver)
     }
 
     // https://stackoverflow.com/questions/42301845/android-bottom-sheet-after-state-changed
@@ -129,6 +152,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         setCurrentScreenBrightness()
         setCurrentVolume()
         setCurrentWifiStatus()
+        setCurrentAirplaneModeStatus()
         layoutWifi.apply {
             ivIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_wifi_24))
             tvPlaceholder.text = "Wifi"
@@ -317,7 +341,10 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 
         }
         layoutAirplaneMode.root.onSafeClick {
-
+            if (requireContext().isWriteSettingsPermissionGranted()) {
+                requireContext().setAirplaneMode(requireContext().isAirplaneModeEnabled().not())
+                setCurrentAirplaneModeStatus()
+            }
         }
         layoutTorch.root.onSafeClick {
 
@@ -326,7 +353,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 
         }
         layoutCamera.root.onSafeClick {
-
+            requestCameraPermission()
         }
         layoutBarcodeScanner.root.onSafeClick {
 
@@ -355,6 +382,22 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         layoutPower.root.onSafeClick {
 
         }
+    }
+
+    private fun setCurrentAirplaneModeStatus() {
+        binding.layoutAirplaneMode.apply {
+            if (requireContext().isAirplaneModeEnabled()) {
+                ivAppIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_airplanemode_active_24))
+                root.setCardBackgroundColor(requireContext().color(R.color.purple_50))
+            } else {
+                ivAppIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_airplanemode_inactive_24))
+                root.setCardBackgroundColor(requireContext().color(R.color.black_50))
+            }
+        }
+    }
+
+    private fun requestCameraPermission() {
+        cameraPermissionResult.launch(Manifest.permission.CAMERA)
     }
 
     private fun setCurrentWifiStatus() {
@@ -428,6 +471,5 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun FragmentQuickSettingsBottomSheetBinding.observeForData() {
-
     }
 }

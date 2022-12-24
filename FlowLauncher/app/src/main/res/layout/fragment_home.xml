@@ -34,7 +34,7 @@
             android:maxLines="1"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="Work Flow"
+            android:text="Default Flow"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:textColor="@android:color/darker_gray"
             app:layout_constraintTop_toBottomOf="@+id/tv_time" />
