@@ -553,6 +553,10 @@ fun Activity.setStatusBarColor(@ColorRes color: Int) {
     window.statusBarColor = ContextCompat.getColor(this, color)
 }
 
+fun Context?.showToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+}
+
 object FlowUtils {
     val gson = Gson()
 }

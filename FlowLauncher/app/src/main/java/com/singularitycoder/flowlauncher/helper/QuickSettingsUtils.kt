@@ -57,10 +57,17 @@ fun Context.setScreenBrightnessToAuto() {
     )
 }
 
+// https://stackoverflow.com/questions/40925722/how-to-increase-and-decrease-the-volume-programmatically-in-android
 fun AudioManager.raiseVolume() {
     adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND)
 }
 
+// https://stackoverflow.com/questions/40925722/how-to-increase-and-decrease-the-volume-programmatically-in-android
 fun AudioManager.lowerVolume() {
     adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND)
+}
+
+// https://stackoverflow.com/questions/19517417/opening-android-settings-programmatically
+fun Context.openSettings() {
+    startActivity(Intent(Settings.ACTION_SETTINGS))
 }

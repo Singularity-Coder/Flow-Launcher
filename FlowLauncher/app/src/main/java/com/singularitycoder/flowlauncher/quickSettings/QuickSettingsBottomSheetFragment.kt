@@ -1,10 +1,13 @@
 package com.singularitycoder.flowlauncher.quickSettings
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.*
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.media.AudioManager
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +16,7 @@ import android.widget.FrameLayout
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -60,6 +64,9 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 
     @Inject
     lateinit var audioManager: AudioManager
+
+    @Inject
+    lateinit var wifiManager: WifiManager
 
     private lateinit var binding: FragmentQuickSettingsBottomSheetBinding
 
@@ -121,6 +128,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         setBottomSheetBehaviour()
         setCurrentScreenBrightness()
         setCurrentVolume()
+        setCurrentWifiStatus()
         layoutWifi.apply {
             ivIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_wifi_24))
             tvPlaceholder.text = "Wifi"
@@ -204,18 +212,6 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    @SuppressLint("NewApi")
-    private fun setCurrentVolume() {
-        println(
-            """
-            current volume: ${audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)}
-            max volume 15: ${audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)}
-            min volume 0: ${audioManager.getStreamMinVolume(AudioManager.STREAM_MUSIC)}
-        """.trimIndent()
-        )
-        binding.sliderVolume.progress = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) * Math.ceil(100.0 / 15.0).toInt()
-    }
-
     // https://stackoverflow.com/questions/41693154/custom-seekbar-thumb-size-color-and-background
     private fun FragmentQuickSettingsBottomSheetBinding.setupUserActionListeners() {
 //        sliderBrightness.apply {
@@ -296,7 +292,6 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         sliderVolume.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 println("seekbar progress: $progress")
-                // https://stackoverflow.com/questions/40925722/how-to-increase-and-decrease-the-volume-programmatically-in-android
                 val volumeFactor = Math.ceil(100.0 / 15.0).toInt() // Step size of volume
                 val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress / volumeFactor, 0)
@@ -311,7 +306,9 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             }
         })
         layoutWifi.root.onSafeClick {
-
+            // https://stackoverflow.com/questions/3930990/android-how-to-enable-disable-wifi-or-internet-connection-programmatically
+            wifiManager.isWifiEnabled = wifiManager.isWifiEnabled.not()
+            context.showToast("Wifi status: ${wifiManager.isWifiEnabled}")
         }
         layoutNetwork.root.onSafeClick {
 
@@ -347,7 +344,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 
         }
         layoutSettings.root.onSafeClick {
-
+            requireContext().openSettings()
         }
         layoutNotifications.root.onSafeClick {
 
@@ -358,6 +355,37 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         layoutPower.root.onSafeClick {
 
         }
+    }
+
+    private fun setCurrentWifiStatus() {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+        binding.layoutWifi.apply {
+            ivIcon.setImageDrawable(
+                if (wifiManager.isWifiEnabled) {
+                    requireContext().drawable(R.drawable.ic_round_wifi_24)
+                } else {
+                    requireContext().drawable(R.drawable.ic_round_wifi_off_24)
+                }
+            )
+            tvName.text = wifiManager.connectionInfo.ssid
+            tvPlaceholder.text = if (wifiManager.configuredNetworks.firstOrNull()?.status == 1) {
+                "Connected"
+            } else "Not Connected"
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private fun setCurrentVolume() {
+        println(
+            """
+            current volume: ${audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)}
+            max volume 15: ${audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)}
+            min volume 0: ${audioManager.getStreamMinVolume(AudioManager.STREAM_MUSIC)}
+        """.trimIndent()
+        )
+        binding.sliderVolume.progress = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) * Math.ceil(100.0 / 15.0).toInt()
     }
 
     private fun setCurrentScreenBrightness() {

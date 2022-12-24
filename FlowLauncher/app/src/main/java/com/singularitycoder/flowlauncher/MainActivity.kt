@@ -13,6 +13,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.singularitycoder.flowlauncher.databinding.ActivityMainBinding
 import com.singularitycoder.flowlauncher.glance.view.GlanceFragment
 import com.singularitycoder.flowlauncher.helper.constants.Broadcast
+import com.singularitycoder.flowlauncher.helper.lowerVolume
+import com.singularitycoder.flowlauncher.helper.raiseVolume
 import com.singularitycoder.flowlauncher.home.view.HomeFragment
 import com.singularitycoder.flowlauncher.today.view.TodayFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,14 +58,14 @@ class MainActivity : AppCompatActivity() {
         return when (event.keyCode) {
             KeyEvent.KEYCODE_VOLUME_UP -> {
                 if (event.action == KeyEvent.ACTION_DOWN) {
-                    audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND)
+                    audioManager.raiseVolume()
                     sendBroadcast(Intent(Broadcast.VOLUME_RAISED))
                 }
                 true
             }
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 if (event.action == KeyEvent.ACTION_DOWN) {
-                    audioManager.adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND)
+                    audioManager.lowerVolume()
                     sendBroadcast(Intent(Broadcast.VOLUME_LOWERED))
                 }
                 true
