@@ -10,6 +10,7 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "Show Me What You Got Collab (hosted by Effie)", videoId = "inzFiLjzWtw"), // I think we have reached the pinnacle of fight choreo.
     YoutubeVideo(title = "True Powers - Furnox VS Avellom", videoId = "LCLxMrXKZYc"),
     YoutubeVideo(title = "KJ's Final Ride (by Stealth & King)", videoId = "bIr6EZslGV8"),
+    YoutubeVideo(title = "The Ghost Story : Chapter 4 - Hunted (by MicroMist)", videoId = "Y6oWCUj30jE"),
     YoutubeVideo(title = "Boruto - Naruto, Sasuke, and Boruto vs Momoshiki", videoId = "CZJBkQQTiCo"),
     YoutubeVideo(title = "Naruto - Madara vs shinobi alliance", videoId = "689C1gEksqs"),
     YoutubeVideo(title = "Fate/Apocrypha - Siegfried VS Karna [60FPS]", videoId = "i_kPukc6bkE"),

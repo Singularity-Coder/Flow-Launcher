@@ -2,10 +2,12 @@ package com.singularitycoder.flowlauncher.helper
 
 import android.Manifest
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioManager
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -13,6 +15,8 @@ import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+import java.io.DataOutputStream
 import java.io.IOException
 import java.lang.reflect.Field
 import java.lang.reflect.Method
@@ -218,4 +222,50 @@ fun Context.getMobileDataState(): Boolean = try {
     getMobileDataEnabledMethod.invoke(telephonyService) as Boolean
 } catch (_: Exception) {
     false
+}
+
+// https://stackoverflow.com/questions/31120082/latest-update-on-enabling-and-disabling-mobile-data-programmatically
+fun Context.showNetworkSettings() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        val intent = Intent(Settings.ACTION_DATA_USAGE_SETTINGS)
+        startActivity(intent)
+    } else {
+        val intent = Intent().apply {
+            component = ComponentName(
+                "com.android.settings",
+                "com.android.settings.Settings\$DataUsageSummaryActivity"
+            )
+        }
+        startActivity(intent)
+    }
+}
+
+// https://stackoverflow.com/questions/31120082/latest-update-on-enabling-and-disabling-mobile-data-programmatically
+private fun enableMobileData(isEnabled: Boolean) = try {
+    val cmds = if (isEnabled) {
+        arrayOf("svc data enable")
+    } else {
+        arrayOf("svc data disable")
+    }
+    val p = Runtime.getRuntime().exec("su")
+    val os = DataOutputStream(p.outputStream)
+    for (tmpCmd in cmds) {
+        os.writeBytes("$tmpCmd\n")
+    }
+    os.writeBytes("exit\n")
+    os.flush()
+} catch (e: java.lang.Exception) {
+    e.printStackTrace()
+}
+
+// https://stackoverflow.com/questions/31120082/latest-update-on-enabling-and-disabling-mobile-data-programmatically
+fun Context.setMobileDataState(isEnabled: Boolean) {
+    try {
+        val dataManager: ConnectivityManager? = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        val dataMtd = ConnectivityManager::class.java.getDeclaredMethod("setMobileDataEnabled", Boolean::class.javaPrimitiveType).apply {
+            isAccessible = true
+            invoke(dataManager, isEnabled)
+        }
+    } catch (_: Exception) {
+    }
 }
