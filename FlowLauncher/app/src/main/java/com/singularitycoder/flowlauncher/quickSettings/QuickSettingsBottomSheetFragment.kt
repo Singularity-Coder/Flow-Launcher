@@ -13,10 +13,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.DrawableRes
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
@@ -24,10 +27,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.databinding.FragmentQuickSettingsBottomSheetBinding
+import com.singularitycoder.flowlauncher.databinding.ItemQuickSettingBinding
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.Broadcast
 import com.singularitycoder.flowlauncher.helper.swipebutton.OnStateChangeListener
 import dagger.hilt.android.AndroidEntryPoint
+import net.sourceforge.htmlunit.xpath.operations.Bool
 import javax.inject.Inject
 
 
@@ -92,6 +97,25 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
+    private val phoneStatePermissionResult = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean? ->
+        isGranted ?: return@registerForActivityResult
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.CAMERA)) {
+            requireContext().showPermissionSettings()
+            return@registerForActivityResult
+        }
+
+        if (isGranted.not()) {
+            requestPhoneStatePermission()
+            return@registerForActivityResult
+        }
+
+        if (requireContext().isPhoneStatePermissionGranted()) {
+            requireContext().setMobileDataStateTo(requireContext().getMobileDataState().not())
+            setNetworkStatus()
+        }
+    }
+
     private val quickSettingsBroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val volumeFactor = Math.ceil(100.0 / 15.0).toInt() // Step size of volume
@@ -153,21 +177,11 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         setCurrentVolume()
         setCurrentWifiStatus()
         setCurrentAirplaneModeStatus()
-        layoutWifi.apply {
-            ivIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_wifi_24))
-            tvPlaceholder.text = "Wifi"
-            tvName.text = "Not Connected"
-        }
-        layoutNetwork.ivAppIcon.apply {
-            setImageDrawable(requireContext().drawable(R.drawable.cell_tower_black_24dp))
-        }
+        setNetworkStatus()
         layoutBluetooth.apply {
             ivIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_bluetooth_24))
             tvPlaceholder.text = "Bluetooth"
             tvName.text = "Not Connected"
-        }
-        layoutAirplaneMode.ivAppIcon.apply {
-            setImageDrawable(requireContext().drawable(R.drawable.ic_round_airplanemode_active_24))
         }
         layoutTorch.ivAppIcon.apply {
             // https://stackoverflow.com/questions/6068803/how-to-turn-on-front-flash-light-programmatically-in-android#:~:text=For%20turning%20on%2Foff%20flashlight%3A&text=The%20main%20parameter%20used%20here,to%20turn%20on%20camera%20flashlight.
@@ -204,36 +218,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         layoutLockScreen.ivAppIcon.apply {
             setImageDrawable(requireContext().drawable(R.drawable.ic_round_lock_24))
         }
-        layoutPower.apply {
-            ivAppIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_power_settings_new_24))
-            val states = arrayOf(
-                intArrayOf(android.R.attr.state_enabled), // enabled
-                intArrayOf(-android.R.attr.state_enabled), // disabled
-                intArrayOf(-android.R.attr.state_checked), // unchecked
-                intArrayOf(android.R.attr.state_pressed) // pressed
-            )
-            val colors500 = intArrayOf(
-                requireContext().color(R.color.md_red_500),
-                requireContext().color(R.color.title_color),
-                requireContext().color(R.color.md_red_500),
-                requireContext().color(R.color.md_red_500),
-            )
-            val colors200 = intArrayOf(
-                requireContext().color(R.color.md_red_200),
-                requireContext().color(R.color.title_color),
-                requireContext().color(R.color.md_red_200),
-                requireContext().color(R.color.md_red_200),
-            )
-            val colorsBackground = intArrayOf(
-                requireContext().color(R.color.md_red_50),
-                requireContext().color(R.color.title_color),
-                requireContext().color(R.color.md_red_50),
-                requireContext().color(R.color.md_red_50),
-            )
-            root.backgroundTintList = ColorStateList(states, colorsBackground)
-            ivAppIcon.imageTintList = ColorStateList(states, colors500)
-            root.rippleColor = ColorStateList(states, colors200)
-        }
+        setPowerButton()
     }
 
     // https://stackoverflow.com/questions/41693154/custom-seekbar-thumb-size-color-and-background
@@ -335,7 +320,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             context.showToast("Wifi status: ${wifiManager.isWifiEnabled}")
         }
         layoutNetwork.root.onSafeClick {
-
+            phoneStatePermissionResult.launch(Manifest.permission.READ_PHONE_STATE)
         }
         layoutBluetooth.root.onSafeClick {
 
@@ -384,19 +369,43 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
+    private fun setNetworkStatus() {
+        binding.layoutNetwork.enableIcon(
+            requireContext().getMobileDataState(),
+            R.drawable.cell_tower_black_24dp,
+            R.drawable.cell_tower_disabled_black_24dp
+        )
+    }
+
     private fun setCurrentAirplaneModeStatus() {
-        binding.layoutAirplaneMode.apply {
-            if (requireContext().isAirplaneModeEnabled()) {
-                ivAppIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_airplanemode_active_24))
-                val colorsBackground = intArrayOf(requireContext().color(R.color.purple_50))
-                val states = arrayOf(intArrayOf(android.R.attr.state_enabled))
-                root.backgroundTintList = ColorStateList(states, colorsBackground)
-            } else {
-                ivAppIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_airplanemode_inactive_24))
-                val colorsBackground = intArrayOf(requireContext().color(R.color.black_50))
-                val states = arrayOf(intArrayOf(android.R.attr.state_enabled))
-                root.backgroundTintList = ColorStateList(states, colorsBackground)
-            }
+        binding.layoutAirplaneMode.enableIcon(
+            requireContext().isAirplaneModeEnabled(),
+            R.drawable.ic_round_airplanemode_active_24,
+            R.drawable.ic_round_airplanemode_inactive_24
+        )
+    }
+
+    private fun ItemQuickSettingBinding.enableIcon(
+        isEnabled: Boolean,
+        @DrawableRes enabledIcon: Int,
+        @DrawableRes disabledIcon: Int,
+    ) {
+        if (isEnabled) {
+            val iconColor = intArrayOf(requireContext().color(R.color.purple_500))
+            val iconStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            ivAppIcon.setImageDrawable(requireContext().drawable(enabledIcon))
+            ivAppIcon.imageTintList = ColorStateList(iconStates, iconColor)
+            val backgroundColor = intArrayOf(requireContext().color(R.color.purple_50))
+            val backgroundStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            root.backgroundTintList = ColorStateList(backgroundStates, backgroundColor)
+        } else {
+            val iconColor = intArrayOf(requireContext().color(R.color.purple_500))
+            val iconStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            ivAppIcon.setImageDrawable(requireContext().drawable(disabledIcon))
+            ivAppIcon.imageTintList = ColorStateList(iconStates, iconColor)
+            val backgroundColor = intArrayOf(requireContext().color(R.color.black_50))
+            val backgroundStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            root.backgroundTintList = ColorStateList(backgroundStates, backgroundColor)
         }
     }
 
@@ -404,11 +413,31 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         cameraPermissionResult.launch(Manifest.permission.CAMERA)
     }
 
-    private fun setCurrentWifiStatus() {
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return
+    private fun setPowerButton() {
+        binding.layoutPower.apply {
+            ivAppIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_power_settings_new_24))
+            val states = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            val colors500 = intArrayOf(requireContext().color(R.color.md_red_500))
+            val colors200 = intArrayOf(requireContext().color(R.color.md_red_200))
+            val colorsBackground = intArrayOf(requireContext().color(R.color.md_red_50))
+            root.backgroundTintList = ColorStateList(states, colorsBackground)
+            ivAppIcon.imageTintList = ColorStateList(states, colors500)
+            root.rippleColor = ColorStateList(states, colors200)
         }
+    }
+
+    private fun requestPhoneStatePermission() {
+        cameraPermissionResult.launch(Manifest.permission.READ_PHONE_STATE)
+    }
+
+    private fun setCurrentWifiStatus() {
         binding.layoutWifi.apply {
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ivIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_wifi_24))
+                tvPlaceholder.text = "Wifi"
+                tvName.text = "Not Connected"
+                return
+            }
             ivIcon.setImageDrawable(
                 if (wifiManager.isWifiEnabled) {
                     requireContext().drawable(R.drawable.ic_round_wifi_24)

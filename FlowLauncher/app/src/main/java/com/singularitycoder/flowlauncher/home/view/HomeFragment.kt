@@ -82,6 +82,7 @@ import javax.inject.Inject
 // https://developer.android.com/develop/ui/views/touch-and-input/gestures
 // On search fab touch - vertical list - show options -> voice search, change flow, notifications, quick settings, universal search
 // On search fab touch - horizontal list - Phone app, sms app, camera app
+// Voice commands - Brightness, alarm
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {

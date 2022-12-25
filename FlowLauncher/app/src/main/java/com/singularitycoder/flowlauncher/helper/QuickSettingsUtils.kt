@@ -9,7 +9,13 @@ import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.telephony.SubscriptionManager
+import android.telephony.TelephonyManager
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import java.io.IOException
+import java.lang.reflect.Field
+import java.lang.reflect.Method
 
 
 // https://stackoverflow.com/questions/18312609/change-the-system-brightness-programmatically#:~:text=LayoutParams%20lp%20%3D%20window.,setAttributes(lp)%3B
@@ -80,10 +86,15 @@ fun Context.isCameraPermissionGranted(): Boolean {
     return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
 }
 
+fun Context.isPhoneStatePermissionGranted(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
+}
+
 fun Context.isAirplaneModeEnabled(): Boolean {
     return Settings.Global.getInt(
         contentResolver,
-        Settings.Global.AIRPLANE_MODE_ON, 0) != 0
+        Settings.Global.AIRPLANE_MODE_ON, 0
+    ) != 0
 }
 
 // https://stackoverflow.com/questions/5533881/toggle-airplane-mode-in-android
@@ -92,7 +103,8 @@ fun Context.setAirplaneMode(isEnabled: Boolean) {
     try {
         Settings.Global.putInt(
             contentResolver,
-            Settings.Global.AIRPLANE_MODE_ON, if (isEnabled) 1 else 0)
+            Settings.Global.AIRPLANE_MODE_ON, if (isEnabled) 1 else 0
+        )
         // Post an intent to reload
         val intent = Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED).apply {
             putExtra("state", !isEnabled)
@@ -100,4 +112,110 @@ fun Context.setAirplaneMode(isEnabled: Boolean) {
         sendBroadcast(intent)
     } catch (_: Exception) {
     }
+}
+
+// https://stackoverflow.com/questions/26539445/the-setmobiledataenabled-method-is-no-longer-callable-as-of-android-l-and-later
+fun Context.setMobileNetwork() {
+    try {
+        // Get the current state of the mobile network.
+        val state = if (isMobileDataEnabledFromLollipop()) 0 else 1
+        // Get the value of the "TRANSACTION_setDataEnabled" field.
+        val transactionCode = getTransactionCode()
+        when {
+            Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP -> {
+                val mSubscriptionManager = getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
+                // Loop through the subscription list i.e. SIM list.
+                for (i in 0 until mSubscriptionManager.activeSubscriptionInfoCountMax) {
+                    if (transactionCode != null && transactionCode.isNotBlank()) {
+                        // Get the active subscription ID for a given SIM card.
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                            return
+                        }
+                        val subscriptionId = mSubscriptionManager.activeSubscriptionInfoList[i].subscriptionId
+                        // Execute the command via `su` to turn off
+                        // mobile network for a subscription service.
+                        val command = "service call phone $transactionCode i32 $subscriptionId i32 $state"
+                        executeCommandViaSu(option = "-c", command = command)
+                    }
+                }
+            }
+            Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP -> {
+                if (transactionCode != null && transactionCode.isNotBlank()) {
+                    // Execute the command via `su` to turn off mobile network.
+                    val command = "service call phone $transactionCode i32 $state"
+                    executeCommandViaSu(option = "-c", command = command)
+                }
+            }
+        }
+    } catch (_: Exception) {
+    }
+}
+
+// https://stackoverflow.com/questions/26539445/the-setmobiledataenabled-method-is-no-longer-callable-as-of-android-l-and-later
+private fun Context.isMobileDataEnabledFromLollipop(): Boolean {
+    return Settings.Global.getInt(contentResolver, "mobile_data", 0) == 1
+}
+
+// https://stackoverflow.com/questions/26539445/the-setmobiledataenabled-method-is-no-longer-callable-as-of-android-l-and-later
+private fun Context.getTransactionCode(): String? = try {
+    val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    val telephonyClass = Class.forName(telephonyManager.javaClass.name)
+    val telephonyMethod: Method = telephonyClass.getDeclaredMethod("getITelephony").apply {
+        isAccessible = true
+    }
+    val telephonyStub: Any? = telephonyMethod.invoke(telephonyManager)
+    val telephonyStubClass = Class.forName(telephonyStub?.javaClass?.name ?: "")
+    val declaringClass = telephonyStubClass.declaringClass
+    val field: Field = declaringClass.getDeclaredField("TRANSACTION_setDataEnabled").apply {
+        isAccessible = true
+    }
+    java.lang.String.valueOf(field.getInt(null))
+} catch (_: Exception) {
+    // The "TRANSACTION_setDataEnabled" field is not available,
+    // or named differently in the current API level, so we throw
+    // an exception and inform users that the method is not available.
+    null
+}
+
+// https://stackoverflow.com/questions/26539445/the-setmobiledataenabled-method-is-no-longer-callable-as-of-android-l-and-later
+private fun executeCommandViaSu(option: String, command: String) {
+    var success = false
+    var su = "su"
+    for (i in 0..2) {
+        // Default "su" command executed successfully, then quit.
+        if (success) break
+        // Else, execute other "su" commands.
+        if (i == 1) {
+            su = "/system/xbin/su"
+        } else if (i == 2) {
+            su = "/system/bin/su"
+        }
+        try {
+            // Execute command as "su".
+            Runtime.getRuntime().exec(arrayOf(su, option, command))
+        } catch (e: IOException) {
+            success = false
+            // Oops! Cannot execute `su` for some reason. Log error here.
+        } finally {
+            success = true
+        }
+    }
+}
+
+// https://stackoverflow.com/questions/26539445/the-setmobiledataenabled-method-is-no-longer-callable-as-of-android-l-and-later
+fun Context.setMobileDataStateTo(isEnabled: Boolean) = try {
+    val telephonyService = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    val setMobileDataEnabledMethod = telephonyService.javaClass.getDeclaredMethod("setDataEnabled", Boolean::class.javaPrimitiveType).apply {
+        invoke(telephonyService, isEnabled)
+    }
+} catch (_: Exception) {
+}
+
+// https://stackoverflow.com/questions/26539445/the-setmobiledataenabled-method-is-no-longer-callable-as-of-android-l-and-later
+fun Context.getMobileDataState(): Boolean = try {
+    val telephonyService = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    val getMobileDataEnabledMethod = telephonyService.javaClass.getDeclaredMethod("getDataEnabled")
+    getMobileDataEnabledMethod.invoke(telephonyService) as Boolean
+} catch (_: Exception) {
+    false
 }
