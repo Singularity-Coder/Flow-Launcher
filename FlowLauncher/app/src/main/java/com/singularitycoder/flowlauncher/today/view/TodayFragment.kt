@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.work.*
 import coil.load
 import com.google.android.material.chip.Chip
+import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.addEditMedia.view.AddFragment
@@ -21,7 +22,6 @@ import com.singularitycoder.flowlauncher.today.model.News
 import com.singularitycoder.flowlauncher.today.model.Quote
 import com.singularitycoder.flowlauncher.today.model.TrendingTweet
 import com.singularitycoder.flowlauncher.today.model.Weather
-import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.today.worker.NewsWorker
 import com.singularitycoder.flowlauncher.today.worker.TrendingTweetsWorker
 import com.singularitycoder.flowlauncher.today.worker.WeatherWorker
@@ -30,8 +30,6 @@ import dagger.hilt.android.AndroidEntryPoint
 // Refresh on every swipe
 // Rearrangable cards
 
-// Add Quote of the day
-// Weather today
 // Headlines today - Location, Category while scraping data
 // Remainders today - Remind Me remainders
 // My Habits - Todos today
@@ -40,6 +38,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 // Analyze Me - daily analysis
 // Trip Me - most used visual meditation
+
+// Ask for location permission and get weathr from location
 
 // TODO create a res.txt file for stroign references -
 // https://www.htmlsymbols.xyz/alchemical-symbols
@@ -102,7 +102,7 @@ class TodayFragment : Fragment() {
                 chipBackgroundColor = ColorStateList.valueOf(requireContext().color(R.color.black_50))
 //                setTextColor(nnContext.color(R.color.purple_500))
                 elevation = 0f
-                setOnClickListener {
+                onSafeClick {
                 }
             }
             chipGroupTrendingTweets.addView(chip)
@@ -110,11 +110,11 @@ class TodayFragment : Fragment() {
     }
 
     private fun FragmentTodayBinding.setupUserActionListeners() {
-        btnMenu.setOnClickListener { view: View? ->
-            view ?: return@setOnClickListener
+        btnMenu.onSafeClick { it: Pair<View?, Boolean> ->
+            it.first ?: return@onSafeClick
             val todayOptions = listOf("Add Remainders", "Add Quotes")
             requireContext().showPopup(
-                view = view,
+                view = it.first!!,
                 menuList = todayOptions
             ) { position: Int ->
                 when (todayOptions[position]) {
@@ -133,7 +133,7 @@ class TodayFragment : Fragment() {
 
         var newsPosition = 0
         var newsImagePosition = 0
-        cardNews.setOnClickListener {
+        cardNews.onSafeClick {
             val calculatedNewsPosition = if (newsPosition == newsList.size) {
                 newsPosition = 0
                 newsPosition
@@ -153,14 +153,14 @@ class TodayFragment : Fragment() {
             }
             tvSource.text = "$source  \u2022  ${newsList[calculatedNewsPosition].time}"
             tvTitle.text = newsList[calculatedNewsPosition].title
-            btnFullStory.setOnClickListener {
+            btnFullStory.onSafeClick {
                 requireActivity().openWithChrome(url = newsList[calculatedNewsPosition].link ?: "")
             }
             newsPosition++
             newsImagePosition++
         }
 
-        cardWeather.setOnClickListener {
+        cardWeather.onSafeClick {
             requireActivity().searchWithChrome(query = "weather")
         }
     }
@@ -192,7 +192,7 @@ class TodayFragment : Fragment() {
         }
         sharedViewModel.quoteListLiveData.observe(viewLifecycleOwner) { it: List<Quote>? ->
             quoteList = it?.ifEmpty {
-                animeQuoteList
+                allQuotesList
             } ?: emptyList()
             quotePosition = 0
             gradientPosition = 0
@@ -205,7 +205,7 @@ class TodayFragment : Fragment() {
     private var gradientPosition = 0
     private var newsTypefacePosition = 0
     private fun FragmentTodayBinding.setOnQuoteClickListener() {
-        cardQuotes.setOnClickListener {
+        cardQuotes.onSafeClick {
             val calculatedQuotePosition = if (quotePosition == quoteList.size) {
                 quotePosition = 0
                 quotePosition

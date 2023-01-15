@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.singularitycoder.flowlauncher.addEditMedia.model.AddItem
 import com.singularitycoder.flowlauncher.databinding.ListItemAddBinding
 import com.singularitycoder.flowlauncher.helper.constants.AddItemType
-import com.singularitycoder.flowlauncher.addEditMedia.model.AddItem
+import com.singularitycoder.flowlauncher.helper.onSafeClick
 
 class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -56,7 +57,7 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 tvTitle.text = item.title
                 tvStepNumber.text = bindingAdapterPosition.plus(1).toString()
 
-                root.setOnClickListener {
+                root.onSafeClick {
 //                    clItemContainer.isVisible = false
 //                    cardUpdateParent.isVisible = true
 //                    etUpdateLink.setText(item.link)
@@ -73,13 +74,13 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     false
                 }
 
-                ibApproveUpdate.setOnClickListener {
+                ibApproveUpdate.onSafeClick {
                     clItemContainer.isVisible = true
                     cardUpdateParent.isVisible = false
                     item.link = etUpdateLink.text.toString()
                     notifyItemChanged(bindingAdapterPosition)
                 }
-                ibCancelUpdate.setOnClickListener {
+                ibCancelUpdate.onSafeClick {
                     clItemContainer.isVisible = true
                     cardUpdateParent.isVisible = false
                 }

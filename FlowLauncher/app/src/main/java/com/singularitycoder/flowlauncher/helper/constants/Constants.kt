@@ -1,5 +1,9 @@
 package com.singularitycoder.flowlauncher.helper.constants
 
+import android.Manifest
+import android.os.Build
+import android.provider.Settings
+import androidx.annotation.RequiresApi
 import com.singularitycoder.flowlauncher.BuildConfig
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.addEditMedia.view.AddFragment
@@ -16,6 +20,18 @@ const val HOME_LAYOUT_BLURRED_IMAGE = "home_layout_blurred_image.jpg"
 
 val THIRTY_DAYS_IN_MILLIS = TimeUnit.DAYS.toMillis(30L)
 val TWENTY_FOUR_HOURS_IN_MILLIS = TimeUnit.HOURS.toMillis(24L)
+
+val quickSettingsPermissions = arrayOf(
+    Manifest.permission.CAMERA,
+    Manifest.permission.READ_PHONE_STATE,
+    Manifest.permission.ACCESS_COARSE_LOCATION,
+    Manifest.permission.ACCESS_FINE_LOCATION,
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        Manifest.permission.BLUETOOTH_CONNECT
+    } else {
+        Manifest.permission.BLUETOOTH
+    }
+)
 
 object BottomSheetTag {
     const val QUICK_SETTINGS = "QUICK_SETTINGS_BOTTOM_SHEET"
@@ -35,6 +51,38 @@ object AddItemType {
     const val QUOTE = "QUOTE"
     const val GLANCE_IMAGE = "FLOW_IMAGE"
     const val YOUTUBE_VIDEO = "YOUTUBE_VIDEO"
+}
+
+// https://stackoverflow.com/questions/6000452/launching-mobile-network-settings-screen-programmatically
+object SettingsScreen {
+    const val HOME = Settings.ACTION_SETTINGS
+    const val NETWORK = Settings.ACTION_WIRELESS_SETTINGS
+    const val QUICK_NETWORK_TOGGLE_POPUP = "android.settings.panel.action.INTERNET_CONNECTIVITY"
+    const val AIRPLANE_MODE = Settings.ACTION_AIRPLANE_MODE_SETTINGS
+    const val WIFI_HOTSPOT = "android.settings.TETHER_SETTINGS"
+    const val WIFI = Settings.ACTION_WIFI_SETTINGS
+    const val BLUETOOTH = Settings.ACTION_BLUETOOTH_SETTINGS
+    const val NFC_POPUP = "android.settings.panel.action.NFC"
+
+    const val LOCATION = Settings.ACTION_LOCATION_SOURCE_SETTINGS
+    const val SOUND = Settings.ACTION_SOUND_SETTINGS
+    const val DISPLAY = Settings.ACTION_DISPLAY_SETTINGS
+    const val DATE = Settings.ACTION_DATE_SETTINGS
+    const val SECURITY = Settings.ACTION_SECURITY_SETTINGS
+    const val APN = Settings.ACTION_APN_SETTINGS
+    const val APPLICATION = Settings.ACTION_APPLICATION_SETTINGS
+    const val NFC = Settings.ACTION_NFC_SETTINGS
+    const val INTERNAL_STORAGE = Settings.ACTION_INTERNAL_STORAGE_SETTINGS
+    const val USER_DICTIONARY = Settings.ACTION_USER_DICTIONARY_SETTINGS
+    const val MANAGE_APPLICATION = Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS
+    const val MANAGE_ALL_APPLICATION = Settings.ACTION_MANAGE_ALL_APPLICATIONS_SETTINGS
+    const val MEMORY_CARD = Settings.ACTION_MEMORY_CARD_SETTINGS
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    const val NOTIFICATION = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+    const val BATTERY_SAVER = Settings.ACTION_BATTERY_SAVER_SETTINGS
 }
 
 object Db {

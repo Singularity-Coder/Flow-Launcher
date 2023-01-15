@@ -50,6 +50,7 @@ class NewsWorker(val context: Context, workerParams: WorkerParameters) : Corouti
             val elementList = getElementsByClass("JJZKK Wui1sd")/*.toggleClass("rCXe4d")*/ // This is the list item class and not the entire list class
             println("sizeeee: " + elementList.size)
             for (i in 0..elementList.size) {
+                // The images are base64 encoded i think. Not sure how browsers are loading them
                 val imageUrl = getElementsByClass("uhHOwf BYbUcd").select("img").eq(i).attr("src")
                 val headline = getElementsByClass("mCBkyc tNxQIb ynAwRc nDgy9d").eq(i).text()
                 val source = getElementsByClass("CEMjEf NUnG9d").eq(i).text()

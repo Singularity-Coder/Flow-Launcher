@@ -175,7 +175,7 @@ class AddFragment : Fragment() {
 
     // https://stackoverflow.com/questions/3467205/android-key-dispatching-timed-out
     private fun FragmentAddBinding.setupUserActionListeners() {
-        ibAddItem.setOnClickListener {
+        ibAddItem.onSafeClick {
             when (listType) {
                 AddItemType.QUOTE -> {
                     lifecycleScope.launch {
@@ -201,14 +201,14 @@ class AddFragment : Fragment() {
                 }
             }
         }
-        fabAddFlowImage.setOnClickListener {
+        fabAddFlowImage.onSafeClick {
             when (listType) {
                 AddItemType.GLANCE_IMAGE -> {
                     readStoragePermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 }
             }
         }
-        ibBack.setOnClickListener {
+        ibBack.onSafeClick {
             requireActivity().supportFragmentManager.popBackStackImmediate()
         }
         addItemAdapter.setItemClickListener { item: AddItem ->

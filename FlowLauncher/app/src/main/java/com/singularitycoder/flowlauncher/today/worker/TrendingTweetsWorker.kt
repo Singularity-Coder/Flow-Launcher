@@ -3,6 +3,7 @@ package com.singularitycoder.flowlauncher.today.worker
 import android.annotation.SuppressLint
 import android.content.Context
 import android.webkit.JavascriptInterface
+import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.work.CoroutineWorker
@@ -14,6 +15,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage
 import com.singularitycoder.flowlauncher.helper.db.FlowDatabase
 import com.singularitycoder.flowlauncher.today.dao.TrendingTweetDao
 import com.singularitycoder.flowlauncher.helper.constants.KEY_IS_WORK_COMPLETE
+import com.singularitycoder.flowlauncher.helper.htmlString
 import com.singularitycoder.flowlauncher.today.model.TrendingTweet
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -44,6 +46,8 @@ class TrendingTweetsWorker(val context: Context, workerParams: WorkerParameters)
             val dao = dbEntryPoint.db().trendingTweetsDao()
 
             try {
+                // File not found exception
+                val htmlString = htmlString("https://twitter.com/explore/tabs/trending")
                 scrapeTwitterForTrendingTweetsFromWebView(dao)
                 Result.success(sendResult(isWorkComplete = true))
             } catch (e: Exception) {
@@ -56,14 +60,18 @@ class TrendingTweetsWorker(val context: Context, workerParams: WorkerParameters)
 
     // Twitter load in webview with the below settings. Now all we need to do is somehow save the page locally and extract text
     // https://stackoverflow.com/questions/2376471/how-do-i-get-the-web-page-contents-from-a-webview
+    // https://stackoverflow.com/questions/54573169/webview-not-caching
     @SuppressLint("SetJavaScriptEnabled")
     private suspend fun scrapeTwitterForTrendingTweetsFromWebView(dao: TrendingTweetDao) {
         WebView(context).apply {
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
+            settings.javaScriptCanOpenWindowsAutomatically = true
+            settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
             addJavascriptInterface(TwitterJavaScriptInterface(), "HTMLOUT") // Register a new JavaScript interface called HTMLOUT
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView, url: String) {
+                    view.saveWebArchive("saved_twitter_site")
                     // This call inject JavaScript into the page which just finished loading.
 //                    loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');")
                     loadUrl("javascript:window.HTMLOUT.processHTML($twitterTrendingHtml);")

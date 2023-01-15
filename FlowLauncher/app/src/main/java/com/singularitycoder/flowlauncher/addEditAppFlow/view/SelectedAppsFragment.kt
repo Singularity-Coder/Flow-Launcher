@@ -15,11 +15,8 @@ import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
 import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentSelectedAppsBinding
-import com.singularitycoder.flowlauncher.helper.GridSpacingItemDecoration
-import com.singularitycoder.flowlauncher.helper.collectLatestLifecycleFlow
+import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.BottomSheetTag
-import com.singularitycoder.flowlauncher.helper.dpToPx
-import com.singularitycoder.flowlauncher.helper.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -93,11 +90,11 @@ class FlowSelectedAppsFragment : Fragment() {
             // Do this when view inflate complete
         }
 
-        llAddFlow.setOnClickListener {
+        llAddFlow.onSafeClick {
             cardAddFlow.performClick()
         }
 
-        cardAddFlow.setOnClickListener {
+        cardAddFlow.onSafeClick {
             lifecycleScope.launch {
                 appFlowViewModel.addAppFlow(
                     AppFlow(
@@ -109,7 +106,7 @@ class FlowSelectedAppsFragment : Fragment() {
             }
         }
 
-        btnShowAppSelectorSheet.setOnClickListener {
+        btnShowAppSelectorSheet.onSafeClick {
             AppSelectorBottomSheetFragment.newInstance(selectedFlowId = appFlowId).show(
                 /* manager = */ requireActivity().supportFragmentManager,
                 /* tag = */ BottomSheetTag.APP_SELECTOR

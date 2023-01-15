@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import com.singularitycoder.flowlauncher.R
+import com.singularitycoder.flowlauncher.helper.onSafeClick
 
 
 /**
@@ -65,8 +66,12 @@ class ToggleButton : RelativeLayout {
                 }
             }
         }
-        setOnClickListener(clickListener)
-        mSwipeButton!!.setOnClickListener(clickListener)
+        onSafeClick {
+            clickListener.onClick(it.first)
+        }
+        mSwipeButton!!.onSafeClick {
+            clickListener.onClick(it.first)
+        }
     }
 
     public override fun onDraw(canvas: Canvas) {

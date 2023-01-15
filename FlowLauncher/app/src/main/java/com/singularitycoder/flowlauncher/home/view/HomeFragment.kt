@@ -16,6 +16,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
+import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.result.ActivityResult
@@ -43,6 +44,8 @@ import com.singularitycoder.flowlauncher.databinding.FragmentHomeBinding
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
 import com.singularitycoder.flowlauncher.helper.constants.*
+import com.singularitycoder.flowlauncher.helper.quickactionview.Action
+import com.singularitycoder.flowlauncher.helper.quickactionview.QuickActionView
 import com.singularitycoder.flowlauncher.home.dao.ContactDao
 import com.singularitycoder.flowlauncher.home.model.App
 import com.singularitycoder.flowlauncher.home.model.Contact
@@ -58,6 +61,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 import javax.inject.Inject
+
 
 // Maybe option to change color
 // 12 hr, 24 hr clock
@@ -83,6 +87,8 @@ import javax.inject.Inject
 // On search fab touch - vertical list - show options -> voice search, change flow, notifications, quick settings, universal search
 // On search fab touch - horizontal list - Phone app, sms app, camera app
 // Voice commands - Brightness, alarm
+
+// Split quick action view to a module
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -205,7 +211,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        webViewTest()
+//        webViewTest()
         binding.setupUI()
         binding.setupUserActionListeners()
         observeForData()
@@ -262,33 +268,34 @@ class HomeFragment : Fragment() {
                 position = position
             )
         }
-        fabVoiceSearch.setOnClickListener {
-            // Start Speech to Text
-            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                putExtra(
-                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-                )
-                putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-                putExtra(RecognizerIntent.EXTRA_PROMPT, "Start Speaking Now!")
-            }
-            speechToTextResult.launch(intent)
-        }
-        fabVoiceSearch.setOnLongClickListener {
-            if (requireContext().isWriteSettingsPermissionGranted()) {
-                QuickSettingsBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.QUICK_SETTINGS)
-            }
-            false
-        }
+//        fabVoiceSearch.onSafeClick {
+//            // Start Speech to Text
+//            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+//                putExtra(
+//                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+//                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+//                )
+//                putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+//                putExtra(RecognizerIntent.EXTRA_PROMPT, "Start Speaking Now!")
+//            }
+//            speechToTextResult.launch(intent)
+//        }
+//        fabVoiceSearch.setOnLongClickListener {
+//            if (requireContext().isWriteSettingsPermissionGranted()) {
+//                QuickSettingsBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.QUICK_SETTINGS)
+//            }
+//            false
+//        }
+        setTouchOptions()
         rvApps.setOnLongClickListener {
             root.performLongClick()
             false
         }
-        root.setOnLongClickListener {
-            blurAndSaveBitmapForImageBackground()
-            (requireActivity() as AppCompatActivity).showScreen(AddEditFlowFragment.newInstance(), AddEditFlowFragment::class.java.simpleName)
-            false
-        }
+//        root.setOnLongClickListener {
+//            blurAndSaveBitmapForImageBackground()
+//            (requireActivity() as AppCompatActivity).showScreen(AddEditFlowFragment.newInstance(), AddEditFlowFragment::class.java.simpleName)
+//            false
+//        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -486,6 +493,48 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setTouchOptions() {
+        // voice search, change flow, notifications, quick settings, universal search
+        QuickActionView.make(context).apply {
+            val icon1 = requireContext().drawable(R.drawable.ic_round_keyboard_voice_24)
+            val action1 = Action(/* id = */ 1, /* icon = */ icon1!!, /* title = */ "Voice Search")
+            val icon2 = requireContext().drawable(R.drawable.ic_round_tune_24)
+            val action2 = Action(/* id = */ 2, /* icon = */ icon2!!, /* title = */ "Quick Settings")
+            val icon3 = requireContext().drawable(R.drawable.ic_round_apps_24)
+            val action3 = Action(/* id = */ 3, /* icon = */ icon3!!, /* title = */ "Change Flow")
+            addAction(action1) //more configuring
+            addAction(action2)
+            addAction(action3)
+            register(binding.fabVoiceSearch)
+            setBackgroundColor(requireContext().color(R.color.purple_50))
+            setOnActionSelectedListener { action, quickActionView ->
+                when (action.id) {
+                    1 -> {
+                        // Start Speech to Text
+                        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                            putExtra(
+                                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                            )
+                            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+                            putExtra(RecognizerIntent.EXTRA_PROMPT, "Start Speaking Now!")
+                        }
+                        speechToTextResult.launch(intent)
+                    }
+                    2 -> {
+                        if (requireContext().isWriteSettingsPermissionGranted()) {
+                            QuickSettingsBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.QUICK_SETTINGS)
+                        }
+                    }
+                    3 -> {
+                        blurAndSaveBitmapForImageBackground()
+                        (requireActivity() as AppCompatActivity).showScreen(AddEditFlowFragment.newInstance(), AddEditFlowFragment::class.java.simpleName)
+                    }
+                }
+            }
+        }
+    }
+
     private fun showProgress(isShow: Boolean) {
 //        if (homeAppsAdapter.homeAppList.isNotEmpty()) return
         binding.layoutShimmerAppLoader.root.isVisible = isShow
@@ -497,6 +546,8 @@ class HomeFragment : Fragment() {
             isVisible = false
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
+            settings.javaScriptCanOpenWindowsAutomatically = true
+            settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
             addJavascriptInterface(TwitterJavaScriptInterface(), "HTMLOUT") // Register a new JavaScript interface called HTMLOUT
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView, url: String) {

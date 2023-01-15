@@ -42,6 +42,8 @@ fun convertDateToLong(date: String, dateType: String): Long {
     }
 }
 
+fun Int.milliSeconds(): Long = this.toLong()
+
 fun Int.seconds(): Long = TimeUnit.SECONDS.toMillis(this.toLong())
 
 fun Int.minutes(): Long = TimeUnit.MINUTES.toMillis(this.toLong())

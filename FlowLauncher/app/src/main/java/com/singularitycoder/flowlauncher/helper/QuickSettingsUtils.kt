@@ -2,20 +2,27 @@ package com.singularitycoder.flowlauncher.helper
 
 import android.Manifest
 import android.app.Activity
+import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.GnssStatus
+import android.location.LocationManager
 import android.media.AudioManager
-import android.net.ConnectivityManager
-import android.net.Uri
+import android.net.*
+import android.net.ConnectivityManager.NetworkCallback
+import android.net.wifi.WifiConfiguration
+import android.net.wifi.WifiInfo
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.provider.Settings
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import java.io.DataOutputStream
 import java.io.IOException
 import java.lang.reflect.Field
@@ -82,8 +89,9 @@ fun AudioManager.lowerVolume() {
 }
 
 // https://stackoverflow.com/questions/19517417/opening-android-settings-programmatically
-fun Context.openSettings() {
-    startActivity(Intent(Settings.ACTION_SETTINGS))
+fun Context.openSettings(screen: String) = try {
+    startActivity(Intent(screen))
+} catch (_: Exception) {
 }
 
 fun Context.isCameraPermissionGranted(): Boolean {
@@ -92,6 +100,18 @@ fun Context.isCameraPermissionGranted(): Boolean {
 
 fun Context.isPhoneStatePermissionGranted(): Boolean {
     return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
+}
+
+fun Context.isLocationPermissionGranted(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+}
+
+fun Context.isBluetoothPermissionGranted(): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
+    } else {
+        ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_GRANTED
+    }
 }
 
 fun Context.isAirplaneModeEnabled(): Boolean {
@@ -267,5 +287,156 @@ fun Context.setMobileDataState(isEnabled: Boolean) {
             invoke(dataManager, isEnabled)
         }
     } catch (_: Exception) {
+    }
+}
+
+// https://stackoverflow.com/questions/10311834/how-to-check-if-location-services-are-enabled#:~:text=%40lenik%2C%20some%20devices%20provide%20a,if%20specific%20providers%20are%20enabled.
+// https://developer.android.com/reference/android/provider/Settings.Secure#LOCATION_PROVIDERS_ALLOWED
+fun Context.isLocationToggleEnabled(): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        val isProvidersListEmpty = locationManager.getProviders(true).isEmpty()
+        locationManager.isLocationEnabled
+    } else {
+        val locationProviders: String = Settings.Secure.getString(contentResolver, Settings.Secure.LOCATION_PROVIDERS_ALLOWED)
+        locationProviders.isNotBlank()
+    }
+}
+
+fun Context.setLocationToggleListener(
+    onStarted: () -> Unit,
+    onStopped: () -> Unit,
+) {
+    val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+        locationManager.registerGnssStatusCallback(object : GnssStatus.Callback() {
+            override fun onStopped() {
+                super.onStopped()
+                println("location toggle: stopped")
+                onStopped.invoke()
+            }
+
+            override fun onStarted() {
+                super.onStarted()
+                println("location toggle: started")
+                onStarted.invoke()
+            }
+
+            override fun onSatelliteStatusChanged(status: GnssStatus) {
+                super.onSatelliteStatusChanged(status)
+                println("location toggle: ${status.satelliteCount}")
+            }
+        }, null)
+    }
+}
+
+fun Context.enableAirplaneMode() {
+    if (isWriteSettingsPermissionGranted()) {
+        setAirplaneMode(isAirplaneModeEnabled().not())
+    }
+}
+
+// https://www.tabnine.com/code/java/classes/android.net.wifi.WifiManager
+// https://stackoverflow.com/questions/6394599/android-turn-on-off-wifi-hotspot-programmatically
+fun AppCompatActivity.enableWifiHotspot(
+    wifiConfig: WifiConfiguration?,
+    isEnabled: Boolean
+): Boolean = try {
+    val wifiManager: WifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+    val wifiInfo = wifiManager.connectionInfo
+    val ssid: String? = wifiInfo.ssid
+    val networkInfo: NetworkInfo? = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO)
+    if (isEnabled) {
+        // disables wifi hotspot if it's already enabled
+        wifiManager.isWifiEnabled = false
+    }
+    val method = wifiManager.javaClass.getMethod(
+        /* name = */ "setWifiApEnabled",
+        /* ...parameterTypes = */ WifiConfiguration::class.java, Boolean::class.javaPrimitiveType
+    )
+    method.invoke(wifiManager, wifiConfig, isEnabled) as Boolean
+} catch (_: Exception) {
+    false
+}
+
+// https://stackoverflow.com/questions/6394599/android-turn-on-off-wifi-hotspot-programmatically
+// https://stackoverflow.com/questions/34355580/android-6-0-1-couldnt-enable-wifi-hotspot-programmatically/35504709#35504709
+// https://stackoverflow.com/questions/12401108/how-to-check-programmatically-if-hotspot-is-enabled-or-disabled
+fun Context.isWifiHotspotEnabled(): Boolean {
+    val AP_STATE_DISABLING = 10
+    val AP_STATE_DISABLED = 11
+    val AP_STATE_ENABLING = 12
+    val AP_STATE_ENABLED = 13
+    val AP_STATE_FAILED = 14
+
+    val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+    val method: Method = wifiManager.javaClass.getMethod("getWifiApState").also {
+        it.isAccessible = true
+    }
+    val invoke = method.invoke(wifiManager)
+    println("hotspot state: $invoke")
+    return when (invoke.toString().toIntOrNull()) {
+        AP_STATE_DISABLING, AP_STATE_DISABLED, AP_STATE_FAILED -> false
+        AP_STATE_ENABLING, AP_STATE_ENABLED -> true
+        else -> false
+    }
+}
+
+// https://developer.android.com/reference/android/net/wifi/WifiManager
+@RequiresApi(Build.VERSION_CODES.M)
+fun Context.networkState() {
+    val request = NetworkRequest.Builder()
+        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+        .build()
+    val networkCallback: NetworkCallback = object : NetworkCallback() {
+        override fun onAvailable(network: Network) = Unit
+
+        @RequiresApi(Build.VERSION_CODES.Q)
+        override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+            val wifiInfo = networkCapabilities.transportInfo as WifiInfo?
+        }
+    }
+    val connectivityManager = getSystemService(ConnectivityManager::class.java).apply {
+        requestNetwork(request, networkCallback)
+        registerNetworkCallback(request, networkCallback)
+    }
+}
+
+// https://stackoverflow.com/questions/30040014/android-bluetooth-get-connected-devices
+fun isBluetoothEnabled(): Boolean = BluetoothAdapter.getDefaultAdapter().isEnabled
+
+// https://stackoverflow.com/questions/24693682/turn-off-device-programmatically
+fun Context.showPowerButtonOptions() {
+    val intent = Intent(Intent.ACTION_SHUTDOWN).apply {
+        putExtra("android.intent.extra.KEY_CONFIRM", true)
+    }
+    startActivity(intent)
+}
+
+/**
+ * Super User
+ * <uses-permission android:name="android.permission.SHUTDOWN" />  */
+// https://stackoverflow.com/questions/24693682/turn-off-device-programmatically
+fun Context.shutDownDevice() {
+    val intent = Intent("android.intent.action.ACTION_REQUEST_SHUTDOWN").apply {
+        putExtra("android.intent.extra.KEY_CONFIRM", false)
+        flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    }
+    startActivity(intent)
+}
+
+// https://stackoverflow.com/questions/10411650/how-to-shutdown-an-android-mobile-programmatically
+fun shutDownOnRootedDevice() {
+    try {
+        val process = Runtime.getRuntime().exec(arrayOf("su", "-c", "reboot -p"))
+        process.waitFor()
+    } catch (ex: Exception) {
+        ex.printStackTrace()
     }
 }

@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
@@ -25,6 +26,8 @@ import android.view.*
 import android.view.View.MeasureSpec
 import android.view.animation.AlphaAnimation
 import android.view.inputmethod.EditorInfo
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.*
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -451,36 +454,6 @@ fun Context.missedCallCount(): Int {
 
 fun Context.isFlashAvailable(): Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 
-// https://stackoverflow.com/questions/5608720/android-preventing-double-click-on-a-button
-fun View.onSafeClick(
-    delayAfterClick: Long = 1.seconds(),
-    onSafeClick: (Pair<View?, Boolean>) -> Unit
-) {
-    val onSafeClickListener = OnSafeClickListener(delayAfterClick, onSafeClick)
-    setOnClickListener(onSafeClickListener)
-}
-
-class OnSafeClickListener(
-    private val delayAfterClick: Long,
-    private val onSafeClick: (Pair<View?, Boolean>) -> Unit
-) : View.OnClickListener {
-    private var lastClickTime = 0L
-    private var isClicked = false
-
-    override fun onClick(v: View?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            v?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-        }
-        val elapsedRealtime = SystemClock.elapsedRealtime()
-        if (elapsedRealtime - lastClickTime < delayAfterClick) return
-        lastClickTime = elapsedRealtime
-        v?.startAnimation(AlphaAnimation(1F, 0.8F))
-//        v?.setTouchEffect()
-        isClicked = !isClicked
-        onSafeClick(v to isClicked)
-    }
-}
-
 fun MainActivity.showScreen(
     fragment: Fragment,
     tag: String,
@@ -555,6 +528,66 @@ fun Activity.setStatusBarColor(@ColorRes color: Int) {
 
 fun Context?.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+}
+
+// https://stackoverflow.com/questions/2228151/how-to-enable-haptic-feedback-on-button-view
+fun View.setHapticFeedback() {
+    isHapticFeedbackEnabled = true
+    performHapticFeedback(
+        HapticFeedbackConstants.VIRTUAL_KEY,
+        HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING  // Ignore device's setting. Otherwise, you can use FLAG_IGNORE_VIEW_SETTING to ignore view's setting.
+    )
+}
+
+// https://stackoverflow.com/questions/5608720/android-preventing-double-click-on-a-button
+fun View.onSafeClick(
+    delayAfterClick: Long = 100.milliSeconds(),
+    onSafeClick: (Pair<View?, Boolean>) -> Unit
+) {
+    val onSafeClickListener = OnSafeClickListener(delayAfterClick, onSafeClick)
+    setOnClickListener(onSafeClickListener)
+}
+
+// underline text programatically
+fun TextView.strike() {
+    paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
+}
+
+fun Context.getRealUrlFromWebView(
+    url: String,
+    onRealUrlReady: (url: String) -> Unit,
+) {
+    WebView(this).apply {
+        webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView, realUrl: String) {
+                println("real url: $realUrl")
+                onRealUrlReady.invoke(realUrl)
+            }
+        }
+        loadUrl(url)
+    }
+}
+
+class OnSafeClickListener(
+    private val delayAfterClick: Long,
+    private val onSafeClick: (Pair<View?, Boolean>) -> Unit
+) : View.OnClickListener {
+    private var lastClickTime = 0L
+    private var isClicked = false
+
+    override fun onClick(v: View?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            v?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+        }
+        val elapsedRealtime = SystemClock.elapsedRealtime()
+        if (elapsedRealtime - lastClickTime < delayAfterClick) return
+        lastClickTime = elapsedRealtime
+        v?.startAnimation(AlphaAnimation(1F, 0.8F))
+//        v?.setTouchEffect()
+        isClicked = !isClicked
+        onSafeClick(v to isClicked)
+        v?.setHapticFeedback()
+    }
 }
 
 object FlowUtils {

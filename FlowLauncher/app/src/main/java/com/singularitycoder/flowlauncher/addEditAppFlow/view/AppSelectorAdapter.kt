@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.singularitycoder.flowlauncher.databinding.ListItemAppSelectorBinding
+import com.singularitycoder.flowlauncher.helper.onSafeClick
 import com.singularitycoder.flowlauncher.home.model.App
 
 class AppSelectorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -43,7 +44,7 @@ class AppSelectorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 tvAppName.text = app.title
                 tvPackageName.text = app.packageName
                 ivAppIcon.load(app.iconPath)
-                root.setOnClickListener {
+                root.onSafeClick {
                     checkboxApp.performClick()
                 }
                 checkboxApp.setOnCheckedChangeListener { buttonView, isChecked ->

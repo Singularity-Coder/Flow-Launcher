@@ -129,11 +129,11 @@ class AddEditFlowFragment : Fragment() {
     }
 
     private fun FragmentAddEditFlowBinding.setupUserActionListeners() {
-        btnMenu.setOnClickListener { view: View? ->
-            view ?: return@setOnClickListener
+        btnMenu.onSafeClick { it: Pair<View?, Boolean> ->
+            it.first ?: return@onSafeClick
             val options = listOf("Edit Name", "Add Apps", "Remove")
             requireContext().showPopup(
-                view = view,
+                view = it.first!!,
                 menuList = options
             ) { position: Int ->
                 when (options[position]) {
@@ -178,7 +178,7 @@ class AddEditFlowFragment : Fragment() {
             }
         }
 
-        btnDone.setOnClickListener {
+        btnDone.onSafeClick {
             // set the current flow to isSelected true
             lifecycleScope.launch(IO) {
                 val selectedAppFlow = appFlowViewModel.getAppFlowById(flowList[selectedFlowPosition].id)
@@ -194,7 +194,7 @@ class AddEditFlowFragment : Fragment() {
             }
         }
 
-        btnCancel.setOnClickListener {
+        btnCancel.onSafeClick {
             requireActivity().supportFragmentManager.popBackStackImmediate()
         }
     }

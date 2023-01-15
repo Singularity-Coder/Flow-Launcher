@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.singularitycoder.flowlauncher.databinding.ListItemAppBinding
+import com.singularitycoder.flowlauncher.helper.onSafeClick
 import com.singularitycoder.flowlauncher.home.model.App
 
 class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -61,7 +62,7 @@ class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemBinding.apply {
                 tvAppName.text = app.title
                 ivAppIcon.load(app.iconPath)
-                root.setOnClickListener {
+                root.onSafeClick {
                     itemClickListener.invoke(app, bindingAdapterPosition)
                 }
                 root.setOnLongClickListener {

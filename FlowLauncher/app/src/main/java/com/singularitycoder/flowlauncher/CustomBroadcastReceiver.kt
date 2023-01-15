@@ -23,6 +23,11 @@ class CustomBroadcastReceiver : BroadcastReceiver() {
             Intent.ACTION_PACKAGE_INSTALL -> {
                 sendPackageAddedBroadcast(context)
             }
+            Intent.ACTION_SCREEN_OFF -> Unit
+            Intent.ACTION_SCREEN_ON -> Unit
+            Intent.ACTION_SHUTDOWN -> {
+                // Requires <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            }
         }
     }
 

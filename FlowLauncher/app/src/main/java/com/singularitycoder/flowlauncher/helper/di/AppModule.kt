@@ -1,5 +1,6 @@
 package com.singularitycoder.flowlauncher.helper.di
 
+import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.media.AudioManager
 import android.net.wifi.WifiManager
@@ -26,4 +27,10 @@ object AppModule {
     fun injectWifiManager(
         @ApplicationContext appContext: Context
     ): WifiManager = appContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
+    @Singleton
+    @Provides
+    fun injectBluetoothManager(
+        @ApplicationContext appContext: Context
+    ): BluetoothManager = appContext.applicationContext.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
 }

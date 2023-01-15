@@ -209,6 +209,7 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Uchouten Kazoku - Ebisugawa no Musume, Kaisei", videoId = "xplxAEr0xG0"),
     YoutubeVideo(title = "Uchouten Kazoku - Hodo Hodo no Eikou are", videoId = "mIjOgDMpMkU"),
     YoutubeVideo(title = "Uchouten Kazoku - Que Sera Sera", videoId = "1oRldlObfhk"),
+    YoutubeVideo(title = "Uchouten Kazoku - Anata wa Marude Tengu no You da", videoId = "Y0ZwtBmm40c"),
     YoutubeVideo(title = "Your Name - Sparkle - Movie Ver", videoId = "a2GujJZfXpg"),
     YoutubeVideo(title = "Your Name - Sparkle", videoId = "-pHfPJGatgE"),
     YoutubeVideo(title = "Your Name - Nandemonaiya - Movie Ver", videoId = "n89SKAymNfA"),
@@ -220,6 +221,8 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Tokyo Ghoul - White Silence", videoId = "BkrICLDQ3T4"),
     YoutubeVideo(title = "Sayuri - Bake a Cake", videoId = "SLHHvR1Iss4"),
     YoutubeVideo(title = "Erased : 01 - Only I am missing", videoId = "xc74Bm__cP8"),
+    YoutubeVideo(title = "Sawano Hiroyuki[nZk] ft Mika Kobayashi - ThreeFiveNineFour [English & Terjemahan]", videoId = "BTaA89dlORE"),
+    YoutubeVideo(title = "Ashes on The Fire (Extended) | Attack on Titan Season 4", videoId = "pOH0CgDLuSo"), // EPIC
 )
 
 val epicAnimeMomentsList = listOf(
@@ -273,6 +276,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "GN Balasubramaniam - Valachi vachchiyunna napai chalamu - Ragamalika", videoId = "FHVu3VURnsQ"),
     YoutubeVideo(title = "GN Balasubramaniam - Kalayami - Begada - Misra Chapu", videoId = "CWMdH7dOLeY"),
     YoutubeVideo(title = "GN Balasubramaniam - Evari Bodhana", videoId = "6dJIRdvpv_o"),
+    YoutubeVideo(title = "GN Balasubramaniam - Paramakrupa Sagari", videoId = "qf-feeWxXuk"),
     YoutubeVideo(title = "Parur Sundaram Iyer & MSG_Manavyala", videoId = "823uFFoaLGc"),
     YoutubeVideo(title = "MS Gopalakrishnan- Violin - Manavyalakinchara", videoId = "m7lKOttZR7g"),
     YoutubeVideo(title = "Madurai Mani Iyer - Brochevarevarura", videoId = "lgdwg2KmjN4"),
@@ -295,6 +299,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "Ramnad Krishnan - RTP - bhairavi - Cetah Sri Raman Cintaya jimuta Syamam", videoId = "bqGa_hJBUNE"),
     YoutubeVideo(title = "Ramnad Krishnan - Raghupate Rama - Sahana - Thyagaraja", videoId = "KenvJC9B5WU"),
     YoutubeVideo(title = "Malladi Brothers - Brihadeeswaraya Namasthe", videoId = "-TXW02E4pm8"),
+    YoutubeVideo(title = "Uyyala Looka Vayya - Neelambari - Sri Thyagaraja Swamy Composition", videoId = "54T3H_powNM"), // One of the best Neelambari if not the best
     YoutubeVideo(title = "E.S.Posthumus - Nasivern Pi", videoId = "sHPZ9eQrHeE"), // Absolutely Incredible. Almost every sound track is great. https://www.youtube.com/channel/UCvJKyvGIe7VpfBDpkHOMfOw
     YoutubeVideo(title = "E.S.Posthumus - Pompeii", videoId = "1lwl9ZHklLY"),
     YoutubeVideo(title = "E.S.Posthumus - Unstoppable", videoId = "uFZSh6MSXno"),
@@ -357,6 +362,9 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "James Brown - Funky Drummer (Pt. 1 & 2)", videoId = "QXw6YZltKJk"),
     YoutubeVideo(title = "James Brown - Funky Drummer (Bonus Beat Reprise)", videoId = "7dtpj8qa1hQ"),
     YoutubeVideo(title = "James Brown - Out of Sight", videoId = "7PtI_xVfuUM"),
+    YoutubeVideo(title = "James Brown - It's A New Day (Part 1 and 2)", videoId = "ZW8n3SEDcIw"),
+    YoutubeVideo(title = "James Brown - Sweet Bernadette (1967)", videoId = "sERh1sZWQUY"), // One of JB's best
+    YoutubeVideo(title = "James Brown - Papa's Got A Brand New Bag (Paris, 1967)", videoId = "VTM_VrzOyWU"),
     YoutubeVideo(title = "Otis Redding - Papas Got a Brand New Bag Live", videoId = "-LmfX4Yo0Hs"),
     YoutubeVideo(title = "Lamb of God - Again We Rise", videoId = "Xe07zUkryeI"),
     YoutubeVideo(title = "Lamb of God - Walk with Me In Hell", videoId = "m4QyQk8vOCY"),
@@ -383,6 +391,8 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "Once Upon A Time in China Theme (instrumental)", videoId = "8KaUwPOnpJc"),
     YoutubeVideo(title = "Tai chi master theme (cantonese)", videoId = "gq7Pvx_rlAs"),
     YoutubeVideo(title = "HansZimmer Greatest Hits Collection - Top 30 Best Songs", videoId = "AzCkacVxki0"),
+    YoutubeVideo(title = "Metallica - Some Kind Of Monster", videoId = "NxSgYehng1k"),
+    YoutubeVideo(title = "RRR - Naatu Naatu", videoId = "_vktceH8ZA0"),
 )
 
 val otherEpicMomentsList = listOf(
@@ -412,6 +422,7 @@ val otherEpicMomentsList = listOf(
     YoutubeVideo(title = "Tai Chi Master (1993) - learning scene", videoId = "Hff__gBNB6A"),
     YoutubeVideo(title = "Black Adam All Scenes | (HD) | Superman/Shazam!: The Return of Black Adam", videoId = "GID5CJWt1VY"),
     YoutubeVideo(title = "Charge - Blender Open Movie", videoId = "UXqq0ZvbOnk"),
+    YoutubeVideo(title = "RRR | Revolution", videoId = "q502zF4BKOg"),
 )
 
 val allYoutubeVideos = listOf(

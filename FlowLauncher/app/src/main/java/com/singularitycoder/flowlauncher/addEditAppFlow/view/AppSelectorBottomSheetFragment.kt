@@ -30,8 +30,6 @@ import kotlinx.coroutines.withContext
 
 // TODO Letter strip
 // Maybe pagination for room
-// Shimmer loading until it fetches all apps from DB
-// Categorise them by letters
 @AndroidEntryPoint
 class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -99,7 +97,7 @@ class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun FragmentAppSelectorBottomSheetBinding.setupUserActionListeners() {
-        btnDone.setOnClickListener {
+        btnDone.onSafeClick {
             println("loggggg selectedAppsList: ${selectedAppsList.map { it.title }}")
             println("loggggg selectedFlowId: $selectedFlowId}")
             lifecycleScope.launch {

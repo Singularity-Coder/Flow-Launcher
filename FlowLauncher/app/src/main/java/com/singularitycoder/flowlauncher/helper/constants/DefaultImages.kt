@@ -17,8 +17,6 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/Fi60NViagAAWs2Q?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fi60NVjakAEDHT2?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fi60N9_agAADQTz?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
-    GlanceImage(link = "https://pbs.twimg.com/media/FkYnv1HagAAFx9D?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
-    GlanceImage(link = "https://pbs.twimg.com/media/FkYnxwkagAAJRp3?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/FffZY-BagAEebmm?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/FffZKuwaYAAfoLx?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/Ff0AYlrakAAEk5k?format=jpg&name=4096x4096", title = "https://twitter.com/HoDaRaKe"),
@@ -69,6 +67,8 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/045/923/541/large/wlop-23se.jpg?1643862531", title = "https://www.artstation.com/wlop"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/021/083/124/large/wl-op-3s.jpg?1570338646", title = "https://www.artstation.com/wlop"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/001/337/630/large/wl-op-7s.jpg?1444639378", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/008/014/601/large/wl-op-19s.jpg?1509935788", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://i.pinimg.com/564x/09/c2/fb/09c2fbf36bc6c269d125ae1eb1aa6bcb.jpg", title = "https://www.artstation.com/wlop"),
 
     // https://twitter.com/RDJlock - I am speechless again
     GlanceImage(link = "https://pbs.twimg.com/media/EagwCyHVAAA4dGr?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
@@ -112,7 +112,7 @@ val tempImageUrlList = listOf(
 
     // https://www.pixiv.net/en/users/2240866/artworks - Artist 'O'ne
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/044/310/900/large/o-ne-87423019-p1.jpg?1639646200", title = "https://www.artstation.com/ua21b57a7"),
-    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/044/144/710/large/o-ne-750.jpg?1639208268", title = "https://www.artstation.com/ua21b57a7"),
+    GlanceImage(link = "https://i.pinimg.com/originals/8b/a6/c0/8ba6c0de9773e183d6c73739b40a4eb2.png", title = "https://www.artstation.com/ua21b57a7"),
     GlanceImage(link = "https://i.pinimg.com/564x/f0/7b/cf/f07bcf9ae448b752b56bdd06aea2cca4.jpg", title = "https://www.artstation.com/ua21b57a7"),
     GlanceImage(link = "https://i.pinimg.com/564x/9b/5e/d6/9b5ed69ef89b265fc493a446482b4ab4.jpg", title = "https://www.artstation.com/ua21b57a7"),
 
@@ -134,6 +134,8 @@ val tempImageUrlList = listOf(
 
     // https://www.artstation.com/guweiz
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/023/848/644/large/z-w-gu-5b.jpg?1580520356", title = "https://www.artstation.com/guweiz"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FmHP0dvacAE99pa?format=jpg&name=large", title = "https://www.artstation.com/guweiz"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FmHP3ypaUAYZbe8?format=jpg&name=large", title = "https://www.artstation.com/guweiz"),
 
     // https://www.artstation.com/razaras
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/054/361/876/large/kittichai-rueangchaichan-razaras-my-room-23-p.jpg?1664365930", title = "https://www.artstation.com/razaras"),
@@ -191,11 +193,21 @@ val tempImageUrlList = listOf(
     // https://mashable.com/archive/michael-jackson-shoe-patent
     GlanceImage(link = "https://helios-i.mashable.com/imagery/archives/05kWTfffTeOo5PHD4EeIEhZ/images-2.fill.size_2000x1360.v1647025734.jpg", title = "https://mashable.com/archive/michael-jackson-shoe-patent"),
 
+    // https://in.pinterest.com/yunngia/
+    GlanceImage(link = "https://i.pinimg.com/564x/06/10/d3/0610d3eac746abc9c037bbf196d8e023.jpg", title = "https://in.pinterest.com/yunngia/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/23/2f/4f/232f4faa26115e8c5060b796d161d73a.jpg", title = "https://in.pinterest.com/yunngia/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/ad/8a/7f/ad8a7f12b329df3c1f970fd2dd80584a.jpg", title = "https://in.pinterest.com/yunngia/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/d2/5a/1b/d25a1bf85cf736a1e493e086ac028140.jpg", title = "https://in.pinterest.com/yunngia/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/52/f3/1f/52f31f0f4a39cc3a6ef1643c66f9dd0e.jpg", title = "https://in.pinterest.com/yunngia/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/5c/ca/09/5cca0931606f3cd7c344a3ad1285f96d.jpg", title = "https://in.pinterest.com/yunngia/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/0e/cb/8e/0ecb8edbb6b3eab59a07f41caaf5e9e2.jpg", title = "https://in.pinterest.com/yunngia/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/df/ac/f1/dfacf1c908006ccc2d9d083ab0be2bdc.jpg", title = "https://in.pinterest.com/yunngia/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/0b/73/26/0b7326ae0b9ef05fba2700cfafda4b9f.jpg", title = "https://in.pinterest.com/yunngia/"),
+
     // https://www.pinterest.com
     GlanceImage(link = "https://i.pinimg.com/564x/57/05/8b/57058b753a827b983f213b3cee2deaec.jpg", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/88/c4/7b/88c47b6bedb8da2f82e72a4b47fa5244.jpg", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/e6/6d/2c/e66d2cabab640aa26718f6075ff6ee09.jpg", title = "https://www.pinterest.com"),
-    GlanceImage(link = "https://i.pinimg.com/564x/0b/73/26/0b7326ae0b9ef05fba2700cfafda4b9f.jpg", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/1b/55/8f/1b558f6b9f51af9a9c591e1c7b2a2157.jpg", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/eb/76/12/eb7612ddfb287b48341e6b0b452e74f3.jpg", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/48/6e/6a/486e6aa4c338547d4207f2f7b67d6f4f.jpg", title = "https://www.pinterest.com"),
@@ -205,6 +217,75 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://i.pinimg.com/564x/93/af/c1/93afc10c6d9dbf2fea3812e98cceee85.jpg", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/53/87/ab/5387abd1faff9ee03ab1e830dc1fe5b9.jpg", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/7c/85/71/7c8571bba37a97fa53cbbbd539a17a03.jpg", title = "https://www.pinterest.com"),
+    GlanceImage(link = "https://i.pinimg.com/564x/9a/f6/e9/9af6e90050dbb37997f011f0af4a91a8.jpg", title = "https://www.pinterest.com"),
+    GlanceImage(link = "https://i.pinimg.com/originals/29/45/85/294585ecdbd6e5e3397d060a934f1f08.jpg", title = "https://www.pinterest.com"),
+    GlanceImage(link = "https://i.pinimg.com/originals/9b/84/28/9b84283a98c2b5ad184cabfdf4343005.png", title = "https://www.pinterest.com"),
+    GlanceImage(link = "https://i.pinimg.com/564x/dd/65/84/dd6584a9b55f78b82eba907b51a112ec.jpg", title = "https://www.pinterest.com"),
+    GlanceImage(link = "https://i.pinimg.com/564x/40/0d/31/400d3159e1aa16764a318b033542b1d7.jpg", title = "https://www.pinterest.com"),
+    GlanceImage(link = "https://i.pinimg.com/564x/8c/26/bd/8c26bdb4f31e8f4cd513904576016878.jpg", title = "https://www.pinterest.com"),
+
+    GlanceImage(link = "https://i.pinimg.com/564x/a1/7e/f4/a17ef45340b9d2d310650361dc1b2447.jpg", title = "https://in.pinterest.com/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/7b/21/c6/7b21c604f3a6930c07a7553e9f370ca6.jpg", title = "https://in.pinterest.com/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/ea/2d/10/ea2d10614e4958c916c6a953ac4cd955.jpg", title = "https://imgur.com/kOQ924I"),
+    GlanceImage(link = "https://i.pinimg.com/564x/df/57/74/df5774d27b4efb6807b32c843af7197f.jpg", title = "https://imgur.com/kOQ924I"),
+    GlanceImage(link = "https://i.pinimg.com/564x/de/57/59/de5759766f7427ce3431c18caa62ae11.jpg", title = "https://in.pinterest.com/myanimeforlife/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/82/ec/75/82ec75c8266c77fec540377b1f8e7358.jpg", title = "https://wall.alphacoders.com/big.php?i=661649"),
+    GlanceImage(link = "https://i.pinimg.com/originals/9d/7f/b8/9d7fb86795b538c7402398b40a59c404.png", title = "https://in.pinterest.com/samamug3/"),
+    GlanceImage(link = "https://pbs.twimg.com/media/ERejxK7XUAEyOyp?format=jpg&name=large", title = "https://twitter.com/josh_tep"),
+    GlanceImage(link = "https://i.pinimg.com/564x/37/a1/bc/37a1bc93fba8f2e9cff42baa4936eda5.jpg", title = "https://in.pinterest.com/lerakorost2001/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/2a/e9/dc/2ae9dc6531398bae9c53f15cc22f89e4.jpg", title = "https://in.pinterest.com/jbozz2002/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/fb/a2/d4/fba2d414d60c894807a4f003043d3cb2.jpg", title = "https://peach-stuffs.tumblr.com/post/184861506004/one-punch-man-lockscreens-please-like-or-reblog"),
+    GlanceImage(link = "https://i.pinimg.com/564x/7d/8e/e7/7d8ee7178436e46642a797da8de00a1f.jpg", title = "https://characterdesignreferences.com/artist-of-the-week-11/yusuke-murata"),
+    GlanceImage(link = "https://i.pinimg.com/564x/0a/1c/ca/0a1ccabbc01050b8099874a6879085db.jpg", title = "https://in.pinterest.com/tyingwires/"),
+    GlanceImage(link = "https://i.pinimg.com/originals/e6/f2/bb/e6f2bb579be0efad2397920b3c9f2b45.png", title = "https://in.pinterest.com/llesliehenriquez/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/87/71/ee/8771ee0d60b2ec411bd651a081a9f950.jpg", title = "https://in.pinterest.com/llesliehenriquez/"),
+    GlanceImage(link = "https://i.pinimg.com/originals/60/4d/76/604d7643ca8301a289e01d0df137be12.png", title = "https://in.pinterest.com/llesliehenriquez/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/d3/1b/91/d31b914c0dcd3cb7b726f63d57acc0b9.jpg", title = "https://www.instagram.com/p/Bx2-8GMn8kz/?epik=dj0yJnU9Ymx4eEFfUG8wRi1MeGVPdl9CV3BLa0tzVVBLX3o4dWcmcD0wJm49TWhJMUZvWDJpa1dyVDlXa1NPU2FYZyZ0PUFBQUFBR094bDdZ"),
+    GlanceImage(link = "https://i.pinimg.com/564x/85/ca/ef/85caeffada395562e3877da00d0eaa57.jpg", title = "https://in.pinterest.com/im18samurai/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/8d/12/71/8d1271f9c6d4797508cdd71b73075084.jpg", title = "https://oneloverastaman.tumblr.com/post/174116042966"),
+    GlanceImage(link = "https://i.pinimg.com/564x/40/f9/72/40f9725d863e3260cd175e421e0c326b.jpg", title = "https://in.pinterest.com/mohamad_h14_02/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/7d/f4/28/7df4288f85ae248412575f62bd8d4e59.jpg", title = "https://www.etsy.com/il-en/listing/215639755/himura-kenshin-fi-cn-jian-xn?epik=dj0yJnU9NzZ5UEdsUm43TGhzUmdqN29RcTFqVEJyRGM5ZlRFWTMmcD0wJm49SlhiQnctbElfX2ZHdm1ZQWQ0emVUZyZ0PUFBQUFBR094bVNv"),
+    GlanceImage(link = "https://i.pinimg.com/564x/68/92/3c/68923c7e1aeec19b7e02751638c113f8.jpg", title = "https://in.pinterest.com/minaonamikaze40/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/75/07/66/75076630192a36d449c9b26b777993a1.jpg", title = "https://in.pinterest.com/gundamkitscollection/"),
+    GlanceImage(link = "https://i.pinimg.com/originals/24/38/00/243800471de17dee29629c89d6a64cff.png", title = "https://in.pinterest.com/iambroke0246/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/bc/35/68/bc35689464b555641729e4c93d2abc3f.jpg", title = "https://yutani07.mystrikingly.com/#gallery_2-2"),
+    GlanceImage(link = "https://i.pinimg.com/564x/8a/57/a3/8a57a3189b1df335440cea9c000bc6e4.jpg", title = "https://in.pinterest.com/Mushremon/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/93/e0/90/93e090bf6f155d48e52a9506f1eeaf73.jpg", title = "https://www.pinterest.com/Plutoniunoon/"),
+    GlanceImage(link = "https://i.pinimg.com/originals/89/c3/eb/89c3eb2ddcab40729202d737460bd20c.png", title = "https://www.pinterest.com/"),
+
+    // https://in.pinterest.com/Mavirisana/
+    GlanceImage(link = "https://i.pinimg.com/564x/f2/b8/ec/f2b8ec4ae18d89c3e54d67888d9997a9.jpg", title = "https://in.pinterest.com/Mavirisana/"),
+
+    // https://in.pinterest.com/ngnggyi/
+    GlanceImage(link = "https://i.pinimg.com/originals/81/1b/02/811b020571c8fe0a5ef65783423f0973.png", title = "https://in.pinterest.com/ngnggyi/"),
+
+    // https://in.pinterest.com/tuyettinhlinh2603/
+    GlanceImage(link = "https://i.pinimg.com/originals/af/63/c6/af63c6fe4f5b14dd5702b8c5dbad5550.png", title = "https://in.pinterest.com/tuyettinhlinh2603/"),
+    GlanceImage(link = "https://i.pinimg.com/originals/ec/f8/7f/ecf87f77606645be162a86bafd82be7c.png", title = "https://in.pinterest.com/tuyettinhlinh2603/"),
+
+    // https://in.pinterest.com/murfree16/
+    GlanceImage(link = "https://i.pinimg.com/564x/08/43/74/08437402ae954e82fff270f7d2657c6e.jpg", title = "https://in.pinterest.com/murfree16/"),
+
+    // https://in.pinterest.com/pingnithita/
+    GlanceImage(link = "https://i.pinimg.com/originals/e5/39/5a/e5395a45013f123d3c4cd2d0c1128b6a.jpg", title = "https://in.pinterest.com/pingnithita/"),
+
+    // https://in.pinterest.com/senh1405/
+    GlanceImage(link = "https://i.pinimg.com/564x/04/a4/99/04a4999852a04bd8508489fa4a5c9d19.jpg", title = "https://in.pinterest.com/senh1405/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/be/62/e0/be62e039f31342d3d0c214dcce03b469.jpg", title = "https://in.pinterest.com/senh1405/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/a1/c6/6d/a1c66dffcb5c8a36981d5effa7d53d99.jpg", title = "https://in.pinterest.com/senh1405/"),
+
+    // https://in.pinterest.com/snower22/
+    GlanceImage(link = "https://i.pinimg.com/564x/b3/e9/91/b3e99170a97ab4883fd9d04442ec3fd5.jpg", title = "https://in.pinterest.com/snower22/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/19/d4/b4/19d4b44bda117854d0127a7490fb6725.jpg", title = "https://in.pinterest.com/snower22/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/85/71/4b/85714b915bdaeb96868e77c3fb910364.jpg", title = "https://in.pinterest.com/snower22/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/17/db/1e/17db1e3907702e80af2d089bbe8960b9.jpg", title = "https://in.pinterest.com/snower22/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/5a/0c/80/5a0c80266365face0f93f3fa4fe1f73f.jpg", title = "https://in.pinterest.com/snower22/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/3e/c4/6d/3ec46d5152dbdabfc8b3c458463cbefd.jpg", title = "https://in.pinterest.com/snower22/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/fa/bd/0f/fabd0fb8003441b872508658fb0dcfb1.jpg", title = "https://in.pinterest.com/snower22/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/fe/cf/29/fecf29db4ccb798bdc0af78e03e466f6.jpg", title = "https://in.pinterest.com/intodewtu/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/ce/3e/b1/ce3eb1c2ad2a9f2fca507a73126f7a9c.jpg", title = "https://in.pinterest.com/tahweun/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/05/8b/b9/058bb92f180171096ba7ffa2052a4030.jpg", title = "https://in.pinterest.com/hiennguyen1807h/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/de/42/05/de4205408b46358974585d1103e06a3f.jpg", title = "https://in.pinterest.com/akirapeling18/"),
 
     // Sayako Kato
     GlanceImage(link = "https://i.pinimg.com/564x/43/03/55/4303555013ee45610677d8c922ca0e06.jpg", title = "https://www.pinterest.com"),
@@ -215,9 +296,6 @@ val tempImageUrlList = listOf(
 
     // https://www.artstation.com/jmbihorel
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/003/845/234/large/jean-michel-bihorel-seyyal-002-mid.jpg?1477911823", title = "https://www.artstation.com/jmbihorel"),
-
-    // https://www.pinterest.com/wallpapersmug/
-    GlanceImage(link = "https://i.pinimg.com/564x/31/49/6f/31496ffe59c46768d09de2519498f7dc.jpg", title = "https://www.pinterest.com/wallpapersmug/"),
 
     // https://www.pinterest.com/katsuki13bakugo14/
     GlanceImage(link = "https://i.pinimg.com/564x/74/6c/ca/746ccab65ddb51b97f712440d784e8e4.jpg", title = "https://www.pinterest.com/katsuki13bakugo14/"),
@@ -236,6 +314,7 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://images-assets.nasa.gov/image/PIA21393/PIA21393~orig.jpg", title = "https://images.nasa.gov/"),
     GlanceImage(link = "https://images-assets.nasa.gov/image/PIA21776/PIA21776~orig.jpg", title = "https://images.nasa.gov/"),
     GlanceImage(link = "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e000036/GSFC_20171208_Archive_e000036~orig.jpg", title = "https://images.nasa.gov/"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EWPygH1U0AApsrg?format=jpg&name=900x900", title = "https://twitter.com/BrianRoemmele"),
 
     // https://www.pinterest.com/thebryanhorn/
     GlanceImage(link = "https://i.pinimg.com/564x/ca/13/47/ca13476f9e2171780a10c148ee7b5da3.jpg", title = "https://www.pinterest.com/thebryanhorn/"),
@@ -295,4 +374,8 @@ val tempImageUrlList = listOf(
 
     // https://in.pinterest.com/areliorozcobalucas955/
     GlanceImage(link = "https://i.pinimg.com/564x/bb/96/91/bb9691786adf6059699ab27c7e755d53.jpg", title = "https://in.pinterest.com/areliorozcobalucas955/"),
+
+    // https://www.artstation.com/tueart
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/044/194/999/large/tue-art-9b07d300-00d4-40bf-a3f9-b9b9923f29a9.jpg?1639356127", title = "https://www.artstation.com/tueart"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/051/686/125/large/tue-art-97.jpg?1657905226", title = "https://www.artstation.com/tueart"),
 )

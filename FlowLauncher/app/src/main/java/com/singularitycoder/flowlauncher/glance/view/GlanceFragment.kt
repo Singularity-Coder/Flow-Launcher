@@ -153,12 +153,12 @@ class GlanceFragment : Fragment() {
             return@setOnTouchListener true
         }
 
-        ivGlanceImageExpandedBackground.setOnClickListener {
+        ivGlanceImageExpandedBackground.onSafeClick {
             ivGlanceImageExpanded.isVisible = false
             ivGlanceImageExpandedBackground.isVisible = false
         }
 
-        btnShowInBrowser.setOnClickListener {
+        btnShowInBrowser.onSafeClick {
             requireActivity().openWithChrome(
                 glanceImageList[currentImagePosition].title.ifBlank {
                     glanceImageList[currentImagePosition].link
@@ -170,11 +170,11 @@ class GlanceFragment : Fragment() {
 
         setOnYoutubeVideoClickListener()
 
-        btnMenu.setOnClickListener { view: View? ->
-            view ?: return@setOnClickListener
+        btnMenu.onSafeClick { it: Pair<View?, Boolean> ->
+            it.first ?: return@onSafeClick
             val glanceOptions = listOf("Add Image", "Add Remainders", "Add Youtube Videos")
             requireContext().showPopup(
-                view = view,
+                view = it.first!!,
                 menuList = glanceOptions
             ) { position: Int ->
                 when (glanceOptions[position]) {
@@ -191,12 +191,12 @@ class GlanceFragment : Fragment() {
             }
         }
 
-        layoutUnreadSms.root.setOnClickListener {
+        layoutUnreadSms.root.onSafeClick {
             // TODO fix this
             requireContext().sendSms("", "")
         }
 
-        layoutMissedCalls.root.setOnClickListener {
+        layoutMissedCalls.root.onSafeClick {
             // TODO fix this
             requireContext().openDialer("")
         }
@@ -310,7 +310,7 @@ class GlanceFragment : Fragment() {
 
     private var currentImagePosition = 0
     private fun FragmentGlanceBinding.setOnGlanceImageClickListener() {
-        cardGlanceImages.setOnClickListener {
+        cardGlanceImages.onSafeClick {
             cardImageCount.isVisible = true
             currentGlanceImage = glanceImageList[currentImagePosition]
             tvImageCount.text = "${currentImagePosition + 1}/${glanceImageList.size}"
@@ -334,7 +334,7 @@ class GlanceFragment : Fragment() {
 
     private var currentYoutubeVideoPosition = 0
     private fun FragmentGlanceBinding.setOnYoutubeVideoClickListener() {
-        cardYoutubeVideos.setOnClickListener {
+        cardYoutubeVideos.onSafeClick {
             val youtubeVideo = youtubeVideoList.getOrNull(currentYoutubeVideoPosition)
             val youtubeVideoThumbnailUrl = youtubeVideo?.videoId?.toYoutubeThumbnailUrl()
             ivVideoThumbnail.load(youtubeVideoThumbnailUrl) {
@@ -343,7 +343,7 @@ class GlanceFragment : Fragment() {
             }
             tvVideoTitle.text = youtubeVideo?.title ?: ""
             sliderYoutubeVideos.progress = currentYoutubeVideoPosition
-            btnPlayYoutubeVideo.setOnClickListener {
+            btnPlayYoutubeVideo.onSafeClick {
                 val intent = Intent(requireContext(), YoutubeVideoActivity::class.java).apply {
                     putExtra(IntentKey.YOUTUBE_VIDEO_ID, youtubeVideo?.videoId)
                     putParcelableArrayListExtra(IntentKey.YOUTUBE_VIDEO_LIST, ArrayList(youtubeVideoList))
@@ -361,7 +361,7 @@ class GlanceFragment : Fragment() {
     private fun FragmentGlanceBinding.updateHolidaysView(it: List<Holiday>) {
         tvHolidaysPlaceholder.apply {
             text = "${it.getOrNull(1)?.header} | ${it.firstOrNull()?.location}"
-            setOnClickListener {
+            onSafeClick {
                 requireActivity().searchWithChrome(query = "public+holidays")
             }
         }
@@ -399,7 +399,7 @@ class GlanceFragment : Fragment() {
                 holiday1.apply {
                     tvKey.text = holidaysInUnixDatesList.getOrNull(0)?.title
                     tvValue.text = holidaysInUnixDatesList.getOrNull(0)?.date?.toFormattedHolidayDate()
-                    root.setOnClickListener { v: View? ->
+                    root.onSafeClick { it: Pair<View?, Boolean> ->
                         val link = holidaysInUnixDatesList.getOrNull(0)?.link?.replace("/search?q=", "").toString()
                         requireActivity().searchWithChrome(query = link)
                     }
@@ -419,7 +419,7 @@ class GlanceFragment : Fragment() {
                 holiday2.apply {
                     tvKey.text = holidaysInUnixDatesList.getOrNull(1)?.title
                     tvValue.text = holidaysInUnixDatesList.getOrNull(1)?.date?.toFormattedHolidayDate()
-                    root.setOnClickListener { v: View? ->
+                    root.onSafeClick { it: Pair<View?, Boolean> ->
                         val link = holidaysInUnixDatesList.getOrNull(1)?.link?.replace("/search?q=", "").toString()
                         requireActivity().searchWithChrome(query = link)
                     }
@@ -440,7 +440,7 @@ class GlanceFragment : Fragment() {
                     tvKey.text = holidaysInUnixDatesList.getOrNull(2)?.title
                     tvValue.text = holidaysInUnixDatesList.getOrNull(2)?.date?.toFormattedHolidayDate()
                     divider.isVisible = false
-                    root.setOnClickListener { v: View? ->
+                    root.onSafeClick { it: Pair<View?, Boolean> ->
                         val link = holidaysInUnixDatesList.getOrNull(2)?.link?.replace("/search?q=", "").toString()
                         requireActivity().searchWithChrome(query = link)
                     }

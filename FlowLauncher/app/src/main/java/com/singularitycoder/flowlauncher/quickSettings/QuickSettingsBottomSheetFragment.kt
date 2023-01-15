@@ -3,12 +3,15 @@ package com.singularitycoder.flowlauncher.quickSettings
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.bluetooth.BluetoothManager
+import android.bluetooth.BluetoothProfile
 import android.content.*
-import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.media.AudioManager
 import android.net.wifi.WifiManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +22,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
-import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
@@ -28,35 +30,31 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.databinding.FragmentQuickSettingsBottomSheetBinding
 import com.singularitycoder.flowlauncher.databinding.ItemQuickSettingBinding
+import com.singularitycoder.flowlauncher.databinding.LongItemQuickSettingBinding
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.Broadcast
+import com.singularitycoder.flowlauncher.helper.constants.SettingsScreen
+import com.singularitycoder.flowlauncher.helper.constants.quickSettingsPermissions
 import com.singularitycoder.flowlauncher.helper.swipebutton.OnStateChangeListener
 import dagger.hilt.android.AndroidEntryPoint
-import net.sourceforge.htmlunit.xpath.operations.Bool
 import javax.inject.Inject
 
 
-// Try Blur background
-
-// Wifi
-// Cellular
-// Airplane mode
 // Bluetooth
 // Torch
 // Calc
 // Camera
 // Barcode scanner
 // Set Alarm
-// Start Timer
+// Set Timer
 // Auto rotate device
-// SOS
-// Panic Mode
 // Lock screen
 // Power button
 // Notifications button
 // Quick Note
-// Brightness slider
-// Volume Slider
+
+// SOS
+// Panic Mode
 
 // Accessibility permission api - to control power btn, notifications, etc
 
@@ -77,7 +75,32 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
     @Inject
     lateinit var wifiManager: WifiManager
 
+    @Inject
+    lateinit var bluetoothManager: BluetoothManager
+
     private lateinit var binding: FragmentQuickSettingsBottomSheetBinding
+
+    private val quickSettingsPermissionsResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, @JvmSuppressWildcards Boolean>? ->
+        permissions ?: return@registerForActivityResult
+        permissions.entries.forEach { it: Map.Entry<String, @JvmSuppressWildcards Boolean> ->
+            println("Permission status: ${it.key} = ${it.value}")
+            val permission = it.key
+            val isGranted = it.value
+            when {
+                isGranted -> {
+                    // disable blocking layout and proceed
+                }
+                ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), permission) -> {
+                    // permission permanently denied. Show settings dialog enable blocking layout and show popup to go to settings
+                    requireContext().showPermissionSettings()
+                }
+                else -> {
+                    // Permission denied but not permanently, tell user why you need it. Ideally provide a button to request it again and another to dismiss
+                    // enable blocking layout
+                }
+            }
+        }
+    }
 
     private val cameraPermissionResult = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean? ->
         isGranted ?: return@registerForActivityResult
@@ -138,13 +161,14 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTransparentBackground()
-        binding.setupUI()
+        quickSettingsPermissionsResult.launch(quickSettingsPermissions)
         binding.setupUserActionListeners()
         binding.observeForData()
     }
 
     override fun onResume() {
         super.onResume()
+        binding.setupUI()
         activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter(Broadcast.VOLUME_RAISED))
         activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter(Broadcast.VOLUME_LOWERED))
         activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter("android.intent.action.SERVICE_STATE")) // For airplane mode
@@ -178,11 +202,8 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         setCurrentWifiStatus()
         setCurrentAirplaneModeStatus()
         setNetworkStatus()
-        layoutBluetooth.apply {
-            ivIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_bluetooth_24))
-            tvPlaceholder.text = "Bluetooth"
-            tvName.text = "Not Connected"
-        }
+        setWifiHotspotStatus()
+        setBluetoothStatus()
         layoutTorch.ivAppIcon.apply {
             // https://stackoverflow.com/questions/6068803/how-to-turn-on-front-flash-light-programmatically-in-android#:~:text=For%20turning%20on%2Foff%20flashlight%3A&text=The%20main%20parameter%20used%20here,to%20turn%20on%20camera%20flashlight.
             setImageDrawable(requireContext().drawable(R.drawable.ic_round_flashlight_on_24))
@@ -197,14 +218,11 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         layoutBarcodeScanner.ivAppIcon.apply {
             setImageDrawable(requireContext().drawable(R.drawable.ic_round_qr_code_scanner_24))
         }
-        layoutAlarm.ivAppIcon.apply {
-            setImageDrawable(requireContext().drawable(R.drawable.ic_round_access_alarm_24))
+        layoutVolume.ivAppIcon.apply {
+            setImageDrawable(requireContext().drawable(R.drawable.ic_round_volume_up_24))
         }
-        layoutTimer.ivAppIcon.apply {
-            setImageDrawable(requireContext().drawable(R.drawable.ic_outline_timer_24))
-        }
-        layoutQuickNote.ivAppIcon.apply {
-            setImageDrawable(requireContext().drawable(R.drawable.ic_round_edit_note_24))
+        layoutNfc.ivAppIcon.apply {
+            setImageDrawable(requireContext().drawable(R.drawable.ic_round_nfc_24))
         }
         layoutRotateScreen.ivAppIcon.apply {
             setImageDrawable(requireContext().drawable(R.drawable.ic_round_screen_rotation_24))
@@ -256,9 +274,9 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         swipeBtnSos.apply {
             setButtonBackground(requireContext().drawable(R.drawable.gradient_red_panic))
             setOnStateChangeListener(object : OnStateChangeListener {
-                override fun onStateChange(active: Boolean) {
-                    Toast.makeText(requireContext(), "State: " + active, Toast.LENGTH_SHORT).show()
-                    if (active) {
+                override fun onStateChange(isActive: Boolean) {
+                    Toast.makeText(requireContext(), "State: " + isActive, Toast.LENGTH_SHORT).show()
+                    if (isActive) {
                         setButtonBackground(requireContext().drawable(R.drawable.gradient_red_panic))
                     } else {
                         setButtonBackground(requireContext().drawable(R.drawable.gradient_red_panic))
@@ -288,6 +306,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 //                val brightness: Float = normalizedBrightness(brightness = progress.toFloat(), inMin = 0f, inMax = 100f, outMin = 0.0f, outMax = 255.0f)
 //                val normalizedBrightness = Math.floor(progress * (255.0 / 100.0))
                 requireActivity().setScreenBrightnessTo(value = progress)
+                ivBrightness.setSliderIconColor(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -304,6 +323,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
                 val volumeFactor = Math.ceil(100.0 / 15.0).toInt() // Step size of volume
                 val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress / volumeFactor, 0)
+                ivVolume.setSliderIconColor(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -316,58 +336,79 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         })
         layoutWifi.root.onSafeClick {
             // https://stackoverflow.com/questions/3930990/android-how-to-enable-disable-wifi-or-internet-connection-programmatically
-            wifiManager.isWifiEnabled = wifiManager.isWifiEnabled.not()
-            context.showToast("Wifi status: ${wifiManager.isWifiEnabled}")
+//            wifiManager.isWifiEnabled = wifiManager.isWifiEnabled.not()
+//            context.showToast("Wifi status: ${wifiManager.isWifiEnabled}")
+            requireContext().openSettings(screen = SettingsScreen.QUICK_NETWORK_TOGGLE_POPUP)
+            dismiss()
         }
         layoutNetwork.root.onSafeClick {
-            phoneStatePermissionResult.launch(Manifest.permission.READ_PHONE_STATE)
+//            phoneStatePermissionResult.launch(Manifest.permission.READ_PHONE_STATE)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                requireContext().openSettings(screen = Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
+            } else {
+                requireContext().openSettings(screen = SettingsScreen.QUICK_NETWORK_TOGGLE_POPUP)
+            }
+            dismiss()
         }
         layoutBluetooth.root.onSafeClick {
-
+            requireContext().openSettings(screen = SettingsScreen.BLUETOOTH)
+            dismiss()
         }
         layoutAirplaneMode.root.onSafeClick {
-            if (requireContext().isWriteSettingsPermissionGranted()) {
-                requireContext().setAirplaneMode(requireContext().isAirplaneModeEnabled().not())
-                setCurrentAirplaneModeStatus()
-            }
+            requireContext().openSettings(screen = SettingsScreen.AIRPLANE_MODE)
+            dismiss()
         }
         layoutTorch.root.onSafeClick {
-
+            dismiss()
         }
         layoutLocation.root.onSafeClick {
-
+            dismiss()
         }
         layoutCamera.root.onSafeClick {
             requestCameraPermission()
+            dismiss()
         }
         layoutBarcodeScanner.root.onSafeClick {
-
+            dismiss()
         }
-        layoutAlarm.root.onSafeClick {
-
+        layoutVolume.root.onSafeClick {
+            dismiss()
         }
-        layoutTimer.root.onSafeClick {
-
+        layoutWifiHotspot.root.onSafeClick {
+            requireContext().openSettings(screen = SettingsScreen.WIFI_HOTSPOT)
+            dismiss()
         }
-        layoutQuickNote.root.onSafeClick {
-
+        layoutNfc.root.onSafeClick {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                requireContext().openSettings(screen = Settings.Panel.ACTION_NFC)
+            } else {
+                requireContext().openSettings(screen = SettingsScreen.NFC_POPUP)
+            }
+            dismiss()
         }
         layoutRotateScreen.root.onSafeClick {
-
+            // TODO today
+            dismiss()
         }
         layoutSettings.root.onSafeClick {
-            requireContext().openSettings()
+            requireContext().openSettings(screen = SettingsScreen.HOME)
+            dismiss()
         }
         layoutNotifications.root.onSafeClick {
-
+            // TODO today
+            dismiss()
         }
         layoutLockScreen.root.onSafeClick {
-
+            // TODO today
+            dismiss()
         }
         layoutPower.root.onSafeClick {
-
+            requireContext().showPowerButtonOptions()
+            dismiss()
         }
     }
+
+    private fun FragmentQuickSettingsBottomSheetBinding.observeForData() = Unit
 
     private fun setNetworkStatus() {
         binding.layoutNetwork.enableIcon(
@@ -383,30 +424,6 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             R.drawable.ic_round_airplanemode_active_24,
             R.drawable.ic_round_airplanemode_inactive_24
         )
-    }
-
-    private fun ItemQuickSettingBinding.enableIcon(
-        isEnabled: Boolean,
-        @DrawableRes enabledIcon: Int,
-        @DrawableRes disabledIcon: Int,
-    ) {
-        if (isEnabled) {
-            val iconColor = intArrayOf(requireContext().color(R.color.purple_500))
-            val iconStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
-            ivAppIcon.setImageDrawable(requireContext().drawable(enabledIcon))
-            ivAppIcon.imageTintList = ColorStateList(iconStates, iconColor)
-            val backgroundColor = intArrayOf(requireContext().color(R.color.purple_50))
-            val backgroundStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
-            root.backgroundTintList = ColorStateList(backgroundStates, backgroundColor)
-        } else {
-            val iconColor = intArrayOf(requireContext().color(R.color.purple_500))
-            val iconStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
-            ivAppIcon.setImageDrawable(requireContext().drawable(disabledIcon))
-            ivAppIcon.imageTintList = ColorStateList(iconStates, iconColor)
-            val backgroundColor = intArrayOf(requireContext().color(R.color.black_50))
-            val backgroundStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
-            root.backgroundTintList = ColorStateList(backgroundStates, backgroundColor)
-        }
     }
 
     private fun requestCameraPermission() {
@@ -426,30 +443,65 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun requestPhoneStatePermission() {
-        cameraPermissionResult.launch(Manifest.permission.READ_PHONE_STATE)
-    }
-
+    @SuppressLint("MissingPermission")
     private fun setCurrentWifiStatus() {
         binding.layoutWifi.apply {
-            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ivIcon.setImageDrawable(requireContext().drawable(R.drawable.ic_round_wifi_24))
+            enableIcon(
+                wifiManager.isWifiEnabled,
+                R.drawable.ic_round_wifi_24,
+                R.drawable.ic_round_wifi_off_24
+            )
+            if (requireContext().isLocationPermissionGranted().not()) {
                 tvPlaceholder.text = "Wifi"
                 tvName.text = "Not Connected"
                 return
             }
-            ivIcon.setImageDrawable(
-                if (wifiManager.isWifiEnabled) {
-                    requireContext().drawable(R.drawable.ic_round_wifi_24)
-                } else {
-                    requireContext().drawable(R.drawable.ic_round_wifi_off_24)
-                }
-            )
-            tvName.text = wifiManager.connectionInfo.ssid
-            tvPlaceholder.text = if (wifiManager.configuredNetworks.firstOrNull()?.status == 1) {
-                "Connected"
+            tvPlaceholder.text = "Wifi"
+            val availableWifiNetworks = wifiManager.scanResults // Get results for newer APIs
+            val isConnectedToWifi = wifiManager.configuredNetworks.firstOrNull {
+                it.SSID == wifiManager.connectionInfo.ssid.replace("\"", "")
+            }?.status == 1
+            tvName.text = if (wifiManager.isWifiEnabled) {
+                "Connected to ${wifiManager.connectionInfo.ssid.replace("\"", "")}"
             } else "Not Connected"
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun setBluetoothStatus() {
+        binding.layoutBluetooth.apply {
+            enableIcon(
+                isBluetoothEnabled(),
+                R.drawable.ic_round_bluetooth_24,
+                R.drawable.ic_round_bluetooth_disabled_24
+            )
+            if (requireContext().isBluetoothPermissionGranted().not()) {
+                tvPlaceholder.text = "Bluetooth"
+                tvName.text = "Not Connected"
+                return
+            }
+            val connectedDevices = try {
+                // STATE_CONNECTED is not allowed. So add all other profiles to a list
+                bluetoothManager.getConnectedDevices(BluetoothProfile.STATE_CONNECTED)
+            } catch (e: Exception) {
+                emptyList()
+            }
+            if (isBluetoothEnabled() && connectedDevices.isNotEmpty()) {
+                tvPlaceholder.text = "Bluetooth"
+                tvName.text = "Connected to ${connectedDevices.firstOrNull()?.name}"
+            } else {
+                tvPlaceholder.text = "Bluetooth"
+                tvName.text = "Not Connected"
+            }
+        }
+    }
+
+    private fun setWifiHotspotStatus() {
+        binding.layoutWifiHotspot.enableIcon(
+            requireContext().isWifiHotspotEnabled(),
+            R.drawable.ic_round_wifi_tethering_24,
+            R.drawable.ic_round_wifi_tethering_off_24
+        )
     }
 
     @SuppressLint("NewApi")
@@ -503,6 +555,69 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         })
     }
 
-    private fun FragmentQuickSettingsBottomSheetBinding.observeForData() {
+    private fun ItemQuickSettingBinding.enableIcon(
+        isEnabled: Boolean,
+        @DrawableRes enabledIcon: Int,
+        @DrawableRes disabledIcon: Int,
+    ) {
+        if (isEnabled) {
+            val iconColor = intArrayOf(requireContext().color(R.color.purple_500))
+            val iconStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            ivAppIcon.setImageDrawable(requireContext().drawable(enabledIcon))
+            ivAppIcon.imageTintList = ColorStateList(iconStates, iconColor)
+            val backgroundColor = intArrayOf(requireContext().color(R.color.purple_50))
+            val backgroundStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            root.backgroundTintList = ColorStateList(backgroundStates, backgroundColor)
+        } else {
+            val iconColor = intArrayOf(requireContext().color(R.color.subtitle_color))
+            val iconStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            ivAppIcon.setImageDrawable(requireContext().drawable(disabledIcon))
+            ivAppIcon.imageTintList = ColorStateList(iconStates, iconColor)
+            val backgroundColor = intArrayOf(requireContext().color(R.color.black_50))
+            val backgroundStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            root.backgroundTintList = ColorStateList(backgroundStates, backgroundColor)
+        }
+    }
+
+    private fun LongItemQuickSettingBinding.enableIcon(
+        isEnabled: Boolean,
+        @DrawableRes enabledIcon: Int,
+        @DrawableRes disabledIcon: Int,
+    ) {
+        if (isEnabled) {
+            val iconColor = intArrayOf(requireContext().color(R.color.purple_500))
+            val iconStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            ivIcon.setImageDrawable(requireContext().drawable(enabledIcon))
+            ivIcon.imageTintList = ColorStateList(iconStates, iconColor)
+            tvPlaceholder.setTextColor(requireContext().color(R.color.purple_500))
+            tvName.setTextColor(requireContext().color(R.color.purple_200))
+            val backgroundColor = intArrayOf(requireContext().color(R.color.purple_50))
+            val backgroundStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            root.backgroundTintList = ColorStateList(backgroundStates, backgroundColor)
+        } else {
+            val iconColor = intArrayOf(requireContext().color(R.color.subtitle_color))
+            val iconStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            ivIcon.setImageDrawable(requireContext().drawable(disabledIcon))
+            ivIcon.imageTintList = ColorStateList(iconStates, iconColor)
+            tvPlaceholder.setTextColor(requireContext().color(R.color.subtitle_color))
+            tvName.setTextColor(requireContext().color(R.color.subtitle_color))
+            val backgroundColor = intArrayOf(requireContext().color(R.color.black_50))
+            val backgroundStates = arrayOf(intArrayOf(android.R.attr.state_enabled))
+            root.backgroundTintList = ColorStateList(backgroundStates, backgroundColor)
+        }
+    }
+
+    private fun ImageView.setSliderIconColor(progress: Int) {
+        if (progress < 10) {
+            val purple500Drawable = drawable.changeColor(context = requireContext(), color = R.color.purple_500)
+            setImageDrawable(purple500Drawable)
+        } else {
+            val purple50Drawable = drawable.changeColor(context = requireContext(), color = R.color.purple_50)
+            setImageDrawable(purple50Drawable)
+        }
+    }
+
+    private fun requestPhoneStatePermission() {
+        cameraPermissionResult.launch(Manifest.permission.READ_PHONE_STATE)
     }
 }

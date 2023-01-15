@@ -594,4 +594,39 @@ val animeQuoteList = listOf(
         """.trimIndentsAndNewLines(),
         author = "Magic Emperor"
     ),
+    Quote(
+        title = "Good things come to those who act.",
+        author = "Cyberpunk Edge Runners"
+    ),
+    Quote(
+        title = """
+            Trust isn't when you leave everything to others without saying anything.
+            Trust is when you're not doubting each other for being guilty of something.
+            So, trust and doubt others at the same time.
+        """.trimIndentsAndNewLines(),
+        author = "Ningen Fushin"
+    ),
 ).shuffled()
+
+val generalQuoteList = listOf(
+    Quote(
+        title = """
+            It is better to conquer yourself than to win a thousand battles.
+            Then the victory is yours. It cannot be taken from you, not by angels or by demons, heaven or hell.
+        """.trimIndentsAndNewLines(),
+        author = "Lord Gautama Buddha"
+    ),
+    Quote(
+        title = "If you can't explain it simply, you don't understand it well enough.",
+        author = "Albert Einstein"
+    ),
+    Quote(
+        title = "Don't be afraid to give up the good to go for the great.",
+        author = "John D. Rockefeller"
+    ),
+).shuffled()
+
+val allQuotesList = listOf(
+    animeQuoteList,
+    generalQuoteList
+).flatten().shuffled()

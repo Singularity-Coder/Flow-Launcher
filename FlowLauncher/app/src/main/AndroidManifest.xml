@@ -22,10 +22,15 @@
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:required="false" />
 
     <!--For all/other package/app visibility - https://developer.android.com/training/package-visibility-->
     <!--https://stackoverflow.com/questions/63246442/android-11-r-return-empty-list-when-querying-intent-for-action-image-capture-->
@@ -110,6 +115,9 @@
                 <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_INSTALL" />
+                <action android:name="android.intent.action.ACTION_SCREEN_OFF" />
+                <action android:name="android.intent.action.ACTION_SCREEN_ON" />
+                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
             </intent-filter>
         </receiver>
 

@@ -227,7 +227,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_bluetooth" />
 
             <include
-                android:id="@+id/layout_alarm"
+                android:id="@+id/layout_volume"
                 layout="@layout/item_quick_setting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_torch" />
 
             <include
-                android:id="@+id/layout_timer"
+                android:id="@+id/layout_wifi_hotspot"
                 layout="@layout/item_quick_setting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -247,7 +247,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_torch" />
 
             <include
-                android:id="@+id/layout_quick_note"
+                android:id="@+id/layout_nfc"
                 layout="@layout/item_quick_setting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -272,9 +272,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/layout_alarm"
-                app:layout_constraintStart_toStartOf="@+id/layout_alarm"
-                app:layout_constraintTop_toBottomOf="@+id/layout_alarm" />
+                app:layout_constraintEnd_toEndOf="@+id/layout_volume"
+                app:layout_constraintStart_toStartOf="@+id/layout_volume"
+                app:layout_constraintTop_toBottomOf="@+id/layout_volume" />
 
             <include
                 android:id="@+id/layout_notifications"
@@ -282,9 +282,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/layout_timer"
-                app:layout_constraintStart_toStartOf="@+id/layout_timer"
-                app:layout_constraintTop_toBottomOf="@+id/layout_alarm" />
+                app:layout_constraintEnd_toEndOf="@+id/layout_wifi_hotspot"
+                app:layout_constraintStart_toStartOf="@+id/layout_wifi_hotspot"
+                app:layout_constraintTop_toBottomOf="@+id/layout_volume" />
 
             <include
                 android:id="@+id/layout_lock_screen"
@@ -292,9 +292,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/layout_quick_note"
-                app:layout_constraintStart_toStartOf="@+id/layout_quick_note"
-                app:layout_constraintTop_toBottomOf="@+id/layout_alarm" />
+                app:layout_constraintEnd_toEndOf="@+id/layout_nfc"
+                app:layout_constraintStart_toStartOf="@+id/layout_nfc"
+                app:layout_constraintTop_toBottomOf="@+id/layout_volume" />
 
             <include
                 android:id="@+id/layout_power"
@@ -304,7 +304,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="@+id/layout_rotate_screen"
                 app:layout_constraintStart_toStartOf="@+id/layout_rotate_screen"
-                app:layout_constraintTop_toBottomOf="@+id/layout_alarm" />
+                app:layout_constraintTop_toBottomOf="@+id/layout_volume" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider"
