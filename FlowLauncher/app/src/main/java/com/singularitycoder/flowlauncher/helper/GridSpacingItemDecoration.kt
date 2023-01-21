@@ -22,8 +22,8 @@ class GridSpacingItemDecoration(
     ) {
         val position = parent.getChildAdapterPosition(view) // item position
         val column = position % spanCount // item column
-        outRect.left = 20.dpToPx()
-        outRect.right = 20.dpToPx()
+        outRect.left = spacing
+        outRect.right = spacing
 //        outRect.left = (deviceWidth() - 160.dpToPx()) / 5
 //        outRect.right = (deviceWidth() - 160.dpToPx()) / 5
         outRect.top = spacing
