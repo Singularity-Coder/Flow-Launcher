@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.*
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -30,7 +29,7 @@ import com.singularitycoder.flowlauncher.helper.quickactionview.animator.SlideFr
  * @see [https://github.com/ovenbits/QuickActionView](https://github.com/ovenbits/QuickActionView)
  */
 open class QuickActionView private constructor(private val mContext: Context) {
-    private var mShown = false
+    private var isShown = false
     private var mOnActionSelectedListener: OnActionSelectedListener? = null
     private var mOnDismissListener: OnDismissListener? = null
     private var mOnShowListener: OnShowListener? = null
@@ -80,10 +79,10 @@ open class QuickActionView private constructor(private val mContext: Context) {
     }
 
     private fun show(anchor: View, offset: Point) {
-        if (mShown) {
+        if (isShown) {
             throw RuntimeException("Show cannot be called when the QuickActionView is already visible")
         }
-        mShown = true
+        isShown = true
         val parent = anchor.parent
         if (parent is View) {
             parent.requestDisallowInterceptTouchEvent(true)
@@ -436,7 +435,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
                 manager.removeView(mQuickActionViewLayout)
             }
             mQuickActionViewLayout = null
-            mShown = false
+            isShown = false
         }
         if (longPressedView != null) {
             val parent = longPressedView!!.parent
@@ -449,7 +448,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
     private fun checkAttachedToWindow(view: View): Boolean = view.isAttachedToWindow
 
     private fun dismiss() {
-        if (!mShown) {
+        if (!isShown) {
             throw RuntimeException("The QuickActionView must be visible to call dismiss()")
         }
         if (mOnDismissListener != null) {
@@ -459,7 +458,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
     }
 
     private fun checkShown() {
-        if (mShown) {
+        if (isShown) {
             throw RuntimeException("QuickActionView cannot be configured if show has already been called.")
         }
     }
@@ -664,7 +663,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
         }
 
         override fun onTouchEvent(event: MotionEvent): Boolean {
-            if (mShown) {
+            if (isShown) {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
                         mLastTouch[event.rawX] = event.rawY
@@ -794,13 +793,13 @@ open class QuickActionView private constructor(private val mContext: Context) {
         }
 
         override fun onTouch(v: View, event: MotionEvent): Boolean {
-            if (mShown.not()) show(v, Point(mTouchX.toInt(), mTouchY.toInt()))
+            if (isShown.not()) show(anchor = v, offset = Point(mTouchX.toInt(), mTouchY.toInt()))
             mTouchX = event.x
             mTouchY = event.y
-            if (mShown) {
+            if (isShown) {
                 mQuickActionViewLayout!!.onTouchEvent(event)
             }
-            return mShown
+            return isShown
         }
     }
 

@@ -606,6 +606,23 @@ val animeQuoteList = listOf(
         """.trimIndentsAndNewLines(),
         author = "Ningen Fushin"
     ),
+    Quote(
+        title = "Avoid a ready enemy and only fight when he is weary.",
+        author = "Magic Emperor"
+    ),
+    Quote(
+        title = "Your elders never told you not to take candy from a stranger?",
+        author = "Magic Emperor"
+    ),
+    Quote(
+        title = """
+            Victory got to your head and pride lowered your guard. 
+            You thought I was breathing my last, that all danger had lifted. 
+            Then you took those tampered pills in your greatest moment of weakness.
+            That is the moment you truly lost.
+        """.trimIndentsAndNewLines(),
+        author = "Magic Emperor"
+    ),
 ).shuffled()
 
 val generalQuoteList = listOf(
@@ -623,6 +640,13 @@ val generalQuoteList = listOf(
     Quote(
         title = "Don't be afraid to give up the good to go for the great.",
         author = "John D. Rockefeller"
+    ),
+    Quote(
+        title = """
+            He who controls the past, controls the future. 
+            He who controls the present controls the past.
+        """.trimIndentsAndNewLines(),
+        author = "George Orwell"
     ),
 ).shuffled()
 

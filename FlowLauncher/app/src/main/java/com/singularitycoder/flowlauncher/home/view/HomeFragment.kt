@@ -125,10 +125,7 @@ class HomeFragment : Fragment() {
                 Broadcast.PACKAGE_REMOVED -> {
                     homeViewModel.removeAppFromDb(removedApp)
                     // TODO remove icon as well
-                    val appIconName = "app_icon_${removedApp?.packageName}".replace(
-                        oldValue = ".",
-                        newValue = "_"
-                    )
+                    val appIconName = "app_icon_${removedApp?.packageName}".replace(oldValue = ".", newValue = "_")
                     val appIconDir = "${requireContext().filesDir?.absolutePath}/app_icons"
                     deleteBitmapFromInternalStorage(appIconName, appIconDir)
 //                    homeAppsAdapter.notifyItemRemoved(removedAppPosition)
@@ -141,84 +138,78 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private val contactsPermissionResult =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isPermissionGranted: Boolean? ->
-            isPermissionGranted ?: return@registerForActivityResult
-            if (isPermissionGranted.not()) {
-                requireContext().showPermissionSettings()
-                return@registerForActivityResult
-            }
-            lifecycleScope.launch {
-                val isContactsSynced = Preferences.read(requireContext())
-                    .getBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, false)
-                if (isContactsSynced.not()) {
-                    requireContext().getContacts().sortedBy { it.name }.forEach { it: Contact ->
-                        contactDao.insert(it)
-                    }
-                }
-                Preferences.write(requireContext())
-                    .putBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, true).apply()
-                val contact = contactDao.getAll().firstOrNull { it.name.contains(contactName) }
-                when (speechAction) {
-                    SpeechAction.CALL -> {
-                        requireContext().openDialer(contact?.mobileNumber ?: "")
-                    }
-                    SpeechAction.MESSAGE -> {
-                        requireContext().sendSms(contact?.mobileNumber ?: "", messageBody)
-                    }
-                    else -> Unit
-                }
-                speechAction = SpeechAction.NONE
-            }
+    private val contactsPermissionResult = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isPermissionGranted: Boolean? ->
+        isPermissionGranted ?: return@registerForActivityResult
+        if (isPermissionGranted.not()) {
+            requireContext().showPermissionSettings()
+            return@registerForActivityResult
         }
+        lifecycleScope.launch {
+            val isContactsSynced = Preferences.read(requireContext())
+                .getBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, false)
+            if (isContactsSynced.not()) {
+                requireContext().getContacts().sortedBy { it.name }.forEach { it: Contact ->
+                    contactDao.insert(it)
+                }
+            }
+            Preferences.write(requireContext())
+                .putBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, true).apply()
+            val contact = contactDao.getAll().firstOrNull { it.name.contains(contactName) }
+            when (speechAction) {
+                SpeechAction.CALL -> {
+                    requireContext().openDialer(contact?.mobileNumber ?: "")
+                }
+                SpeechAction.MESSAGE -> {
+                    requireContext().sendSms(contact?.mobileNumber ?: "", messageBody)
+                }
+                else -> Unit
+            }
+            speechAction = SpeechAction.NONE
+        }
+    }
 
-    private val speechToTextResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
-            result ?: return@registerForActivityResult
-            if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
-            val data: Intent? = result.data
-            lifecycleScope.launch(IO) {
-                val text =
-                    data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
-                        ?.trim()
-                println("speech result: $text")
-                when (text?.substringBefore(" ")?.toLowCase()) {
-                    SpeechAction.OPEN.value, SpeechAction.LAUNCH.value -> {
-                        // TODO get app list from DB
-                        val appName = text.substringAfter(" ")
-                        val app = context?.appList()?.firstOrNull { it.title.contains(appName) }
-                            ?: kotlin.run {
-                                // show list of apps with the starting letter
-                                return@launch
-                            }
-                        withContext(Main) {
-                            requireActivity().launchApp(app.packageName)
+    private val speechToTextResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
+        result ?: return@registerForActivityResult
+        if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+        val data: Intent? = result.data
+        lifecycleScope.launch(IO) {
+            val text =
+                data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
+                    ?.trim()
+            println("speech result: $text")
+            when (text?.substringBefore(" ")?.toLowCase()) {
+                SpeechAction.OPEN.value, SpeechAction.LAUNCH.value -> {
+                    // TODO get app list from DB
+                    val appName = text.substringAfter(" ")
+                    val app = context?.appList()?.firstOrNull { it.title.contains(appName) }
+                        ?: kotlin.run {
+                            // show list of apps with the starting letter
+                            return@launch
                         }
+                    withContext(Main) {
+                        requireActivity().launchApp(app.packageName)
                     }
-                    SpeechAction.CALL.value -> {
-                        speechAction = SpeechAction.CALL
-                        contactName = text.substringAfter(" ")
-                        grantContactsPermission()
-                    }
-                    SpeechAction.MESSAGE.value -> {
-                        speechAction = SpeechAction.MESSAGE
-                        contactName = text.substringAfter(" ").substringBefore("saying")
-                        messageBody = text.substringAfter("saying ")
-                        grantContactsPermission()
-                    }
-                    SpeechAction.SEARCH.value, SpeechAction.FIND.value -> {
-                        val query = text.substringAfter(" ")
-                        requireActivity().searchWithChrome(query = query)
-                    }
+                }
+                SpeechAction.CALL.value -> {
+                    speechAction = SpeechAction.CALL
+                    contactName = text.substringAfter(" ")
+                    grantContactsPermission()
+                }
+                SpeechAction.MESSAGE.value -> {
+                    speechAction = SpeechAction.MESSAGE
+                    contactName = text.substringAfter(" ").substringBefore("saying")
+                    messageBody = text.substringAfter("saying ")
+                    grantContactsPermission()
+                }
+                SpeechAction.SEARCH.value, SpeechAction.FIND.value -> {
+                    val query = text.substringAfter(" ")
+                    requireActivity().searchWithChrome(query = query)
                 }
             }
         }
+    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -282,34 +273,11 @@ class HomeFragment : Fragment() {
                 position = position
             )
         }
-//        fabVoiceSearch.onSafeClick {
-//            // Start Speech to Text
-//            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-//                putExtra(
-//                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-//                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-//                )
-//                putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-//                putExtra(RecognizerIntent.EXTRA_PROMPT, "Start Speaking Now!")
-//            }
-//            speechToTextResult.launch(intent)
-//        }
-//        fabVoiceSearch.setOnLongClickListener {
-//            if (requireContext().isWriteSettingsPermissionGranted()) {
-//                QuickSettingsBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.QUICK_SETTINGS)
-//            }
-//            false
-//        }
         setTouchOptions()
         rvApps.setOnLongClickListener {
             root.performLongClick()
             false
         }
-//        root.setOnLongClickListener {
-//            blurAndSaveBitmapForImageBackground()
-//            (requireActivity() as AppCompatActivity).showScreen(AddEditFlowFragment.newInstance(), AddEditFlowFragment::class.java.simpleName)
-//            false
-//        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -333,8 +301,7 @@ class HomeFragment : Fragment() {
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
             val selectedFlow = it.firstOrNull { it.isSelected }
             val isFlowNameHasFlow = selectedFlow?.appFlowName?.toLowCase()?.contains("flow") == true
-            flowName =
-                if (isFlowNameHasFlow) selectedFlow?.appFlowName else "${selectedFlow?.appFlowName} Flow"
+            flowName = if (isFlowNameHasFlow) selectedFlow?.appFlowName else "${selectedFlow?.appFlowName} Flow"
             homeAppsAdapter.homeAppList = selectedFlow?.appList ?: emptyList()
             enableDisableApps(selectedFlow)
             withContext(Main) {
@@ -373,32 +340,25 @@ class HomeFragment : Fragment() {
             )
             if (blurredBitmapFile.exists()) return@launch
             val homeLayoutBitmap = prepareHomeLayoutBitmap()
-            val imageRequest =
-                ImageRequest.Builder(requireContext()).data(homeLayoutBitmap).listener(
-                    onStart = {
-                        // set your progressbar visible here
-                    },
-                    onSuccess = { request, metadata ->
-                        // set your progressbar invisible here
-                    }
-                ).build()
+            val imageRequest = ImageRequest.Builder(requireContext()).data(homeLayoutBitmap).listener(
+                onStart = {
+                    // set your progressbar visible here
+                },
+                onSuccess = { request, metadata ->
+                    // set your progressbar invisible here
+                }
+            ).build()
             val drawable = ImageLoader(requireContext()).execute(imageRequest).drawable
             val bitmapToBlur = (drawable as BitmapDrawable).bitmap
             val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 50)
-            blurredBitmap.saveToInternalStorage(
-                fileName = HOME_LAYOUT_BLURRED_IMAGE,
-                fileDir = requireContext().getHomeLayoutBlurredImageFileDir(),
-            )
+            blurredBitmap.saveToInternalStorage(fileName = HOME_LAYOUT_BLURRED_IMAGE, fileDir = requireContext().getHomeLayoutBlurredImageFileDir())
         } catch (_: Exception) {
         }
     }
 
     private fun prepareHomeLayoutBitmap(): BitmapDrawable? {
         val imageLayout = binding.root
-        val bitmapDrawableOfLayout = imageLayout.toBitmapOf(
-            width = deviceWidth(),
-            height = deviceHeight()
-        )?.toDrawable(requireContext().resources)
+        val bitmapDrawableOfLayout = imageLayout.toBitmapOf(width = deviceWidth(), height = deviceHeight())?.toDrawable(requireContext().resources)
         return bitmapDrawableOfLayout
     }
 
@@ -490,11 +450,7 @@ class HomeFragment : Fragment() {
     private fun parseAppsWithWorker() {
         val workManager = WorkManager.getInstance(requireContext())
         val workRequest = OneTimeWorkRequestBuilder<AppWorker>().build()
-        workManager.enqueueUniqueWork(
-            WorkerTag.APPS_PARSER,
-            ExistingWorkPolicy.REPLACE,
-            workRequest
-        )
+        workManager.enqueueUniqueWork(WorkerTag.APPS_PARSER, ExistingWorkPolicy.REPLACE, workRequest)
         workManager.getWorkInfoByIdLiveData(workRequest.id)
             .observe(viewLifecycleOwner) { workInfo: WorkInfo? ->
                 when (workInfo?.state) {
