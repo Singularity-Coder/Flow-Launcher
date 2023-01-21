@@ -277,6 +277,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "GN Balasubramaniam - Kalayami - Begada - Misra Chapu", videoId = "CWMdH7dOLeY"),
     YoutubeVideo(title = "GN Balasubramaniam - Evari Bodhana", videoId = "6dJIRdvpv_o"),
     YoutubeVideo(title = "GN Balasubramaniam - Paramakrupa Sagari", videoId = "qf-feeWxXuk"),
+    YoutubeVideo(title = "GN Balasubramaniam - Ma Janaki Chattabattaga", videoId = "2xSaswohan4"), // A treat to the ears
     YoutubeVideo(title = "Parur Sundaram Iyer & MSG_Manavyala", videoId = "823uFFoaLGc"),
     YoutubeVideo(title = "MS Gopalakrishnan- Violin - Manavyalakinchara", videoId = "m7lKOttZR7g"),
     YoutubeVideo(title = "Madurai Mani Iyer - Brochevarevarura", videoId = "lgdwg2KmjN4"),

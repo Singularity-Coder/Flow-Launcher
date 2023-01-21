@@ -125,7 +125,10 @@ class HomeFragment : Fragment() {
                 Broadcast.PACKAGE_REMOVED -> {
                     homeViewModel.removeAppFromDb(removedApp)
                     // TODO remove icon as well
-                    val appIconName = "app_icon_${removedApp?.packageName}".replace(oldValue = ".", newValue = "_")
+                    val appIconName = "app_icon_${removedApp?.packageName}".replace(
+                        oldValue = ".",
+                        newValue = "_"
+                    )
                     val appIconDir = "${requireContext().filesDir?.absolutePath}/app_icons"
                     deleteBitmapFromInternalStorage(appIconName, appIconDir)
 //                    homeAppsAdapter.notifyItemRemoved(removedAppPosition)
@@ -138,73 +141,84 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private val contactsPermissionResult = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isPermissionGranted: Boolean? ->
-        isPermissionGranted ?: return@registerForActivityResult
-        if (isPermissionGranted.not()) {
-            requireContext().showPermissionSettings()
-            return@registerForActivityResult
-        }
-        lifecycleScope.launch {
-            val isContactsSynced = Preferences.read(requireContext()).getBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, false)
-            if (isContactsSynced.not()) {
-                requireContext().getContacts().sortedBy { it.name }.forEach { it: Contact ->
-                    contactDao.insert(it)
-                }
+    private val contactsPermissionResult =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isPermissionGranted: Boolean? ->
+            isPermissionGranted ?: return@registerForActivityResult
+            if (isPermissionGranted.not()) {
+                requireContext().showPermissionSettings()
+                return@registerForActivityResult
             }
-            Preferences.write(requireContext()).putBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, true).apply()
-            val contact = contactDao.getAll().firstOrNull { it.name.contains(contactName) }
-            when (speechAction) {
-                SpeechAction.CALL -> {
-                    requireContext().openDialer(contact?.mobileNumber ?: "")
-                }
-                SpeechAction.MESSAGE -> {
-                    requireContext().sendSms(contact?.mobileNumber ?: "", messageBody)
-                }
-                else -> Unit
-            }
-            speechAction = SpeechAction.NONE
-        }
-    }
-
-    private val speechToTextResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
-        result ?: return@registerForActivityResult
-        if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
-        val data: Intent? = result.data
-        lifecycleScope.launch(IO) {
-            val text = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()?.trim()
-            println("speech result: $text")
-            when (text?.substringBefore(" ")?.toLowCase()) {
-                SpeechAction.OPEN.value, SpeechAction.LAUNCH.value -> {
-                    // TODO get app list from DB
-                    val appName = text.substringAfter(" ")
-                    val app = context?.appList()?.firstOrNull { it.title.contains(appName) } ?: kotlin.run {
-                        // show list of apps with the starting letter
-                        return@launch
-                    }
-                    withContext(Main) {
-                        requireActivity().launchApp(app.packageName)
+            lifecycleScope.launch {
+                val isContactsSynced = Preferences.read(requireContext())
+                    .getBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, false)
+                if (isContactsSynced.not()) {
+                    requireContext().getContacts().sortedBy { it.name }.forEach { it: Contact ->
+                        contactDao.insert(it)
                     }
                 }
-                SpeechAction.CALL.value -> {
-                    speechAction = SpeechAction.CALL
-                    contactName = text.substringAfter(" ")
-                    grantContactsPermission()
+                Preferences.write(requireContext())
+                    .putBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, true).apply()
+                val contact = contactDao.getAll().firstOrNull { it.name.contains(contactName) }
+                when (speechAction) {
+                    SpeechAction.CALL -> {
+                        requireContext().openDialer(contact?.mobileNumber ?: "")
+                    }
+                    SpeechAction.MESSAGE -> {
+                        requireContext().sendSms(contact?.mobileNumber ?: "", messageBody)
+                    }
+                    else -> Unit
                 }
-                SpeechAction.MESSAGE.value -> {
-                    speechAction = SpeechAction.MESSAGE
-                    contactName = text.substringAfter(" ").substringBefore("saying")
-                    messageBody = text.substringAfter("saying ")
-                    grantContactsPermission()
-                }
-                SpeechAction.SEARCH.value, SpeechAction.FIND.value -> {
-                    val query = text.substringAfter(" ")
-                    requireActivity().searchWithChrome(query = query)
+                speechAction = SpeechAction.NONE
+            }
+        }
+
+    private val speechToTextResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
+            result ?: return@registerForActivityResult
+            if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+            val data: Intent? = result.data
+            lifecycleScope.launch(IO) {
+                val text =
+                    data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
+                        ?.trim()
+                println("speech result: $text")
+                when (text?.substringBefore(" ")?.toLowCase()) {
+                    SpeechAction.OPEN.value, SpeechAction.LAUNCH.value -> {
+                        // TODO get app list from DB
+                        val appName = text.substringAfter(" ")
+                        val app = context?.appList()?.firstOrNull { it.title.contains(appName) }
+                            ?: kotlin.run {
+                                // show list of apps with the starting letter
+                                return@launch
+                            }
+                        withContext(Main) {
+                            requireActivity().launchApp(app.packageName)
+                        }
+                    }
+                    SpeechAction.CALL.value -> {
+                        speechAction = SpeechAction.CALL
+                        contactName = text.substringAfter(" ")
+                        grantContactsPermission()
+                    }
+                    SpeechAction.MESSAGE.value -> {
+                        speechAction = SpeechAction.MESSAGE
+                        contactName = text.substringAfter(" ").substringBefore("saying")
+                        messageBody = text.substringAfter("saying ")
+                        grantContactsPermission()
+                    }
+                    SpeechAction.SEARCH.value, SpeechAction.FIND.value -> {
+                        val query = text.substringAfter(" ")
+                        requireActivity().searchWithChrome(query = query)
+                    }
                 }
             }
         }
-    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -319,7 +333,8 @@ class HomeFragment : Fragment() {
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
             val selectedFlow = it.firstOrNull { it.isSelected }
             val isFlowNameHasFlow = selectedFlow?.appFlowName?.toLowCase()?.contains("flow") == true
-            flowName = if (isFlowNameHasFlow) selectedFlow?.appFlowName else "${selectedFlow?.appFlowName} Flow"
+            flowName =
+                if (isFlowNameHasFlow) selectedFlow?.appFlowName else "${selectedFlow?.appFlowName} Flow"
             homeAppsAdapter.homeAppList = selectedFlow?.appList ?: emptyList()
             enableDisableApps(selectedFlow)
             withContext(Main) {
@@ -341,7 +356,9 @@ class HomeFragment : Fragment() {
             selectedApp.enable(requireContext())
         }
         defaultFlowApps?.forEach { defaultApp: App ->
-            val isDefaultAppNotPresentInSelectedApp = selectedFlow?.appList?.map { it.packageName }?.contains(defaultApp.packageName)?.not() == true
+            val isDefaultAppNotPresentInSelectedApp =
+                selectedFlow?.appList?.map { it.packageName }?.contains(defaultApp.packageName)
+                    ?.not() == true
             if (isDefaultAppNotPresentInSelectedApp) {
                 defaultApp.disable(requireContext())
             }
@@ -356,14 +373,15 @@ class HomeFragment : Fragment() {
             )
             if (blurredBitmapFile.exists()) return@launch
             val homeLayoutBitmap = prepareHomeLayoutBitmap()
-            val imageRequest = ImageRequest.Builder(requireContext()).data(homeLayoutBitmap).listener(
-                onStart = {
-                    // set your progressbar visible here
-                },
-                onSuccess = { request, metadata ->
-                    // set your progressbar invisible here
-                }
-            ).build()
+            val imageRequest =
+                ImageRequest.Builder(requireContext()).data(homeLayoutBitmap).listener(
+                    onStart = {
+                        // set your progressbar visible here
+                    },
+                    onSuccess = { request, metadata ->
+                        // set your progressbar invisible here
+                    }
+                ).build()
             val drawable = ImageLoader(requireContext()).execute(imageRequest).drawable
             val bitmapToBlur = (drawable as BitmapDrawable).bitmap
             val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 50)
@@ -400,7 +418,8 @@ class HomeFragment : Fragment() {
 
             withContext(Main) {
                 binding.tvTime.text = getHtmlFormattedTime(html)
-                binding.tvFlowType.text = "$day, ${convertLongToTime(timeNow, DateType.dd_MMM_yyyy)}  |  $flowName"
+                binding.tvFlowType.text =
+                    "$day, ${convertLongToTime(timeNow, DateType.dd_MMM_yyyy)}  |  $flowName"
             }
         }
     }
@@ -443,10 +462,15 @@ class HomeFragment : Fragment() {
             }
             setOnDismissListener { it: PopupMenu? ->
             }
-            setMarginBtwMenuIconAndText(context = requireContext(), menu = this.menu, iconMarginDp = 10)
+            setMarginBtwMenuIconAndText(
+                context = requireContext(),
+                menu = this.menu,
+                iconMarginDp = 10
+            )
             this.menu.forEach { it: MenuItem ->
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    it.iconTintList = ContextCompat.getColorStateList(requireContext(), R.color.purple_500)
+                    it.iconTintList =
+                        ContextCompat.getColorStateList(requireContext(), R.color.purple_500)
                 }
             }
             show()
@@ -466,49 +490,54 @@ class HomeFragment : Fragment() {
     private fun parseAppsWithWorker() {
         val workManager = WorkManager.getInstance(requireContext())
         val workRequest = OneTimeWorkRequestBuilder<AppWorker>().build()
-        workManager.enqueueUniqueWork(WorkerTag.APPS_PARSER, ExistingWorkPolicy.REPLACE, workRequest)
-        workManager.getWorkInfoByIdLiveData(workRequest.id).observe(viewLifecycleOwner) { workInfo: WorkInfo? ->
-            when (workInfo?.state) {
-                WorkInfo.State.RUNNING -> {
-                    println("RUNNING: show Progress")
-                    showProgress(true)
+        workManager.enqueueUniqueWork(
+            WorkerTag.APPS_PARSER,
+            ExistingWorkPolicy.REPLACE,
+            workRequest
+        )
+        workManager.getWorkInfoByIdLiveData(workRequest.id)
+            .observe(viewLifecycleOwner) { workInfo: WorkInfo? ->
+                when (workInfo?.state) {
+                    WorkInfo.State.RUNNING -> {
+                        println("RUNNING: show Progress")
+                        showProgress(true)
+                    }
+                    WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
+                    WorkInfo.State.SUCCEEDED -> {
+                        println("SUCCEEDED: showing Progress")
+                        showProgress(false)
+                    }
+                    WorkInfo.State.FAILED -> {
+                        println("FAILED: stop showing Progress")
+                        binding.root.showSnackBar("Something went wrong!")
+                        showProgress(false)
+                    }
+                    WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
+                    WorkInfo.State.CANCELLED -> {
+                        println("CANCELLED: stop showing Progress")
+                        showProgress(false)
+                    }
+                    else -> Unit
                 }
-                WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
-                WorkInfo.State.SUCCEEDED -> {
-                    println("SUCCEEDED: showing Progress")
-                    showProgress(false)
-                }
-                WorkInfo.State.FAILED -> {
-                    println("FAILED: stop showing Progress")
-                    binding.root.showSnackBar("Something went wrong!")
-                    showProgress(false)
-                }
-                WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
-                WorkInfo.State.CANCELLED -> {
-                    println("CANCELLED: stop showing Progress")
-                    showProgress(false)
-                }
-                else -> Unit
             }
-        }
     }
 
     private fun setTouchOptions() {
         // voice search, change flow, notifications, quick settings, universal search
-        QuickActionView.make(context).apply {
-            val icon1 = requireContext().drawable(R.drawable.ic_round_keyboard_voice_24)
+        QuickActionView.make(requireContext()).apply {
+            val icon1 = requireContext().drawable(R.drawable.ic_round_keyboard_voice_24)?.changeColor(requireContext(), R.color.purple_500)
             val action1 = Action(/* id = */ 1, /* icon = */ icon1!!, /* title = */ "Voice Search")
-            val icon2 = requireContext().drawable(R.drawable.ic_round_tune_24)
+            val icon2 = requireContext().drawable(R.drawable.ic_round_tune_24)?.changeColor(requireContext(), R.color.purple_500)
             val action2 = Action(/* id = */ 2, /* icon = */ icon2!!, /* title = */ "Quick Settings")
-            val icon3 = requireContext().drawable(R.drawable.ic_round_apps_24)
-            val action3 = Action(/* id = */ 3, /* icon = */ icon3!!, /* title = */ "Change Flow")
-            addAction(action1) //more configuring
+            val icon3 = requireContext().drawable(R.drawable.ic_round_apps_24)?.changeColor(requireContext(), R.color.purple_500)
+            val action3 = Action(/* id = */ 3, /* icon = */ icon3!!, /* title = */ "Select Flow")
+            addAction(action1) // more configuring
             addAction(action2)
             addAction(action3)
             register(binding.fabVoiceSearch)
             setBackgroundColor(requireContext().color(R.color.purple_50))
-            setOnActionSelectedListener { action, quickActionView ->
-                when (action.id) {
+            setOnActionSelectedListener { action: Action?, quickActionView: QuickActionView? ->
+                when (action?.id) {
                     1 -> {
                         // Start Speech to Text
                         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
@@ -523,12 +552,18 @@ class HomeFragment : Fragment() {
                     }
                     2 -> {
                         if (requireContext().isWriteSettingsPermissionGranted()) {
-                            QuickSettingsBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, BottomSheetTag.QUICK_SETTINGS)
+                            QuickSettingsBottomSheetFragment.newInstance().show(
+                                requireActivity().supportFragmentManager,
+                                BottomSheetTag.QUICK_SETTINGS
+                            )
                         }
                     }
                     3 -> {
                         blurAndSaveBitmapForImageBackground()
-                        (requireActivity() as AppCompatActivity).showScreen(AddEditFlowFragment.newInstance(), AddEditFlowFragment::class.java.simpleName)
+                        (requireActivity() as AppCompatActivity).showScreen(
+                            AddEditFlowFragment.newInstance(),
+                            AddEditFlowFragment::class.java.simpleName
+                        )
                     }
                 }
             }
@@ -548,7 +583,10 @@ class HomeFragment : Fragment() {
             settings.domStorageEnabled = true
             settings.javaScriptCanOpenWindowsAutomatically = true
             settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
-            addJavascriptInterface(TwitterJavaScriptInterface(), "HTMLOUT") // Register a new JavaScript interface called HTMLOUT
+            addJavascriptInterface(
+                TwitterJavaScriptInterface(),
+                "HTMLOUT"
+            ) // Register a new JavaScript interface called HTMLOUT
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView, url: String) {
                     // This call inject JavaScript into the page which just finished loading.
