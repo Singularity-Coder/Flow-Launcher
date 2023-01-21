@@ -419,7 +419,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
         mQuickActionViewLayout = QuickActionViewLayout(mContext, actionsList, point)
         manager.addView(mQuickActionViewLayout, params)
         if (mOnShowListener != null) {
-            mOnShowListener!!.onShow(this)
+            mOnShowListener?.onShow(this)
         }
     }
 
@@ -508,10 +508,12 @@ open class QuickActionView private constructor(private val mContext: Context) {
         var textPaddingLeft: Int
         var textPaddingRight: Int
 
-        constructor(context: Context) : this(context,
-                Typeface.DEFAULT,
-                context.resources.getInteger(R.integer.qav_action_title_view_text_size),
-                context.resources.getDimensionPixelSize(R.dimen.qav_action_title_view_text_padding)) {
+        constructor(context: Context) : this(
+            context,
+            Typeface.DEFAULT,
+            context.resources.getInteger(R.integer.qav_action_title_view_text_size),
+            context.resources.getDimensionPixelSize(R.dimen.qav_action_title_view_text_padding)
+        ) {
         }
 
         init {
@@ -583,10 +585,12 @@ open class QuickActionView private constructor(private val mContext: Context) {
 
         override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
             mScrimView.layout(0, 0, measuredWidth, measuredHeight)
-            mIndicatorView.layout(mCenterPoint.x - (mIndicatorView.measuredWidth / 2.0).toInt(),
-                    mCenterPoint.y - (mIndicatorView.measuredHeight / 2.0).toInt(),
-                    mCenterPoint.x + (mIndicatorView.measuredWidth / 2.0).toInt(),
-                    mCenterPoint.y + (mIndicatorView.measuredHeight / 2.0).toInt())
+            mIndicatorView.layout(
+                mCenterPoint.x - (mIndicatorView.measuredWidth / 2.0).toInt(),
+                mCenterPoint.y - (mIndicatorView.measuredHeight / 2.0).toInt(),
+                mCenterPoint.x + (mIndicatorView.measuredWidth / 2.0).toInt(),
+                mCenterPoint.y + (mIndicatorView.measuredHeight / 2.0).toInt()
+            )
             var index = 0
             for ((key, actionView) in mActionViews) {
                 val startAngle = getOptimalStartAngle(actionView.actionCircleRadiusExpanded)
@@ -761,15 +765,14 @@ open class QuickActionView private constructor(private val mContext: Context) {
             return (270 - Math.toDegrees(middleAngleOffset.toDouble())).toFloat()
         }
 
-        fun normalizeAngle(angleDegrees: Double): Float {
-            var angleDegrees = angleDegrees
-            angleDegrees = angleDegrees % 360
+        fun normalizeAngle(angleDegreesParam: Double): Float {
+            var angleDegrees = angleDegreesParam % 360
             angleDegrees = (angleDegrees + 360) % 360
             return angleDegrees.toFloat()
         }
 
         private val middleAngleOffset: Float
-            private get() = maxActionAngle / 2f
+            get() = maxActionAngle / 2f
 
         private fun insideCircle(center: PointF, radius: Float, x: Float, y: Float): Boolean {
             return distance(center, x, y) < radius

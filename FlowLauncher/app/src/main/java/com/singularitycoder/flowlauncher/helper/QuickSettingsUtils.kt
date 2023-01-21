@@ -440,3 +440,5 @@ fun shutDownOnRootedDevice() {
         ex.printStackTrace()
     }
 }
+
+fun Context.isFlashAvailable(): Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)

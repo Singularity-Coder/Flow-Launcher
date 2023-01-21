@@ -30,3 +30,9 @@ fun String.substringAfterLastIgnoreCase(delimiter: String, missingDelimiterValue
     val index = toLowCase().lastIndexOf(delimiter.toLowCase())
     return if (index == -1) missingDelimiterValue else substring(index + delimiter.length, length)
 }
+
+fun String.toYoutubeThumbnailUrl(): String {
+    val imageUrl = "https://img.youtube.com/vi/$this/0.jpg"
+    println("Image url: $imageUrl")
+    return imageUrl
+}

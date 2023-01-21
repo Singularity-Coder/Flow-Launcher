@@ -78,6 +78,6 @@
         android:contentDescription="Profile"
         app:backgroundTint="@color/purple_500"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_round_keyboard_voice_24"
+        app:srcCompat="@drawable/baseline_keyboard_command_key_24"
         app:tint="@android:color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

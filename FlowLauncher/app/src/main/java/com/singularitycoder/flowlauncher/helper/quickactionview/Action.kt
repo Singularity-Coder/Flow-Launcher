@@ -8,6 +8,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.singularitycoder.flowlauncher.R
+import com.singularitycoder.flowlauncher.helper.getThemeAttrColor
 
 /**
  * Action that can be added to the [QuickActionView]
@@ -48,10 +49,10 @@ class Action(id: Int, icon: Drawable, title: CharSequence) {
             private set
 
         @DrawableRes
-         var mTextBackgroundDrawable = 0
+        var mTextBackgroundDrawable = 0
 
         constructor(context: Context) {
-            val colorAccent = ColorUtils.getThemeAttrColor(context, androidx.appcompat.R.attr.colorPrimary)
+            val colorAccent = context.getThemeAttrColor(androidx.appcompat.R.attr.colorPrimary)
             backgroundColorStateList = ColorStateList.valueOf(colorAccent)
             mTextBackgroundDrawable = R.drawable.qav_text_background
             textColor = Color.WHITE
