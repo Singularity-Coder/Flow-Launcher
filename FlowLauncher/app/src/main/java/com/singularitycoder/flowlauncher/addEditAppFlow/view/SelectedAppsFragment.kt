@@ -16,6 +16,7 @@ import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
 import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentSelectedAppsBinding
 import com.singularitycoder.flowlauncher.helper.*
+import com.singularitycoder.flowlauncher.helper.constants.AppGrid
 import com.singularitycoder.flowlauncher.helper.constants.BottomSheetTag
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.Main
@@ -73,13 +74,12 @@ class FlowSelectedAppsFragment : Fragment() {
 
     private fun FragmentSelectedAppsBinding.setupUI() {
         rvApps.apply {
-            layoutManager = GridLayoutManager(context, 4)
+            layoutManager = GridLayoutManager(context, AppGrid.COLUMNS)
             adapter = selectedAppsAdapter
             addItemDecoration(
                 GridSpacingItemDecoration(
-                    spanCount = 4 /* columns */,
-                    spacing = 24.dpToPx() /* px */,
-                    includeEdge = false
+                    spanCount = AppGrid.COLUMNS /* columns */,
+                    spacing = AppGrid.ONE_APP_SIDE_SPACING /* px */,
                 )
             )
         }

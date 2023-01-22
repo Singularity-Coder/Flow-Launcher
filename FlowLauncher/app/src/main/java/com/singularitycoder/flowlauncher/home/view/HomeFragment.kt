@@ -249,18 +249,12 @@ class HomeFragment : Fragment() {
         refreshAppList()
         refreshDateTime()
         rvApps.apply {
-            layoutManager = GridLayoutManager(context, 4)
+            layoutManager = GridLayoutManager(context, AppGrid.COLUMNS)
             adapter = homeAppsAdapter
-            val appColumnCount = 4
-            val totalAppIconWidth = 56.dpToPx() * appColumnCount
             addItemDecoration(
-                /** Spacing calc: App Icon width is 56dp * 4 = 224dp. So (device width - icons width * 4)
-                 * This is the available space for spacing the 4 app columns evenly. Its used 8 times.
-                 * Since spacing is present to both the left and right side of the app multiplied by 4 */
                 GridSpacingItemDecoration(
-                    spanCount = 4 /* columns */,
-                    spacing = (deviceWidth() - totalAppIconWidth) / 8 /* px */,
-                    includeEdge = false
+                    spanCount = AppGrid.COLUMNS /* columns */,
+                    spacing = AppGrid.ONE_APP_SIDE_SPACING /* px */,
                 )
             )
         }

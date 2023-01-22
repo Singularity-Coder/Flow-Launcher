@@ -7,6 +7,8 @@ import androidx.annotation.RequiresApi
 import com.singularitycoder.flowlauncher.BuildConfig
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.addEditMedia.view.AddFragment
+import com.singularitycoder.flowlauncher.helper.deviceWidth
+import com.singularitycoder.flowlauncher.helper.dpToPx
 import com.singularitycoder.flowlauncher.today.model.QuoteColor
 import java.util.concurrent.TimeUnit
 
@@ -32,6 +34,18 @@ val quickSettingsPermissions = arrayOf(
         Manifest.permission.BLUETOOTH
     }
 )
+
+object AppGrid {
+    /** Spacing calc: App Icon width is 56dp * 4 = 224dp. So (device width - icons width * 4)
+     * This is the available space for spacing the 4 app columns evenly. Its used 8 times.
+     * Since spacing is present to both the left and right side of the app multiplied by 4 */
+    const val COLUMNS = 4
+    private val APP_ICON_WIDTH = 56.dpToPx()
+    private val TOTAL_APP_ICON_WIDTH = APP_ICON_WIDTH * COLUMNS
+    private const val TOTAL_APP_SIDES = COLUMNS * 2 // 2 because we add spacing on both sides of the app icon. Left and right
+    private val AVAILABLE_WIDTH_FOR_SPACING = (deviceWidth() - TOTAL_APP_ICON_WIDTH) // The space available for spacing the apps evenly after removing the total 4 apps width
+    val ONE_APP_SIDE_SPACING = AVAILABLE_WIDTH_FOR_SPACING / TOTAL_APP_SIDES
+}
 
 object BottomSheetTag {
     const val QUICK_SETTINGS = "QUICK_SETTINGS_BOTTOM_SHEET"
