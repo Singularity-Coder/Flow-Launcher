@@ -394,6 +394,8 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "HansZimmer Greatest Hits Collection - Top 30 Best Songs", videoId = "AzCkacVxki0"),
     YoutubeVideo(title = "Metallica - Some Kind Of Monster", videoId = "NxSgYehng1k"),
     YoutubeVideo(title = "RRR - Naatu Naatu", videoId = "_vktceH8ZA0"),
+    YoutubeVideo(title = "CYMATICS: Science Vs. Music - Nigel Stanford", videoId = "Q3oItpVa9fs"),
+    YoutubeVideo(title = "Alam Khan - Akash (Ether) Pt. I", videoId = "fc7oO0clYgM&t"),
 )
 
 val otherEpicMomentsList = listOf(
