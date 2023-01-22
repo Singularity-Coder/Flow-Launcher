@@ -230,7 +230,9 @@ class TodayFragment : Fragment() {
         }
 
         cardQuotes.setOnLongClickListener {
-            val quoteContextPosition = quotePosition - 1
+            val quoteContextPosition = if (quotePosition == 0) {
+                quoteList.lastIndex
+            } else quotePosition - 1
             if (quoteList[quoteContextPosition].context.isBlank()) return@setOnLongClickListener false
             requireContext().showAlertDialog(
                 title = "Context",
