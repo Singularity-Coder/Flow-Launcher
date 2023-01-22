@@ -68,7 +68,12 @@ val animeQuoteList = listOf(
     ),
     Quote(
         title = "The brighter the light shines, the darker the nearby shadows grow!",
-        author = "Berserk"
+        author = "Berserk",
+        context = """
+            This is more true in Kali Yuga. The age of degradation.
+            It means the ones who are closer to you are the ones who are most likely to betray you when you are growing/succeeding, including your family members.
+            It makes sense. For some reason we get way more jealous/uneasy when our friend gets a million dollars than Bill Gates getting a billion dollars. 
+        """.trimIndentsAndNewLines()
     ),
     Quote(
         title = "If you gaze long into an abyss, the abyss also gazes into you.",
@@ -520,7 +525,10 @@ val animeQuoteList = listOf(
     ),
     Quote(
         title = "Do the best you can with what you have now.",
-        author = "Spy X Family"
+        author = "Spy X Family",
+        context = """
+            So true. You are limited in so many ways at any given point of time.
+        """.trimIndentsAndNewLines()
     ),
     Quote(
         title = """
@@ -531,11 +539,22 @@ val animeQuoteList = listOf(
     ),
     Quote(
         title = "To deceive one’s enemy you must deceive your allies.",
-        author = "Magic Emperor"
+        author = "Magic Emperor",
+        context = """
+            This makes a lot of sense as many people tend to have loose mouths.
+            They might not have the right framework for choosing good friends/partners/colleagues and they might think
+            he/she is my trustworthy friend and its ok to reveal some info which can totally upset your plans. 
+            This happens because humans are social creatures and are weirdly pressured to say stuff to impress others
+            and maintain either their position or their relationship with them.
+        """.trimIndentsAndNewLines()
     ),
     Quote(
         title = "Truth is something that must be handled slowly and carefully.",
-        author = "Mobile Suit Gundam: Hathaway"
+        author = "Mobile Suit Gundam: Hathaway",
+        context = """
+            Here the female protagonist starts to reveal the male protagonist's secret casually in the open
+            even though that was not her intention. That is when the male protag says the above.
+        """.trimIndentsAndNewLines()
     ),
     Quote(
         title = """
@@ -543,7 +562,8 @@ val animeQuoteList = listOf(
             To obtain something of equal value must be lost. 
             That is Alchemy's first law of equivalent exchange.
         """.trimIndentsAndNewLines(),
-        author = "Fullmetal Alchemist"
+        author = "Fullmetal Alchemist",
+        context = "Refer to homeostasis."
     ),
     Quote(
         title = "To train the mind, first train the body.",
@@ -585,7 +605,8 @@ val animeQuoteList = listOf(
             For every high, there is a low.
             For every winner there is a loser.
         """.trimIndent(),
-        author = "One Punch Man"
+        author = "One Punch Man",
+        context = "This is reality."
     ),
     Quote(
         title = """
@@ -604,15 +625,28 @@ val animeQuoteList = listOf(
             Trust is when you're not doubting each other for being guilty of something.
             So, trust and doubt others at the same time.
         """.trimIndentsAndNewLines(),
-        author = "Ningen Fushin"
+        author = "Ningen Fushin",
+        context = "Those who say \"Don't you trust me\" are the least trustworthy people in my experience."
     ),
     Quote(
         title = "Avoid a ready enemy and only fight when he is weary.",
-        author = "Magic Emperor"
+        author = "Magic Emperor",
+        context = """
+            It means attack the enemy when he lets his guard down. This makes sense. 
+            Competitions are fundamentally stupid. If 2 people with equal strength fought, and if they
+            are truly equal, you would not have a winner in the first place. So all battles are rigged before the battle starts.
+            As the saying goes, the battles are won before they are fought. All battles are fundamentally unfair.
+        """.trimIndent()
     ),
     Quote(
         title = "Your elders never told you not to take candy from a stranger?",
-        author = "Magic Emperor"
+        author = "Magic Emperor",
+        context = """
+            Here the protagonist Zhuo Fan sacrificed his arm intentionally and left powerful elixirs 
+            tampered with mind controlling bugs in them as bait.
+            The enemy thought thought he ripped Zhuo Fan's arm and luckily found the elixirs and took them. 
+            That is when Zhuo Fan says the above quote.
+        """.trimIndentsAndNewLines()
     ),
     Quote(
         title = """
@@ -621,7 +655,13 @@ val animeQuoteList = listOf(
             Then you took those tampered pills in your greatest moment of weakness.
             That is the moment you truly lost.
         """.trimIndentsAndNewLines(),
-        author = "Magic Emperor"
+        author = "Magic Emperor",
+        context = """
+            Here the protagonist Zhuo Fan sacrificed his arm intentionally and left powerful elixirs 
+            tampered with mind controlling bugs in them as bait.
+            The enemy thought thought he ripped Zhuo Fan's arm and luckily found the elixirs and took them. 
+            That's the moment they lost.
+        """.trimIndentsAndNewLines()
     ),
 ).shuffled()
 
@@ -631,7 +671,15 @@ val generalQuoteList = listOf(
             It is better to conquer yourself than to win a thousand battles.
             Then the victory is yours. It cannot be taken from you, not by angels or by demons, heaven or hell.
         """.trimIndentsAndNewLines(),
-        author = "Lord Gautama Buddha"
+        author = "Lord Gautama Buddha",
+        context = """
+            The way I understood it is this way. 
+            Everything is an experience. Being rich, being poor, staying in a skyscraper, 
+            going to an amusement part, going to moon or mars, eating delicious food, driving a Rolls Royce, etc.
+            Its when you attached your happiness to external entities. But what if you trained yourself to satisfy with less?
+            What if you trained yourself to become happy with few things instead of more things?
+            You detach yourself from the object that is attracting you. 
+        """.trimIndentsAndNewLines()
     ),
     Quote(
         title = "If you can't explain it simply, you don't understand it well enough.",
@@ -646,7 +694,12 @@ val generalQuoteList = listOf(
             He who controls the past, controls the future. 
             He who controls the present controls the past.
         """.trimIndentsAndNewLines(),
-        author = "George Orwell"
+        author = "George Orwell",
+        context = """
+            Suppose a country is heavily colonized, and its history text books present say X narrative,
+            the future generations of that country think along those lines. 
+            The people in power now, write these history text books and control the narrative of the past. 
+        """.trimIndentsAndNewLines()
     ),
 ).shuffled()
 

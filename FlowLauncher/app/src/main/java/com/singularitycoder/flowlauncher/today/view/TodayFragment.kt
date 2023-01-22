@@ -228,6 +228,17 @@ class TodayFragment : Fragment() {
             gradientPosition++
             newsTypefacePosition++
         }
+
+        cardQuotes.setOnLongClickListener {
+            val quoteContextPosition = quotePosition - 1
+            if (quoteList[quoteContextPosition].context.isBlank()) return@setOnLongClickListener false
+            requireContext().showAlertDialog(
+                title = "Context",
+                message = quoteList[quoteContextPosition].context,
+                positiveBtnText = "Ok"
+            )
+            true
+        }
     }
 
     private fun FragmentTodayBinding.setRemainders() {

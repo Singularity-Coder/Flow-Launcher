@@ -14,6 +14,7 @@ data class Quote(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val title: String,
     val author: String,
+    val context: String = ""
 ) : Parcelable
 
 data class QuoteColor(

@@ -175,10 +175,10 @@ fun Context.drawable(@DrawableRes drawableRes: Int): Drawable? =
     ContextCompat.getDrawable(this, drawableRes)
 
 fun Context.showAlertDialog(
-    title: String,
+    title: String = "",
     message: String,
     positiveBtnText: String,
-    negativeBtnText: String,
+    negativeBtnText: String = "",
     positiveAction: () -> Unit = {},
     negativeAction: () -> Unit = {},
 ) {
@@ -187,14 +187,16 @@ fun Context.showAlertDialog(
         com.google.android.material.R.style.ThemeOverlay_MaterialComponents_Dialog
     ).apply {
         setCancelable(false)
-        setTitle(title)
+        if (title.isNotBlank()) setTitle(title)
         setMessage(message)
         background = drawable(R.drawable.alert_dialog_bg)
         setPositiveButton(positiveBtnText) { dialog, int ->
             positiveAction.invoke()
         }
-        setNegativeButton(negativeBtnText) { dialog, int ->
-            negativeAction.invoke()
+        if (negativeBtnText.isNotBlank()) {
+            setNegativeButton(negativeBtnText) { dialog, int ->
+                negativeAction.invoke()
+            }
         }
         val dialog = create()
         dialog.show()
