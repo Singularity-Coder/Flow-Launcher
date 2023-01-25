@@ -73,6 +73,9 @@ fun Context.showPermissionSettings() {
 
 fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
+// https://stackoverflow.com/questions/4605527/converting-pixels-to-dp
+fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
+
 fun View.showSnackBar(
     message: String,
     anchorView: View? = null,

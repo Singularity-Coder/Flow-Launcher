@@ -18,38 +18,38 @@ class PopAnimator @JvmOverloads constructor(private val mStaggered: Boolean = fa
         view.scaleY = 0.01f
         val viewPropertyAnimator = view.animate().scaleY(1.0f)
                 .scaleX(1.0f)
-                .setDuration(100)
+                .setDuration(50)
                 .setInterpolator(mOvershootInterpolator)
         if (mStaggered) {
-            viewPropertyAnimator.startDelay = (index * 100).toLong()
+            viewPropertyAnimator.startDelay = (index * 50).toLong()
         }
     }
 
     override fun animateIndicatorIn(indicator: View?) {
         indicator!!.alpha = 0f
-        indicator.animate().alpha(1f).duration = 100
+        indicator.animate().alpha(1f).duration = 50
     }
 
     override fun animateScrimIn(scrim: View?) {
         scrim!!.alpha = 0f
-        scrim.animate().alpha(1f).duration = 100
+        scrim.animate().alpha(1f).duration = 50
     }
 
     override fun animateActionOut(action: Action?, position: Int, view: ActionView?, center: Point?): Int {
         view!!.animate().scaleX(0.01f)
                 .scaleY(0.01f)
                 .alpha(0.0f)
-                .setStartDelay(0).duration = 100
-        return 100
+                .setStartDelay(0).duration = 50
+        return 50
     }
 
     override fun animateIndicatorOut(indicator: View?): Int {
-        indicator!!.animate().alpha(0f).duration = 100
-        return 100
+        indicator!!.animate().alpha(0f).duration = 50
+        return 50
     }
 
     override fun animateScrimOut(scrim: View?): Int {
-        scrim!!.animate().alpha(0f).duration = 100
-        return 100
+        scrim!!.animate().alpha(0f).duration = 50
+        return 50
     }
 }

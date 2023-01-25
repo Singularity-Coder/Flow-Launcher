@@ -9,21 +9,44 @@ import android.view.View
 import com.singularitycoder.flowlauncher.R
 
 /**
- * View that shows the action
+ * View that shows the action. Circle with the icon in it.
  */
 @SuppressLint("ViewConstructor")
 class ActionView(context: Context?, val action: Action, private val configHelper: ConfigHelper?) : View(context), AnimatorUpdateListener {
+
     private var backgroundPaint: Paint = Paint()
     private var mActionCircleRadius = 0
     var actionCircleRadiusExpanded = 0f
         private set
     private var shadowOffsetY = 0f
     private var mIconPadding = 0
-    var interpolation = 0f
+    private var interpolation = 0f
     private var mCurrentAnimator: ValueAnimator? = null
     private var mSelected = false
     private val mCenter = Point()
     private val mTempPoint = Point()
+
+    private val actionState: IntArray
+        get() = if (mSelected) {
+            intArrayOf(android.R.attr.state_selected)
+        } else {
+            intArrayOf()
+        }
+    private val maxShadowRadius: Float
+        get() = actionCircleRadiusExpanded / 5.0f
+    private val interpolatedRadius: Float
+        get() = mActionCircleRadius + (actionCircleRadiusExpanded - mActionCircleRadius) * interpolation
+    private val currentShadowRadius: Float
+        get() = interpolatedRadius / 5
+    val circleCenterX: Float
+        get() = actionCircleRadiusExpanded + maxShadowRadius
+    val circleCenterY: Float
+        get() = actionCircleRadiusExpanded + maxShadowRadius - shadowOffsetY
+    val circleCenterPoint: Point
+        get() {
+            mCenter[circleCenterX.toInt()] = circleCenterY.toInt()
+            return mCenter
+        }
 
     init {
         init()
@@ -42,21 +65,15 @@ class ActionView(context: Context?, val action: Action, private val configHelper
         setMeasuredDimension((actionCircleRadiusExpanded * 2 + maxShadowRadius * 2).toInt(), (actionCircleRadiusExpanded * 2 + maxShadowRadius * 2).toInt())
     }
 
-    private val actionState: IntArray
-        private get() = if (mSelected) {
-            intArrayOf(android.R.attr.state_selected)
-        } else {
-            intArrayOf()
-        }
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         action.icon.state = actionState
         val x = circleCenterX
         val y = circleCenterY
-        backgroundPaint.setShadowLayer(currentShadowRadius, 0f, shadowOffsetY, Color.parseColor("#50000000"))
+//        backgroundPaint.setShadowLayer(currentShadowRadius, 0f, shadowOffsetY, Color.parseColor("#50000000"))
         backgroundPaint.color = configHelper?.backgroundColorStateList!!.getColorForState(actionState, Color.GRAY)
-        canvas.drawCircle(x, y, interpolatedRadius, backgroundPaint)
+        canvas.drawCircle(x, y, interpolatedRadius, backgroundPaint) // This draws a circle around the icons
+//        canvas.drawLine(x, y, interpolatedRadius, interpolatedRadius, backgroundPaint)
         val icon = action.icon
         mTempPoint.x = x.toInt()
         mTempPoint.y = y.toInt()
@@ -76,34 +93,16 @@ class ActionView(context: Context?, val action: Action, private val configHelper
         return rect
     }
 
-    private val maxShadowRadius: Float
-        private get() = actionCircleRadiusExpanded / 5.0f
-    private val interpolatedRadius: Float
-        private get() = mActionCircleRadius + (actionCircleRadiusExpanded - mActionCircleRadius) * interpolation
-    private val currentShadowRadius: Float
-        private get() = interpolatedRadius / 5
-    val circleCenterX: Float
-        get() = actionCircleRadiusExpanded + maxShadowRadius
-    val circleCenterY: Float
-        get() = actionCircleRadiusExpanded + maxShadowRadius - shadowOffsetY
-    val circleCenterPoint: Point
-        get() {
-            mCenter[circleCenterX.toInt()] = circleCenterY.toInt()
-            return mCenter
-        }
-
     fun animateInterpolation(to: Float) {
         if (mCurrentAnimator != null && mCurrentAnimator!!.isRunning) {
             mCurrentAnimator!!.cancel()
         }
         mCurrentAnimator = ValueAnimator.ofFloat(interpolation, to)
-        mCurrentAnimator?.setDuration(150)?.addUpdateListener(this)
+        mCurrentAnimator?.setDuration(10)?.addUpdateListener(this)
         mCurrentAnimator?.start()
     }
 
-    override fun isSelected(): Boolean {
-        return mSelected
-    }
+    override fun isSelected(): Boolean = mSelected
 
     override fun setSelected(selected: Boolean) {
         mSelected = selected

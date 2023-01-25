@@ -62,6 +62,9 @@ import java.io.File
 import java.util.*
 import javax.inject.Inject
 
+// TODO Unable to detect package installed. Check further - https://stackoverflow.com/questions/11392183/how-to-check-programmatically-if-an-application-is-installed-or-not-in-android
+// TODO store install uninstall package flags in db and listen to flag changes and then refresh screen
+
 
 // Maybe option to change color
 // 12 hr, 24 hr clock
@@ -69,9 +72,6 @@ import javax.inject.Inject
 // FIXME align app grid to the edges
 // Letter strip for app search
 // Probably some kind of doc for quick access of commonly used apps.
-
-// TODO Unable to detect package installed. Check further - https://stackoverflow.com/questions/11392183/how-to-check-programmatically-if-an-application-is-installed-or-not-in-android
-// TODO store install uninstall package flags in db and listen to flag changes and then refresh screen
 
 // SOS signal - swipe to decline in 5 sec - send message to pre selected contacts
 // Notes n checklist widegt with quick add
@@ -84,11 +84,12 @@ import javax.inject.Inject
 // Touch Effect similar to Ratio Launcher - https://developer.android.com/develop/ui/views/touch-and-input/gestures/movement
 // https://guides.codepath.com/android/gestures-and-touch-events
 // https://developer.android.com/develop/ui/views/touch-and-input/gestures
-// On search fab touch - vertical list - show options -> voice search, change flow, notifications, quick settings, universal search
-// On search fab touch - horizontal list - Phone app, sms app, camera app
-// Voice commands - Brightness, alarm
+// TODO On search fab touch - vertical list - show options -> voice search, change flow, notifications, quick settings, universal search
+// TODO On search fab touch - horizontal list - Phone app, sms app, camera app
 
+// Voice commands - Brightness, alarm
 // Split quick action view to a module
+// Play sound on refresh complete
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -478,17 +479,28 @@ class HomeFragment : Fragment() {
     }
 
     private fun setTouchOptions() {
-        // voice search, change flow, notifications, quick settings, universal search
         QuickActionView.make(requireContext()).apply {
             val icon1 = requireContext().drawable(R.drawable.ic_round_keyboard_voice_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action1 = Action(/* id = */ 1, /* icon = */ icon1!!, /* title = */ "Voice Search")
+            val action1 = Action(/* id = */ 1, /* icon = */ icon1!!, /* title = */ QuickActions.VOICE_SEARCH.value)
             val icon2 = requireContext().drawable(R.drawable.ic_round_tune_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action2 = Action(/* id = */ 2, /* icon = */ icon2!!, /* title = */ "Quick Settings")
+            val action2 = Action(/* id = */ 2, /* icon = */ icon2!!, /* title = */ QuickActions.QUICK_SETTINGS.value)
             val icon3 = requireContext().drawable(R.drawable.ic_round_apps_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action3 = Action(/* id = */ 3, /* icon = */ icon3!!, /* title = */ "Select Flow")
+            val action3 = Action(/* id = */ 3, /* icon = */ icon3!!, /* title = */ QuickActions.SELECT_FLOW.value)
+            val icon4 = requireContext().drawable(R.drawable.round_remove_red_eye_24)?.changeColor(requireContext(), R.color.purple_500)
+            val action4 = Action(/* id = */ 4, /* icon = */ icon4!!, /* title = */ QuickActions.GLANCE.value)
+            val icon5 = requireContext().drawable(R.drawable.round_today_24)?.changeColor(requireContext(), R.color.purple_500)
+            val action5 = Action(/* id = */ 5, /* icon = */ icon5!!, /* title = */ QuickActions.TODAY.value)
+            val icon6 = requireContext().drawable(R.drawable.ic_round_notifications_24)?.changeColor(requireContext(), R.color.purple_500)
+            val action6 = Action(/* id = */ 6, /* icon = */ icon6!!, /* title = */ QuickActions.NOTIFICATIONS.value)
+            val icon7 = requireContext().drawable(R.drawable.ic_round_search_24)?.changeColor(requireContext(), R.color.purple_500)
+            val action7 = Action(/* id = */ 7, /* icon = */ icon7!!, /* title = */ QuickActions.UNIVERSAL_SEARCH.value)
             addAction(action1) // more configuring
             addAction(action2)
             addAction(action3)
+            addAction(action4)
+            addAction(action5)
+            addAction(action6)
+            addAction(action7)
             register(binding.fabVoiceSearch)
             setBackgroundColor(requireContext().color(R.color.purple_50))
             setOnActionSelectedListener { action: Action?, quickActionView: QuickActionView? ->
@@ -519,6 +531,18 @@ class HomeFragment : Fragment() {
                             AddEditFlowFragment.newInstance(),
                             AddEditFlowFragment::class.java.simpleName
                         )
+                    }
+                    4 -> {
+                        (requireActivity() as MainActivity).showGlanceScreen()
+                    }
+                    5 -> {
+                        (requireActivity() as MainActivity).showTodayScreen()
+                    }
+                    6 -> {
+
+                    }
+                    7 -> {
+
                     }
                 }
             }

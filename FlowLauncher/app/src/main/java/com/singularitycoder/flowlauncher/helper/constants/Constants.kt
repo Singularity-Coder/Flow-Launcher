@@ -99,6 +99,16 @@ object SettingsScreen {
     const val BATTERY_SAVER = Settings.ACTION_BATTERY_SAVER_SETTINGS
 }
 
+enum class QuickActions(val value: String) {
+    VOICE_SEARCH(value = "Voice Search"),
+    QUICK_SETTINGS(value = "Quick Settings"),
+    SELECT_FLOW(value = "Select Flow"),
+    GLANCE(value = "Glance"),
+    TODAY(value = "Today"),
+    NOTIFICATIONS(value = "Notifications"),
+    UNIVERSAL_SEARCH(value = "Universal Search")
+}
+
 object Db {
     const val FLOW = "db_flow"
 }

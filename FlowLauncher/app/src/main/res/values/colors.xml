@@ -9,6 +9,7 @@
     <color name="eighty_percent_transparent_black">#33000000</color>
     <color name="forty_percent_transparent_black">#66000000</color>
     <color name="sixty_percent_transparent_black">#99000000</color>
+    <color name="sixty_percent_transparent_white">#99FFFFFF</color>
 
     <!-- Hex Opacity Values - First 2 chars control opacity/transparency, rest of them are color stuff
     100% — FF

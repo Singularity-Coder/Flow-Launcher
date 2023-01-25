@@ -32,10 +32,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-// TODO Disable apps that are not selected
-// TODO Button to add remove apps - uncheck in add apps frag
-// TODO categorise add apps frag by alphabet
-
 @AndroidEntryPoint
 class AddEditFlowFragment : Fragment() {
 

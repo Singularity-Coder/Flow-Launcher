@@ -90,6 +90,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun showGlanceScreen() {
+        binding.viewpagerMain.currentItem = 0
+    }
+
+    fun showTodayScreen() {
+        binding.viewpagerMain.currentItem = 2
+    }
+
     inner class MainViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
         override fun getItemCount(): Int = 3
         override fun createFragment(position: Int): Fragment = when (position) {

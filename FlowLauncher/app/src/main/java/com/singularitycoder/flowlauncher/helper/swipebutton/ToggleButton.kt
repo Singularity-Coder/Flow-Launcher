@@ -48,22 +48,21 @@ class ToggleButton : RelativeLayout {
         mSwipeButton = Button(context)
         mSwipeButton!!.text = null
         mSwipeButton!!.background = ContextCompat.getDrawable(context, R.drawable.shape_button)
-        val layoutParamsButton: LayoutParams = LayoutParams(
+        val layoutParamsButton = LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.MATCH_PARENT
-        )
-        layoutParamsButton.addRule(ALIGN_PARENT_LEFT, TRUE)
-        layoutParamsButton.addRule(CENTER_VERTICAL, TRUE)
+        ).apply {
+            addRule(ALIGN_PARENT_LEFT, TRUE)
+            addRule(CENTER_VERTICAL, TRUE)
+        }
         addView(mSwipeButton, layoutParamsButton)
-        val clickListener: OnClickListener = object : OnClickListener {
-            override fun onClick(v: View) {
-                if (!isClicked) {
-                    animateCheck()
-                    isClicked = true
-                } else {
-                    animateUncheck()
-                    isClicked = false
-                }
+        val clickListener = OnClickListener {
+            if (!isClicked) {
+                animateCheck()
+                isClicked = true
+            } else {
+                animateUncheck()
+                isClicked = false
             }
         }
         onSafeClick {

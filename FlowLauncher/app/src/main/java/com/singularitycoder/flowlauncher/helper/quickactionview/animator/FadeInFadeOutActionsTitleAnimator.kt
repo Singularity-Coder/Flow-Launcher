@@ -9,7 +9,7 @@ import com.singularitycoder.flowlauncher.helper.quickactionview.ActionsTitleOutA
  * Default animator which animates the action title in and out
  */
 class FadeInFadeOutActionsTitleAnimator @JvmOverloads constructor(  //ms
-        private val mDuration: Int = 100) : ActionsTitleInAnimator, ActionsTitleOutAnimator {
+        private val mDuration: Int = 50) : ActionsTitleInAnimator, ActionsTitleOutAnimator {
     override fun animateActionTitleIn(action: Action?, index: Int, view: View?) {
         view!!.alpha = 0.0f
         view.animate().alpha(1.0f).duration = mDuration.toLong()
