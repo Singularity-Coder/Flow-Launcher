@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.singularitycoder.flowlauncher.databinding.ActivityMainBinding
 import com.singularitycoder.flowlauncher.glance.view.GlanceFragment
 import com.singularitycoder.flowlauncher.helper.constants.Broadcast
+import com.singularitycoder.flowlauncher.helper.constants.HomeScreen
 import com.singularitycoder.flowlauncher.helper.lowerVolume
 import com.singularitycoder.flowlauncher.helper.raiseVolume
 import com.singularitycoder.flowlauncher.home.view.HomeFragment
@@ -90,19 +91,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun showGlanceScreen() {
-        binding.viewpagerMain.currentItem = 0
-    }
-
-    fun showTodayScreen() {
-        binding.viewpagerMain.currentItem = 2
+    fun showHomeScreen(position: Int) {
+        binding.viewpagerMain.currentItem = position
     }
 
     inner class MainViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
-        override fun getItemCount(): Int = 3
+        override fun getItemCount(): Int = HomeScreen.values().size
         override fun createFragment(position: Int): Fragment = when (position) {
-            0 -> GlanceFragment.newInstance()
-            1 -> HomeFragment.newInstance()
+            HomeScreen.GLANCE.ordinal -> GlanceFragment.newInstance()
+            HomeScreen.APPS.ordinal -> HomeFragment.newInstance()
             else -> TodayFragment.newInstance()
         }
     }

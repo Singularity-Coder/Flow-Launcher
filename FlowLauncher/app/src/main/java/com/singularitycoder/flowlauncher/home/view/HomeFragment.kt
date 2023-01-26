@@ -91,6 +91,9 @@ import javax.inject.Inject
 // Split quick action view to a module
 // Play sound on refresh complete
 
+// TODO improve touch selection area
+// TODO on touch change color
+
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
@@ -481,19 +484,19 @@ class HomeFragment : Fragment() {
     private fun setTouchOptions() {
         QuickActionView.make(requireContext()).apply {
             val icon1 = requireContext().drawable(R.drawable.ic_round_keyboard_voice_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action1 = Action(/* id = */ 1, /* icon = */ icon1!!, /* title = */ QuickActions.VOICE_SEARCH.value)
+            val action1 = Action(/* id = */ QuickActions.VOICE_SEARCH.ordinal, /* icon = */ icon1!!, /* title = */ QuickActions.VOICE_SEARCH.value)
             val icon2 = requireContext().drawable(R.drawable.ic_round_tune_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action2 = Action(/* id = */ 2, /* icon = */ icon2!!, /* title = */ QuickActions.QUICK_SETTINGS.value)
+            val action2 = Action(/* id = */ QuickActions.QUICK_SETTINGS.ordinal, /* icon = */ icon2!!, /* title = */ QuickActions.QUICK_SETTINGS.value)
             val icon3 = requireContext().drawable(R.drawable.ic_round_apps_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action3 = Action(/* id = */ 3, /* icon = */ icon3!!, /* title = */ QuickActions.SELECT_FLOW.value)
+            val action3 = Action(/* id = */ QuickActions.SELECT_FLOW.ordinal, /* icon = */ icon3!!, /* title = */ QuickActions.SELECT_FLOW.value)
             val icon4 = requireContext().drawable(R.drawable.round_remove_red_eye_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action4 = Action(/* id = */ 4, /* icon = */ icon4!!, /* title = */ QuickActions.GLANCE.value)
+            val action4 = Action(/* id = */ QuickActions.GLANCE.ordinal, /* icon = */ icon4!!, /* title = */ QuickActions.GLANCE.value)
             val icon5 = requireContext().drawable(R.drawable.round_today_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action5 = Action(/* id = */ 5, /* icon = */ icon5!!, /* title = */ QuickActions.TODAY.value)
+            val action5 = Action(/* id = */ QuickActions.TODAY.ordinal, /* icon = */ icon5!!, /* title = */ QuickActions.TODAY.value)
             val icon6 = requireContext().drawable(R.drawable.ic_round_notifications_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action6 = Action(/* id = */ 6, /* icon = */ icon6!!, /* title = */ QuickActions.NOTIFICATIONS.value)
+            val action6 = Action(/* id = */ QuickActions.NOTIFICATIONS.ordinal, /* icon = */ icon6!!, /* title = */ QuickActions.NOTIFICATIONS.value)
             val icon7 = requireContext().drawable(R.drawable.ic_round_search_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action7 = Action(/* id = */ 7, /* icon = */ icon7!!, /* title = */ QuickActions.UNIVERSAL_SEARCH.value)
+            val action7 = Action(/* id = */ QuickActions.UNIVERSAL_SEARCH.ordinal, /* icon = */ icon7!!, /* title = */ QuickActions.UNIVERSAL_SEARCH.value)
             addAction(action1) // more configuring
             addAction(action2)
             addAction(action3)
@@ -503,9 +506,10 @@ class HomeFragment : Fragment() {
             addAction(action7)
             register(binding.fabVoiceSearch)
             setBackgroundColor(requireContext().color(R.color.purple_50))
+            setIndicatorDrawable(null)
             setOnActionSelectedListener { action: Action?, quickActionView: QuickActionView? ->
                 when (action?.id) {
-                    1 -> {
+                    QuickActions.VOICE_SEARCH.ordinal -> {
                         // Start Speech to Text
                         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                             putExtra(
@@ -517,7 +521,7 @@ class HomeFragment : Fragment() {
                         }
                         speechToTextResult.launch(intent)
                     }
-                    2 -> {
+                    QuickActions.QUICK_SETTINGS.ordinal -> {
                         if (requireContext().isWriteSettingsPermissionGranted()) {
                             QuickSettingsBottomSheetFragment.newInstance().show(
                                 requireActivity().supportFragmentManager,
@@ -525,23 +529,23 @@ class HomeFragment : Fragment() {
                             )
                         }
                     }
-                    3 -> {
+                    QuickActions.SELECT_FLOW.ordinal -> {
                         blurAndSaveBitmapForImageBackground()
                         (requireActivity() as AppCompatActivity).showScreen(
                             AddEditFlowFragment.newInstance(),
                             AddEditFlowFragment::class.java.simpleName
                         )
                     }
-                    4 -> {
-                        (requireActivity() as MainActivity).showGlanceScreen()
+                    QuickActions.GLANCE.ordinal -> {
+                        (requireActivity() as MainActivity).showHomeScreen(HomeScreen.GLANCE.ordinal)
                     }
-                    5 -> {
-                        (requireActivity() as MainActivity).showTodayScreen()
+                    QuickActions.TODAY.ordinal -> {
+                        (requireActivity() as MainActivity).showHomeScreen(HomeScreen.TODAY.ordinal)
                     }
-                    6 -> {
+                    QuickActions.NOTIFICATIONS.ordinal -> {
 
                     }
-                    7 -> {
+                    QuickActions.UNIVERSAL_SEARCH.ordinal -> {
 
                     }
                 }

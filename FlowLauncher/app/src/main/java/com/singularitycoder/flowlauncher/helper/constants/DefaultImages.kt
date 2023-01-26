@@ -378,4 +378,13 @@ val tempImageUrlList = listOf(
     // https://www.artstation.com/tueart
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/044/194/999/large/tue-art-9b07d300-00d4-40bf-a3f9-b9b9923f29a9.jpg?1639356127", title = "https://www.artstation.com/tueart"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/051/686/125/large/tue-art-97.jpg?1657905226", title = "https://www.artstation.com/tueart"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FmehAslX0AEt7Qn?format=jpg&name=900x900", title = "https://twitter.com/MAstronomers"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FmsO6-1WAAwxTqY?format=jpg&name=small", title = "https://twitter.com/MAstronomers"),
+
+    // https://twitter.com/awedict
+    GlanceImage(link = "https://pbs.twimg.com/media/FhCDl18VIAEc4V3?format=jpg&name=medium", title = "https://twitter.com/MAstronomers"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fl7yucwacAAhuyg?format=jpg&name=large", title = "https://twitter.com/MAstronomers"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FlDxKe9acAIrXfn?format=jpg&name=4096x4096", title = "https://twitter.com/SpaceX"),
 )

@@ -7,6 +7,8 @@ import android.content.Context
 import android.graphics.*
 import android.view.View
 import com.singularitycoder.flowlauncher.R
+import kotlin.math.min
+import kotlin.math.sqrt
 
 /**
  * View that shows the action. Circle with the icon in it.
@@ -21,7 +23,7 @@ class ActionView(context: Context?, val action: Action, private val configHelper
     private var shadowOffsetY = 0f
     private var mIconPadding = 0
     private var interpolation = 0f
-    private var mCurrentAnimator: ValueAnimator? = null
+    private var currentAnimator: ValueAnimator? = null
     private var mSelected = false
     private val mCenter = Point()
     private val mTempPoint = Point()
@@ -73,33 +75,32 @@ class ActionView(context: Context?, val action: Action, private val configHelper
 //        backgroundPaint.setShadowLayer(currentShadowRadius, 0f, shadowOffsetY, Color.parseColor("#50000000"))
         backgroundPaint.color = configHelper?.backgroundColorStateList!!.getColorForState(actionState, Color.GRAY)
         canvas.drawCircle(x, y, interpolatedRadius, backgroundPaint) // This draws a circle around the icons
-//        canvas.drawLine(x, y, interpolatedRadius, interpolatedRadius, backgroundPaint)
         val icon = action.icon
         mTempPoint.x = x.toInt()
         mTempPoint.y = y.toInt()
         val bounds = getRectInsideCircle(mTempPoint, interpolatedRadius)
         bounds.inset(mIconPadding, mIconPadding)
         val aspect = icon.intrinsicWidth / icon.intrinsicHeight.toFloat()
-        val desiredWidth = Math.min(bounds.width().toFloat(), bounds.height() * aspect).toInt()
-        val desiredHeight = Math.min(bounds.height().toFloat(), bounds.width() / aspect).toInt()
+        val desiredWidth = min(bounds.width().toFloat(), bounds.height() * aspect).toInt()
+        val desiredHeight = min(bounds.height().toFloat(), bounds.width() / aspect).toInt()
         bounds.inset((bounds.width() - desiredWidth) / 2, (bounds.height() - desiredHeight) / 2)
         icon.bounds = bounds
         action.icon.draw(canvas)
     }
 
     private fun getRectInsideCircle(center: Point, radius: Float): Rect {
-        val rect = Rect(0, 0, (radius * 2 / Math.sqrt(2.0)).toInt(), (radius * 2 / Math.sqrt(2.0)).toInt())
+        val rect = Rect(0, 0, (radius * 2 / sqrt(2.0)).toInt(), (radius * 2 / sqrt(2.0)).toInt())
         rect.offsetTo(center.x - rect.width() / 2, center.y - rect.width() / 2)
         return rect
     }
 
     fun animateInterpolation(to: Float) {
-        if (mCurrentAnimator != null && mCurrentAnimator!!.isRunning) {
-            mCurrentAnimator!!.cancel()
+        if (currentAnimator != null && currentAnimator!!.isRunning) {
+            currentAnimator!!.cancel()
         }
-        mCurrentAnimator = ValueAnimator.ofFloat(interpolation, to)
-        mCurrentAnimator?.setDuration(10)?.addUpdateListener(this)
-        mCurrentAnimator?.start()
+        currentAnimator = ValueAnimator.ofFloat(interpolation, to)
+        currentAnimator?.setDuration(10)?.addUpdateListener(this)
+        currentAnimator?.start()
     }
 
     override fun isSelected(): Boolean = mSelected

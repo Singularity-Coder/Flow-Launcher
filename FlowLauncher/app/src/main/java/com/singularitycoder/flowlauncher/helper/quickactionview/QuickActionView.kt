@@ -10,7 +10,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
 import android.view.*
-import android.view.View.OnLongClickListener
 import android.view.View.OnTouchListener
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
@@ -23,6 +22,8 @@ import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.quickactionview.animator.FadeInFadeOutActionsTitleAnimator
 import com.singularitycoder.flowlauncher.helper.quickactionview.animator.SlideFromCenterAnimator
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 /**
  * A QuickActionView, which shows actions when a view is long pressed.
@@ -41,12 +42,12 @@ open class QuickActionView private constructor(private val mContext: Context) {
     }
 
     private var isShown = false
-    private var mOnActionSelectedListener: OnActionSelectedListener? = null
+    private var onActionSelectedListener: OnActionSelectedListener? = null
     private var mOnDismissListener: OnDismissListener? = null
     private var mOnShowListener: OnShowListener? = null
-    private var mOnActionHoverChangedListener: OnActionHoverChangedListener? = null
-    private val mActionDistance: Float
-    private val mActionPadding: Int
+    private var onActionHoverChangedListener: OnActionHoverChangedListener? = null
+    private val actionDistance: Float
+    private val actionPadding: Int
     private val actionsList: ArrayList<Action> = ArrayList()
 
     /**
@@ -58,14 +59,14 @@ open class QuickActionView private constructor(private val mContext: Context) {
     private var extras: Bundle? = null
     private var quickActionViewLayout: QuickActionViewLayout? = null
     private val mConfig: Config = Config(mContext)
-    private var mActionsInAnimator: ActionsInAnimator
-    private var mActionsOutAnimator: ActionsOutAnimator
-    private var mActionsTitleInAnimator: ActionsTitleInAnimator
-    private var mActionsTitleOutAnimator: ActionsTitleOutAnimator
+    private var actionsInAnimator: ActionsInAnimator
+    private var actionsOutAnimator: ActionsOutAnimator
+    private var actionsTitleInAnimator: ActionsTitleInAnimator
+    private var actionsTitleOutAnimator: ActionsTitleOutAnimator
 
     @ColorInt
-    private var mScrimColor = mContext.color(R.color.sixty_percent_transparent_white)
-    private var mIndicatorDrawable: Drawable?
+    private var scrimColor = mContext.color(R.color.sixty_percent_transparent_white)
+    private var indicatorDrawable: Drawable?
     private val registeredListeners = HashMap<View, RegisteredListener>()
 
     /**
@@ -85,15 +86,15 @@ open class QuickActionView private constructor(private val mContext: Context) {
         private set
 
     init {
-        mIndicatorDrawable = ContextCompat.getDrawable(mContext, R.drawable.qav_indicator)
-        mActionDistance = mContext.resources.getDimensionPixelSize(R.dimen.qav_action_distance).toFloat()
-        mActionPadding = mContext.resources.getDimensionPixelSize(R.dimen.qav_action_padding)
+        indicatorDrawable = ContextCompat.getDrawable(mContext, R.drawable.qav_indicator)
+        actionDistance = mContext.resources.getDimensionPixelSize(R.dimen.qav_action_distance).toFloat()
+        actionPadding = mContext.resources.getDimensionPixelSize(R.dimen.qav_action_padding)
         val defaultAnimator = SlideFromCenterAnimator(true)
         val defaultTitleAnimator = FadeInFadeOutActionsTitleAnimator()
-        mActionsInAnimator = defaultAnimator
-        mActionsOutAnimator = defaultAnimator
-        mActionsTitleInAnimator = defaultTitleAnimator
-        mActionsTitleOutAnimator = defaultTitleAnimator
+        actionsInAnimator = defaultAnimator
+        actionsOutAnimator = defaultAnimator
+        actionsTitleInAnimator = defaultTitleAnimator
+        actionsTitleOutAnimator = defaultTitleAnimator
     }
 
     private fun show(anchor: View, offset: Point) {
@@ -123,7 +124,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
         val listener = RegisteredListener()
         registeredListeners[view] = listener
         view.setOnTouchListener(listener)
-        view.setOnLongClickListener(listener)
+//        view.setOnLongClickListener(listener)
         return this
     }
 
@@ -135,7 +136,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
     fun unregister(view: View) {
         registeredListeners.remove(view)
         view.setOnTouchListener(null)
-        view.setOnLongClickListener(null)
+//        view.setOnLongClickListener(null)
     }
 
     /**
@@ -206,7 +207,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
     }
 
     fun setOnActionSelectedListener(onActionSelectedListener: OnActionSelectedListener?): QuickActionView {
-        mOnActionSelectedListener = onActionSelectedListener
+        this.onActionSelectedListener = onActionSelectedListener
         return this
     }
 
@@ -221,7 +222,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
     }
 
     fun setOnActionHoverChangedListener(listener: OnActionHoverChangedListener?): QuickActionView {
-        mOnActionHoverChangedListener = listener
+        onActionHoverChangedListener = listener
         return this
     }
 
@@ -232,7 +233,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return the QuickActionView
      */
     fun setIndicatorDrawable(indicatorDrawable: Drawable?): QuickActionView {
-        mIndicatorDrawable = indicatorDrawable
+        this.indicatorDrawable = indicatorDrawable
         return this
     }
 
@@ -243,7 +244,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return the QuickActionView
      */
     fun setScrimColor(@ColorInt scrimColor: Int): QuickActionView {
-        mScrimColor = scrimColor
+        this.scrimColor = scrimColor
         return this
     }
 
@@ -365,7 +366,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return this QuickActionView
      */
     fun setActionsInAnimator(actionsInAnimator: ActionsInAnimator): QuickActionView {
-        mActionsInAnimator = actionsInAnimator
+        this.actionsInAnimator = actionsInAnimator
         return this
     }
 
@@ -376,7 +377,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return this QuickActionView
      */
     fun setActionsOutAnimator(actionsOutAnimator: ActionsOutAnimator): QuickActionView {
-        mActionsOutAnimator = actionsOutAnimator
+        this.actionsOutAnimator = actionsOutAnimator
         return this
     }
 
@@ -387,7 +388,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return this QuickActionView
      */
     fun setActionsTitleInAnimator(actionsTitleInAnimator: ActionsTitleInAnimator): QuickActionView {
-        mActionsTitleInAnimator = actionsTitleInAnimator
+        this.actionsTitleInAnimator = actionsTitleInAnimator
         return this
     }
 
@@ -398,7 +399,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return this QuickActionView
      */
     fun setActionsTitleOutAnimator(actionsTitleOutAnimator: ActionsTitleOutAnimator): QuickActionView {
-        mActionsTitleOutAnimator = actionsTitleOutAnimator
+        this.actionsTitleOutAnimator = actionsTitleOutAnimator
         return this
     }
 
@@ -420,7 +421,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
     }
 
     private fun display(point: Point) {
-//        checkNotNull(actionsList) { "You need to give the QuickActionView actions before calling show!" }
+        checkNotNull(actionsList) { "You need to give the QuickActionView actions before calling show!" }
         val manager = mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val params = WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_APPLICATION_SUB_PANEL)
         params.format = PixelFormat.TRANSLUCENT
@@ -445,12 +446,12 @@ open class QuickActionView private constructor(private val mContext: Context) {
             quickActionViewLayout = null
             isShown = false
         }
-//        if (longPressedView != null) {
-//            val parent = longPressedView!!.parent
-//            if (parent is View) {
-//                parent.requestDisallowInterceptTouchEvent(false)
-//            }
-//        }
+        if (longPressedView != null) {
+            val parent = longPressedView!!.parent
+            if (parent is View) {
+                parent.requestDisallowInterceptTouchEvent(false)
+            }
+        }
     }
 
     private fun checkAttachedToWindow(view: View): Boolean = view.isAttachedToWindow
@@ -512,32 +513,9 @@ open class QuickActionView private constructor(private val mContext: Context) {
 
     class Config private constructor(context: Context, var typeface: Typeface, var textSize: Int, var textPaddingTop: Int) {
         private val mDefaultConfig: Action.Config
-        var textPaddingBottom: Int
-        var textPaddingLeft: Int
-        var textPaddingRight: Int
-
-        constructor(context: Context) : this(
-            context = context,
-            typeface = Typeface.DEFAULT,
-            textSize = context.resources.getInteger(R.integer.qav_action_title_view_text_size),
-            textPaddingTop = context.resources.getDimensionPixelSize(R.dimen.qav_action_title_view_text_padding)
-        )
-
-        init {
-            textPaddingBottom = textPaddingTop
-            textPaddingLeft = textPaddingTop
-            textPaddingRight = textPaddingTop
-            mDefaultConfig = Action.Config(context)
-        }
-
-        fun getTextBackgroundDrawable(context: Context?): Drawable? {
-            return mDefaultConfig.getTextBackgroundDrawable(context)
-        }
-
-        fun setTextBackgroundDrawable(@DrawableRes textBackgroundDrawable: Int) {
-            mDefaultConfig.setTextBackgroundDrawable(textBackgroundDrawable)
-        }
-
+        var textPaddingBottom: Int = textPaddingTop
+        var textPaddingLeft: Int = textPaddingTop
+        var textPaddingRight: Int = textPaddingTop
         var textColor: Int
             get() = mDefaultConfig.textColor
             set(textColor) {
@@ -549,6 +527,25 @@ open class QuickActionView private constructor(private val mContext: Context) {
                 mDefaultConfig.setBackgroundColorStateList(backgroundColorStateList)
             }
 
+        constructor(context: Context) : this(
+            context = context,
+            typeface = Typeface.DEFAULT,
+            textSize = context.resources.getInteger(R.integer.qav_action_title_view_text_size),
+            textPaddingTop = context.resources.getDimensionPixelSize(R.dimen.qav_action_title_view_text_padding)
+        )
+
+        init {
+            mDefaultConfig = Action.Config(context)
+        }
+
+        fun getTextBackgroundDrawable(context: Context?): Drawable? {
+            return mDefaultConfig.getTextBackgroundDrawable(context)
+        }
+
+        fun setTextBackgroundDrawable(@DrawableRes textBackgroundDrawable: Int) {
+            mDefaultConfig.setTextBackgroundDrawable(textBackgroundDrawable)
+        }
+
         fun setBackgroundColor(@ColorInt backgroundColor: Int) {
             mDefaultConfig.setBackgroundColor(backgroundColor)
         }
@@ -557,30 +554,41 @@ open class QuickActionView private constructor(private val mContext: Context) {
     /**
      * Parent layout that actually houses all of the quick action views
      */
-    private inner class QuickActionViewLayout(context: Context?, actionsList: ArrayList<Action>, val mCenterPoint: Point) : FrameLayout(context!!) {
-        private val mIndicatorView: View
+    private inner class QuickActionViewLayout(context: Context, actionsList: ArrayList<Action>, val mCenterPoint: Point) : FrameLayout(context) {
+        private val indicatorView: View
         private val scrimView: View
-        private val mActionViews = LinkedHashMap<Action, ActionView>()
+        private val actionViews = LinkedHashMap<Action, ActionView>()
         private val mActionTitleViews = LinkedHashMap<Action, ActionTitleView>()
-        private val mLastTouch = PointF()
+        private val lastTouch = PointF()
         private var mAnimated = false
 
         private val middleAngleOffset: Float
             get() = maxActionAngle / 2f
 
+        private val maxActionAngle: Float
+            get() {
+                var index = 0
+                var max = 0f
+                for (actionView in actionViews.values) {
+                    max = getActionOffsetAngle(index, actionView)
+                    index++
+                }
+                return max
+            }
+
         init {
             scrimView = View(context)
-            scrimView.setBackgroundColor(mScrimColor)
+            scrimView.setBackgroundColor(scrimColor)
             val scrimParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             addView(scrimView, scrimParams)
-            mIndicatorView = View(context)
-            mIndicatorView.background = mIndicatorDrawable
-            val indicatorParams = LayoutParams(mIndicatorDrawable!!.intrinsicWidth, mIndicatorDrawable!!.intrinsicHeight)
-            addView(mIndicatorView, indicatorParams)
+            indicatorView = View(context)
+            indicatorView.background = indicatorDrawable
+            val indicatorParams = LayoutParams(indicatorDrawable?.intrinsicWidth ?: 600, indicatorDrawable?.intrinsicHeight ?: 600)
+            addView(indicatorView, indicatorParams)
             for (action in actionsList) {
                 val helper = ConfigHelper(action.config, mConfig)
                 val actionView = ActionView(context, action, helper)
-                mActionViews[action] = actionView
+                actionViews[action] = actionView
                 val params = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 addView(actionView, params)
                 if (!TextUtils.isEmpty(action.title)) {
@@ -595,14 +603,14 @@ open class QuickActionView private constructor(private val mContext: Context) {
 
         override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
             scrimView.layout(0, 0, measuredWidth, measuredHeight)
-            mIndicatorView.layout(
-                mCenterPoint.x - (mIndicatorView.measuredWidth / 2.0).toInt(),
-                mCenterPoint.y - (mIndicatorView.measuredHeight / 2.0).toInt(),
-                mCenterPoint.x + (mIndicatorView.measuredWidth / 2.0).toInt(),
-                mCenterPoint.y + (mIndicatorView.measuredHeight / 2.0).toInt()
+            indicatorView.layout(
+                mCenterPoint.x - (indicatorView.measuredWidth / 2.0).toInt(),
+                mCenterPoint.y - (indicatorView.measuredHeight / 2.0).toInt(),
+                mCenterPoint.x + (indicatorView.measuredWidth / 2.0).toInt(),
+                mCenterPoint.y + (indicatorView.measuredHeight / 2.0).toInt()
             )
             var index = 0
-            for ((key, actionView) in mActionViews) {
+            for ((key, actionView) in actionViews) {
                 val startAngle = getOptimalStartAngle(actionView.actionCircleRadiusExpanded)
                 val point = getActionPoint(index, startAngle, actionView)
                 point.offset(-actionView.circleCenterX, -actionView.circleCenterY)
@@ -616,17 +624,79 @@ open class QuickActionView private constructor(private val mContext: Context) {
                 index++
             }
             if (!mAnimated) {
-                animateActionsIn()
-                animateIndicatorIn()
-                animateScrimIn()
+//                animateActionsIn()
+//                animateIndicatorIn()
+//                animateScrimIn()
                 mAnimated = true
             }
         }
 
+        override fun onTouchEvent(event: MotionEvent): Boolean {
+            if (isShown.not()) return false
+            when (event.action) {
+                MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+                    lastTouch[event.rawX] = event.rawY
+                    var index = 0
+                    for (actionView in actionViews.values) {
+                        val isInsideCircle = insideCircle(
+                            center = getActionPoint(index = index, startAngle = getOptimalStartAngle(actionView.actionCircleRadiusExpanded), view = actionView),
+                            radius = actionView.actionCircleRadiusExpanded,
+                            x = event.rawX,
+                            y = event.rawY
+                        )
+                        if (isInsideCircle) {
+                            if (actionView.isSelected.not()) {
+                                actionView.isSelected = true
+//                                this@QuickActionView.setBackgroundColor(mContext.color(R.color.purple_500))
+                                actionView.animateInterpolation(1f)
+                                val actionTitleView = mActionTitleViews[actionView.action]
+                                if (actionTitleView != null) {
+                                    actionTitleView.visibility = VISIBLE
+                                    actionTitleView.bringToFront()
+                                    actionsTitleInAnimator.animateActionTitleIn(actionView.action, index, actionTitleView)
+                                }
+                                if (onActionHoverChangedListener != null) {
+                                    onActionHoverChangedListener?.onActionHoverChanged(actionView.action, this@QuickActionView, true)
+                                }
+                            }
+                        } else {
+                            if (actionView.isSelected) {
+                                actionView.isSelected = false
+//                                this@QuickActionView.setBackgroundColor(mContext.color(R.color.purple_50))
+                                actionView.animateInterpolation(0f)
+                                val actionTitleView = mActionTitleViews[actionView.action]
+                                if (actionTitleView != null) {
+                                    val timeTaken = actionsTitleOutAnimator.animateActionTitleOut(actionView.action, index, actionTitleView)
+                                    actionTitleView.postDelayed(Runnable { actionTitleView.visibility = GONE }, timeTaken.toLong())
+                                }
+                                if (onActionHoverChangedListener != null) {
+                                    onActionHoverChangedListener?.onActionHoverChanged(actionView.action, this@QuickActionView, false)
+                                }
+                            }
+                        }
+                        index++
+                    }
+                    invalidate()
+                }
+                MotionEvent.ACTION_UP -> {
+                    this@QuickActionView.setBackgroundColor(mContext.color(R.color.purple_50))
+                    for ((key, value) in actionViews) {
+                        if (value.isSelected && onActionSelectedListener != null) {
+                            onActionSelectedListener?.onActionSelected(key, this@QuickActionView)
+                            break
+                        }
+                    }
+                    dismiss()
+                }
+                MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_OUTSIDE -> dismiss()
+            }
+            return true
+        }
+
         private fun animateActionsIn() {
             var index = 0
-            for (view in mActionViews.values) {
-                mActionsInAnimator.animateActionIn(
+            for (view in actionViews.values) {
+                actionsInAnimator.animateActionIn(
                     action = view.action,
                     index = index,
                     view = view,
@@ -637,11 +707,11 @@ open class QuickActionView private constructor(private val mContext: Context) {
         }
 
         private fun animateIndicatorIn() {
-            mActionsInAnimator.animateIndicatorIn(mIndicatorView)
+            actionsInAnimator.animateIndicatorIn(indicatorView)
         }
 
         private fun animateScrimIn() {
-            mActionsInAnimator.animateScrimIn(scrimView)
+            actionsInAnimator.animateScrimIn(scrimView)
         }
 
         fun animateOut(): Int {
@@ -656,9 +726,9 @@ open class QuickActionView private constructor(private val mContext: Context) {
         private fun animateActionsOut(): Int {
             var index = 0
             var maxDuration = 0
-            for (view in mActionViews.values) {
+            for (view in actionViews.values) {
                 view.clearAnimation()
-                maxDuration = Math.max(mActionsOutAnimator.animateActionOut(view.action, index, view, mCenterPoint), maxDuration)
+                maxDuration = Math.max(actionsOutAnimator.animateActionOut(view.action, index, view, mCenterPoint), maxDuration)
                 index++
             }
             return maxDuration
@@ -672,67 +742,13 @@ open class QuickActionView private constructor(private val mContext: Context) {
         }
 
         private fun animateIndicatorOut(): Int {
-            mIndicatorView.clearAnimation()
-            return mActionsOutAnimator.animateIndicatorOut(mIndicatorView)
+            indicatorView.clearAnimation()
+            return actionsOutAnimator.animateIndicatorOut(indicatorView)
         }
 
         private fun animateScrimOut(): Int {
             scrimView.clearAnimation()
-            return mActionsOutAnimator.animateScrimOut(scrimView)
-        }
-
-        override fun onTouchEvent(event: MotionEvent): Boolean {
-            if (isShown) {
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
-                        mLastTouch[event.rawX] = event.rawY
-                        var index = 0
-                        for (actionView in mActionViews.values) {
-                            if (insideCircle(getActionPoint(index, getOptimalStartAngle(actionView.actionCircleRadiusExpanded), actionView), actionView.actionCircleRadiusExpanded, event.rawX, event.rawY)) {
-                                if (!actionView.isSelected) {
-                                    actionView.isSelected = true
-                                    actionView.animateInterpolation(1f)
-                                    val actionTitleView = mActionTitleViews[actionView.action]
-                                    if (actionTitleView != null) {
-                                        actionTitleView.visibility = VISIBLE
-                                        actionTitleView.bringToFront()
-                                        mActionsTitleInAnimator.animateActionTitleIn(actionView.action, index, actionTitleView)
-                                    }
-                                    if (mOnActionHoverChangedListener != null) {
-                                        mOnActionHoverChangedListener?.onActionHoverChanged(actionView.action, this@QuickActionView, true)
-                                    }
-                                }
-                            } else {
-                                if (actionView.isSelected) {
-                                    actionView.isSelected = false
-                                    actionView.animateInterpolation(0f)
-                                    val actionTitleView = mActionTitleViews[actionView.action]
-                                    if (actionTitleView != null) {
-                                        val timeTaken = mActionsTitleOutAnimator.animateActionTitleOut(actionView.action, index, actionTitleView)
-                                        actionTitleView.postDelayed(Runnable { actionTitleView.visibility = GONE }, timeTaken.toLong())
-                                    }
-                                    if (mOnActionHoverChangedListener != null) {
-                                        mOnActionHoverChangedListener!!.onActionHoverChanged(actionView.action, this@QuickActionView, false)
-                                    }
-                                }
-                            }
-                            index++
-                        }
-                        invalidate()
-                    }
-                    MotionEvent.ACTION_UP -> {
-                        for ((key, value) in mActionViews) {
-                            if (value.isSelected && mOnActionSelectedListener != null) {
-                                mOnActionSelectedListener?.onActionSelected(key, this@QuickActionView)
-                                break
-                            }
-                        }
-                        dismiss()
-                    }
-                    MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_OUTSIDE -> dismiss()
-                }
-            }
-            return true
+            return actionsOutAnimator.animateScrimOut(scrimView)
         }
 
         private fun getActionPoint(index: Int, startAngle: Float, view: ActionView): PointF {
@@ -743,22 +759,11 @@ open class QuickActionView private constructor(private val mContext: Context) {
         }
 
         private fun getActionOffsetAngle(index: Int, view: ActionView): Float {
-            return (index * (2 * Math.atan2((view.actionCircleRadiusExpanded + mActionPadding).toDouble(), getTotalRadius(view.actionCircleRadiusExpanded).toDouble()))).toFloat()
+            return (index * (2 * Math.atan2((view.actionCircleRadiusExpanded + actionPadding).toDouble(), getTotalRadius(view.actionCircleRadiusExpanded).toDouble()))).toFloat()
         }
 
-        private val maxActionAngle: Float
-            get() {
-                var index = 0
-                var max = 0f
-                for (actionView in mActionViews.values) {
-                    max = getActionOffsetAngle(index, actionView)
-                    index++
-                }
-                return max
-            }
-
         private fun getTotalRadius(actionViewRadiusExpanded: Float): Float {
-            return mActionDistance + Math.max(mIndicatorView.width, mIndicatorView.height) + actionViewRadiusExpanded
+            return actionDistance + Math.max(indicatorView.width, indicatorView.height) + actionViewRadiusExpanded
         }
 
         private fun getOptimalStartAngle(actionViewRadiusExpanded: Float): Float {
@@ -791,21 +796,21 @@ open class QuickActionView private constructor(private val mContext: Context) {
         }
 
         private fun distance(point: PointF, x: Float, y: Float): Float {
-            return Math.sqrt(Math.pow((x - point.x).toDouble(), 2.0) + Math.pow((y - point.y).toDouble(), 2.0)).toFloat()
+            return sqrt((x - point.x).toDouble().pow(2.0) + (y - point.y).toDouble().pow(2.0)).toFloat()
         }
     }
 
     /**
      * A class to combine a long click listener and a touch listener, to register views with
      */
-    private inner class RegisteredListener : OnLongClickListener, OnTouchListener {
+    private inner class RegisteredListener : /*OnLongClickListener,*/ OnTouchListener {
 //        private var mTouchX = 0f
 //        private var mTouchY = 0f
 
-        override fun onLongClick(v: View): Boolean {
+//        override fun onLongClick(v: View): Boolean {
 //            show(v, Point(mTouchX.toInt(), mTouchY.toInt()))
-            return false
-        }
+//            return false
+//        }
 
         override fun onTouch(v: View, event: MotionEvent): Boolean {
 //            if (isShown.not()) show(anchor = v, offset = Point(mTouchX.toInt(), mTouchY.toInt()))
