@@ -27,26 +27,34 @@ fun Context.shareImageAndTextViaApps(
 }
 
 fun Context.openDialer(phoneNum: String) {
-    val callIntent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNum, null))
-    callIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
-    startActivity(callIntent)
+    val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNum, null))
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(intent)
+    }
 }
 
 // Needs CALL_PHONE permission
 fun Context.makeCall(phoneNum: String) {
-    val callIntent = Intent(Intent.ACTION_CALL, Uri.fromParts("tel", phoneNum, null))
-    callIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
-    startActivity(callIntent)
+    val intent = Intent(Intent.ACTION_CALL, Uri.fromParts("tel", phoneNum, null))
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(intent)
+    }
 }
 
-fun Context.sendSms(phoneNum: String, body: String) = try {
-    val smsIntent = Intent(Intent.ACTION_VIEW).apply {
-        data = Uri.parse("sms:$phoneNum")
-        putExtra("sms_body", body)
-        addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+fun Context.sendSms(phoneNum: String, body: String) {
+    try {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse("sms:$phoneNum")
+            putExtra("sms_body", body)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+        }
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
+    } catch (_: Exception) {
     }
-    startActivity(smsIntent)
-} catch (_: Exception) {
 }
 
 fun Context.sendWhatsAppMessage(whatsAppPhoneNum: String) {
@@ -55,13 +63,17 @@ fun Context.sendWhatsAppMessage(whatsAppPhoneNum: String) {
         packageManager.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
         val uri = Uri.parse("smsto:$whatsAppPhoneNum")
         val intent = Intent(Intent.ACTION_SENDTO, uri).apply { setPackage("com.whatsapp") }
-        startActivity(Intent.createChooser(intent, "Dummy Title"))
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(Intent.createChooser(intent, "Dummy Title"))
+        }
     } catch (e: PackageManager.NameNotFoundException) {
         Toast.makeText(this, "WhatsApp not found. Install from PlayStore.", Toast.LENGTH_SHORT).show()
         try {
             val uri = Uri.parse("market://details?id=com.whatsapp")
             val intent = Intent(Intent.ACTION_VIEW, uri).apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET) }
-            startActivity(intent)
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+            }
         } catch (_: Exception) {
         }
     }
@@ -76,11 +88,15 @@ fun Activity.searchWithChrome(query: String) {
         setPackage("com.android.chrome")
     }
     try {
-        startActivity(intent)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
     } catch (ex: ActivityNotFoundException) {
         // If Chrome not installed
         intent.setPackage(null)
-        startActivity(intent)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
     }
 }
 
@@ -90,10 +106,14 @@ fun Activity.openWithChrome(url: String) {
         setPackage("com.android.chrome")
     }
     try {
-        startActivity(intent)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
     } catch (ex: ActivityNotFoundException) {
         // If Chrome not installed
         intent.setPackage(null)
-        startActivity(intent)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
     }
 }

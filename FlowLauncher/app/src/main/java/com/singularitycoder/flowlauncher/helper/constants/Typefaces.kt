@@ -3,25 +3,6 @@ package com.singularitycoder.flowlauncher.helper.constants
 import com.singularitycoder.flowlauncher.R
 
 val typefaceList = listOf(
-    // Google Fonts
-    R.font.courgette_regular,
-    R.font.grenze_gotisch_regular,
-    R.font.montserrat_alternates_regular,
-    R.font.cookie_regular,
-    R.font.oleo_script_regular,
-    R.font.playball_regular,
-    R.font.croissant_one_regular,
-    R.font.damion_regular,
-    R.font.amita_bold,
-    R.font.amita_regular,
-    R.font.arapey_italic,
-    R.font.arapey_regular,
-    R.font.arima_madurai_medium,
-    R.font.artifika_regular,
-    R.font.berkshire_swash_regular,
-    R.font.charm_regular,
-    R.font.charmonman_bold,
-
     // fontsquirrel.com
     R.font.didonesque_roman_regular,
     R.font.blackjack,
@@ -84,4 +65,23 @@ val typefaceList = listOf(
     R.font.radiata_medium,
     R.font.belda_normal_regular,
     R.font.recharge_bold,
+
+    // Google Fonts
+    R.font.courgette_regular,
+    R.font.grenze_gotisch_regular,
+    R.font.montserrat_alternates_regular,
+    R.font.cookie_regular,
+    R.font.oleo_script_regular,
+    R.font.playball_regular,
+    R.font.croissant_one_regular,
+    R.font.damion_regular,
+    R.font.amita_bold,
+    R.font.amita_regular,
+    R.font.arapey_italic,
+    R.font.arapey_regular,
+    R.font.arima_madurai_medium,
+    R.font.artifika_regular,
+    R.font.berkshire_swash_regular,
+    R.font.charm_regular,
+    R.font.charmonman_bold,
 )

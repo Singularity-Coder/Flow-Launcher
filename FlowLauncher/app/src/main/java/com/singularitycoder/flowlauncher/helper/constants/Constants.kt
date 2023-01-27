@@ -46,7 +46,10 @@ enum class QuickActions(val value: String) {
     GLANCE(value = "Glance"),
     TODAY(value = "Today"),
     NOTIFICATIONS(value = "Notifications"),
-    UNIVERSAL_SEARCH(value = "Universal Search")
+    UNIVERSAL_SEARCH(value = "Universal Search"),
+    PHONE(value = "Phone"),
+    SMS(value = "SMS"),
+    CAMERA(value = "Camera"),
 }
 
 object AppGrid {

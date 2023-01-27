@@ -489,7 +489,7 @@ class HomeFragment : Fragment() {
             val action2 = Action(/* id = */ QuickActions.QUICK_SETTINGS.ordinal, /* icon = */ icon2!!, /* title = */ QuickActions.QUICK_SETTINGS.value)
             val icon3 = requireContext().drawable(R.drawable.ic_round_apps_24)?.changeColor(requireContext(), R.color.purple_500)
             val action3 = Action(/* id = */ QuickActions.SELECT_FLOW.ordinal, /* icon = */ icon3!!, /* title = */ QuickActions.SELECT_FLOW.value)
-            val icon4 = requireContext().drawable(R.drawable.round_remove_red_eye_24)?.changeColor(requireContext(), R.color.purple_500)
+            val icon4 = requireContext().drawable(R.drawable.round_eye_24)?.changeColor(requireContext(), R.color.purple_500)
             val action4 = Action(/* id = */ QuickActions.GLANCE.ordinal, /* icon = */ icon4!!, /* title = */ QuickActions.GLANCE.value)
             val icon5 = requireContext().drawable(R.drawable.round_today_24)?.changeColor(requireContext(), R.color.purple_500)
             val action5 = Action(/* id = */ QuickActions.TODAY.ordinal, /* icon = */ icon5!!, /* title = */ QuickActions.TODAY.value)
@@ -497,6 +497,12 @@ class HomeFragment : Fragment() {
             val action6 = Action(/* id = */ QuickActions.NOTIFICATIONS.ordinal, /* icon = */ icon6!!, /* title = */ QuickActions.NOTIFICATIONS.value)
             val icon7 = requireContext().drawable(R.drawable.ic_round_search_24)?.changeColor(requireContext(), R.color.purple_500)
             val action7 = Action(/* id = */ QuickActions.UNIVERSAL_SEARCH.ordinal, /* icon = */ icon7!!, /* title = */ QuickActions.UNIVERSAL_SEARCH.value)
+            val icon8 = requireContext().drawable(R.drawable.round_phone_24)?.changeColor(requireContext(), R.color.purple_500)
+            val action8 = Action(/* id = */ QuickActions.PHONE.ordinal, /* icon = */ icon8!!, /* title = */ QuickActions.PHONE.value)
+            val icon9 = requireContext().drawable(R.drawable.round_sms_24)?.changeColor(requireContext(), R.color.purple_500)
+            val action9 = Action(/* id = */ QuickActions.SMS.ordinal, /* icon = */ icon9!!, /* title = */ QuickActions.SMS.value)
+            val icon10 = requireContext().drawable(R.drawable.round_photo_camera_24)?.changeColor(requireContext(), R.color.purple_500)
+            val action10 = Action(/* id = */ QuickActions.CAMERA.ordinal, /* icon = */ icon10!!, /* title = */ QuickActions.PHONE.value)
             addAction(action1) // more configuring
             addAction(action2)
             addAction(action3)
@@ -504,6 +510,9 @@ class HomeFragment : Fragment() {
             addAction(action5)
             addAction(action6)
             addAction(action7)
+            addAction(action8)
+            addAction(action9)
+            addAction(action10)
             register(binding.fabVoiceSearch)
             setBackgroundColor(requireContext().color(R.color.purple_50))
             setIndicatorDrawable(null)
@@ -547,6 +556,15 @@ class HomeFragment : Fragment() {
                     }
                     QuickActions.UNIVERSAL_SEARCH.ordinal -> {
 
+                    }
+                    QuickActions.PHONE.ordinal -> {
+                        requireContext().openDialer("")
+                    }
+                    QuickActions.SMS.ordinal -> {
+                        requireContext().sendSms("", "")
+                    }
+                    QuickActions.CAMERA.ordinal -> {
+                        requireActivity().launchApp("com.android.camera2")
                     }
                 }
             }

@@ -171,8 +171,9 @@ class TodayFragment : Fragment() {
                 cardWeather.isVisible = false
                 return@observe
             }
+            cardWeather.isVisible = true
             ivWeather.load(it.imageUrl) {
-                placeholder(com.singularitycoder.flowlauncher.R.drawable.ic_baseline_cloud_24)
+                placeholder(R.drawable.ic_baseline_cloud_24)
             }
             tvLocation.text = it.location
             tvWeatherCondition.text = "${it.condition} @ ${it.dateTime?.substringAfter(",")?.trim()}"

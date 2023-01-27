@@ -22,13 +22,11 @@ import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.quickactionview.animator.FadeInFadeOutActionsTitleAnimator
 import com.singularitycoder.flowlauncher.helper.quickactionview.animator.SlideFromCenterAnimator
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /**
  * A QuickActionView, which shows actions when a view is long pressed.
- *
- * @see [https://github.com/ovenbits/QuickActionView](https://github.com/ovenbits/QuickActionView)
+ * @see https://github.com/ovenbits/QuickActionView
  */
 open class QuickActionView private constructor(private val mContext: Context) {
     companion object {
@@ -558,7 +556,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
         private val indicatorView: View
         private val scrimView: View
         private val actionViews = LinkedHashMap<Action, ActionView>()
-        private val mActionTitleViews = LinkedHashMap<Action, ActionTitleView>()
+        private val actionTitleViews = LinkedHashMap<Action, ActionTitleView>()
         private val lastTouch = PointF()
         private var mAnimated = false
 
@@ -583,7 +581,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
             addView(scrimView, scrimParams)
             indicatorView = View(context)
             indicatorView.background = indicatorDrawable
-            val indicatorParams = LayoutParams(indicatorDrawable?.intrinsicWidth ?: 600, indicatorDrawable?.intrinsicHeight ?: 600)
+            val indicatorParams = LayoutParams(indicatorDrawable?.intrinsicWidth ?: 206, indicatorDrawable?.intrinsicHeight ?: 206)
             addView(indicatorView, indicatorParams)
             for (action in actionsList) {
                 val helper = ConfigHelper(action.config, mConfig)
@@ -594,7 +592,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
                 if (!TextUtils.isEmpty(action.title)) {
                     val actionTitleView = ActionTitleView(context, action, helper)
                     actionTitleView.visibility = GONE
-                    mActionTitleViews[action] = actionTitleView
+                    actionTitleViews[action] = actionTitleView
                     val titleParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                     addView(actionTitleView, titleParams)
                 }
@@ -614,8 +612,13 @@ open class QuickActionView private constructor(private val mContext: Context) {
                 val startAngle = getOptimalStartAngle(actionView.actionCircleRadiusExpanded)
                 val point = getActionPoint(index, startAngle, actionView)
                 point.offset(-actionView.circleCenterX, -actionView.circleCenterY)
-                actionView.layout(point.x.toInt(), point.y.toInt(), (point.x + actionView.measuredWidth).toInt(), (point.y + actionView.measuredHeight).toInt())
-                val titleView = mActionTitleViews[key]
+                actionView.layout(
+                    /* l = */ point.x.toInt(),
+                    /* t = */ point.y.toInt(),
+                    /* r = */ (point.x + actionView.measuredWidth).toInt(),
+                    /* b = */ (point.y + actionView.measuredHeight).toInt()
+                )
+                val titleView = actionTitleViews[key]
                 if (titleView != null) {
                     val titleLeft = point.x + actionView.measuredWidth / 2 - titleView.measuredWidth / 2
                     val titleTop = point.y - 10 - titleView.measuredHeight
@@ -648,8 +651,9 @@ open class QuickActionView private constructor(private val mContext: Context) {
                             if (actionView.isSelected.not()) {
                                 actionView.isSelected = true
 //                                this@QuickActionView.setBackgroundColor(mContext.color(R.color.purple_500))
+                                setHapticFeedback()
                                 actionView.animateInterpolation(1f)
-                                val actionTitleView = mActionTitleViews[actionView.action]
+                                val actionTitleView = actionTitleViews[actionView.action]
                                 if (actionTitleView != null) {
                                     actionTitleView.visibility = VISIBLE
                                     actionTitleView.bringToFront()
@@ -664,7 +668,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
                                 actionView.isSelected = false
 //                                this@QuickActionView.setBackgroundColor(mContext.color(R.color.purple_50))
                                 actionView.animateInterpolation(0f)
-                                val actionTitleView = mActionTitleViews[actionView.action]
+                                val actionTitleView = actionTitleViews[actionView.action]
                                 if (actionTitleView != null) {
                                     val timeTaken = actionsTitleOutAnimator.animateActionTitleOut(actionView.action, index, actionTitleView)
                                     actionTitleView.postDelayed(Runnable { actionTitleView.visibility = GONE }, timeTaken.toLong())
@@ -735,7 +739,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
         }
 
         private fun animateLabelsOut(): Int {
-            for (view in mActionTitleViews.values) {
+            for (view in actionTitleViews.values) {
                 view.animate().alpha(0f).duration = 50
             }
             return 50
@@ -754,26 +758,26 @@ open class QuickActionView private constructor(private val mContext: Context) {
         private fun getActionPoint(index: Int, startAngle: Float, view: ActionView): PointF {
             val point = PointF(mCenterPoint)
             val angle = (Math.toRadians(startAngle.toDouble()) + getActionOffsetAngle(index, view)).toFloat()
-            point.offset((Math.cos(angle.toDouble()) * getTotalRadius(view.actionCircleRadiusExpanded)).toInt().toFloat(), (Math.sin(angle.toDouble()) * getTotalRadius(view.actionCircleRadiusExpanded)).toInt().toFloat())
+            point.offset((cos(angle.toDouble()) * getTotalRadius(view.actionCircleRadiusExpanded)).toInt().toFloat(), (Math.sin(angle.toDouble()) * getTotalRadius(view.actionCircleRadiusExpanded)).toInt().toFloat())
             return point
         }
 
         private fun getActionOffsetAngle(index: Int, view: ActionView): Float {
-            return (index * (2 * Math.atan2((view.actionCircleRadiusExpanded + actionPadding).toDouble(), getTotalRadius(view.actionCircleRadiusExpanded).toDouble()))).toFloat()
+            return (index * (2 * atan2((view.actionCircleRadiusExpanded + actionPadding).toDouble(), getTotalRadius(view.actionCircleRadiusExpanded).toDouble()))).toFloat()
         }
 
         private fun getTotalRadius(actionViewRadiusExpanded: Float): Float {
-            return actionDistance + Math.max(indicatorView.width, indicatorView.height) + actionViewRadiusExpanded
+            return actionDistance + max(indicatorView.width, indicatorView.height) + actionViewRadiusExpanded
         }
 
         private fun getOptimalStartAngle(actionViewRadiusExpanded: Float): Float {
             if (measuredWidth > 0) {
                 val radius = getTotalRadius(actionViewRadiusExpanded)
                 val top = -mCenterPoint.y
-                val topIntersect = !java.lang.Double.isNaN(Math.acos((top / radius).toDouble()))
+                val topIntersect = !java.lang.Double.isNaN(acos((top / radius).toDouble()))
                 val horizontalOffset = (mCenterPoint.x - measuredWidth / 2.0f) / (measuredWidth / 2.0f)
                 val angle: Float
-                val offset = Math.pow(Math.abs(horizontalOffset).toDouble(), 1.2).toFloat() * Math.signum(horizontalOffset)
+                val offset = abs(horizontalOffset).toDouble().pow(1.2).toFloat() * sign(horizontalOffset)
                 angle = if (topIntersect) {
                     90 + 90 * offset
                 } else {
@@ -814,8 +818,8 @@ open class QuickActionView private constructor(private val mContext: Context) {
 
         override fun onTouch(v: View, event: MotionEvent): Boolean {
 //            if (isShown.not()) show(anchor = v, offset = Point(mTouchX.toInt(), mTouchY.toInt()))
-            val x = 16 // deviceWidth - 16dp padding of fab to the right - fab radius 56/2
-            val y = 16 // deviceHeight - 16dp padding of fab to the right - fab radius 56/2
+            val x = -276 // deviceWidth - 16dp padding of fab to the right - fab radius 56/2
+            val y = -370 // deviceHeight - 16dp padding of fab to the right - fab radius 56/2
             if (isShown.not()) show(anchor = v, offset = Point(x, y))
 //            println("xx: ${event.x}, yy: ${event.y}")
 //            println("x: ${x}, y: ${y}")

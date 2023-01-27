@@ -23,20 +23,20 @@ class SlideFromCenterAnimator @JvmOverloads constructor(private val mStaggered: 
                 .translationX(0f)
                 .translationY(0f)
                 .setInterpolator(mOvershootInterpolator)
-                .setDuration(50)
+                .setDuration(20)
         if (mStaggered) {
-            viewPropertyAnimator.startDelay = (index * 50).toLong()
+            viewPropertyAnimator.startDelay = (index * 20).toLong()
         }
     }
 
     override fun animateIndicatorIn(indicator: View?) {
-        indicator!!.alpha = 0f
-        indicator.animate().alpha(1f).duration = 50
+        indicator?.alpha = 0f
+        indicator?.animate()?.alpha(1f)?.duration = 20
     }
 
     override fun animateScrimIn(scrim: View?) {
-        scrim!!.alpha = 0f
-        scrim.animate().alpha(1f).duration = 50
+        scrim?.alpha = 0f
+        scrim?.animate()?.alpha(1f)?.duration = 20
     }
 
     override fun animateActionOut(action: Action?, index: Int, view: ActionView?, center: Point?): Int {
@@ -47,25 +47,25 @@ class SlideFromCenterAnimator @JvmOverloads constructor(private val mStaggered: 
                 .translationX((center.x - actionCenter.x).toFloat())
                 .setInterpolator(mOvershootInterpolator)
                 .setStartDelay(0)
-                .setDuration(50)
+                .setDuration(20)
         val alphaViewPropertyAnimator = view.animate()
                 .alpha(0f)
                 .setStartDelay(0)
-                .setDuration(50)
+                .setDuration(20)
         if (mStaggered) {
-            translateViewPropertyAnimator.startDelay = (index * 50).toLong()
-            alphaViewPropertyAnimator.startDelay = (index * 50).toLong()
+            translateViewPropertyAnimator.startDelay = (index * 20).toLong()
+            alphaViewPropertyAnimator.startDelay = (index * 20).toLong()
         }
-        return index * 50 + 50
+        return index * 20 + 20
     }
 
     override fun animateIndicatorOut(indicator: View?): Int {
-        indicator!!.animate().alpha(0f).duration = 50
-        return 50
+        indicator?.animate()?.alpha(0f)?.duration = 20
+        return 20
     }
 
     override fun animateScrimOut(scrim: View?): Int {
-        scrim!!.animate().alpha(0f).duration = 50
-        return 50
+        scrim?.animate()?.alpha(0f)?.duration = 20
+        return 20
     }
 }

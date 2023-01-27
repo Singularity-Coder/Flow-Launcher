@@ -301,7 +301,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "Ramnad Krishnan - Raghupate Rama - Sahana - Thyagaraja", videoId = "KenvJC9B5WU"),
     YoutubeVideo(title = "Malladi Brothers - Brihadeeswaraya Namasthe", videoId = "-TXW02E4pm8"),
     YoutubeVideo(title = "Uyyala Looka Vayya - Neelambari - Sri Thyagaraja Swamy Composition", videoId = "54T3H_powNM"), // One of the best Neelambari if not the best
-    YoutubeVideo(title = "Seetha Kalyana Vaibhogame (Ameya Records)", videoId = "lBVRsXXDJA0"), // One of the best Neelambari if not the best
+    YoutubeVideo(title = "Seetha Kalyana Vaibhogame (Ameya Records)", videoId = "lBVRsXXDJA0"),
     YoutubeVideo(title = "E.S.Posthumus - Nasivern Pi", videoId = "sHPZ9eQrHeE"), // Absolutely Incredible. Almost every sound track is great. https://www.youtube.com/channel/UCvJKyvGIe7VpfBDpkHOMfOw
     YoutubeVideo(title = "E.S.Posthumus - Pompeii", videoId = "1lwl9ZHklLY"),
     YoutubeVideo(title = "E.S.Posthumus - Unstoppable", videoId = "uFZSh6MSXno"),
