@@ -516,6 +516,15 @@ class HomeFragment : Fragment() {
             register(binding.fabVoiceSearch)
             setBackgroundColor(requireContext().color(R.color.purple_50))
             setIndicatorDrawable(null)
+            setOnActionHoverChangedListener { action: Action?, quickActionView: QuickActionView?, isHovering: Boolean ->
+                if (isHovering) {
+                    quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_500))
+                    quickActionView?.setIconColor(R.color.purple_50)
+                } else {
+                    quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_50))
+                    quickActionView?.setIconColor(R.color.purple_500)
+                }
+            }
             setOnActionSelectedListener { action: Action?, quickActionView: QuickActionView? ->
                 when (action?.id) {
                     QuickActions.VOICE_SEARCH.ordinal -> {

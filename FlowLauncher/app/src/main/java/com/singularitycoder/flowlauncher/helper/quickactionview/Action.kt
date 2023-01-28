@@ -5,9 +5,11 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.singularitycoder.flowlauncher.R
+import com.singularitycoder.flowlauncher.helper.color
 import com.singularitycoder.flowlauncher.helper.getThemeAttrColor
 
 /**
@@ -47,15 +49,18 @@ class Action(id: Int, icon: Drawable, title: CharSequence) {
             private set
         var textColor = 0
             private set
+        var iconCustomColor = 0
+            private set
 
         @DrawableRes
-        var mTextBackgroundDrawable = 0
+        var textBackgroundDrawable = 0
 
         constructor(context: Context) {
             val colorAccent = context.getThemeAttrColor(androidx.appcompat.R.attr.colorPrimary)
             backgroundColorStateList = ColorStateList.valueOf(colorAccent)
-            mTextBackgroundDrawable = R.drawable.qav_text_background
+            textBackgroundDrawable = R.drawable.qav_text_background
             textColor = Color.WHITE
+            iconCustomColor = R.color.purple_500
         }
 
         constructor() {}
@@ -70,14 +75,19 @@ class Action(id: Int, icon: Drawable, title: CharSequence) {
             return this
         }
 
+        fun setIconColor(@ColorRes iconColor: Int): Config {
+            this.iconCustomColor = iconColor
+            return this
+        }
+
         fun getTextBackgroundDrawable(context: Context?): Drawable? {
-            return if (mTextBackgroundDrawable != 0) {
-                ContextCompat.getDrawable(context!!, mTextBackgroundDrawable)
+            return if (textBackgroundDrawable != 0) {
+                ContextCompat.getDrawable(context!!, textBackgroundDrawable)
             } else null
         }
 
         fun setTextBackgroundDrawable(@DrawableRes textBackgroundDrawable: Int): Config {
-            mTextBackgroundDrawable = textBackgroundDrawable
+            this.textBackgroundDrawable = textBackgroundDrawable
             return this
         }
 

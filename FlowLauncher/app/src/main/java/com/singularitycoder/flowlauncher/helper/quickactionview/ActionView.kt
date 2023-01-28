@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.*
 import android.view.View
 import com.singularitycoder.flowlauncher.R
+import com.singularitycoder.flowlauncher.helper.changeColor
 import kotlin.math.min
 import kotlin.math.sqrt
 
@@ -21,12 +22,12 @@ class ActionView(context: Context?, val action: Action, private val configHelper
     var actionCircleRadiusExpanded = 0f
         private set
     private var shadowOffsetY = 0f
-    private var mIconPadding = 0
+    private var iconPadding = 0
     private var interpolation = 0f
     private var currentAnimator: ValueAnimator? = null
     private var mSelected = false
     private val mCenter = Point()
-    private val mTempPoint = Point()
+    private val tempPoint = Point()
 
     private val actionState: IntArray
         get() = if (mSelected) {
@@ -60,7 +61,7 @@ class ActionView(context: Context?, val action: Action, private val configHelper
         mActionCircleRadius = resources.getDimensionPixelSize(R.dimen.qav_action_view_radius)
         actionCircleRadiusExpanded = resources.getDimensionPixelSize(R.dimen.qav_action_view_radius_expanded).toFloat()
         shadowOffsetY = resources.getDimensionPixelSize(R.dimen.qav_action_shadow_offset_y).toFloat()
-        mIconPadding = resources.getDimensionPixelSize(R.dimen.qav_action_view_icon_padding)
+        iconPadding = resources.getDimensionPixelSize(R.dimen.qav_action_view_icon_padding)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -75,11 +76,11 @@ class ActionView(context: Context?, val action: Action, private val configHelper
 //        backgroundPaint.setShadowLayer(currentShadowRadius, 0f, shadowOffsetY, Color.parseColor("#50000000"))
         backgroundPaint.color = configHelper?.backgroundColorStateList!!.getColorForState(actionState, Color.GRAY)
         canvas.drawCircle(x, y, interpolatedRadius, backgroundPaint) // This draws a circle around the icons
-        val icon = action.icon
-        mTempPoint.x = x.toInt()
-        mTempPoint.y = y.toInt()
-        val bounds = getRectInsideCircle(mTempPoint, interpolatedRadius)
-        bounds.inset(mIconPadding, mIconPadding)
+        val icon = action.icon.changeColor(context, configHelper.iconCustomColor)
+        tempPoint.x = x.toInt()
+        tempPoint.y = y.toInt()
+        val bounds = getRectInsideCircle(tempPoint, interpolatedRadius)
+        bounds.inset(iconPadding, iconPadding)
         val aspect = icon.intrinsicWidth / icon.intrinsicHeight.toFloat()
         val desiredWidth = min(bounds.width().toFloat(), bounds.height() * aspect).toInt()
         val desiredHeight = min(bounds.height().toFloat(), bounds.width() / aspect).toInt()
@@ -95,8 +96,8 @@ class ActionView(context: Context?, val action: Action, private val configHelper
     }
 
     fun animateInterpolation(to: Float) {
-        if (currentAnimator != null && currentAnimator!!.isRunning) {
-            currentAnimator!!.cancel()
+        if (currentAnimator != null && currentAnimator?.isRunning == true) {
+            currentAnimator?.cancel()
         }
         currentAnimator = ValueAnimator.ofFloat(interpolation, to)
         currentAnimator?.setDuration(10)?.addUpdateListener(this)

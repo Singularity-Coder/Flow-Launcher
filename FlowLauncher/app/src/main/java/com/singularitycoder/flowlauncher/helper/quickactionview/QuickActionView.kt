@@ -13,6 +13,7 @@ import android.view.*
 import android.view.View.OnTouchListener
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
@@ -56,7 +57,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      */
     private var extras: Bundle? = null
     private var quickActionViewLayout: QuickActionViewLayout? = null
-    private val mConfig: Config = Config(mContext)
+    private val config: Config = Config(mContext)
     private var actionsInAnimator: ActionsInAnimator
     private var actionsOutAnimator: ActionsOutAnimator
     private var actionsTitleInAnimator: ActionsTitleInAnimator
@@ -253,7 +254,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return the QuickActionView
      */
     fun setTextBackgroundDrawable(@DrawableRes textBackgroundDrawable: Int): QuickActionView {
-        mConfig.setTextBackgroundDrawable(textBackgroundDrawable)
+        config.setTextBackgroundDrawable(textBackgroundDrawable)
         return this
     }
 
@@ -264,7 +265,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return the QuickActionView
      */
     fun setBackgroundColorStateList(backgroundColorStateList: ColorStateList?): QuickActionView {
-        mConfig.backgroundColorStateList = backgroundColorStateList
+        config.backgroundColorStateList = backgroundColorStateList
         return this
     }
 
@@ -275,7 +276,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return the QuickActionView
      */
     fun setTextColor(@ColorInt textColor: Int): QuickActionView {
-        mConfig.textColor = textColor
+        config.textColor = textColor
         return this
     }
 
@@ -287,7 +288,12 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return the QuickActionView
      */
     fun setBackgroundColor(@ColorInt backgroundColor: Int): QuickActionView {
-        mConfig.setBackgroundColor(backgroundColor)
+        config.setBackgroundColor(backgroundColor)
+        return this
+    }
+
+    fun setIconColor(@ColorRes iconColor: Int): QuickActionView {
+        config.setIconColor(iconColor)
         return this
     }
 
@@ -298,7 +304,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return the QuickActionView
      */
     fun setTypeface(typeface: Typeface): QuickActionView {
-        mConfig.typeface = typeface
+        config.typeface = typeface
         return this
     }
 
@@ -309,7 +315,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return the QuickActionView
      */
     fun setTextSize(textSize: Int): QuickActionView {
-        mConfig.textSize = textSize
+        config.textSize = textSize
         return this
     }
 
@@ -320,7 +326,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return the QuickActionView
      */
     fun setTextPaddingTop(textPaddingTop: Int): QuickActionView {
-        mConfig.textPaddingTop = textPaddingTop
+        config.textPaddingTop = textPaddingTop
         return this
     }
 
@@ -331,7 +337,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return the QuickActionView
      */
     fun setTextPaddingBottom(textPaddingBottom: Int): QuickActionView {
-        mConfig.textPaddingBottom = textPaddingBottom
+        config.textPaddingBottom = textPaddingBottom
         return this
     }
 
@@ -342,7 +348,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return the QuickActionView
      */
     fun setTextPaddingLeft(textPaddingLeft: Int): QuickActionView {
-        mConfig.textPaddingLeft = textPaddingLeft
+        config.textPaddingLeft = textPaddingLeft
         return this
     }
 
@@ -353,7 +359,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @return the QuickActionView
      */
     fun setTextPaddingRight(textPaddingRight: Int): QuickActionView {
-        mConfig.textPaddingRight = textPaddingRight
+        config.textPaddingRight = textPaddingRight
         return this
     }
 
@@ -492,7 +498,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * Listener for when an action has its hover state changed (hovering or stopped hovering)
      */
     fun interface OnActionHoverChangedListener {
-        fun onActionHoverChanged(action: Action?, quickActionView: QuickActionView?, hovering: Boolean)
+        fun onActionHoverChanged(action: Action?, quickActionView: QuickActionView?, isHovering: Boolean)
     }
 
     /**
@@ -510,19 +516,24 @@ open class QuickActionView private constructor(private val mContext: Context) {
     }
 
     class Config private constructor(context: Context, var typeface: Typeface, var textSize: Int, var textPaddingTop: Int) {
-        private val mDefaultConfig: Action.Config
+        private val defaultConfig: Action.Config
         var textPaddingBottom: Int = textPaddingTop
         var textPaddingLeft: Int = textPaddingTop
         var textPaddingRight: Int = textPaddingTop
         var textColor: Int
-            get() = mDefaultConfig.textColor
+            get() = defaultConfig.textColor
             set(textColor) {
-                mDefaultConfig.setTextColor(textColor)
+                defaultConfig.setTextColor(textColor)
+            }
+        var iconCustomColor: Int
+            get() = defaultConfig.iconCustomColor
+            set(iconCustomColor) {
+                defaultConfig.setIconColor(iconCustomColor)
             }
         var backgroundColorStateList: ColorStateList?
-            get() = mDefaultConfig.backgroundColorStateList
+            get() = defaultConfig.backgroundColorStateList
             set(backgroundColorStateList) {
-                mDefaultConfig.setBackgroundColorStateList(backgroundColorStateList)
+                defaultConfig.setBackgroundColorStateList(backgroundColorStateList)
             }
 
         constructor(context: Context) : this(
@@ -533,19 +544,23 @@ open class QuickActionView private constructor(private val mContext: Context) {
         )
 
         init {
-            mDefaultConfig = Action.Config(context)
+            defaultConfig = Action.Config(context)
         }
 
         fun getTextBackgroundDrawable(context: Context?): Drawable? {
-            return mDefaultConfig.getTextBackgroundDrawable(context)
+            return defaultConfig.getTextBackgroundDrawable(context)
         }
 
         fun setTextBackgroundDrawable(@DrawableRes textBackgroundDrawable: Int) {
-            mDefaultConfig.setTextBackgroundDrawable(textBackgroundDrawable)
+            defaultConfig.setTextBackgroundDrawable(textBackgroundDrawable)
         }
 
         fun setBackgroundColor(@ColorInt backgroundColor: Int) {
-            mDefaultConfig.setBackgroundColor(backgroundColor)
+            defaultConfig.setBackgroundColor(backgroundColor)
+        }
+
+        fun setIconColor(@ColorRes iconColor: Int) {
+            defaultConfig.setIconColor(iconColor)
         }
     }
 
@@ -584,7 +599,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
             val indicatorParams = LayoutParams(indicatorDrawable?.intrinsicWidth ?: 206, indicatorDrawable?.intrinsicHeight ?: 206)
             addView(indicatorView, indicatorParams)
             for (action in actionsList) {
-                val helper = ConfigHelper(action.config, mConfig)
+                val helper = ConfigHelper(action.config, config)
                 val actionView = ActionView(context, action, helper)
                 actionViews[action] = actionView
                 val params = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -650,7 +665,6 @@ open class QuickActionView private constructor(private val mContext: Context) {
                         if (isInsideCircle) {
                             if (actionView.isSelected.not()) {
                                 actionView.isSelected = true
-//                                this@QuickActionView.setBackgroundColor(mContext.color(R.color.purple_500))
                                 setHapticFeedback()
                                 actionView.animateInterpolation(1f)
                                 val actionTitleView = actionTitleViews[actionView.action]
@@ -666,7 +680,6 @@ open class QuickActionView private constructor(private val mContext: Context) {
                         } else {
                             if (actionView.isSelected) {
                                 actionView.isSelected = false
-//                                this@QuickActionView.setBackgroundColor(mContext.color(R.color.purple_50))
                                 actionView.animateInterpolation(0f)
                                 val actionTitleView = actionTitleViews[actionView.action]
                                 if (actionTitleView != null) {
@@ -683,7 +696,6 @@ open class QuickActionView private constructor(private val mContext: Context) {
                     invalidate()
                 }
                 MotionEvent.ACTION_UP -> {
-                    this@QuickActionView.setBackgroundColor(mContext.color(R.color.purple_50))
                     for ((key, value) in actionViews) {
                         if (value.isSelected && onActionSelectedListener != null) {
                             onActionSelectedListener?.onActionSelected(key, this@QuickActionView)
