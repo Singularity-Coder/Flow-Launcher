@@ -387,4 +387,12 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/Fl7yucwacAAhuyg?format=jpg&name=large", title = "https://twitter.com/MAstronomers"),
 
     GlanceImage(link = "https://pbs.twimg.com/media/FlDxKe9acAIrXfn?format=jpg&name=4096x4096", title = "https://twitter.com/SpaceX"),
+
+    GlanceImage(link = "https://i.pinimg.com/564x/c4/e4/03/c4e4037e19c67c686d8c93dd1fe317ca.jpg", title = "https://www.viz.com/read/manga/one-punch-man-volume-1/product/3267"),
+
+    GlanceImage(link = "https://media.giphy.com/media/QCJlIDkOJDEIctfdzz/giphy.gif", title = "https://giphy.com/"),
+    GlanceImage(link = "https://media.giphy.com/media/8Lc5xmvzRhlLy/giphy.gif", title = "https://giphy.com/"),
+    GlanceImage(link = "https://media.giphy.com/media/CRWdhM1XgJ7Pi/giphy.gif", title = "https://giphy.com/"),
+    GlanceImage(link = "https://media.giphy.com/media/TTedQxhzd5T4A/giphy.gif", title = "https://giphy.com/"),
+    GlanceImage(link = "https://media.giphy.com/media/anDhBXwgvIa7m/giphy.gif", title = "https://giphy.com/"),
 )

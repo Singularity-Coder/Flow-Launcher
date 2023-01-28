@@ -3,6 +3,7 @@ package com.singularitycoder.flowlauncher.glance.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -17,22 +18,25 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.work.*
 import coil.ImageLoader
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
 import coil.load
 import coil.request.ImageRequest
+import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.addEditMedia.view.AddFragment
 import com.singularitycoder.flowlauncher.databinding.FragmentGlanceBinding
-import com.singularitycoder.flowlauncher.helper.*
-import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
-import com.singularitycoder.flowlauncher.helper.constants.*
 import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 import com.singularitycoder.flowlauncher.glance.model.Holiday
 import com.singularitycoder.flowlauncher.glance.model.YoutubeVideo
-import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.glance.worker.PublicHolidaysWorker
+import com.singularitycoder.flowlauncher.helper.*
+import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
+import com.singularitycoder.flowlauncher.helper.constants.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -314,9 +318,28 @@ class GlanceFragment : Fragment() {
             cardImageCount.isVisible = true
             currentGlanceImage = glanceImageList[currentImagePosition]
             tvImageCount.text = "${currentImagePosition + 1}/${glanceImageList.size}"
-            ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
-                placeholder(R.color.black)
-                error(R.color.md_red_dark)
+            if (glanceImageList[currentImagePosition].link.endsWith(suffix = ".gif", ignoreCase = true)) {
+                lifecycleScope.launch {
+                    val imageLoader = ImageLoader.Builder(requireContext())
+                        .components {
+                            if (SDK_INT >= 28) add(ImageDecoderDecoder.Factory()) else add(GifDecoder.Factory())
+                        }
+                        .build()
+                    val imageRequest = ImageRequest.Builder(requireContext()).data(glanceImageList[currentImagePosition].link).build()
+                    val drawable = imageLoader.execute(imageRequest).drawable
+
+                    withContext(Main) {
+                        ivGlanceImage.load(drawable, imageLoader) {
+                            placeholder(R.color.black)
+                            error(R.color.md_red_dark)
+                        }
+                    }
+                }
+            } else {
+                ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
+                    placeholder(R.color.black)
+                    error(R.color.md_red_dark)
+                }
             }
             lifecycleScope.launch {
                 blurBitmapForImageBackground()

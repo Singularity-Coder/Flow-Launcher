@@ -228,6 +228,7 @@ val animeMusicList = listOf(
 val epicAnimeMomentsList = listOf(
     YoutubeVideo(title = "Code Geass, Best Anime Ever, Ending! 1080p", videoId = "rS-FBuWG_zQ"),
     YoutubeVideo(title = "Code Geass R2 - Lelouch Takes Over the World", videoId = "xnFdY7168DY"),
+    YoutubeVideo(title = "Attack On Titan - Death of Eren's Mother", videoId = "4ZQ8R6kPmhM"), // Warning: This will traumatize kids for sure and probably you as well
     YoutubeVideo(title = "Attack On Titan - Eren vs Annie - Eren Transforms in the forest", videoId = "BPohSG4ZNes"),
     YoutubeVideo(title = "Attack on Titan - The Owl", videoId = "gLtky3DaBO0"),
     YoutubeVideo(title = "Attack on Titan - Colossal & Armored Titan REVEALED", videoId = "3v_561hRxs4"),

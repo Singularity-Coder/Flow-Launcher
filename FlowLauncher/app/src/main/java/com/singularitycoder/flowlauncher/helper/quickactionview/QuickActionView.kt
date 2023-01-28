@@ -74,7 +74,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      */
     val centerPoint: Point?
         get() = if (quickActionViewLayout != null) {
-            quickActionViewLayout!!.mCenterPoint
+            quickActionViewLayout?.mCenterPoint
         } else null
 
     /**
@@ -573,7 +573,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
         private val actionViews = LinkedHashMap<Action, ActionView>()
         private val actionTitleViews = LinkedHashMap<Action, ActionTitleView>()
         private val lastTouch = PointF()
-        private var mAnimated = false
+        private var isAnimated = false
 
         private val middleAngleOffset: Float
             get() = maxActionAngle / 2f
@@ -641,11 +641,11 @@ open class QuickActionView private constructor(private val mContext: Context) {
                 }
                 index++
             }
-            if (!mAnimated) {
+            if (!isAnimated) {
 //                animateActionsIn()
 //                animateIndicatorIn()
 //                animateScrimIn()
-                mAnimated = true
+                isAnimated = true
             }
         }
 
