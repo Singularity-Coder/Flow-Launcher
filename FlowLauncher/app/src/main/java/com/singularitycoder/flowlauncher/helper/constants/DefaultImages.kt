@@ -4,7 +4,23 @@ import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 
 // Just because the code is open source doesnt mean these are. These are just for show. Purchase them from original source for commercial use.
 val tempImageUrlList = listOf(
-    GlanceImage(link = "https://video.twimg.com/tweet_video/D7ddLEmUEAEx9ph.mp4", title = "https://twitter.com/TatsuyaBot/"),
+
+    // https://twitter.com/TatsuyaBot/ - 🤯🤯🤯
+    GlanceImage(link = "https://video.twimg.com/tweet_video/Fnc7QA7acAEgX3x.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/FnSTKWSacAIDiQ_.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/FnNVcolaAAAea27.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/FmfNAGyacAEbHsC.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/FmZyl2cagAI4l9_.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/FiddWPtVIAE06Bq.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/Fin0y_LacAA3DTn.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/Fi8YN8aagAIOw_W.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/FjREjh-VEAATt0E.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/FjqnhdtaMAE4fUM.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/Fj1PzufaEAAM_Og.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/FkjcCIYaEAA5x-e.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/Fkt3PpDaEAEnBzk.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/Fll0JGuaYAAU6jl.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/Fl1zmwpaAAQyhfF.mp4", title = "https://twitter.com/TatsuyaBot/"),
 
     GlanceImage(link = "https://media.giphy.com/media/QCJlIDkOJDEIctfdzz/giphy.gif", title = "https://giphy.com/"),
     GlanceImage(link = "https://media.giphy.com/media/8Lc5xmvzRhlLy/giphy.gif", title = "https://giphy.com/"),

@@ -3,6 +3,7 @@ package com.singularitycoder.flowlauncher.glance.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
+import android.media.MediaPlayer
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,7 +21,6 @@ import androidx.work.*
 import coil.ImageLoader
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
-import coil.decode.VideoFrameDecoder
 import coil.load
 import coil.request.ImageRequest
 import com.singularitycoder.flowlauncher.MainActivity
@@ -41,6 +41,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+
 
 @AndroidEntryPoint
 class GlanceFragment : Fragment() {
@@ -302,6 +303,7 @@ class GlanceFragment : Fragment() {
             tvImageCount.text = "${currentImagePosition + 1}/${glanceImageList.size}"
             when {
                 glanceImageList[currentImagePosition].link.endsWith(suffix = ".gif", ignoreCase = true) -> {
+                    vvGlanceVideo.isVisible = false
                     lifecycleScope.launch {
                         val imageLoader = ImageLoader.Builder(requireContext())
                             .components {
@@ -320,27 +322,20 @@ class GlanceFragment : Fragment() {
                     }
                 }
                 VideoFormat.values().map { it.extension.toLowCase() }.contains(glanceImageList[currentImagePosition].link.substringAfterLast(".").toLowCase()) -> {
-                    lifecycleScope.launch {
-                        val imageLoader = ImageLoader.Builder(requireContext())
-                            .components {
-                                add(VideoFrameDecoder.Factory())
-                            }
-                            .build()
-                        val imageRequest = ImageRequest.Builder(requireContext()).data(glanceImageList[currentImagePosition].link).build()
-                        val drawable = imageLoader.execute(imageRequest).drawable
-
-                        withContext(Main) {
-                            ivGlanceImage.load(drawable, imageLoader) {
-//                                videoFrameMillis(1000)
-//                                decoderFactory(VideoFrameDecoder.Factory())
-//                                decoderFactory { result, options, _ -> VideoFrameDecoder(result.source, options) }
-                                placeholder(R.color.black)
-                                error(R.color.md_red_dark)
-                            }
+                    // ChatGPT 👍. Should replace with Exo
+                    vvGlanceVideo.apply {
+                        isVisible = true
+                        setVideoPath(glanceImageList[currentImagePosition].link)
+                        setOnPreparedListener { mp: MediaPlayer -> mp.isLooping = true }
+                        setOnCompletionListener {
+                            seekTo(0)
+                            start()
                         }
+                        start()
                     }
                 }
                 else -> {
+                    vvGlanceVideo.isVisible = false
                     ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
                         placeholder(R.color.black)
                         error(R.color.md_red_dark)

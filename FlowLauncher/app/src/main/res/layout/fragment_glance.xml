@@ -101,6 +101,14 @@
                         app:layout_constraintBottom_toTopOf="@+id/slider_glance_image"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <VideoView
+                        android:id="@+id/vv_glance_video"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_glance_image"
+                        app:layout_constraintTop_toTopOf="@+id/iv_glance_image" />
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_show_in_browser"
                         style="@style/Widget.App.Button.IconOnly"
@@ -449,11 +457,11 @@
                         android:layout_marginBottom="16dp"
                         android:backgroundTint="@color/white"
                         android:elevation="0dp"
-                        app:iconTint="@color/purple_500"
-                        app:iconGravity="textTop"
-                        app:icon="@drawable/round_play_arrow_24"
                         android:textAllCaps="false"
                         android:textColor="@color/purple_500"
+                        app:icon="@drawable/round_play_arrow_24"
+                        app:iconGravity="textTop"
+                        app:iconTint="@color/purple_500"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:rippleColor="@color/purple_200"
