@@ -62,38 +62,6 @@ import java.io.File
 import java.util.*
 import javax.inject.Inject
 
-// TODO Unable to detect package installed. Check further - https://stackoverflow.com/questions/11392183/how-to-check-programmatically-if-an-application-is-installed-or-not-in-android
-// TODO store install uninstall package flags in db and listen to flag changes and then refresh screen
-
-
-// Maybe option to change color
-// 12 hr, 24 hr clock
-// Time listener
-// FIXME align app grid to the edges
-// Letter strip for app search
-// Probably some kind of doc for quick access of commonly used apps.
-
-// SOS signal - swipe to decline in 5 sec - send message to pre selected contacts
-// Notes n checklist widegt with quick add
-
-// Universal search
-// Compass in Glance
-// Current Lat Long in Glance
-// Steps count in Today
-
-// Touch Effect similar to Ratio Launcher - https://developer.android.com/develop/ui/views/touch-and-input/gestures/movement
-// https://guides.codepath.com/android/gestures-and-touch-events
-// https://developer.android.com/develop/ui/views/touch-and-input/gestures
-// TODO On search fab touch - vertical list - show options -> voice search, change flow, notifications, quick settings, universal search
-// TODO On search fab touch - horizontal list - Phone app, sms app, camera app
-
-// Voice commands - Brightness, alarm
-// Split quick action view to a module
-// Play sound on refresh complete
-
-// TODO improve touch selection area
-// TODO on touch change color
-
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 

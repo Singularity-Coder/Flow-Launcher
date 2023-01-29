@@ -34,6 +34,14 @@ val quickSettingsPermissions = arrayOf(
     }
 )
 
+enum class VideoFormat(val extension: String) {
+    MPEG_4(extension = "mp4"),
+    THREE_GPP(extension = "3gp"),
+    MATROSKA(extension = "mkv"),
+    MPEG_TS(extension = "ts"),
+    WEB_M(extension = "webm");
+}
+
 enum class HomeScreen {
     GLANCE, APPS, TODAY
 }

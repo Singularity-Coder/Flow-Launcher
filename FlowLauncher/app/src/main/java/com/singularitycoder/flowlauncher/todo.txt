@@ -1,0 +1,90 @@
+Easy Stuff
+TODO Integrate other touch lib for reference
+TODO Add list animation for add new stuff. 3 types of animations for 3 different media
+TODO Voice search replace with custom bottom sheet
+TODO Play sound on refresh complete
+TODO Volume control
+TODO File Manager
+TODO Lock Device
+TODO Power Menu
+TODO Flash
+TODO Location toggle
+TODO Barcode scanning
+TODO Home, back, app switcher buttons
+
+Hard Stuff
+TODO Pull Notification drawer
+TODO Rotate Device
+TODO Universal Search
+TODO Change Glance and Today screens to lists - support default widgets and custom flow widgetsTODO SOS signal - Shows a countdonw timer with 5 sec to disable it if its an accident - send message to pre selected contacts
+TODO SOS signal - Shows a countdown timer with 5 sec to disable it if its an accident - send message to pre selected contacts. Need a screen to select contacts if its first time.
+
+Bugs
+TODO Unable to detect package installed. Check further - https://stackoverflow.com/questions/11392183/how-to-check-programmatically-if-an-application-is-installed-or-not-in-android
+TODO store install uninstall package flags in db and listen to flag changes and then refresh screen
+TODO improve touch selection area for quick actions
+TODO Time listener
+
+
+Notes n checklist widegt with quick add
+
+Not interested at this point
+TODO Letter strip quick scroll for app search
+TODO swipe screen to the right to close it - com.r0adkll:slidableactivity:2.1.0
+TODO Compass in Glance
+TODO Current Lat Long in Glance
+TODO Steps count in Today - If we know current lat long and if we know the distance btw 1 lat long to another, we can plot the steps based on the start and end lat long positions divided by 1 foot
+TODO Maybe option to change color
+TODO Voice commands - Brightness, alarm
+TODO 12 hr, 24 hr clock
+TODO Probably some kind of doc for quick access of commonly used apps.
+TODO Room db pagination for apps
+
+QUICK SETTINGS FRAG
+// Bluetooth
+// Torch
+// Calc
+// Camera
+// Barcode scanner
+// Set Alarm
+// Set Timer
+// Auto rotate device
+// Lock screen
+// Power button
+// Notifications button
+// Quick Note
+
+// SOS
+// Panic Mode
+
+// Accessibility permission api - to control power btn, notifications, etc
+
+// Lock Unlock phone: https://stackoverflow.com/questions/14352648/how-to-lock-unlock-screen-programmatically
+// https://rdcworld-android.blogspot.com/2012/03/lock-phone-screen-programmtically.html
+
+
+GLANCE FRAG
+// Refresh on every swipe
+// Rearrangable cards
+
+// Image or video glances - ability to add own images
+// Unread message count
+// Missed calls
+// next 3 Remainders/Events
+
+// Fav Youtube videos links
+// 10k Hours - top 3 skills
+// Perfect Me - routines
+// My Goals - Top 3 goals
+
+// My Mind - pinned notes
+// My Loans
+// My Expenses
+// My Bills
+
+// TODO ideal to have viewpagers for naviagting through images and other widget stuff but too much work. Do it when u r bored
+// TODO top 4 or 5 contacts u will message and call - problem is another recyclerview ...the pain
+
+ADD FRAG
+// TODO upload media from csv
+// TODO Export media to csv

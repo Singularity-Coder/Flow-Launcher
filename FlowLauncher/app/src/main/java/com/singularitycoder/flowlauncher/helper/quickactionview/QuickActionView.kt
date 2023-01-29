@@ -12,6 +12,7 @@ import android.text.TextUtils
 import android.view.*
 import android.view.View.OnTouchListener
 import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -19,6 +20,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.content.ContextCompat
+import coil.load
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.quickactionview.animator.FadeInFadeOutActionsTitleAnimator
@@ -27,7 +29,12 @@ import kotlin.math.*
 
 /**
  * A QuickActionView, which shows actions when a view is long pressed.
- * @see https://github.com/ovenbits/QuickActionView
+ * Code Credit: https://github.com/ovenbits/QuickActionView
+ *
+ * Inspired by Ratio Launcher
+ * https://developer.android.com/develop/ui/views/touch-and-input/gestures/movement
+ * https://guides.codepath.com/android/gestures-and-touch-events
+ * https://developer.android.com/develop/ui/views/touch-and-input/gestures
  */
 open class QuickActionView private constructor(private val mContext: Context) {
     companion object {
@@ -569,7 +576,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
      */
     private inner class QuickActionViewLayout(context: Context, actionsList: ArrayList<Action>, val mCenterPoint: Point) : FrameLayout(context) {
         private val indicatorView: View
-        private val scrimView: View
+        private val scrimView: ImageView
         private val actionViews = LinkedHashMap<Action, ActionView>()
         private val actionTitleViews = LinkedHashMap<Action, ActionTitleView>()
         private val lastTouch = PointF()
@@ -590,7 +597,7 @@ open class QuickActionView private constructor(private val mContext: Context) {
             }
 
         init {
-            scrimView = View(context)
+            scrimView = ImageView(context)
             scrimView.setBackgroundColor(scrimColor)
             val scrimParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             addView(scrimView, scrimParams)

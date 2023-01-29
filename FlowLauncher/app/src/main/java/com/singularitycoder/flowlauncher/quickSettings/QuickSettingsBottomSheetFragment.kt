@@ -39,28 +39,6 @@ import com.singularitycoder.flowlauncher.helper.swipebutton.OnStateChangeListene
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
-// Bluetooth
-// Torch
-// Calc
-// Camera
-// Barcode scanner
-// Set Alarm
-// Set Timer
-// Auto rotate device
-// Lock screen
-// Power button
-// Notifications button
-// Quick Note
-
-// SOS
-// Panic Mode
-
-// Accessibility permission api - to control power btn, notifications, etc
-
-// Lock Unlock phone: https://stackoverflow.com/questions/14352648/how-to-lock-unlock-screen-programmatically
-// https://rdcworld-android.blogspot.com/2012/03/lock-phone-screen-programmtically.html
-
 @AndroidEntryPoint
 class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 

@@ -28,8 +28,6 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-// TODO Letter strip
-// Maybe pagination for room
 @AndroidEntryPoint
 class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
 

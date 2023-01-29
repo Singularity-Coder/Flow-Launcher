@@ -20,6 +20,7 @@ import androidx.work.*
 import coil.ImageLoader
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
+import coil.decode.VideoFrameDecoder
 import coil.load
 import coil.request.ImageRequest
 import com.singularitycoder.flowlauncher.MainActivity
@@ -40,27 +41,6 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-
-// Refresh on every swipe
-// Rearrangable cards
-
-// Image or video glances - ability to add own images
-// Unread message count
-// Missed calls
-// next 3 Remainders/Events
-
-// Fav Youtube videos links
-// 10k Hours - top 3 skills
-// Perfect Me - routines
-// My Goals - Top 3 goals
-
-// My Mind - pinned notes
-// My Loans
-// My Expenses
-// My Bills
-
-// TODO ideal to have viewpagers for naviagting through images and other widget stuff but too much work. Do it when u r bored
-// TODO top 4 or 5 contacts u will message and call - problem is another recyclerview ...the pain
 
 @AndroidEntryPoint
 class GlanceFragment : Fragment() {
@@ -313,32 +293,58 @@ class GlanceFragment : Fragment() {
     }
 
     private var currentImagePosition = 0
+
+    // https://coil-kt.github.io/coil/
     private fun FragmentGlanceBinding.setOnGlanceImageClickListener() {
         cardGlanceImages.onSafeClick {
             cardImageCount.isVisible = true
             currentGlanceImage = glanceImageList[currentImagePosition]
             tvImageCount.text = "${currentImagePosition + 1}/${glanceImageList.size}"
-            if (glanceImageList[currentImagePosition].link.endsWith(suffix = ".gif", ignoreCase = true)) {
-                lifecycleScope.launch {
-                    val imageLoader = ImageLoader.Builder(requireContext())
-                        .components {
-                            if (SDK_INT >= 28) add(ImageDecoderDecoder.Factory()) else add(GifDecoder.Factory())
-                        }
-                        .build()
-                    val imageRequest = ImageRequest.Builder(requireContext()).data(glanceImageList[currentImagePosition].link).build()
-                    val drawable = imageLoader.execute(imageRequest).drawable
+            when {
+                glanceImageList[currentImagePosition].link.endsWith(suffix = ".gif", ignoreCase = true) -> {
+                    lifecycleScope.launch {
+                        val imageLoader = ImageLoader.Builder(requireContext())
+                            .components {
+                                if (SDK_INT >= 28) add(ImageDecoderDecoder.Factory()) else add(GifDecoder.Factory())
+                            }
+                            .build()
+                        val imageRequest = ImageRequest.Builder(requireContext()).data(glanceImageList[currentImagePosition].link).build()
+                        val drawable = imageLoader.execute(imageRequest).drawable
 
-                    withContext(Main) {
-                        ivGlanceImage.load(drawable, imageLoader) {
-                            placeholder(R.color.black)
-                            error(R.color.md_red_dark)
+                        withContext(Main) {
+                            ivGlanceImage.load(drawable, imageLoader) {
+                                placeholder(R.color.black)
+                                error(R.color.md_red_dark)
+                            }
                         }
                     }
                 }
-            } else {
-                ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
-                    placeholder(R.color.black)
-                    error(R.color.md_red_dark)
+                VideoFormat.values().map { it.extension.toLowCase() }.contains(glanceImageList[currentImagePosition].link.substringAfterLast(".").toLowCase()) -> {
+                    lifecycleScope.launch {
+                        val imageLoader = ImageLoader.Builder(requireContext())
+                            .components {
+                                add(VideoFrameDecoder.Factory())
+                            }
+                            .build()
+                        val imageRequest = ImageRequest.Builder(requireContext()).data(glanceImageList[currentImagePosition].link).build()
+                        val drawable = imageLoader.execute(imageRequest).drawable
+
+                        withContext(Main) {
+                            ivGlanceImage.load(drawable, imageLoader) {
+//                                videoFrameMillis(1000)
+//                                decoderFactory(VideoFrameDecoder.Factory())
+//                                decoderFactory { result, options, _ -> VideoFrameDecoder(result.source, options) }
+                                placeholder(R.color.black)
+                                error(R.color.md_red_dark)
+                            }
+                        }
+                    }
+                }
+                else -> {
+                    ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
+                        placeholder(R.color.black)
+                        error(R.color.md_red_dark)
+                    }
                 }
             }
             lifecycleScope.launch {

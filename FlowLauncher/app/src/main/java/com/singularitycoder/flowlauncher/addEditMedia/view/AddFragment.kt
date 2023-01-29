@@ -28,8 +28,6 @@ import com.singularitycoder.flowlauncher.helper.constants.AddItemType
 import com.singularitycoder.flowlauncher.today.model.Quote
 import kotlinx.coroutines.launch
 
-// TODO upload stuff from csv
-// TODO Export stuff to csv
 class AddFragment : Fragment() {
 
     companion object {

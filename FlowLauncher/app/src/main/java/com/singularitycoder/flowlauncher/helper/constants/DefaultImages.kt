@@ -4,6 +4,14 @@ import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 
 // Just because the code is open source doesnt mean these are. These are just for show. Purchase them from original source for commercial use.
 val tempImageUrlList = listOf(
+    GlanceImage(link = "https://video.twimg.com/tweet_video/D7ddLEmUEAEx9ph.mp4", title = "https://twitter.com/TatsuyaBot/"),
+
+    GlanceImage(link = "https://media.giphy.com/media/QCJlIDkOJDEIctfdzz/giphy.gif", title = "https://giphy.com/"),
+    GlanceImage(link = "https://media.giphy.com/media/8Lc5xmvzRhlLy/giphy.gif", title = "https://giphy.com/"),
+    GlanceImage(link = "https://media.giphy.com/media/CRWdhM1XgJ7Pi/giphy.gif", title = "https://giphy.com/"),
+    GlanceImage(link = "https://media.giphy.com/media/TTedQxhzd5T4A/giphy.gif", title = "https://giphy.com/"),
+    GlanceImage(link = "https://media.giphy.com/media/anDhBXwgvIa7m/giphy.gif", title = "https://giphy.com/"),
+
     // https://twitter.com/HoDaRaKe
     GlanceImage(link = "https://pbs.twimg.com/media/FaTrkssaUAAScRc?format=jpg&name=4096x4096", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/FaTrjeaakAAx1Y7?format=jpg&name=4096x4096", title = "https://twitter.com/HoDaRaKe"),
@@ -390,9 +398,5 @@ val tempImageUrlList = listOf(
 
     GlanceImage(link = "https://i.pinimg.com/564x/c4/e4/03/c4e4037e19c67c686d8c93dd1fe317ca.jpg", title = "https://www.viz.com/read/manga/one-punch-man-volume-1/product/3267"),
 
-    GlanceImage(link = "https://media.giphy.com/media/QCJlIDkOJDEIctfdzz/giphy.gif", title = "https://giphy.com/"),
-    GlanceImage(link = "https://media.giphy.com/media/8Lc5xmvzRhlLy/giphy.gif", title = "https://giphy.com/"),
-    GlanceImage(link = "https://media.giphy.com/media/CRWdhM1XgJ7Pi/giphy.gif", title = "https://giphy.com/"),
-    GlanceImage(link = "https://media.giphy.com/media/TTedQxhzd5T4A/giphy.gif", title = "https://giphy.com/"),
-    GlanceImage(link = "https://media.giphy.com/media/anDhBXwgvIa7m/giphy.gif", title = "https://giphy.com/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/0f/81/17/0f8117948b69085805b5a31ca0cf074d.jpg", title = "https://www.comicbookdaily.com/championing_comics/lart-pour-lart/web-arted-jan-11th/"),
 )

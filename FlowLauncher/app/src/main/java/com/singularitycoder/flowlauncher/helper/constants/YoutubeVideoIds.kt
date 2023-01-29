@@ -428,6 +428,17 @@ val otherEpicMomentsList = listOf(
     YoutubeVideo(title = "Black Adam All Scenes | (HD) | Superman/Shazam!: The Return of Black Adam", videoId = "GID5CJWt1VY"),
     YoutubeVideo(title = "Charge - Blender Open Movie", videoId = "UXqq0ZvbOnk"),
     YoutubeVideo(title = "RRR | Revolution", videoId = "q502zF4BKOg"),
+    YoutubeVideo(title = "TactiCOOL RELOADS", videoId = "VI4NZW8q6nU"), // Cool Comedy
+    YoutubeVideo(title = "London Brawling", videoId = "CpasSV_mw2o"), // The fight is as good as the movie's
+)
+
+val gameCinematicsList = listOf(
+    YoutubeVideo(title = "Diablo 4 Official Cinematic", videoId = "KsNDMHvz98M"),
+    YoutubeVideo(title = "Diablo IV Announce Cinematic | By Three They Come", videoId = "9bRWIdOMfro"),
+    YoutubeVideo(title = "Assassin's Creed Valhalla - Official Trailer", videoId = "ssrNcwxALS4"),
+    YoutubeVideo(title = "Assassin's Creed 3 - E3 Official Trailer", videoId = "-pUhraVG7Ow"),
+    YoutubeVideo(title = "Assassin's Creed Unity E3 2014 World Premiere Cinematic Trailer", videoId = "xzCEdSKMkdU"),
+    YoutubeVideo(title = "Unreal Engine 5 PlayStation 5 Tech Demo", videoId = "wq0JC7Cs0Vg"),
 )
 
 val allYoutubeVideos = listOf(
@@ -435,5 +446,6 @@ val allYoutubeVideos = listOf(
     animeMusicList,
     epicAnimeMomentsList,
     otherEpicMomentsList,
-    otherMusicList
+    otherMusicList,
+    gameCinematicsList
 ).flatten().shuffled()
