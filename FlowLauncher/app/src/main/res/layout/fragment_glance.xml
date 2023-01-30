@@ -109,6 +109,15 @@
                         app:layout_constraintBottom_toBottomOf="@+id/iv_glance_image"
                         app:layout_constraintTop_toTopOf="@+id/iv_glance_image" />
 
+                    <com.google.android.exoplayer2.ui.PlayerView
+                        android:id="@+id/exoPlayerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:visibility="gone"
+                        app:use_controller="false"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_glance_image"
+                        app:layout_constraintTop_toTopOf="@+id/iv_glance_image" />
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_show_in_browser"
                         style="@style/Widget.App.Button.IconOnly"

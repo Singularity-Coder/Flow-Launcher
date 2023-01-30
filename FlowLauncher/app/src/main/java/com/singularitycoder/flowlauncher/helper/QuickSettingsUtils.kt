@@ -1,11 +1,11 @@
 package com.singularitycoder.flowlauncher.helper
 
 import android.Manifest
+import android.accessibilityservice.AccessibilityService
+import android.annotation.TargetApi
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.location.GnssStatus
 import android.location.LocationManager
@@ -16,6 +16,8 @@ import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
@@ -23,6 +25,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.singularitycoder.flowlauncher.helper.constants.IntentAction
+import com.singularitycoder.flowlauncher.helper.constants.IntentExtra
 import java.io.DataOutputStream
 import java.io.IOException
 import java.lang.reflect.Field
@@ -442,3 +447,134 @@ fun shutDownOnRootedDevice() {
 }
 
 fun Context.isFlashAvailable(): Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
+
+@TargetApi(Build.VERSION_CODES.P)
+fun lockDevice(context: Context) {
+    sendAccessibilityAction(context, AccessibilityService.GLOBAL_ACTION_LOCK_SCREEN)
+}
+
+fun sendAccessibilityAction(context: Context, action: Int) {
+    sendAccessibilityAction(context, action, null)
+}
+
+fun registerCustomReceiver(context: Context?, receiver: BroadcastReceiver?, vararg actions: String?) {
+    unregisterCustomReceiver(context, receiver)
+    val intentFilter = IntentFilter()
+    for (action in actions) {
+        intentFilter.addAction(action)
+    }
+    LocalBroadcastManager.getInstance(context!!).registerReceiver(receiver!!, intentFilter)
+}
+
+fun unregisterCustomReceiver(context: Context?, receiver: BroadcastReceiver?) {
+    LocalBroadcastManager.getInstance(context!!).unregisterReceiver(receiver!!)
+}
+
+fun sendAccessibilityAction(context: Context, action: Int, onComplete: Runnable?) {
+    setComponentEnabled(context, PowerMenuService::class.java, true)
+    val isAccessibilityServiceEnabled = isAccessibilityServiceEnabled(context)
+    if (!isAccessibilityServiceEnabled
+        && hasWriteSecureSettingsPermission(context)
+    ) {
+        val services = Settings.Secure.getString(
+            context.contentResolver,
+            Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
+        )
+        val finalServices = services ?: ""
+        val powerMenuService: String = ComponentName(context, PowerMenuService::class.java).flattenToString()
+        if (!finalServices.contains(powerMenuService)) {
+            try {
+                Settings.Secure.putString(
+                    context.contentResolver,
+                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
+                    if (finalServices.isEmpty()) powerMenuService else "$finalServices:$powerMenuService"
+                )
+            } catch (ignored: java.lang.Exception) {
+            }
+        }
+        newHandler().postDelayed(Runnable {
+            val intent = Intent(IntentAction.ACTION_ACCESSIBILITY_ACTION)
+            intent.putExtra(IntentExtra.EXTRA_ACTION, action)
+            sendBroadcast(context, intent)
+
+            try {
+                Settings.Secure.putString(
+                    context.contentResolver,
+                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
+                    finalServices
+                )
+            } catch (ignored: java.lang.Exception) {
+            }
+            onComplete?.run()
+        }, 100)
+    } else if (isAccessibilityServiceEnabled) {
+        val intent = Intent(IntentAction.ACTION_ACCESSIBILITY_ACTION)
+        intent.putExtra(IntentExtra.EXTRA_ACTION, action)
+        sendBroadcast(context, intent)
+        onComplete?.run()
+    } else {
+        launchApp(context, Runnable {
+//            val intent = Intent(context, DummyActivity::class.java)
+//            intent.putExtra("accessibility", true)
+//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION
+//            try {
+//                context.startActivity(intent, U.getActivityOptionsBundle(context, ApplicationType.APP_PORTRAIT, null))
+//            } catch (ignored: IllegalArgumentException) {
+//            } catch (ignored: SecurityException) {
+//            }
+        })
+    }
+}
+
+fun launchApp(context: Context, runnable: Runnable) {
+    launchApp(context, true, false, runnable)
+}
+
+private fun launchApp(context: Context, launchedFromTaskbar: Boolean, isPersistentShortcut: Boolean, runnable: Runnable) {
+//    val pref: SharedPreferences = U.getSharedPreferences(context)
+//    val helper: FreeformHackHelper = FreeformHackHelper.getInstance()
+//    val specialLaunch = (com.farmerbb.taskbar.util.U.hasBrokenSetLaunchBoundsApi()
+//            && helper.isInFreeformWorkspace()
+//            && MenuHelper.getInstance().isContextMenuOpen())
+//    val noAnimation = pref.getBoolean(PREF_DISABLE_ANIMATIONS, false)
+//    val isAndroidR: Boolean = com.farmerbb.taskbar.util.U.getCurrentApiVersion() > 29.0
+//    if (com.farmerbb.taskbar.util.U.hasFreeformSupport(context)
+//        && (com.farmerbb.taskbar.util.U.isFreeformModeEnabled(context) || isPersistentShortcut)
+//        && (!helper.isInFreeformWorkspace() || specialLaunch)
+//    ) {
+//        com.farmerbb.taskbar.util.U.newHandler().postDelayed(Runnable {
+//            com.farmerbb.taskbar.util.U.startFreeformHack(context, true)
+//            com.farmerbb.taskbar.util.U.newHandler().postDelayed(runnable, if (helper.isFreeformHackActive()) 0 else if (isAndroidR) 300 else 100.toLong())
+//        }, if (launchedFromTaskbar) 0 else 100.toLong())
+//    } else com.farmerbb.taskbar.util.U.newHandler().postDelayed(runnable, if (!launchedFromTaskbar && noAnimation) 100 else if (isAndroidR) 100 else 0.toLong())
+}
+
+fun sendBroadcast(context: Context?, intent: Intent?) {
+    LocalBroadcastManager.getInstance(context!!).sendBroadcast(intent!!)
+}
+
+fun newHandler(): Handler {
+    return Handler(Looper.getMainLooper())
+}
+
+fun hasWriteSecureSettingsPermission(context: Context): Boolean {
+    return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+            && context.checkSelfPermission(Manifest.permission.WRITE_SECURE_SETTINGS) == PackageManager.PERMISSION_GRANTED)
+}
+
+fun setComponentEnabled(context: Context, clazz: Class<*>?, enabled: Boolean) {
+    val component = ComponentName(context, clazz!!)
+    context.packageManager.setComponentEnabledSetting(
+        component,
+        if (enabled) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+        PackageManager.DONT_KILL_APP
+    )
+}
+
+fun isAccessibilityServiceEnabled(context: Context): Boolean {
+    val accessibilityServices = Settings.Secure.getString(context.contentResolver, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES)
+    val component = ComponentName(context, PowerMenuService::class.java)
+    return (accessibilityServices != null
+            && (accessibilityServices.contains(component.flattenToString())
+            || accessibilityServices.contains(component.flattenToShortString())))
+}

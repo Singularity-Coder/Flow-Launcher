@@ -22,6 +22,14 @@ const val HOME_LAYOUT_BLURRED_IMAGE = "home_layout_blurred_image.jpg"
 val THIRTY_DAYS_IN_MILLIS = TimeUnit.DAYS.toMillis(30L)
 val TWENTY_FOUR_HOURS_IN_MILLIS = TimeUnit.HOURS.toMillis(24L)
 
+object IntentAction {
+    const val ACTION_ACCESSIBILITY_ACTION = "com.singularitycoder.flowlauncher.ACCESSIBILITY_ACTION"
+}
+
+object IntentExtra {
+    const val EXTRA_ACTION = "action"
+}
+
 val quickSettingsPermissions = arrayOf(
     Manifest.permission.CAMERA,
     Manifest.permission.READ_PHONE_STATE,

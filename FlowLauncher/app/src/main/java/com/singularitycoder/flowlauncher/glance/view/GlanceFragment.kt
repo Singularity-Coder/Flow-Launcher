@@ -3,7 +3,6 @@ package com.singularitycoder.flowlauncher.glance.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
-import android.media.MediaPlayer
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +22,12 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.load
 import coil.request.ImageRequest
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource
+import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
+import com.google.android.exoplayer2.source.MediaSource
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
@@ -55,6 +60,7 @@ class GlanceFragment : Fragment() {
 
     private var youtubeVideoList = listOf<YoutubeVideo>()
     private var glanceImageList = listOf<GlanceImage>()
+    private var exoPlayer: ExoPlayer? = null
 
     private lateinit var binding: FragmentGlanceBinding
     private lateinit var currentGlanceImage: GlanceImage
@@ -304,6 +310,7 @@ class GlanceFragment : Fragment() {
             when {
                 glanceImageList[currentImagePosition].link.endsWith(suffix = ".gif", ignoreCase = true) -> {
                     vvGlanceVideo.isVisible = false
+                    exoPlayerView.isVisible = false
                     lifecycleScope.launch {
                         val imageLoader = ImageLoader.Builder(requireContext())
                             .components {
@@ -322,20 +329,24 @@ class GlanceFragment : Fragment() {
                     }
                 }
                 VideoFormat.values().map { it.extension.toLowCase() }.contains(glanceImageList[currentImagePosition].link.substringAfterLast(".").toLowCase()) -> {
-                    // ChatGPT 👍. Should replace with Exo
-                    vvGlanceVideo.apply {
-                        isVisible = true
-                        setVideoPath(glanceImageList[currentImagePosition].link)
-                        setOnPreparedListener { mp: MediaPlayer -> mp.isLooping = true }
-                        setOnCompletionListener {
-                            seekTo(0)
-                            start()
-                        }
-                        start()
+                    exoPlayerView.isVisible = true
+                    exoPlayer?.release()
+                    exoPlayer = ExoPlayer.Builder(requireContext()).build()
+                    exoPlayerView.player = exoPlayer
+                    exoPlayer?.apply {
+                        addMediaSource(
+                            DefaultMediaSourceFactory(requireContext()).createMediaSource(
+                                MediaItem.fromUri(glanceImageList[currentImagePosition].link)
+                            )
+                        )
+                        repeatMode = Player.REPEAT_MODE_ONE
+                        prepare()
+                        playWhenReady = true // Since we are loading from url, we cannot directly set play()
                     }
                 }
                 else -> {
                     vvGlanceVideo.isVisible = false
+                    exoPlayerView.isVisible = false
                     ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
                         placeholder(R.color.black)
                         error(R.color.md_red_dark)
