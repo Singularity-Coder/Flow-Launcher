@@ -3,6 +3,7 @@ package com.singularitycoder.flowlauncher.helper
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -243,6 +244,30 @@ fun Context.showListPopupMenu(
         show()
     }
 }
+
+// https://stackoverflow.com/questions/28578701/how-to-create-android-shape-background-programmatically
+fun Context.createCustomView(backgroundColor: Int, borderColor: Int): View {
+    val shape = GradientDrawable().apply {
+        shape = GradientDrawable.RECTANGLE
+        cornerRadii = floatArrayOf(8f, 8f, 8f, 8f, 0f, 0f, 0f, 0f)
+        setColor(backgroundColor)
+        setStroke(3, borderColor)
+    }
+    return View(this).apply {
+        background = shape
+    }
+}
+
+// https://stackoverflow.com/questions/5776684/how-can-i-convert-a-view-to-a-drawable
+fun createGradientDrawable(width: Int, height: Int): GradientDrawable {
+    return GradientDrawable().apply {
+        shape = GradientDrawable.RECTANGLE
+        setColor(Color.TRANSPARENT)
+        setSize(width, height)
+    }
+}
+
+inline fun <reified T> List<T>.toArrayList(): ArrayList<T> = ArrayList(this)
 
 // https://stackoverflow.com/questions/2228151/how-to-enable-haptic-feedback-on-button-view
 fun View.setHapticFeedback() {

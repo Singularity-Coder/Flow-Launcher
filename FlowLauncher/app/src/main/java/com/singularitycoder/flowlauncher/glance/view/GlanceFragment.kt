@@ -25,9 +25,7 @@ import coil.request.ImageRequest
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
-import com.google.android.exoplayer2.source.MediaSource
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
@@ -61,6 +59,7 @@ class GlanceFragment : Fragment() {
     private var youtubeVideoList = listOf<YoutubeVideo>()
     private var glanceImageList = listOf<GlanceImage>()
     private var exoPlayer: ExoPlayer? = null
+    private var exoPlayerExpanded: ExoPlayer? = null
 
     private lateinit var binding: FragmentGlanceBinding
     private lateinit var currentGlanceImage: GlanceImage
@@ -122,6 +121,7 @@ class GlanceFragment : Fragment() {
     // https://stackoverflow.com/questions/30239627/how-to-change-the-style-of-a-datepicker-in-android
     private fun FragmentGlanceBinding.setupUI() {
         ivGlanceImage.layoutParams.height = deviceWidth() - 32.dpToPx() // 32 is 16dp padding left + 16 dp padding right
+        exoPlayerView.layoutParams.height = deviceWidth() - 32.dpToPx() // 32 is 16dp padding left + 16 dp padding right
         setupRemaindersCard()
         setupTakeActionCard()
     }
@@ -137,8 +137,12 @@ class GlanceFragment : Fragment() {
                 }
                 MotionEvent.ACTION_UP -> {
                     // User lifted his finger up
-                    ivGlanceImageExpanded.isVisible = false
-                    ivGlanceImageExpandedBackground.isVisible = false
+                    if (exoGlanceVideoExpanded.isVisible) {
+                        exoGlanceVideoExpanded.isVisible = false
+                    } else {
+                        ivGlanceImageExpanded.isVisible = false
+                        ivGlanceImageExpandedBackground.isVisible = false
+                    }
                 }
             }
             return@setOnTouchListener true
@@ -147,6 +151,10 @@ class GlanceFragment : Fragment() {
         ivGlanceImageExpandedBackground.onSafeClick {
             ivGlanceImageExpanded.isVisible = false
             ivGlanceImageExpandedBackground.isVisible = false
+        }
+
+        exoGlanceVideoExpanded.onSafeClick {
+            exoGlanceVideoExpanded.isVisible = false
         }
 
         btnShowInBrowser.onSafeClick {
@@ -261,22 +269,40 @@ class GlanceFragment : Fragment() {
         }
     }
 
-
     private fun FragmentGlanceBinding.onMotionEventActionDown() {
-        ivGlanceImageExpandedBackground.isVisible = true
-        ivGlanceImageExpanded.isVisible = true
-        lifecycleScope.launch {
-            val blurredBitmapFile = File(
-                /* parent = */ glanceImageFileDir,
-                /* child = */ "glance_image_$currentImagePosition.jpg"
-            )
-            if (blurredBitmapFile.exists().not()) {
-                blurBitmapForImageBackground()
+        val currentPosition = if (currentImagePosition == 0) glanceImageList.size else currentImagePosition - 1
+        val isGlanceVideoShown = VideoFormat.values().map { it.extension.toLowCase() }.contains(glanceImageList[currentPosition].link.substringAfterLast(".").toLowCase())
+        if (isGlanceVideoShown) {
+            exoGlanceVideoExpanded.isVisible = true
+            exoPlayerExpanded?.release()
+            exoPlayerExpanded = ExoPlayer.Builder(requireContext()).build()
+            exoGlanceVideoExpanded.player = exoPlayerExpanded
+            exoPlayerExpanded?.apply {
+                addMediaSource(
+                    DefaultMediaSourceFactory(requireContext()).createMediaSource(
+                        MediaItem.fromUri(glanceImageList[currentPosition].link)
+                    )
+                )
+                repeatMode = Player.REPEAT_MODE_ONE
+                prepare()
+                playWhenReady = true // Since we are loading from url, we cannot directly set play()
             }
-            val bitmapToBlur = blurredBitmapFile.toBitmap() ?: return@launch
-            withContext(Dispatchers.Main) {
-                val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 30)
-                ivGlanceImageExpandedBackground.setImageBitmap(blurredBitmap)
+        } else {
+            ivGlanceImageExpandedBackground.isVisible = true
+            ivGlanceImageExpanded.isVisible = true
+            lifecycleScope.launch {
+                val blurredBitmapFile = File(
+                    /* parent = */ glanceImageFileDir,
+                    /* child = */ "glance_image_$currentImagePosition.jpg"
+                )
+                if (blurredBitmapFile.exists().not()) {
+                    blurBitmapForImageBackground()
+                }
+                val bitmapToBlur = blurredBitmapFile.toBitmap() ?: return@launch
+                withContext(Main) {
+                    val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 30)
+                    ivGlanceImageExpandedBackground.setImageBitmap(blurredBitmap)
+                }
             }
         }
     }
@@ -307,10 +333,19 @@ class GlanceFragment : Fragment() {
             cardImageCount.isVisible = true
             currentGlanceImage = glanceImageList[currentImagePosition]
             tvImageCount.text = "${currentImagePosition + 1}/${glanceImageList.size}"
+
+            fun loadExpandedImageView() {
+                lifecycleScope.launch {
+                    blurBitmapForImageBackground()
+                }
+                ivGlanceImageExpanded.load(glanceImageList[currentImagePosition].link)
+                ivGlanceImageExpandedBackground.load(R.drawable.black_wall)
+            }
+
             when {
                 glanceImageList[currentImagePosition].link.endsWith(suffix = ".gif", ignoreCase = true) -> {
-                    vvGlanceVideo.isVisible = false
                     exoPlayerView.isVisible = false
+                    exoPlayer?.release()
                     lifecycleScope.launch {
                         val imageLoader = ImageLoader.Builder(requireContext())
                             .components {
@@ -325,6 +360,7 @@ class GlanceFragment : Fragment() {
                                 placeholder(R.color.black)
                                 error(R.color.md_red_dark)
                             }
+                            loadExpandedImageView()
                         }
                     }
                 }
@@ -345,19 +381,16 @@ class GlanceFragment : Fragment() {
                     }
                 }
                 else -> {
-                    vvGlanceVideo.isVisible = false
                     exoPlayerView.isVisible = false
+                    exoPlayer?.release()
                     ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
                         placeholder(R.color.black)
                         error(R.color.md_red_dark)
                     }
+                    loadExpandedImageView()
                 }
             }
-            lifecycleScope.launch {
-                blurBitmapForImageBackground()
-            }
-            ivGlanceImageExpanded.load(glanceImageList[currentImagePosition].link)
-            ivGlanceImageExpandedBackground.load(R.drawable.black_wall)
+
             sliderGlanceImage.progress = currentImagePosition
             if (currentImagePosition == glanceImageList.lastIndex) {
                 currentImagePosition = 0
@@ -381,7 +414,7 @@ class GlanceFragment : Fragment() {
             btnPlayYoutubeVideo.onSafeClick {
                 val intent = Intent(requireContext(), YoutubeVideoActivity::class.java).apply {
                     putExtra(IntentKey.YOUTUBE_VIDEO_ID, youtubeVideo?.videoId)
-                    putParcelableArrayListExtra(IntentKey.YOUTUBE_VIDEO_LIST, ArrayList(youtubeVideoList))
+                    putParcelableArrayListExtra(IntentKey.YOUTUBE_VIDEO_LIST, youtubeVideoList.toArrayList())
                 }
                 startActivity(intent)
             }

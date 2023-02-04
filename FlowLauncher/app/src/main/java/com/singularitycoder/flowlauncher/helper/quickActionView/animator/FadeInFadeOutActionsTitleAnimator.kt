@@ -1,9 +1,9 @@
-package com.singularitycoder.flowlauncher.helper.quickactionview.animator
+package com.singularitycoder.flowlauncher.helper.quickActionView.animator
 
 import android.view.View
-import com.singularitycoder.flowlauncher.helper.quickactionview.Action
-import com.singularitycoder.flowlauncher.helper.quickactionview.ActionsTitleInAnimator
-import com.singularitycoder.flowlauncher.helper.quickactionview.ActionsTitleOutAnimator
+import com.singularitycoder.flowlauncher.helper.quickActionView.Action
+import com.singularitycoder.flowlauncher.helper.quickActionView.ActionsTitleInAnimator
+import com.singularitycoder.flowlauncher.helper.quickActionView.ActionsTitleOutAnimator
 
 /**
  * Default animator which animates the action title in and out

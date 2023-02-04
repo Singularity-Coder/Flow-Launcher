@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher.helper.quickactionview
+package com.singularitycoder.flowlauncher.helper.quickActionView
 
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener

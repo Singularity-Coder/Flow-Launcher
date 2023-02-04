@@ -1,15 +1,31 @@
 package com.singularitycoder.flowlauncher.addEditMedia.view
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.decode.VideoFrameDecoder
 import coil.load
+import coil.request.ImageRequest
+import coil.request.videoFrameMillis
+import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.addEditMedia.model.AddItem
 import com.singularitycoder.flowlauncher.databinding.ListItemAddBinding
 import com.singularitycoder.flowlauncher.helper.constants.AddItemType
+import com.singularitycoder.flowlauncher.helper.constants.VideoFormat
 import com.singularitycoder.flowlauncher.helper.onSafeClick
+import com.singularitycoder.flowlauncher.helper.toLowCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -66,7 +82,27 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
                 if (listType == AddItemType.GLANCE_IMAGE) {
                     ivGlanceImage.isVisible = true
-                    ivGlanceImage.load(item.link)
+                    if (VideoFormat.values().map { it.extension.toLowCase() }.contains(item.link.substringAfterLast(".").toLowCase())) {
+                        CoroutineScope(IO).launch {
+                            val imageLoader = ImageLoader.Builder(root.context)
+                                .components {
+                                    add(VideoFrameDecoder.Factory())
+                                }
+                                .build()
+                            val imageRequest = ImageRequest.Builder(root.context).data(item.link).build()
+                            val drawable = imageLoader.execute(imageRequest).drawable
+
+                            withContext(Dispatchers.Main) {
+                                ivGlanceImage.load(drawable, imageLoader) {
+                                    videoFrameMillis(1000)
+                                    placeholder(R.color.black)
+                                    error(R.color.md_red_dark)
+                                }
+                            }
+                        }
+                    } else {
+                        ivGlanceImage.load(item.link)
+                    }
                 }
 
                 root.setOnLongClickListener {

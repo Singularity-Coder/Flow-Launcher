@@ -9,8 +9,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.ColorRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.addEditMedia.model.AddItem
 import com.singularitycoder.flowlauncher.databinding.FragmentAddBinding
@@ -25,8 +28,14 @@ import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 import com.singularitycoder.flowlauncher.glance.model.YoutubeVideo
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.AddItemType
+import com.singularitycoder.flowlauncher.helper.constants.QuickActionAddMedia
+import com.singularitycoder.flowlauncher.helper.pinterestView.CircleImageView
+import com.singularitycoder.flowlauncher.helper.pinterestView.PinterestView
+import com.singularitycoder.flowlauncher.helper.quickActionView.Action
+import com.singularitycoder.flowlauncher.helper.quickActionView.QuickActionView
 import com.singularitycoder.flowlauncher.today.model.Quote
 import kotlinx.coroutines.launch
+import java.util.*
 
 class AddFragment : Fragment() {
 
@@ -68,6 +77,20 @@ class AddFragment : Fragment() {
         val file = requireContext().readFileFromExternalDbAndWriteFileToInternalDb(data.data ?: Uri.EMPTY) ?: return@registerForActivityResult
 
         println("originalImageUri: ${data.data}")
+
+        val glanceImage = GlanceImage(
+            link = file.absolutePath,
+            title = file.name
+        )
+        sharedViewModel.addGlanceImageToDb(glanceImage)
+    }
+
+    private val videoSelectionResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it: ActivityResult? ->
+        if (it?.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+        val data = it.data ?: return@registerForActivityResult
+        val file = requireContext().readFileFromExternalDbAndWriteFileToInternalDb(data.data ?: Uri.EMPTY) ?: return@registerForActivityResult
+
+        println("originalVideoUri: ${data.data}")
 
         val glanceImage = GlanceImage(
             link = file.absolutePath,
@@ -173,6 +196,9 @@ class AddFragment : Fragment() {
 
     // https://stackoverflow.com/questions/3467205/android-key-dispatching-timed-out
     private fun FragmentAddBinding.setupUserActionListeners() {
+        setAddFabTouchOptions()
+//        setAddFabTouchOptions2()
+
         ibAddItem.onSafeClick {
             when (listType) {
                 AddItemType.QUOTE -> {
@@ -196,13 +222,6 @@ class AddFragment : Fragment() {
                         )
                         sharedViewModel.addYoutubeVideoToDb(youtubeVideo)
                     }
-                }
-            }
-        }
-        fabAddFlowImage.onSafeClick {
-            when (listType) {
-                AddItemType.GLANCE_IMAGE -> {
-                    readStoragePermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 }
             }
         }
@@ -270,6 +289,88 @@ class AddFragment : Fragment() {
             ) = Unit
         }
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvRoutineSteps)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setAddFabTouchOptions2() {
+        fun createChildView(
+            imageId: Int,
+            tip: String?,
+            @ColorRes colorRes: Int
+        ): View = CircleImageView(requireContext()).apply {
+            borderWidth = 0
+            scaleType = ImageView.ScaleType.CENTER_CROP
+            fillColor = requireContext().color(colorRes)
+            setImageDrawable(requireContext().drawable(imageId)?.changeColor(requireContext(), R.color.purple_500))
+            tag = tip // just for save Menu item tips
+        }
+        binding.pinterestView.addMenuItem(
+            createChildView(R.drawable.round_image_24, "", R.color.purple_50),
+            createChildView(R.drawable.round_image_24, QuickActionAddMedia.SELECT_FROM_GALLERY.value, R.color.purple_50),
+            createChildView(R.drawable.round_photo_camera_24, QuickActionAddMedia.TAKE_PHOTO.value, R.color.purple_50),
+            createChildView(R.drawable.baseline_videocam_24, QuickActionAddMedia.TAKE_VIDEO.value, R.color.purple_50)
+        )
+        binding.pinterestView.setPinClickListener(object : PinterestView.PinMenuClickListener {
+            override fun onMenuItemClick(checkedView: View?, clickItemPos: Int) {
+                requireContext().showToast(checkedView?.tag.toString() + " clicked!")
+            }
+
+            override fun onAnchorViewClick() {
+                requireContext().showToast("button clicked!")
+            }
+        })
+        binding.fabAddFlowImage.setOnTouchListener { v, event ->
+            binding.pinterestView.dispatchTouchEvent(event)
+            true
+        }
+    }
+
+    private fun setAddFabTouchOptions() {
+        val icon1 = requireContext().drawable(R.drawable.round_image_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action1 = Action(id = QuickActionAddMedia.SELECT_FROM_GALLERY.ordinal, icon = icon1!!, title = QuickActionAddMedia.SELECT_FROM_GALLERY.value)
+        val icon2 = requireContext().drawable(R.drawable.round_photo_camera_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action2 = Action(id = QuickActionAddMedia.TAKE_PHOTO.ordinal, icon = icon2!!, title = QuickActionAddMedia.TAKE_PHOTO.value)
+        val icon3 = requireContext().drawable(R.drawable.baseline_videocam_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action3 = Action(id = QuickActionAddMedia.TAKE_VIDEO.ordinal, icon = icon3!!, title = QuickActionAddMedia.TAKE_VIDEO.value)
+        val addFabQuickActionView = QuickActionView.make(requireContext()).apply {
+            addAction(action1)
+            addAction(action2)
+            addAction(action3)
+            register(binding.fabAddFlowImage, 66, -96)
+            setBackgroundColor(requireContext().color(R.color.purple_50))
+            setIndicatorDrawable(createGradientDrawable(width = 150, height = 150))
+        }
+        addFabQuickActionView.setOnActionHoverChangedListener { action: Action?, quickActionView: QuickActionView?, isHovering: Boolean ->
+            if (isHovering) {
+                quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_500))
+                quickActionView?.setIconColor(R.color.purple_50)
+            } else {
+                quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_50))
+                quickActionView?.setIconColor(R.color.purple_500)
+            }
+        }
+        addFabQuickActionView.setOnActionSelectedListener { action: Action?, quickActionView: QuickActionView? ->
+            when (action?.id) {
+                QuickActionAddMedia.SELECT_FROM_GALLERY.ordinal -> {
+                    when (listType) {
+                        AddItemType.GLANCE_IMAGE -> {
+                            readStoragePermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        }
+                    }
+                }
+                QuickActionAddMedia.TAKE_PHOTO.ordinal -> {
+
+                }
+                QuickActionAddMedia.TAKE_VIDEO.ordinal -> {
+                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                        addCategory(Intent.CATEGORY_OPENABLE)
+                        type = "video/*"
+                    }
+                    if (intent.resolveActivity(requireContext().packageManager) == null) return@setOnActionSelectedListener
+                    videoSelectionResult.launch(intent)
+                }
+            }
+        }
     }
 }
 

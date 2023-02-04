@@ -1,12 +1,12 @@
-package com.singularitycoder.flowlauncher.helper.quickactionview.animator
+package com.singularitycoder.flowlauncher.helper.quickActionView.animator
 
 import android.graphics.Point
 import android.view.View
 import android.view.animation.OvershootInterpolator
-import com.singularitycoder.flowlauncher.helper.quickactionview.Action
-import com.singularitycoder.flowlauncher.helper.quickactionview.ActionView
-import com.singularitycoder.flowlauncher.helper.quickactionview.ActionsInAnimator
-import com.singularitycoder.flowlauncher.helper.quickactionview.ActionsOutAnimator
+import com.singularitycoder.flowlauncher.helper.quickActionView.Action
+import com.singularitycoder.flowlauncher.helper.quickActionView.ActionView
+import com.singularitycoder.flowlauncher.helper.quickActionView.ActionsInAnimator
+import com.singularitycoder.flowlauncher.helper.quickActionView.ActionsOutAnimator
 
 /**
  * Animator that slides actions out from the center point. This is the default animation

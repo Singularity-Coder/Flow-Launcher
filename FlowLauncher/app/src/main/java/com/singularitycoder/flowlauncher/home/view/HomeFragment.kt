@@ -44,8 +44,8 @@ import com.singularitycoder.flowlauncher.databinding.FragmentHomeBinding
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
 import com.singularitycoder.flowlauncher.helper.constants.*
-import com.singularitycoder.flowlauncher.helper.quickactionview.Action
-import com.singularitycoder.flowlauncher.helper.quickactionview.QuickActionView
+import com.singularitycoder.flowlauncher.helper.quickActionView.Action
+import com.singularitycoder.flowlauncher.helper.quickActionView.QuickActionView
 import com.singularitycoder.flowlauncher.home.dao.ContactDao
 import com.singularitycoder.flowlauncher.home.model.App
 import com.singularitycoder.flowlauncher.home.model.Contact
@@ -225,8 +225,8 @@ class HomeFragment : Fragment() {
             adapter = homeAppsAdapter
             addItemDecoration(
                 GridSpacingItemDecoration(
-                    spanCount = AppGrid.COLUMNS /* columns */,
-                    spacing = AppGrid.ONE_APP_SIDE_SPACING /* px */,
+                    spanCount = AppGrid.COLUMNS, /* columns */
+                    spacing = AppGrid.ONE_APP_SIDE_SPACING, /* px */
                 )
             )
         }
@@ -244,7 +244,7 @@ class HomeFragment : Fragment() {
                 position = position
             )
         }
-        setTouchOptions()
+        setHomeFabTouchOptions()
         rvApps.setOnLongClickListener {
             root.performLongClick()
             false
@@ -449,28 +449,28 @@ class HomeFragment : Fragment() {
             }
     }
 
-    private fun setTouchOptions() {
-        QuickActionView.make(requireContext()).apply {
-            val icon1 = requireContext().drawable(R.drawable.ic_round_keyboard_voice_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action1 = Action(/* id = */ QuickActions.VOICE_SEARCH.ordinal, /* icon = */ icon1!!, /* title = */ QuickActions.VOICE_SEARCH.value)
-            val icon2 = requireContext().drawable(R.drawable.ic_round_tune_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action2 = Action(/* id = */ QuickActions.QUICK_SETTINGS.ordinal, /* icon = */ icon2!!, /* title = */ QuickActions.QUICK_SETTINGS.value)
-            val icon3 = requireContext().drawable(R.drawable.ic_round_apps_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action3 = Action(/* id = */ QuickActions.SELECT_FLOW.ordinal, /* icon = */ icon3!!, /* title = */ QuickActions.SELECT_FLOW.value)
-            val icon4 = requireContext().drawable(R.drawable.round_eye_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action4 = Action(/* id = */ QuickActions.GLANCE.ordinal, /* icon = */ icon4!!, /* title = */ QuickActions.GLANCE.value)
-            val icon5 = requireContext().drawable(R.drawable.round_today_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action5 = Action(/* id = */ QuickActions.TODAY.ordinal, /* icon = */ icon5!!, /* title = */ QuickActions.TODAY.value)
-            val icon6 = requireContext().drawable(R.drawable.ic_round_notifications_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action6 = Action(/* id = */ QuickActions.NOTIFICATIONS.ordinal, /* icon = */ icon6!!, /* title = */ QuickActions.NOTIFICATIONS.value)
-            val icon7 = requireContext().drawable(R.drawable.ic_round_search_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action7 = Action(/* id = */ QuickActions.UNIVERSAL_SEARCH.ordinal, /* icon = */ icon7!!, /* title = */ QuickActions.UNIVERSAL_SEARCH.value)
-            val icon8 = requireContext().drawable(R.drawable.round_phone_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action8 = Action(/* id = */ QuickActions.PHONE.ordinal, /* icon = */ icon8!!, /* title = */ QuickActions.PHONE.value)
-            val icon9 = requireContext().drawable(R.drawable.round_sms_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action9 = Action(/* id = */ QuickActions.SMS.ordinal, /* icon = */ icon9!!, /* title = */ QuickActions.SMS.value)
-            val icon10 = requireContext().drawable(R.drawable.round_photo_camera_24)?.changeColor(requireContext(), R.color.purple_500)
-            val action10 = Action(/* id = */ QuickActions.CAMERA.ordinal, /* icon = */ icon10!!, /* title = */ QuickActions.PHONE.value)
+    private fun setHomeFabTouchOptions() {
+        val icon1 = requireContext().drawable(R.drawable.ic_round_keyboard_voice_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action1 = Action(id = QuickActionHome.VOICE_SEARCH.ordinal, icon = icon1!!, title = QuickActionHome.VOICE_SEARCH.value)
+        val icon2 = requireContext().drawable(R.drawable.ic_round_tune_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action2 = Action(id = QuickActionHome.QUICK_SETTINGS.ordinal, icon = icon2!!, title = QuickActionHome.QUICK_SETTINGS.value)
+        val icon3 = requireContext().drawable(R.drawable.ic_round_apps_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action3 = Action(id = QuickActionHome.SELECT_FLOW.ordinal, icon = icon3!!, title = QuickActionHome.SELECT_FLOW.value)
+        val icon4 = requireContext().drawable(R.drawable.round_eye_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action4 = Action(id = QuickActionHome.GLANCE.ordinal, icon = icon4!!, title = QuickActionHome.GLANCE.value)
+        val icon5 = requireContext().drawable(R.drawable.round_today_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action5 = Action(id = QuickActionHome.TODAY.ordinal, icon = icon5!!, title = QuickActionHome.TODAY.value)
+        val icon6 = requireContext().drawable(R.drawable.ic_round_notifications_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action6 = Action(id = QuickActionHome.NOTIFICATIONS.ordinal, icon = icon6!!, title = QuickActionHome.NOTIFICATIONS.value)
+        val icon7 = requireContext().drawable(R.drawable.ic_round_search_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action7 = Action(id = QuickActionHome.UNIVERSAL_SEARCH.ordinal, icon = icon7!!, title = QuickActionHome.UNIVERSAL_SEARCH.value)
+        val icon8 = requireContext().drawable(R.drawable.round_phone_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action8 = Action(id = QuickActionHome.PHONE.ordinal, icon = icon8!!, title = QuickActionHome.PHONE.value)
+        val icon9 = requireContext().drawable(R.drawable.round_sms_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action9 = Action(id = QuickActionHome.SMS.ordinal, icon = icon9!!, title = QuickActionHome.SMS.value)
+        val icon10 = requireContext().drawable(R.drawable.round_photo_camera_24)?.changeColor(requireContext(), R.color.purple_500)
+        val action10 = Action(id = QuickActionHome.CAMERA.ordinal, icon = icon10!!, title = QuickActionHome.PHONE.value)
+        val homeFabQuickActionView = QuickActionView.make(requireContext()).apply {
             addAction(action1) // more configuring
             addAction(action2)
             addAction(action3)
@@ -484,65 +484,65 @@ class HomeFragment : Fragment() {
             register(binding.fabVoiceSearch)
             setBackgroundColor(requireContext().color(R.color.purple_50))
             setIndicatorDrawable(null)
-            setOnActionHoverChangedListener { action: Action?, quickActionView: QuickActionView?, isHovering: Boolean ->
-                if (isHovering) {
-                    quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_500))
-                    quickActionView?.setIconColor(R.color.purple_50)
-                } else {
-                    quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_50))
-                    quickActionView?.setIconColor(R.color.purple_500)
-                }
+        }
+        homeFabQuickActionView.setOnActionHoverChangedListener { action: Action?, quickActionView: QuickActionView?, isHovering: Boolean ->
+            if (isHovering) {
+                quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_500))
+                quickActionView?.setIconColor(R.color.purple_50)
+            } else {
+                quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_50))
+                quickActionView?.setIconColor(R.color.purple_500)
             }
-            setOnActionSelectedListener { action: Action?, quickActionView: QuickActionView? ->
-                when (action?.id) {
-                    QuickActions.VOICE_SEARCH.ordinal -> {
-                        // Start Speech to Text
-                        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                            putExtra(
-                                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-                            )
-                            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-                            putExtra(RecognizerIntent.EXTRA_PROMPT, "Start Speaking Now!")
-                        }
-                        speechToTextResult.launch(intent)
+        }
+        homeFabQuickActionView.setOnActionSelectedListener { action: Action?, quickActionView: QuickActionView? ->
+            when (action?.id) {
+                QuickActionHome.VOICE_SEARCH.ordinal -> {
+                    // Start Speech to Text
+                    val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                        putExtra(
+                            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                        )
+                        putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+                        putExtra(RecognizerIntent.EXTRA_PROMPT, "Start Speaking Now!")
                     }
-                    QuickActions.QUICK_SETTINGS.ordinal -> {
-                        if (requireContext().isWriteSettingsPermissionGranted()) {
-                            QuickSettingsBottomSheetFragment.newInstance().show(
-                                requireActivity().supportFragmentManager,
-                                BottomSheetTag.QUICK_SETTINGS
-                            )
-                        }
-                    }
-                    QuickActions.SELECT_FLOW.ordinal -> {
-                        blurAndSaveBitmapForImageBackground()
-                        (requireActivity() as AppCompatActivity).showScreen(
-                            AddEditFlowFragment.newInstance(),
-                            AddEditFlowFragment::class.java.simpleName
+                    speechToTextResult.launch(intent)
+                }
+                QuickActionHome.QUICK_SETTINGS.ordinal -> {
+                    if (requireContext().isWriteSettingsPermissionGranted()) {
+                        QuickSettingsBottomSheetFragment.newInstance().show(
+                            requireActivity().supportFragmentManager,
+                            BottomSheetTag.QUICK_SETTINGS
                         )
                     }
-                    QuickActions.GLANCE.ordinal -> {
-                        (requireActivity() as MainActivity).showHomeScreen(HomeScreen.GLANCE.ordinal)
-                    }
-                    QuickActions.TODAY.ordinal -> {
-                        (requireActivity() as MainActivity).showHomeScreen(HomeScreen.TODAY.ordinal)
-                    }
-                    QuickActions.NOTIFICATIONS.ordinal -> {
+                }
+                QuickActionHome.SELECT_FLOW.ordinal -> {
+                    blurAndSaveBitmapForImageBackground()
+                    (requireActivity() as AppCompatActivity).showScreen(
+                        AddEditFlowFragment.newInstance(),
+                        AddEditFlowFragment::class.java.simpleName
+                    )
+                }
+                QuickActionHome.GLANCE.ordinal -> {
+                    (requireActivity() as MainActivity).showHomeScreen(HomeScreen.GLANCE.ordinal)
+                }
+                QuickActionHome.TODAY.ordinal -> {
+                    (requireActivity() as MainActivity).showHomeScreen(HomeScreen.TODAY.ordinal)
+                }
+                QuickActionHome.NOTIFICATIONS.ordinal -> {
 
-                    }
-                    QuickActions.UNIVERSAL_SEARCH.ordinal -> {
+                }
+                QuickActionHome.UNIVERSAL_SEARCH.ordinal -> {
 
-                    }
-                    QuickActions.PHONE.ordinal -> {
-                        requireContext().openDialer("")
-                    }
-                    QuickActions.SMS.ordinal -> {
-                        requireContext().sendSms("", "")
-                    }
-                    QuickActions.CAMERA.ordinal -> {
-                        requireActivity().launchApp("com.android.camera2")
-                    }
+                }
+                QuickActionHome.PHONE.ordinal -> {
+                    requireContext().openDialer("")
+                }
+                QuickActionHome.SMS.ordinal -> {
+                    requireContext().sendSms("", "")
+                }
+                QuickActionHome.CAMERA.ordinal -> {
+                    requireActivity().launchApp("com.android.camera2")
                 }
             }
         }

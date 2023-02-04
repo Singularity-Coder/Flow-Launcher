@@ -26,4 +26,20 @@
             <enum name="disabled" value="1" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="PinterestView">
+        <attr name="child_size" format="dimension|float"/>
+        <attr name="child_radius" format="dimension"/>
+        <attr name="child_max_scale" format="float"/>
+        <attr name="tips_color" format="color"/>
+        <attr name="tips_background" format="reference"/>
+        <attr name="tips_size" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_fill_color" format="color" />
+    </declare-styleable>
 </resources>

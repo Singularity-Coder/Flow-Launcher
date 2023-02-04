@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher.helper.quickactionview
+package com.singularitycoder.flowlauncher.helper.quickActionView
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,18 +13,13 @@ import android.view.*
 import android.view.View.OnTouchListener
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
-import androidx.annotation.MenuRes
+import androidx.annotation.*
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.content.ContextCompat
-import coil.load
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.helper.*
-import com.singularitycoder.flowlauncher.helper.quickactionview.animator.FadeInFadeOutActionsTitleAnimator
-import com.singularitycoder.flowlauncher.helper.quickactionview.animator.SlideFromCenterAnimator
+import com.singularitycoder.flowlauncher.helper.quickActionView.animator.FadeInFadeOutActionsTitleAnimator
+import com.singularitycoder.flowlauncher.helper.quickActionView.animator.SlideFromCenterAnimator
 import kotlin.math.*
 
 /**
@@ -126,8 +121,8 @@ open class QuickActionView private constructor(private val mContext: Context) {
      * @param view the view to have long press responses
      * @return the QuickActionView
      */
-    fun register(view: View): QuickActionView {
-        val listener = RegisteredListener()
+    fun register(view: View, touchX: Int? = null, touchY: Int? = null): QuickActionView {
+        val listener = RegisteredListener(touchX, touchY)
         registeredListeners[view] = listener
         view.setOnTouchListener(listener)
 //        view.setOnLongClickListener(listener)
@@ -826,19 +821,15 @@ open class QuickActionView private constructor(private val mContext: Context) {
     /**
      * A class to combine a long click listener and a touch listener, to register views with
      */
-    private inner class RegisteredListener : /*OnLongClickListener,*/ OnTouchListener {
-//        private var mTouchX = 0f
-//        private var mTouchY = 0f
-
-//        override fun onLongClick(v: View): Boolean {
-//            show(v, Point(mTouchX.toInt(), mTouchY.toInt()))
-//            return false
-//        }
+    private inner class RegisteredListener(
+        val touchX: Int? = null,
+        val touchY: Int? = null
+    ) : OnTouchListener {
 
         override fun onTouch(v: View, event: MotionEvent): Boolean {
 //            if (isShown.not()) show(anchor = v, offset = Point(mTouchX.toInt(), mTouchY.toInt()))
-            val x = -276 // deviceWidth - 16dp padding of fab to the right - fab radius 56/2
-            val y = -370 // deviceHeight - 16dp padding of fab to the right - fab radius 56/2
+            val x = touchX ?: -276 // deviceWidth - 16dp padding of fab to the right - fab radius 56/2
+            val y = touchY ?: -370 // deviceHeight - 16dp padding of fab to the right - fab radius 56/2
             if (isShown.not()) show(anchor = v, offset = Point(x, y))
 //            println("xx: ${event.x}, yy: ${event.y}")
 //            println("x: ${x}, y: ${y}")

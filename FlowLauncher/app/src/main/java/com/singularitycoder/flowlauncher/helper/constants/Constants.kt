@@ -54,7 +54,7 @@ enum class HomeScreen {
     GLANCE, APPS, TODAY
 }
 
-enum class QuickActions(val value: String) {
+enum class QuickActionHome(val value: String) {
     NONE(value = "None"),
     VOICE_SEARCH(value = "Voice Search"),
     QUICK_SETTINGS(value = "Quick Settings"),
@@ -66,6 +66,13 @@ enum class QuickActions(val value: String) {
     PHONE(value = "Phone"),
     SMS(value = "SMS"),
     CAMERA(value = "Camera"),
+}
+
+enum class QuickActionAddMedia(val value: String) {
+    NONE(value = "None"),
+    SELECT_FROM_GALLERY(value = "Select from gallery"),
+    TAKE_PHOTO(value = "Take Photo"),
+    TAKE_VIDEO(value = "Take Video"),
 }
 
 object AppGrid {

@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher.helper.quickactionview
+package com.singularitycoder.flowlauncher.helper.quickActionView
 
 import android.content.Context
 import android.content.res.ColorStateList

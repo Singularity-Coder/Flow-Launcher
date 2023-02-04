@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.AddFragment">
+    tools:context=".addEditMedia.view.AddFragment">
 
     <!--https://stackoverflow.com/questions/34454182/round-only-top-corner-of-cardview-->
     <!--https://stackoverflow.com/questions/51178933/cardview-with-different-corner-radius/57837141#57837141-->
@@ -107,23 +107,52 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/et_add_item"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
+            <!--            <EditText-->
+            <!--                android:id="@+id/et_add_item"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="20dp"-->
+            <!--                android:layout_marginEnd="6dp"-->
+            <!--                android:background="@null"-->
+            <!--                android:enabled="true"-->
+            <!--                android:hint="Add ..."-->
+            <!--                android:imeOptions="actionDone"-->
+            <!--                android:inputType="textMultiLine"-->
+            <!--                android:lines="15"-->
+            <!--                android:minHeight="50dp"-->
+            <!--                android:textColor="@color/title_color"-->
+            <!--                android:textSize="16sp"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toStartOf="@+id/card_add_item"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_add_item"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
-                android:background="@null"
-                android:enabled="true"
-                android:hint="Add ..."
-                android:imeOptions="actionDone"
-                android:inputType="textCapSentences"
-                android:textColor="@color/title_color"
-                android:textSize="16sp"
+                app:boxBackgroundColor="@null"
+                app:boxStrokeColor="@android:color/transparent"
+                app:boxStrokeWidth="0dp"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/purple_500"
+                app:hintEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/card_add_item"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearance="@style/RoundSmall"
+                app:startIconContentDescription="Password">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_add_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Add ..."
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_add_item"
@@ -147,5 +176,18 @@
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
+    <com.singularitycoder.flowlauncher.helper.pinterestView.PinterestView xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pinterest_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#50000000"
+        android:visibility="gone"
+        custom:child_max_scale="1.2"
+        custom:child_radius="96dp"
+        custom:child_size="44dp"
+        custom:tips_background="@drawable/shape_child_item"
+        custom:tips_color="@android:color/white"
+        custom:tips_size="14sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

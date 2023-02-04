@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher.helper.quickactionview
+package com.singularitycoder.flowlauncher.helper.quickActionView
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -9,7 +9,6 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.singularitycoder.flowlauncher.R
-import com.singularitycoder.flowlauncher.helper.color
 import com.singularitycoder.flowlauncher.helper.getThemeAttrColor
 
 /**
