@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.singularitycoder.flowlauncher.helper
+package com.singularitycoder.flowlauncher.helper.taskbar
 
 import android.accessibilityservice.AccessibilityService
 import android.content.BroadcastReceiver
@@ -21,7 +21,11 @@ import android.content.Intent
 import android.view.accessibility.AccessibilityEvent
 import com.singularitycoder.flowlauncher.helper.constants.IntentAction
 import com.singularitycoder.flowlauncher.helper.constants.IntentExtra
+import com.singularitycoder.flowlauncher.helper.registerCustomReceiver
+import com.singularitycoder.flowlauncher.helper.showToast
+import com.singularitycoder.flowlauncher.helper.unregisterCustomReceiver
 
+// https://github.com/farmerbb/Taskbar
 class PowerMenuService : AccessibilityService() {
     private val powerMenuReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -35,11 +39,11 @@ class PowerMenuService : AccessibilityService() {
     override fun onInterrupt() {}
     override fun onCreate() {
         super.onCreate()
-        registerCustomReceiver(this, powerMenuReceiver, IntentAction.ACTION_ACCESSIBILITY_ACTION)
+        registerCustomReceiver(powerMenuReceiver, IntentAction.ACTION_ACCESSIBILITY_ACTION)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterCustomReceiver(this, powerMenuReceiver)
+        unregisterCustomReceiver(powerMenuReceiver)
     }
 }

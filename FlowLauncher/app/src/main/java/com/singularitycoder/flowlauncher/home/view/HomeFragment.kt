@@ -129,10 +129,10 @@ class HomeFragment : Fragment() {
             val contact = contactDao.getAll().firstOrNull { it.name.contains(contactName) }
             when (speechAction) {
                 SpeechAction.CALL -> {
-                    requireContext().openDialer(contact?.mobileNumber ?: "")
+                    requireContext().openDialer(phoneNumber = contact?.mobileNumber ?: "")
                 }
                 SpeechAction.MESSAGE -> {
-                    requireContext().sendSms(contact?.mobileNumber ?: "", messageBody)
+                    requireContext().sendSms(phoneNumber = contact?.mobileNumber ?: "", body = messageBody)
                 }
                 else -> Unit
             }
@@ -145,19 +145,16 @@ class HomeFragment : Fragment() {
         if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
         val data: Intent? = result.data
         lifecycleScope.launch(IO) {
-            val text =
-                data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
-                    ?.trim()
+            val text = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()?.trim()
             println("speech result: $text")
             when (text?.substringBefore(" ")?.toLowCase()) {
                 SpeechAction.OPEN.value, SpeechAction.LAUNCH.value -> {
                     // TODO get app list from DB
                     val appName = text.substringAfter(" ")
-                    val app = context?.appList()?.firstOrNull { it.title.contains(appName) }
-                        ?: kotlin.run {
-                            // show list of apps with the starting letter
-                            return@launch
-                        }
+                    val app = context?.appList()?.firstOrNull { it.title.contains(appName) } ?: kotlin.run {
+                        // show list of apps with the starting letter
+                        return@launch
+                    }
                     withContext(Main) {
                         requireActivity().launchApp(app.packageName)
                     }
@@ -196,7 +193,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Check if app count modified. if so then trigger apsp
+        // Check if app count modified. if so then trigger apps
 //        if (homeAppsAdapter.homeAppList.size != requireContext().appInfoList().size) {
 //            refreshAppList()
 //        }
@@ -225,7 +222,7 @@ class HomeFragment : Fragment() {
             adapter = homeAppsAdapter
             addItemDecoration(
                 GridSpacingItemDecoration(
-                    spanCount = AppGrid.COLUMNS, /* columns */
+                    spanCount = AppGrid.COLUMNS,
                     spacing = AppGrid.ONE_APP_SIDE_SPACING, /* px */
                 )
             )
@@ -295,8 +292,7 @@ class HomeFragment : Fragment() {
         }
         defaultFlowApps?.forEach { defaultApp: App ->
             val isDefaultAppNotPresentInSelectedApp =
-                selectedFlow?.appList?.map { it.packageName }?.contains(defaultApp.packageName)
-                    ?.not() == true
+                selectedFlow?.appList?.map { it.packageName }?.contains(defaultApp.packageName)?.not() == true
             if (isDefaultAppNotPresentInSelectedApp) {
                 defaultApp.disable(requireContext())
             }
@@ -349,8 +345,7 @@ class HomeFragment : Fragment() {
 
             withContext(Main) {
                 binding.tvTime.text = getHtmlFormattedTime(html)
-                binding.tvFlowType.text =
-                    "$day, ${convertLongToTime(timeNow, DateType.dd_MMM_yyyy)}  |  $flowName"
+                binding.tvFlowType.text = "$day, ${convertLongToTime(timeNow, DateType.dd_MMM_yyyy)}  |  $flowName"
             }
         }
     }
@@ -530,7 +525,7 @@ class HomeFragment : Fragment() {
                     (requireActivity() as MainActivity).showHomeScreen(HomeScreen.TODAY.ordinal)
                 }
                 QuickActionHome.NOTIFICATIONS.ordinal -> {
-
+                    requireContext().showNotificationDrawer()
                 }
                 QuickActionHome.UNIVERSAL_SEARCH.ordinal -> {
 

@@ -663,6 +663,10 @@ val animeQuoteList = listOf(
             That's the moment they lost.
         """.trimIndentsAndNewLines()
     ),
+    Quote(
+        title = "A man should own up to his mistakes and bear through the consequences!",
+        author = "Magic Emperor"
+    ),
 ).shuffled()
 
 val generalQuoteList = listOf(

@@ -300,7 +300,7 @@ class GlanceFragment : Fragment() {
                 }
                 val bitmapToBlur = blurredBitmapFile.toBitmap() ?: return@launch
                 withContext(Main) {
-                    val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 30)
+                    val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 50)
                     ivGlanceImageExpandedBackground.setImageBitmap(blurredBitmap)
                 }
             }

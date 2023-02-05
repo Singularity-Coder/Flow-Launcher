@@ -23,11 +23,13 @@ fun Context.shareImageAndTextViaApps(
         putExtra(Intent.EXTRA_SUBJECT, title)
         putExtra(Intent.EXTRA_TEXT, subtitle)
     }
-    startActivity(Intent.createChooser(intent, intentTitle ?: "Share to..."))
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(Intent.createChooser(intent, intentTitle ?: "Share to..."))
+    }
 }
 
-fun Context.openDialer(phoneNum: String) {
-    val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNum, null))
+fun Context.openDialer(phoneNumber: String) {
+    val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null))
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
@@ -43,10 +45,10 @@ fun Context.makeCall(phoneNum: String) {
     }
 }
 
-fun Context.sendSms(phoneNum: String, body: String) {
+fun Context.sendSms(phoneNumber: String, body: String) {
     try {
         val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse("sms:$phoneNum")
+            data = Uri.parse("sms:$phoneNumber")
             putExtra("sms_body", body)
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
         }

@@ -373,11 +373,11 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             dismiss()
         }
         layoutNotifications.root.onSafeClick {
-            // TODO today
+            requireContext().showNotificationDrawer()
             dismiss()
         }
         layoutLockScreen.root.onSafeClick {
-            // TODO today
+            requireContext().lockDevice()
             dismiss()
         }
         layoutPower.root.onSafeClick {

@@ -1,11 +1,5 @@
 package com.singularitycoder.flowlauncher.helper.pinterestView
 
-/**
- * Created by Bruce Too
- * On 10/3/15.
- * At 00:52
- * https://github.com/hdodenhof/CircleImageView
- */
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
@@ -19,6 +13,12 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.helper.color
 
+/**
+ * Created by Bruce Too
+ * On 10/3/15.
+ * At 00:52
+ * https://github.com/hdodenhof/CircleImageView
+ */
 class CircleImageView : AppCompatImageView {
 
     companion object {

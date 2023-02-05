@@ -223,6 +223,7 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Erased : 01 - Only I am missing", videoId = "xc74Bm__cP8"),
     YoutubeVideo(title = "Sawano Hiroyuki[nZk] ft Mika Kobayashi - ThreeFiveNineFour [English & Terjemahan]", videoId = "BTaA89dlORE"),
     YoutubeVideo(title = "Ashes on The Fire (Extended) | Attack on Titan Season 4", videoId = "pOH0CgDLuSo"), // EPIC
+    YoutubeVideo(title = "Made in Abyss S2 - Old Stories by @kpenkin", videoId = "uvUxKOhaEHQ"),
 )
 
 val epicAnimeMomentsList = listOf(
@@ -398,7 +399,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "Metallica - Some Kind Of Monster", videoId = "NxSgYehng1k"),
     YoutubeVideo(title = "RRR - Naatu Naatu", videoId = "_vktceH8ZA0"),
     YoutubeVideo(title = "CYMATICS: Science Vs. Music - Nigel Stanford", videoId = "Q3oItpVa9fs"),
-    YoutubeVideo(title = "Alam Khan - Akash (Ether) Pt. I", videoId = "fc7oO0clYgM&t"),
+    YoutubeVideo(title = "Alam Khan - Akash (Ether) Pt. I", videoId = "fc7oO0clYgM"),
 )
 
 val otherEpicMomentsList = listOf(
@@ -440,6 +441,7 @@ val gameCinematicsList = listOf(
     YoutubeVideo(title = "Assassin's Creed 3 - E3 Official Trailer", videoId = "-pUhraVG7Ow"),
     YoutubeVideo(title = "Assassin's Creed Unity E3 2014 World Premiere Cinematic Trailer", videoId = "xzCEdSKMkdU"),
     YoutubeVideo(title = "Unreal Engine 5 PlayStation 5 Tech Demo", videoId = "wq0JC7Cs0Vg"),
+    YoutubeVideo(title = "Overwatch 2 - Official Cinematic “Zero Hour” Trailer | Blizzcon 2019", videoId = "yBeWUYvE-iU"),
 )
 
 val allYoutubeVideos = listOf(
