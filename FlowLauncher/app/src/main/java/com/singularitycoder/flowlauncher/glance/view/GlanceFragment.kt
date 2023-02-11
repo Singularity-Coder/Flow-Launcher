@@ -39,7 +39,6 @@ import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.blur.BlurStackOptimized
 import com.singularitycoder.flowlauncher.helper.constants.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -158,8 +157,8 @@ class GlanceFragment : Fragment() {
         }
 
         btnShowInBrowser.onSafeClick {
-            requireActivity().openWithChrome(
-                glanceImageList[currentImagePosition].title.ifBlank {
+            requireActivity().showWebPage(
+                url = glanceImageList[currentImagePosition].title.ifBlank {
                     glanceImageList[currentImagePosition].link
                 }
             )
@@ -270,7 +269,7 @@ class GlanceFragment : Fragment() {
     }
 
     private fun FragmentGlanceBinding.onMotionEventActionDown() {
-        val currentPosition = if (currentImagePosition == 0) glanceImageList.size else currentImagePosition - 1
+        val currentPosition = if (currentImagePosition == 0) glanceImageList.lastIndex else currentImagePosition - 1
         val isGlanceVideoShown = VideoFormat.values().map { it.extension.toLowCase() }.contains(glanceImageList[currentPosition].link.substringAfterLast(".").toLowCase())
         if (isGlanceVideoShown) {
             exoGlanceVideoExpanded.isVisible = true

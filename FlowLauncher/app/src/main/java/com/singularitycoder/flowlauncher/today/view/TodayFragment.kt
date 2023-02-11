@@ -154,14 +154,14 @@ class TodayFragment : Fragment() {
             tvSource.text = "$source  \u2022  ${newsList[calculatedNewsPosition].time}"
             tvTitle.text = newsList[calculatedNewsPosition].title
             btnFullStory.onSafeClick {
-                requireActivity().openWithChrome(url = newsList[calculatedNewsPosition].link ?: "")
+                requireActivity().showWebPage(url = newsList[calculatedNewsPosition].link ?: "")
             }
             newsPosition++
             newsImagePosition++
         }
 
         cardWeather.onSafeClick {
-            requireActivity().searchWithChrome(query = "weather")
+            requireActivity().showWebPage(url = "https://www.google.com/search?q=weather")
         }
     }
 

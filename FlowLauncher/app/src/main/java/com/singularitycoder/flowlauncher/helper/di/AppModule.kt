@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.media.AudioManager
 import android.net.wifi.WifiManager
+import com.singularitycoder.flowlauncher.helper.NotificationUtils
 import com.singularitycoder.flowlauncher.helper.db.*
 import dagger.Module
 import dagger.Provides
@@ -33,4 +34,10 @@ object AppModule {
     fun injectBluetoothManager(
         @ApplicationContext appContext: Context
     ): BluetoothManager = appContext.applicationContext.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+
+    @Singleton
+    @Provides
+    fun injectNotificationUtils(
+        @ApplicationContext appContext: Context
+    ): NotificationUtils = NotificationUtils(appContext)
 }

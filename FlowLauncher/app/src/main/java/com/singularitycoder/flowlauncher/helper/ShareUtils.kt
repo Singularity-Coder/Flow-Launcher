@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 
 // https://stackoverflow.com/questions/33222918/sharing-bitmap-via-android-intent
@@ -118,4 +119,8 @@ fun Activity.openWithChrome(url: String) {
             startActivity(intent)
         }
     }
+}
+
+fun Context.showWebPage(url: String) {
+    CustomTabsIntent.Builder().build().launchUrl(this, Uri.parse(url))
 }

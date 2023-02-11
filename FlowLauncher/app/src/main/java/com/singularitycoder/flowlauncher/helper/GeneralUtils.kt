@@ -296,8 +296,8 @@ fun <T> AppCompatActivity.collectLatestLifecycleFlow(flow: Flow<T>, collect: sus
     }
 }
 
-fun Context?.showToast(message: String) {
-    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+fun Context?.showToast(message: String, duration: Int = Toast.LENGTH_LONG) {
+    Toast.makeText(this, message, duration).show()
 }
 
 fun Context.getRealUrlFromWebView(

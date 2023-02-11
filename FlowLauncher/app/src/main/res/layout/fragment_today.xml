@@ -92,7 +92,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="12dp"
                         android:layout_marginBottom="4dp"
                         android:alpha="0.8"
                         android:text="xyznews.com"
@@ -108,7 +108,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="12dp"
                         android:layout_marginBottom="16dp"
                         android:maxLines="12"
                         android:text="What is “dark energy”?"
@@ -123,17 +123,29 @@
                         app:layout_constraintEnd_toStartOf="@+id/btn_full_story"
                         app:layout_constraintStart_toStartOf="parent" />
 
+<!--                    <com.google.android.material.button.MaterialButton-->
+<!--                        android:id="@+id/btn_full_story"-->
+<!--                        style="@style/Widget.App.Button.IconOnly"-->
+<!--                        android:layout_width="32dp"-->
+<!--                        android:layout_height="32dp"-->
+<!--                        android:layout_marginEnd="10dp"-->
+<!--                        android:layout_marginBottom="10dp"-->
+<!--                        android:background="@android:color/transparent"-->
+<!--                        app:icon="@drawable/round_arrow_outward_24"-->
+<!--                        app:iconTint="@color/white"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent" />-->
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_full_story"
                         style="@style/Widget.App.Button.IconOnly"
                         android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@android:color/transparent"
-                        app:icon="@drawable/ic_round_open_in_new_24"
-                        app:iconTint="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:backgroundTint="@color/screen_background"
+                        android:elevation="1dp"
+                        app:icon="@drawable/round_arrow_outward_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_title"
                         app:layout_constraintEnd_toEndOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

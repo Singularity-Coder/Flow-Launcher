@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -30,6 +31,10 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission
         android:name="android.permission.BLUETOOTH"
+        android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.camera.flash"
         android:required="false" />
 
     <!--For all/other package/app visibility - https://developer.android.com/training/package-visibility-->
@@ -100,16 +105,23 @@
             android:exported="false"
             android:screenOrientation="landscape"
             android:turnScreenOn="true" />
+        <activity
+            android:name=".helper.BarcodeScanActivity"
+            android:screenOrientation="fullSensor"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <service
             android:name=".helper.taskbar.PowerMenuService"
             android:enabled="true"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:exported="true">
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
-            <meta-data android:name="android.accessibilityservice"
+            <meta-data
+                android:name="android.accessibilityservice"
                 android:resource="@xml/tb_accessibility_service" />
         </service>
 
@@ -126,6 +138,7 @@
                 <action android:name="android.intent.action.ACTION_PACKAGE_REMOVED" />
 
                 <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
+
                 <data android:scheme="package" />
 
                 <action android:name="android.intent.action.PACKAGE_ADDED" />

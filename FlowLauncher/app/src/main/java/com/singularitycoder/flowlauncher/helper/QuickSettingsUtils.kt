@@ -2,11 +2,11 @@ package com.singularitycoder.flowlauncher.helper
 
 import android.Manifest
 import android.accessibilityservice.AccessibilityService
-import android.annotation.TargetApi
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.*
 import android.content.pm.PackageManager
+import android.hardware.camera2.CameraManager
 import android.location.GnssStatus
 import android.location.LocationManager
 import android.media.AudioManager
@@ -100,16 +100,8 @@ fun Context.openSettings(screen: String) = try {
 } catch (_: Exception) {
 }
 
-fun Context.isCameraPermissionGranted(): Boolean {
-    return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-}
-
-fun Context.isPhoneStatePermissionGranted(): Boolean {
-    return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
-}
-
-fun Context.isLocationPermissionGranted(): Boolean {
-    return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+fun Context.hasPermission(permission: String): Boolean {
+    return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 }
 
 fun Context.isBluetoothPermissionGranted(): Boolean {
@@ -449,27 +441,49 @@ fun shutDownOnRootedDevice() {
     }
 }
 
-fun Context.isFlashAvailable(): Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
-
-// https://github.com/farmerbb/Taskbar
-@TargetApi(Build.VERSION_CODES.P)
+// Primary source: https://github.com/farmerbb/Taskbar
+// https://stackoverflow.com/questions/14352648/how-to-lock-unlock-screen-programmatically
+// https://rdcworld-android.blogspot.com/2012/03/lock-phone-screen-programmtically.html
 fun Context.lockDevice() {
-    sendAccessibilityAction(
-        action = AccessibilityService.GLOBAL_ACTION_LOCK_SCREEN,
-        onComplete = {
-            showToast("Accessibility granted")
-        }
-    )
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        sendAccessibilityAction(action = AccessibilityService.GLOBAL_ACTION_LOCK_SCREEN, onComplete = {})
+    }
 }
 
-@TargetApi(Build.VERSION_CODES.P)
 fun Context.showNotificationDrawer() {
-    sendAccessibilityAction(
-        action = AccessibilityService.GLOBAL_ACTION_NOTIFICATIONS,
-        onComplete = {
-            showToast("Accessibility granted")
-        }
-    )
+    sendAccessibilityAction(action = AccessibilityService.GLOBAL_ACTION_NOTIFICATIONS, onComplete = {})
+}
+
+fun Context.showPowerButtonActions() {
+    sendAccessibilityAction(action = AccessibilityService.GLOBAL_ACTION_POWER_DIALOG, onComplete = {})
+}
+
+fun Context.takeScreenshot() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        sendAccessibilityAction(action = AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT, onComplete = {})
+    }
+}
+
+fun Context.toggleSplitScreen() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        sendAccessibilityAction(action = AccessibilityService.GLOBAL_ACTION_TOGGLE_SPLIT_SCREEN, onComplete = {})
+    }
+}
+
+fun Context.showAndroidNavAppsSwitcher() {
+    sendAccessibilityAction(action = AccessibilityService.GLOBAL_ACTION_RECENTS, onComplete = {})
+}
+
+fun Context.showAndroidNavHome() {
+    sendAccessibilityAction(action = AccessibilityService.GLOBAL_ACTION_HOME, onComplete = {})
+}
+
+fun Context.showAndroidNavBack() {
+    sendAccessibilityAction(action = AccessibilityService.GLOBAL_ACTION_BACK, onComplete = {})
+}
+
+fun Context.showQuickSettings() {
+    sendAccessibilityAction(action = AccessibilityService.GLOBAL_ACTION_QUICK_SETTINGS, onComplete = {})
 }
 
 // https://github.com/farmerbb/Taskbar
@@ -575,3 +589,42 @@ fun isAccessibilityServiceEnabled(context: Context): Boolean {
 }
 
 fun isLibrary(context: Context): Boolean = context.packageName != BuildConfig.APPLICATION_ID
+
+fun Context.showVolumeQuickSettings() {
+    val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    audioManager.adjustSuggestedStreamVolume(AudioManager.ADJUST_SAME, AudioManager.USE_DEFAULT_STREAM_TYPE, AudioManager.FLAG_SHOW_UI)
+}
+
+fun Context.showFileManager() {
+    val fileManagerIntent: Intent
+
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) fileManagerIntent = Intent(Intent.ACTION_VIEW) else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) fileManagerIntent = Intent("android.provider.action.BROWSE") else {
+        fileManagerIntent = Intent("android.provider.action.BROWSE_DOCUMENT_ROOT")
+        fileManagerIntent.component = ComponentName.unflattenFromString("com.android.documentsui/.DocumentsActivity")
+    }
+
+    fileManagerIntent.addCategory(Intent.CATEGORY_DEFAULT)
+    fileManagerIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    fileManagerIntent.data = Uri.parse("content://com.android.externalstorage.documents/root/primary")
+
+    try {
+        startActivity(fileManagerIntent)
+    } catch (e: ActivityNotFoundException) {
+        showToast(getString(R.string.tb_lock_device_not_supported))
+    } catch (ignored: IllegalArgumentException) {
+    }
+}
+
+fun Context.isFlashAvailable(): Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
+
+fun Context.isFrontCameraAvailable(): Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)
+
+fun flashLight(isOn: Boolean, cameraManager: CameraManager) {
+    try {
+        val cameraId = cameraManager.cameraIdList.firstOrNull() ?: ""
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            cameraManager.setTorchMode(cameraId, isOn)
+        }
+    } catch (_: Exception) {
+    }
+}

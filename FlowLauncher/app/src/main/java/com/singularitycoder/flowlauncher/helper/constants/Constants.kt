@@ -2,6 +2,7 @@ package com.singularitycoder.flowlauncher.helper.constants
 
 import android.Manifest
 import android.os.Build
+import android.os.Parcelable
 import android.provider.Settings
 import androidx.annotation.RequiresApi
 import com.singularitycoder.flowlauncher.BuildConfig
@@ -9,6 +10,7 @@ import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.addEditMedia.view.AddFragment
 import com.singularitycoder.flowlauncher.helper.deviceWidth
 import com.singularitycoder.flowlauncher.helper.dpToPx
+import kotlinx.parcelize.Parcelize
 import java.util.concurrent.TimeUnit
 
 const val FILE_PROVIDER_AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider"
@@ -22,6 +24,23 @@ const val HOME_LAYOUT_BLURRED_IMAGE = "home_layout_blurred_image.jpg"
 val THIRTY_DAYS_IN_MILLIS = TimeUnit.DAYS.toMillis(30L)
 val TWENTY_FOUR_HOURS_IN_MILLIS = TimeUnit.HOURS.toMillis(24L)
 
+val quickSettingsPermissions = arrayOf(
+    Manifest.permission.CAMERA,
+    Manifest.permission.READ_PHONE_STATE,
+    Manifest.permission.ACCESS_COARSE_LOCATION,
+    Manifest.permission.ACCESS_FINE_LOCATION,
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        Manifest.permission.POST_NOTIFICATIONS
+    } else {
+        Manifest.permission.CAMERA
+    },
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        Manifest.permission.BLUETOOTH_CONNECT
+    } else {
+        Manifest.permission.BLUETOOTH
+    }
+)
+
 object IntentAction {
     const val ACTION_ACCESSIBILITY_ACTION = "com.singularitycoder.flowlauncher.ACCESSIBILITY_ACTION"
 }
@@ -30,17 +49,16 @@ object IntentExtra {
     const val EXTRA_ACTION = "action"
 }
 
-val quickSettingsPermissions = arrayOf(
-    Manifest.permission.CAMERA,
-    Manifest.permission.READ_PHONE_STATE,
-    Manifest.permission.ACCESS_COARSE_LOCATION,
-    Manifest.permission.ACCESS_FINE_LOCATION,
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        Manifest.permission.BLUETOOTH_CONNECT
-    } else {
-        Manifest.permission.BLUETOOTH
-    }
-)
+@Parcelize
+enum class Notif(
+    val channelName: String,
+    val channelId: String
+) : Parcelable {
+    SCREENSHOT_COUNTDOWN(
+        channelName = "SCREENSHOT_COUNTDOWN",
+        channelId = "${BuildConfig.APPLICATION_ID}.SCREENSHOT_COUNTDOWN"
+    )
+}
 
 enum class VideoFormat(val extension: String) {
     MPEG_4(extension = "mp4"),
@@ -99,6 +117,7 @@ object FragmentsTag {
 object IntentKey {
     const val YOUTUBE_VIDEO_LIST = "YOUTUBE_VIDEO_LIST"
     const val YOUTUBE_VIDEO_ID = "YOUTUBE_VIDEO_ID"
+    const val NOTIF_SCREENSHOT_COUNTDOWN = "NOTIF_SCREENSHOT_COUNTDOWN"
 }
 
 object AddItemType {
@@ -170,6 +189,7 @@ object WorkerTag {
     const val WEATHER_PARSER = "WORKER_TAG_WEATHER_PARSER"
     const val PUBLIC_HOLIDAYS_PARSER = "WORKER_TAG_PUBLIC_HOLIDAYS_PARSER"
     const val TRENDING_TWEETS_PARSER = "WORKER_TAG_TRENDING_TWEETS_PARSER"
+    const val TIME_ANNOUNCER = "WORKER_TAG_TIME_ANNOUNCER"
 }
 
 enum class SpeechAction(val value: String) {

@@ -160,6 +160,9 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FQs0rDHUYAQ8TVs?format=jpg&name=large", title = "https://www.artstation.com/dadachyo"),
     GlanceImage(link = "https://pbs.twimg.com/media/FDRQxYyaMAA_F4H?format=jpg&name=medium", title = "https://www.artstation.com/dadachyo"),
     GlanceImage(link = "https://pbs.twimg.com/media/FDRQxn7agAA1ktZ?format=jpg&name=medium", title = "https://www.artstation.com/dadachyo"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/007/049/634/large/dadachyo-ddc-20170212-800png.jpg?1503317803", title = "https://www.artstation.com/dadachyo"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/032/084/096/large/dadachyo-2018-3.jpg?1605440629", title = "https://www.artstation.com/dadachyo"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/032/084/093/large/dadachyo-2018-2.jpg?1605440626", title = "https://www.artstation.com/dadachyo"),
 
     // https://www.pixiv.net/en/users/2240866/artworks - Artist 'O'ne
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/044/310/900/large/o-ne-87423019-p1.jpg?1639646200", title = "https://www.artstation.com/ua21b57a7"),
@@ -404,6 +407,8 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://static.zerochan.net/Suda.Ayaka.full.3580598.png", title = "https://www.zerochan.net/3580598"),
     GlanceImage(link = "https://i.pinimg.com/564x/c7/90/f6/c790f67e19d50cb35be9d2a99c8304c8.jpg", title = "http://ayakasuda.com/"),
     GlanceImage(link = "https://i.pinimg.com/564x/2c/ad/8a/2cad8a4f8ae9a0d4e99aa36e28d67b4d.jpg", title = "http://ayakasuda.com/"),
+    GlanceImage(link = "https://i.pinimg.com/originals/06/2f/c4/062fc4d7bc3627711326659f195b599a.png", title = "http://ayakasuda.com/"),
+    GlanceImage(link = "https://i.pinimg.com/originals/ed/4f/38/ed4f3893e6fe02d651592fcb5dfbb32b.png", title = "http://ayakasuda.com/"),
 
     // https://www.artstation.com/airipan
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/051/928/801/large/airi-pan-lightbox-badgeart-2022-airipan-small.jpg?1658508647", title = "https://www.artstation.com/airipan"),
@@ -435,10 +440,8 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FWqKzmqacAE7Kp4?format=jpg&name=4096x4096", title = "https://twitter.com/BM94199"),
     GlanceImage(link = "https://i.pinimg.com/564x/c7/1c/51/c71c512f43e2a0e6c4418e58eacc8863.jpg", title = "https://twitter.com/BM94199"),
     GlanceImage(link = "https://pbs.twimg.com/media/FRs8jupVUAAbbGK?format=jpg&name=4096x4096", title = "https://twitter.com/BM94199"),
-    GlanceImage(link = "https://i.pinimg.com/564x/d1/ba/91/d1ba914dad9a86dbf149aa0bce859df9.jpg", title = "https://twitter.com/BM94199"),
     GlanceImage(link = "https://pbs.twimg.com/media/FJ4GXqFaMAEGLts?format=jpg&name=4096x4096", title = "https://twitter.com/BM94199"),
     GlanceImage(link = "https://pbs.twimg.com/media/FMkvTVlaAAM1aio?format=jpg&name=large", title = "https://twitter.com/BM94199"),
-    GlanceImage(link = "https://pbs.twimg.com/media/FNp508EVUAspLlR?format=jpg&name=large", title = "https://twitter.com/BM94199"),
 
     GlanceImage(link = "https://i.pinimg.com/564x/b5/92/8e/b5928e9229bae22418b5bcb2f25d0124.jpg", title = "https://in.pinterest.com/reolkaaa/"),
     GlanceImage(link = "https://i.pinimg.com/564x/b6/54/fd/b654fdb821169bf089210586b318dc8c.jpg", title = "https://in.pinterest.com/reolkaaa/"),
@@ -453,4 +456,9 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FiQjUNIUUAAmOFJ?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fh2vpOTUoAAt2ld?format=jpg&name=900x900", title = "https://twitter.com/dalcefo"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fh_Eyf_aEAAK5j_?format=jpg&name=900x900", title = "https://twitter.com/dalcefo"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FoetX8mXgAAL_dr?format=jpg&name=large", title = "https://twitter.com/ELIOLIart"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/EUBr0gyUEAEEjHO?format=jpg&name=large", title = "https://twitter.com/Rellakinoko"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Folq4XpaAAIacxB?format=jpg&name=large", title = "https://twitter.com/Rellakinoko"),
 )

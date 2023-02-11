@@ -2,6 +2,8 @@ package com.singularitycoder.flowlauncher.helper.constants
 
 import com.singularitycoder.flowlauncher.glance.model.YoutubeVideo
 
+// Note: There is a lot of recency bias when I add reactions to some and not others.
+
 val animeFightsList = listOf(
     YoutubeVideo(title = "Combat Gods 2", videoId = "axyvgpBNkpg"), // Greatest fight choreo. Period.
     YoutubeVideo(title = "Combat Gods", videoId = "d_qGO4GrbQM"),
@@ -75,7 +77,11 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "Asuka's Death - End Of Evangelion", videoId = "OO-1Yyi5KPY"),
 )
 
+// Made in Abyss S2 OST - OMG
 val animeMusicList = listOf(
+    YoutubeVideo(title = "Made in Abyss S2 - Old Stories by @kpenkin", videoId = "uvUxKOhaEHQ"),
+    YoutubeVideo(title = "Made in Abyss S2 - Belaf's Lullaby by @kpenkin", videoId = "ygcCNnUEtx4&t=0s"),
+    YoutubeVideo(title = "Made in Abyss S2 - Belaf's Lullaby (Extended Version)", videoId = "jJoQIjY46t4"),
     YoutubeVideo(title = "Sirius the Jaeger - Definition of Fate", videoId = "3bhJ3DC789g"),
     YoutubeVideo(title = "Sirius the Jaeger - Rare Occasions", videoId = "JdNB9sCQ_fo"),
     YoutubeVideo(title = "Fate/Apocrypha - Fate/Apocrypha", videoId = "Ql42kdD-KlQ"),
@@ -223,7 +229,6 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Erased : 01 - Only I am missing", videoId = "xc74Bm__cP8"),
     YoutubeVideo(title = "Sawano Hiroyuki[nZk] ft Mika Kobayashi - ThreeFiveNineFour [English & Terjemahan]", videoId = "BTaA89dlORE"),
     YoutubeVideo(title = "Ashes on The Fire (Extended) | Attack on Titan Season 4", videoId = "pOH0CgDLuSo"), // EPIC
-    YoutubeVideo(title = "Made in Abyss S2 - Old Stories by @kpenkin", videoId = "uvUxKOhaEHQ"),
 )
 
 val epicAnimeMomentsList = listOf(
@@ -380,6 +385,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "Lamb of God - Descending", videoId = "_V_ZbJE5oLs"),
     YoutubeVideo(title = "Lamb of God - Blacken the Cursed Sun", videoId = "_oGY68hJbs4"),
     YoutubeVideo(title = "Lamb of God - As the Palaces Burn", videoId = "eWVrdFrpXHE"),
+    YoutubeVideo(title = "Lamb of God - Memento Mori", videoId = "hBj0-dIU8HI"),
     YoutubeVideo(title = "Louis Armstrong - What A Wonderful World (Lyrics)", videoId = "A3yCcXgbKrE"),
     YoutubeVideo(title = "Coldplay - Up&Up", videoId = "BPNTC7uZYrI"),
     YoutubeVideo(title = "Coldplay - The Scientist", videoId = "RB-RcX5DS5A"),

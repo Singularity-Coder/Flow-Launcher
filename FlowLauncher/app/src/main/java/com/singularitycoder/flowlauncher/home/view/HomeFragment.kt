@@ -10,6 +10,7 @@ import android.content.IntentFilter
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
+import android.provider.AlarmClock
 import android.speech.RecognizerIntent
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -51,6 +52,7 @@ import com.singularitycoder.flowlauncher.home.model.App
 import com.singularitycoder.flowlauncher.home.model.Contact
 import com.singularitycoder.flowlauncher.home.viewmodel.HomeViewModel
 import com.singularitycoder.flowlauncher.home.worker.AppWorker
+import com.singularitycoder.flowlauncher.home.worker.TimeAnnouncementWorker
 import com.singularitycoder.flowlauncher.quickSettings.QuickSettingsBottomSheetFragment
 import com.singularitycoder.flowlauncher.toBitmapOf
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,7 +76,8 @@ class HomeFragment : Fragment() {
     lateinit var contactDao: ContactDao
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var timer: Timer
+    private lateinit var dateTimeTimer: Timer
+    private lateinit var timeAnnouncementTimer: Timer
 
     private val homeAppsAdapter by lazy { HomeAppsAdapter() }
     private val homeViewModel: HomeViewModel by viewModels()
@@ -86,6 +89,10 @@ class HomeFragment : Fragment() {
     private var removedAppPosition = 0
     private var removedApp: App? = null
     private var flowName: String? = ""
+
+    private val timeAnnouncementWorkManager by lazy {
+        WorkManager.getInstance(requireContext())
+    }
 
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
@@ -210,13 +217,15 @@ class HomeFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        timer.purge()
+        dateTimeTimer.purge()
+        timeAnnouncementTimer.purge()
     }
 
     private fun FragmentHomeBinding.setupUI() {
         setTimeDateAndFlow()
         refreshAppList()
         refreshDateTime()
+        startTimeAnnouncementWorker()
         rvApps.apply {
             layoutManager = GridLayoutManager(context, AppGrid.COLUMNS)
             adapter = homeAppsAdapter
@@ -245,6 +254,24 @@ class HomeFragment : Fragment() {
         rvApps.setOnLongClickListener {
             root.performLongClick()
             false
+        }
+
+        tvTime.onSafeClick {
+            val intent = Intent(AlarmClock.ACTION_SET_ALARM)
+            if (intent.resolveActivity(requireContext().packageManager) != null) {
+                val clockPackage = intent.resolveActivity(requireContext().packageManager).packageName
+                requireActivity().launchApp(clockPackage)
+            }
+        }
+
+        tvTime.setOnLongClickListener {
+            if (timeAnnouncementWorkManager.getWorkInfosByTag(WorkerTag.TIME_ANNOUNCER).isCancelled) {
+                val workRequest = OneTimeWorkRequestBuilder<TimeAnnouncementWorker>().build()
+                timeAnnouncementWorkManager.enqueueUniqueWork(WorkerTag.TIME_ANNOUNCER, ExistingWorkPolicy.REPLACE, workRequest)
+            } else {
+                timeAnnouncementWorkManager.cancelUniqueWork(WorkerTag.TIME_ANNOUNCER)
+            }
+            true
         }
     }
 
@@ -351,8 +378,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun refreshDateTime() {
-        timer = Timer()
-        timer.doEvery(
+        dateTimeTimer = Timer()
+        dateTimeTimer.doEvery(
             duration = 1.seconds(),
             withInitialDelay = 0.seconds(),
         ) {
@@ -417,31 +444,67 @@ class HomeFragment : Fragment() {
         val workManager = WorkManager.getInstance(requireContext())
         val workRequest = OneTimeWorkRequestBuilder<AppWorker>().build()
         workManager.enqueueUniqueWork(WorkerTag.APPS_PARSER, ExistingWorkPolicy.REPLACE, workRequest)
-        workManager.getWorkInfoByIdLiveData(workRequest.id)
-            .observe(viewLifecycleOwner) { workInfo: WorkInfo? ->
-                when (workInfo?.state) {
-                    WorkInfo.State.RUNNING -> {
-                        println("RUNNING: show Progress")
-                        showProgress(true)
-                    }
-                    WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
-                    WorkInfo.State.SUCCEEDED -> {
-                        println("SUCCEEDED: showing Progress")
-                        showProgress(false)
-                    }
-                    WorkInfo.State.FAILED -> {
-                        println("FAILED: stop showing Progress")
-                        binding.root.showSnackBar("Something went wrong!")
-                        showProgress(false)
-                    }
-                    WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
-                    WorkInfo.State.CANCELLED -> {
-                        println("CANCELLED: stop showing Progress")
-                        showProgress(false)
-                    }
-                    else -> Unit
+        workManager.getWorkInfoByIdLiveData(workRequest.id).observe(viewLifecycleOwner) { workInfo: WorkInfo? ->
+            when (workInfo?.state) {
+                WorkInfo.State.RUNNING -> {
+                    println("RUNNING: show Progress")
+                    showProgress(true)
                 }
+                WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
+                WorkInfo.State.SUCCEEDED -> {
+                    println("SUCCEEDED: showing Progress")
+                    showProgress(false)
+                }
+                WorkInfo.State.FAILED -> {
+                    println("FAILED: stop showing Progress")
+                    binding.root.showSnackBar("Something went wrong!")
+                    showProgress(false)
+                }
+                WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
+                WorkInfo.State.CANCELLED -> {
+                    println("CANCELLED: stop showing Progress")
+                    showProgress(false)
+                }
+                else -> Unit
             }
+        }
+    }
+
+    private fun startTimeAnnouncementWorker() {
+        timeAnnouncementTimer = Timer()
+        timeAnnouncementTimer.doEvery(
+            duration = 1.minutes(),
+            withInitialDelay = 0.seconds(),
+        ) {
+            val time = convertLongToTime(timeNow, DateType.h_mm_a)
+            val minutes = time.substringAfter(":").substringBefore(" ")
+            if (minutes == "00") {
+                val workRequest = OneTimeWorkRequestBuilder<TimeAnnouncementWorker>().build()
+                timeAnnouncementWorkManager.enqueueUniqueWork(WorkerTag.TIME_ANNOUNCER, ExistingWorkPolicy.REPLACE, workRequest)
+            }
+        }
+        val workRequest = OneTimeWorkRequestBuilder<TimeAnnouncementWorker>().build()
+        timeAnnouncementWorkManager.enqueueUniqueWork(WorkerTag.TIME_ANNOUNCER, ExistingWorkPolicy.REPLACE, workRequest)
+        timeAnnouncementWorkManager.getWorkInfoByIdLiveData(workRequest.id).observe(viewLifecycleOwner) { workInfo: WorkInfo? ->
+            when (workInfo?.state) {
+                WorkInfo.State.RUNNING -> {
+                    println("RUNNING: show Progress")
+                }
+                WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
+                WorkInfo.State.SUCCEEDED -> {
+                    println("SUCCEEDED: showing Progress")
+                }
+                WorkInfo.State.FAILED -> {
+                    println("FAILED: stop showing Progress")
+                    binding.root.showSnackBar("Something went wrong!")
+                }
+                WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
+                WorkInfo.State.CANCELLED -> {
+                    println("CANCELLED: stop showing Progress")
+                }
+                else -> Unit
+            }
+        }
     }
 
     private fun setHomeFabTouchOptions() {

@@ -1,31 +1,32 @@
 
 
-EASY STUFF
+PHASE 1
+TODO SOS signal - SOS Torch, Buzzer, Morse code sender on flash,
+TODO Panic Mode - Shows a countdown timer with 5 sec to disable it if its an accident - send message to pre selected contacts. Need a screen to select contacts if its first time.
+
 TODO Add list animation for add new stuff. 3 types of animations for 3 different media
 TODO Voice search replace with custom bottom sheet
 TODO Play sound on refresh complete
-TODO Volume control
-TODO File Manager
-TODO Power Menu
-TODO Torch
-TODO Location toggle
-TODO Barcode scanning
-TODO Home, back, app switcher buttons
-TODO Google Calender API for events
-TODO Bluetooth
-TODO Camera - open right camera
-TODO Accessibility permission api - to control power btn, notifications, etc
-TODO Lock Unlock phone: https://stackoverflow.com/questions/14352648/how-to-lock-unlock-screen-programmatically
-TODO https://rdcworld-android.blogspot.com/2012/03/lock-phone-screen-programmtically.html
+
+TODO image video gallery picker
+TODO create a chat bubble which on press shows the home, app switch, back buttons
+TODO Universal search - Apps, Contacts
+
+TODO good pics
+
+
+PHASE 2
+TODO Add frag upload media from csv
+TODO Add frag Export media to csv
+TODO Ideal barcode scan - scan result on same screen
+TODO Universal Search - Apps, Settings, Web, contacts, notes, messages, files, calender, dictionary
 
 
 HARD STUFF
+TODO Touch on calender date to see events. On touch show events.
 TODO image video picker, image video taker, handle for new versions of android
 TODO Auto Rotate Device
-TODO Universal Search
 TODO MyMind Notes checklist widegt, Remainder widget from RemindMe with quick add.
-TODO SOS signal - Shows a countdown timer with 5 sec to disable it if its an accident - send message to pre selected contacts. Need a screen to select contacts if its first time.
-TODO Panic Mode
 
 
 BUGS
@@ -68,8 +69,3 @@ TODO My Loans
 TODO My Expenses
 TODO My Bills
 TODO top 4 or 5 contacts u will message and call freq - problem is another recyclerview ...the pain
-
-
-ADD FRAG
-TODO upload media from csv
-TODO Export media to csv

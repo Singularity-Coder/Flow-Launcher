@@ -7,10 +7,13 @@ import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothProfile
 import android.content.*
 import android.content.res.ColorStateList
+import android.hardware.camera2.CameraManager
+import android.hardware.camera2.CameraManager.TorchCallback
 import android.media.AudioManager
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -22,22 +25,32 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
+import com.journeyapps.barcodescanner.ScanOptions
+import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.databinding.FragmentQuickSettingsBottomSheetBinding
 import com.singularitycoder.flowlauncher.databinding.ItemQuickSettingBinding
 import com.singularitycoder.flowlauncher.databinding.LongItemQuickSettingBinding
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.Broadcast
+import com.singularitycoder.flowlauncher.helper.constants.IntentKey
 import com.singularitycoder.flowlauncher.helper.constants.SettingsScreen
 import com.singularitycoder.flowlauncher.helper.constants.quickSettingsPermissions
 import com.singularitycoder.flowlauncher.helper.swipebutton.OnStateChangeListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Main
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
@@ -56,7 +69,23 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
     @Inject
     lateinit var bluetoothManager: BluetoothManager
 
+    @Inject
+    lateinit var notificationUtils: NotificationUtils
+
     private lateinit var binding: FragmentQuickSettingsBottomSheetBinding
+
+    private val cameraManager: CameraManager by lazy {
+        context?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private val torchCallback: TorchCallback = object : TorchCallback() {
+        override fun onTorchModeChanged(cameraId: String, enabled: Boolean) {
+            super.onTorchModeChanged(cameraId, enabled)
+            // https://stackoverflow.com/questions/51131361/how-to-detect-whether-the-flashlight-is-on-or-off
+            setFlashLightStatus(enabled)
+        }
+    }
 
     private val quickSettingsPermissionsResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, @JvmSuppressWildcards Boolean>? ->
         permissions ?: return@registerForActivityResult
@@ -93,7 +122,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             return@registerForActivityResult
         }
 
-        if (requireContext().isCameraPermissionGranted()) {
+        if (requireContext().hasPermission(Manifest.permission.CAMERA)) {
             requireActivity().launchApp("com.android.camera2")
         }
     }
@@ -111,10 +140,29 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             return@registerForActivityResult
         }
 
-        if (requireContext().isPhoneStatePermissionGranted()) {
+        if (requireContext().hasPermission(Manifest.permission.READ_PHONE_STATE)) {
             requireContext().setMobileDataStateTo(requireContext().getMobileDataState().not())
             setNetworkStatus()
         }
+    }
+
+    private val barcodeScanLauncherResult = registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
+        if (result.contents.isNullOrBlankOrNaOrNullString()) {
+            binding.root.showSnackBar(message = getString(R.string.something_is_wrong))
+            return@registerForActivityResult
+        }
+
+        val scannedResult = result.contents
+        println("Scanned result : ${result.contents}")
+        requireContext().showAlertDialog(
+            title = "QR code scan result",
+            message = scannedResult,
+            positiveBtnText = "Copy",
+            positiveAction = {
+                requireContext().clipboard()?.text = scannedResult
+                binding.root.showSnackBar(message = "Copied")
+            }
+        )
     }
 
     private val quickSettingsBroadcastReceiver = object : BroadcastReceiver() {
@@ -141,7 +189,6 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         setTransparentBackground()
         quickSettingsPermissionsResult.launch(quickSettingsPermissions)
         binding.setupUserActionListeners()
-        binding.observeForData()
     }
 
     override fun onResume() {
@@ -150,11 +197,13 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter(Broadcast.VOLUME_RAISED))
         activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter(Broadcast.VOLUME_LOWERED))
         activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter("android.intent.action.SERVICE_STATE")) // For airplane mode
+        registerTorchState()
     }
 
     override fun onPause() {
         super.onPause()
         activity?.unregisterReceiver(quickSettingsBroadcastReceiver)
+        unregisterTorchState()
     }
 
     // https://stackoverflow.com/questions/42301845/android-bottom-sheet-after-state-changed
@@ -182,14 +231,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         setNetworkStatus()
         setWifiHotspotStatus()
         setBluetoothStatus()
-        layoutTorch.ivAppIcon.apply {
-            // https://stackoverflow.com/questions/6068803/how-to-turn-on-front-flash-light-programmatically-in-android#:~:text=For%20turning%20on%2Foff%20flashlight%3A&text=The%20main%20parameter%20used%20here,to%20turn%20on%20camera%20flashlight.
-            setImageDrawable(requireContext().drawable(R.drawable.ic_round_flashlight_on_24))
-            if (requireContext().isFlashAvailable().not()) return@apply
-        }
-        layoutLocation.ivAppIcon.apply {
-            setImageDrawable(requireContext().drawable(R.drawable.location_on_black_24dp))
-        }
+        setLocationStatus()
         layoutCamera.ivAppIcon.apply {
             setImageDrawable(requireContext().drawable(R.drawable.ic_baseline_camera_alt_24))
         }
@@ -202,14 +244,14 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         layoutNfc.ivAppIcon.apply {
             setImageDrawable(requireContext().drawable(R.drawable.ic_round_nfc_24))
         }
-        layoutRotateScreen.ivAppIcon.apply {
-            setImageDrawable(requireContext().drawable(R.drawable.ic_round_screen_rotation_24))
+        layoutScreenShot.ivAppIcon.apply {
+            setImageDrawable(requireContext().drawable(R.drawable.baseline_screenshot_24))
         }
         layoutSettings.ivAppIcon.apply {
             setImageDrawable(requireContext().drawable(R.drawable.ic_round_settings_24))
         }
-        layoutNotifications.ivAppIcon.apply {
-            setImageDrawable(requireContext().drawable(R.drawable.ic_round_notifications_24))
+        layoutFileManager.ivAppIcon.apply {
+            setImageDrawable(requireContext().drawable(R.drawable.folder_black_24dp))
         }
         layoutLockScreen.ivAppIcon.apply {
             setImageDrawable(requireContext().drawable(R.drawable.ic_round_lock_24))
@@ -337,20 +379,37 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             dismiss()
         }
         layoutTorch.root.onSafeClick {
-            dismiss()
+            if (requireContext().isFlashAvailable().not()) {
+                root.showSnackBar("Flash light is not supported on this device!")
+            } else {
+                flashLight(isOn = it.second, cameraManager = cameraManager)
+            }
         }
         layoutLocation.root.onSafeClick {
+            requireContext().openSettings(screen = SettingsScreen.LOCATION)
             dismiss()
         }
         layoutCamera.root.onSafeClick {
-            requestCameraPermission()
-            dismiss()
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (intent.resolveActivity(requireContext().packageManager) != null) {
+                val cameraPackage = intent.resolveActivity(requireContext().packageManager).packageName
+                requireActivity().launchApp(cameraPackage)
+            }
         }
         layoutBarcodeScanner.root.onSafeClick {
+            val scanOptions = ScanOptions().apply {
+                setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+                setPrompt("Scan QR code")
+                captureActivity = BarcodeScanActivity::class.java
+                setTorchEnabled(true)
+                setOrientationLocked(true)
+                setBeepEnabled(true)
+            }
+            barcodeScanLauncherResult.launch(scanOptions)
             dismiss()
         }
         layoutVolume.root.onSafeClick {
-            dismiss()
+            requireContext().showVolumeQuickSettings()
         }
         layoutWifiHotspot.root.onSafeClick {
             requireContext().openSettings(screen = SettingsScreen.WIFI_HOTSPOT)
@@ -364,43 +423,52 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             }
             dismiss()
         }
-        layoutRotateScreen.root.onSafeClick {
-            // TODO today
-            dismiss()
+        layoutScreenShot.root.onSafeClick {
+            lifecycleScope.launch {
+                (10 downTo 0).forEach {
+                    delay(1.seconds())
+                    withContext(Main) {
+                        notificationUtils.showNotification(
+                            data = FlowNotification(
+                                title = "Screenshot will start in $it sec.",
+                                intentKey = IntentKey.NOTIF_SCREENSHOT_COUNTDOWN
+                            ),
+                            mainActivity = MainActivity::class.java
+                        )
+                        if (it == 0) {
+                            requireContext().takeScreenshot()
+                        }
+                    }
+                }
+            }
         }
         layoutSettings.root.onSafeClick {
             requireContext().openSettings(screen = SettingsScreen.HOME)
-            dismiss()
         }
-        layoutNotifications.root.onSafeClick {
-            requireContext().showNotificationDrawer()
-            dismiss()
+        layoutFileManager.root.onSafeClick {
+            requireContext().showFileManager()
         }
         layoutLockScreen.root.onSafeClick {
             requireContext().lockDevice()
-            dismiss()
         }
         layoutPower.root.onSafeClick {
-            requireContext().showPowerButtonOptions()
-            dismiss()
+            requireContext().showPowerButtonActions()
         }
     }
 
-    private fun FragmentQuickSettingsBottomSheetBinding.observeForData() = Unit
-
     private fun setNetworkStatus() {
         binding.layoutNetwork.enableIcon(
-            requireContext().getMobileDataState(),
-            R.drawable.cell_tower_black_24dp,
-            R.drawable.cell_tower_disabled_black_24dp
+            isEnabled = requireContext().getMobileDataState(),
+            enabledIcon = R.drawable.cell_tower_black_24dp,
+            disabledIcon = R.drawable.cell_tower_disabled_black_24dp
         )
     }
 
     private fun setCurrentAirplaneModeStatus() {
         binding.layoutAirplaneMode.enableIcon(
-            requireContext().isAirplaneModeEnabled(),
-            R.drawable.ic_round_airplanemode_active_24,
-            R.drawable.ic_round_airplanemode_inactive_24
+            isEnabled = requireContext().isAirplaneModeEnabled(),
+            enabledIcon = R.drawable.ic_round_airplanemode_active_24,
+            disabledIcon = R.drawable.ic_round_airplanemode_inactive_24
         )
     }
 
@@ -425,11 +493,11 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
     private fun setCurrentWifiStatus() {
         binding.layoutWifi.apply {
             enableIcon(
-                wifiManager.isWifiEnabled,
-                R.drawable.ic_round_wifi_24,
-                R.drawable.ic_round_wifi_off_24
+                isEnabled = wifiManager.isWifiEnabled,
+                enabledIcon = R.drawable.ic_round_wifi_24,
+                disabledIcon = R.drawable.ic_round_wifi_off_24
             )
-            if (requireContext().isLocationPermissionGranted().not()) {
+            if (requireContext().hasPermission(Manifest.permission.ACCESS_FINE_LOCATION).not()) {
                 tvPlaceholder.text = "Wifi"
                 tvName.text = "Not Connected"
                 return
@@ -476,9 +544,28 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun setWifiHotspotStatus() {
         binding.layoutWifiHotspot.enableIcon(
-            requireContext().isWifiHotspotEnabled(),
-            R.drawable.ic_round_wifi_tethering_24,
-            R.drawable.ic_round_wifi_tethering_off_24
+            isEnabled = requireContext().isWifiHotspotEnabled(),
+            enabledIcon = R.drawable.ic_round_wifi_tethering_24,
+            disabledIcon = R.drawable.ic_round_wifi_tethering_off_24
+        )
+    }
+
+    private fun setFlashLightStatus(isEnabled: Boolean) {
+        // https://stackoverflow.com/questions/6068803/how-to-turn-on-front-flash-light-programmatically-in-android#:~:text=For%20turning%20on%2Foff%20flashlight%3A&text=The%20main%20parameter%20used%20here,to%20turn%20on%20camera%20flashlight.
+        binding.layoutTorch.enableIcon(
+            isEnabled = isEnabled,
+            enabledIcon = R.drawable.ic_round_flashlight_on_24,
+            disabledIcon = R.drawable.round_flashlight_off_24
+        )
+    }
+
+    private fun setLocationStatus() {
+        val isFineLocationPermissionGranted = requireContext().hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+        val isLocationToggleEnabled = requireContext().isLocationToggleEnabled()
+        binding.layoutLocation.enableIcon(
+            isEnabled = isFineLocationPermissionGranted && isLocationToggleEnabled,
+            enabledIcon = R.drawable.location_on_black_24dp,
+            disabledIcon = R.drawable.round_location_off_24
         )
     }
 
@@ -597,5 +684,17 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun requestPhoneStatePermission() {
         cameraPermissionResult.launch(Manifest.permission.READ_PHONE_STATE)
+    }
+
+    private fun registerTorchState() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            cameraManager.registerTorchCallback(torchCallback, null)
+        }
+    }
+
+    private fun unregisterTorchState() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            cameraManager.unregisterTorchCallback(torchCallback)
+        }
     }
 }

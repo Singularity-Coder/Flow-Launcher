@@ -13,6 +13,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:contentDescription="Drag Handle"
         android:src="@drawable/ic_round_horizontal_rule_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +63,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
+                android:contentDescription="Brightness"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_round_wb_sunny_24"
                 app:layout_constraintBottom_toBottomOf="@+id/slider_brightness"
@@ -247,7 +249,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_torch" />
 
             <include
-                android:id="@+id/layout_nfc"
+                android:id="@+id/layout_screen_shot"
                 layout="@layout/item_quick_setting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -257,7 +259,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_torch" />
 
             <include
-                android:id="@+id/layout_rotate_screen"
+                android:id="@+id/layout_nfc"
                 layout="@layout/item_quick_setting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -277,7 +279,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_volume" />
 
             <include
-                android:id="@+id/layout_notifications"
+                android:id="@+id/layout_file_manager"
                 layout="@layout/item_quick_setting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -292,8 +294,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/layout_nfc"
-                app:layout_constraintStart_toStartOf="@+id/layout_nfc"
+                app:layout_constraintEnd_toEndOf="@+id/layout_screen_shot"
+                app:layout_constraintStart_toStartOf="@+id/layout_screen_shot"
                 app:layout_constraintTop_toBottomOf="@+id/layout_volume" />
 
             <include
@@ -302,8 +304,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/layout_rotate_screen"
-                app:layout_constraintStart_toStartOf="@+id/layout_rotate_screen"
+                app:layout_constraintEnd_toEndOf="@+id/layout_nfc"
+                app:layout_constraintStart_toStartOf="@+id/layout_nfc"
                 app:layout_constraintTop_toBottomOf="@+id/layout_volume" />
 
             <com.google.android.material.divider.MaterialDivider
@@ -316,6 +318,7 @@
                 app:dividerColor="@color/black_100"
                 app:layout_constraintTop_toBottomOf="@+id/layout_settings" />
 
+            <!--Causing editor layout visibility issues-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_emergency"
                 android:layout_width="match_parent"

@@ -119,7 +119,7 @@
                         android:layout_marginEnd="8dp"
                         android:backgroundTint="@color/screen_background"
                         android:elevation="1dp"
-                        app:icon="@drawable/ic_round_open_in_new_24_2"
+                        app:icon="@drawable/round_arrow_outward_24"
                         app:layout_constraintBottom_toBottomOf="@+id/card_image_count"
                         app:layout_constraintEnd_toStartOf="@+id/btn_full_screen"
                         app:layout_constraintTop_toTopOf="@+id/card_image_count" />
