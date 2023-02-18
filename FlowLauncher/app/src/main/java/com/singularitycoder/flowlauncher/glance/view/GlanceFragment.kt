@@ -3,6 +3,7 @@ package com.singularitycoder.flowlauncher.glance.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -111,7 +112,7 @@ class GlanceFragment : Fragment() {
         callSmsPermissionsResult.launch(callContactSmsPermissionList)
         val lastHolidayFetchTime = Preferences.read(requireContext()).getLong(Preferences.KEY_LAST_HOLIDAYS_FETCH_TIME, timeNow - THIRTY_DAYS_IN_MILLIS - /* grace 3k mills */ 3000)
         if (timeNow > lastHolidayFetchTime + THIRTY_DAYS_IN_MILLIS) {
-            parsePublicHolidaysWithWorker()
+//            parsePublicHolidaysWithWorker()
         }
         if (youtubeVideoList.isNotEmpty()) binding.cardYoutubeVideos.performClick()
         if (glanceImageList.isNotEmpty()) binding.cardGlanceImages.performClick()
@@ -190,13 +191,14 @@ class GlanceFragment : Fragment() {
         }
 
         layoutUnreadSms.root.onSafeClick {
-            // TODO fix this
-            requireContext().sendSms("", "")
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("sms:")
+            }
+            intent.launchAppIfExists(requireActivity())
         }
 
         layoutMissedCalls.root.onSafeClick {
-            // TODO fix this
-            requireContext().openDialer("")
+            Intent(Intent.ACTION_DIAL).launchAppIfExists(requireActivity())
         }
 
         sliderGlanceImage.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -250,17 +252,13 @@ class GlanceFragment : Fragment() {
             updateHolidaysView(it)
         }
         sharedViewModel.youtubeVideoListLiveData.observe(viewLifecycleOwner) { it: List<YoutubeVideo>? ->
-            youtubeVideoList = it?.ifEmpty {
-                allYoutubeVideos
-            } ?: emptyList()
+            youtubeVideoList = it?.ifEmpty { allYoutubeVideos } ?: emptyList()
             sliderYoutubeVideos.max = youtubeVideoList.lastIndex
             currentYoutubeVideoPosition = 0
             cardYoutubeVideos.performClick()
         }
         sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { imageList: List<GlanceImage>? ->
-            glanceImageList = imageList?.ifEmpty {
-                tempImageUrlList
-            } ?: emptyList()
+            glanceImageList = imageList?.ifEmpty { tempImageUrlList } ?: emptyList()
             tvImageCount.text = "${1}/${glanceImageList.size}"
             sliderGlanceImage.max = glanceImageList.lastIndex
             currentImagePosition = 0

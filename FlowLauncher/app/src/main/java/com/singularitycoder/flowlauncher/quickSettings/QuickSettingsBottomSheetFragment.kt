@@ -390,11 +390,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             dismiss()
         }
         layoutCamera.root.onSafeClick {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (intent.resolveActivity(requireContext().packageManager) != null) {
-                val cameraPackage = intent.resolveActivity(requireContext().packageManager).packageName
-                requireActivity().launchApp(cameraPackage)
-            }
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).launchAppIfExists(requireActivity())
         }
         layoutBarcodeScanner.root.onSafeClick {
             val scanOptions = ScanOptions().apply {

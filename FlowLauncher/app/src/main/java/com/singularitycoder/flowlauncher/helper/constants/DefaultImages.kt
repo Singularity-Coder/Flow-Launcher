@@ -42,8 +42,11 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://video.twimg.com/tweet_video/E0kc-CtXIAE9K2m.mp4", title = "https://twitter.com/etiennejcb"),
 
     GlanceImage(link = "https://video.twimg.com/ext_tw_video/1595174787575386112/pu/vid/720x720/0YMP0TSa2EeJf2lB.mp4", title = "https://twitter.com/rand0mograph"),
+    GlanceImage(link = "https://video.twimg.com/ext_tw_video/1625909778726760481/pu/vid/720x720/0-AfKz4c6h8te3dT.mp4", title = "https://twitter.com/rand0mograph"),
     GlanceImage(link = "https://video.twimg.com/ext_tw_video/1603355159119159303/pu/vid/720x900/GkJud4eK_fXDl2Xv.mp4", title = "https://twitter.com/LiamPitchy"),
     GlanceImage(link = "https://video.twimg.com/ext_tw_video/1600153818989215745/pu/vid/720x720/Ir-mC1ItwVUsHT4D.mp4", title = "https://twitter.com/kilimanjaroger"),
+
+    GlanceImage(link = "https://video.twimg.com/ext_tw_video/1626351576276209666/pu/vid/720x1280/tx_-wbI8BrHm6SiB.mp4", title = "https://twitter.com/dtmgfx"),
 
     GlanceImage(link = "https://media.giphy.com/media/QCJlIDkOJDEIctfdzz/giphy.gif", title = "https://giphy.com/"),
     GlanceImage(link = "https://media.giphy.com/media/8Lc5xmvzRhlLy/giphy.gif", title = "https://giphy.com/"),
@@ -76,6 +79,24 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FdmByaXaEAA7Imd?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/FdmByaiagAAWoWx?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/FdmByauaUAAxpY9?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FnkxSU7akAAsmo5?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FnkxSVAagAEyLG2?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FnkxSVDaEAAoTxo?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FnkxSU-aQAEYaWt?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fnj9Pz_acAEM5u3?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fnj9P42agAAnYdF?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fnj9P40acAEYjaH?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fnj9P5eaEAA2pCN?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FoLNEd_aQAIV_4_?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FoLNEfWacAAWY9T?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FoLNEg1aQAInGdc?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FoLNElPagAE2STc?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FoIa3WTacAEYp3n?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FoIa3WQagAEv55n?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FoIa3XHaAAA--2k?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FoIa3X9aMAEH0yI?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FoIiO0vaYAAwGOf?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FoIiO1jagAE45wV?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
 
     // Pexels
     GlanceImage(link = "https://images.pexels.com/photos/1251247/pexels-photo-1251247.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
@@ -164,6 +185,26 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/032/084/096/large/dadachyo-2018-3.jpg?1605440629", title = "https://www.artstation.com/dadachyo"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/032/084/093/large/dadachyo-2018-2.jpg?1605440626", title = "https://www.artstation.com/dadachyo"),
 
+    // https://twitter.com/666KArt 🤯
+    GlanceImage(link = "https://pbs.twimg.com/media/FR01kUDakAEg7ch?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FSAN7mWaMAARXPE?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FSZT-SXaUAAAHGO?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FSZUAyAakAAG1CO?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FUP5RxSaAAAeN6M?format=jpg&name=4096x4096", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FUpuX83agAEy9l-?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FV8OtdJaMAALNAo?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FcN9txPaMAIhDj-?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FcyGfz0aUAAkEwy?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FdWNNRVaMAI6kdR?format=jpg&name=4096x4096", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FgQMcX3aEAMPVUJ?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FhNKL5uagAA5t5i?format=jpg&name=4096x4096", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FiVYVNmVQAAvFT0?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FkoEZTMaUAEf1Bk?format=jpg&name=4096x4096", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fl_vGiCagAAfKi1?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fl_vGh_aMAAmLXv?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fl_vGiAagAE-bCs?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FTV0RngagAAlHb2?format=jpg&name=large", title = "https://twitter.com/666KArt"),
+
     // https://www.pixiv.net/en/users/2240866/artworks - Artist 'O'ne
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/044/310/900/large/o-ne-87423019-p1.jpg?1639646200", title = "https://www.artstation.com/ua21b57a7"),
     GlanceImage(link = "https://i.pinimg.com/originals/8b/a6/c0/8ba6c0de9773e183d6c73739b40a4eb2.png", title = "https://www.artstation.com/ua21b57a7"),
@@ -213,6 +254,8 @@ val tempImageUrlList = listOf(
     // https://www.pixiv.net/en/users/49552835
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/037/354/690/large/n-i-x-e-u-sand-01.jpg?1620159845", title = "https://www.artstation.com/nixeu"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fn5kdNDWAA0i-AC?format=jpg&name=large", title = "https://www.artstation.com/nixeu"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fmsii3GXoAAh3M8?format=jpg&name=medium", title = "https://www.artstation.com/nixeu"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fo3SSrGXwAEee9B?format=jpg&name=medium", title = "https://www.artstation.com/nixeu"),
 
     // https://www.artstation.com/somartist
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/043/973/284/large/philipp-a-urlich-forest.jpg?1638783447", title = "https://www.artstation.com/somartist"),
@@ -424,8 +467,10 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FmsO6-1WAAwxTqY?format=jpg&name=small", title = "https://twitter.com/MAstronomers"),
 
     // https://twitter.com/awedict
-    GlanceImage(link = "https://pbs.twimg.com/media/FhCDl18VIAEc4V3?format=jpg&name=medium", title = "https://twitter.com/MAstronomers"),
-    GlanceImage(link = "https://pbs.twimg.com/media/Fl7yucwacAAhuyg?format=jpg&name=large", title = "https://twitter.com/MAstronomers"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FhCDl18VIAEc4V3?format=jpg&name=medium", title = "https://twitter.com/awedict"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fl7yucwacAAhuyg?format=jpg&name=large", title = "https://twitter.com/awedict"),
+    GlanceImage(link = "https://video.twimg.com/ext_tw_video/1599373608039563264/pu/vid/720x720/oWugEzTmPx37xqgu.mp4", title = "https://twitter.com/awedict"),
+    GlanceImage(link = "https://video.twimg.com/ext_tw_video/1624787820538744833/pu/vid/720x894/cZ5jhr26rM_Qyq83.mp4", title = "https://twitter.com/awedict"),
 
     GlanceImage(link = "https://i.pinimg.com/564x/c4/e4/03/c4e4037e19c67c686d8c93dd1fe317ca.jpg", title = "https://www.viz.com/read/manga/one-punch-man-volume-1/product/3267"),
 
@@ -442,6 +487,7 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FRs8jupVUAAbbGK?format=jpg&name=4096x4096", title = "https://twitter.com/BM94199"),
     GlanceImage(link = "https://pbs.twimg.com/media/FJ4GXqFaMAEGLts?format=jpg&name=4096x4096", title = "https://twitter.com/BM94199"),
     GlanceImage(link = "https://pbs.twimg.com/media/FMkvTVlaAAM1aio?format=jpg&name=large", title = "https://twitter.com/BM94199"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FNp508EVUAspLlR?format=jpg&name=large", title = "https://twitter.com/BM94199"),
 
     GlanceImage(link = "https://i.pinimg.com/564x/b5/92/8e/b5928e9229bae22418b5bcb2f25d0124.jpg", title = "https://in.pinterest.com/reolkaaa/"),
     GlanceImage(link = "https://i.pinimg.com/564x/b6/54/fd/b654fdb821169bf089210586b318dc8c.jpg", title = "https://in.pinterest.com/reolkaaa/"),
@@ -457,8 +503,53 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/Fh2vpOTUoAAt2ld?format=jpg&name=900x900", title = "https://twitter.com/dalcefo"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fh_Eyf_aEAAK5j_?format=jpg&name=900x900", title = "https://twitter.com/dalcefo"),
 
+    // https://twitter.com/ELIOLIart 🤯
+    GlanceImage(link = "https://pbs.twimg.com/media/FX_gE-gXkAEqqXf?format=jpg&name=large", title = "https://twitter.com/ELIOLIart"),
     GlanceImage(link = "https://pbs.twimg.com/media/FoetX8mXgAAL_dr?format=jpg&name=large", title = "https://twitter.com/ELIOLIart"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FpIxL-aXgAMTC5V?format=jpg&name=large", title = "https://twitter.com/ELIOLIart"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fo74fB6WAAAQCrD?format=jpg&name=large", title = "https://twitter.com/ELIOLIart"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fo20572XsAASYXK?format=jpg&name=large", title = "https://twitter.com/ELIOLIart"),
 
     GlanceImage(link = "https://pbs.twimg.com/media/EUBr0gyUEAEEjHO?format=jpg&name=large", title = "https://twitter.com/Rellakinoko"),
     GlanceImage(link = "https://pbs.twimg.com/media/Folq4XpaAAIacxB?format=jpg&name=large", title = "https://twitter.com/Rellakinoko"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FlUMDfRagAE-EiI?format=png&name=900x900", title = "https://twitter.com/Rellakinoko"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FjY5yy4aEAA14wp?format=jpg&name=large", title = "https://twitter.com/kazamaraita"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FR5G86MakAALzwm?format=jpg&name=medium", title = "https://twitter.com/tue_art"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FpAnBOcWIAIntcA?format=jpg&name=large", title = "https://twitter.com/aiarteveryhour"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fo2hkhMWYAEDFRG?format=jpg&name=large", title = "https://twitter.com/aiarteveryhour"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FceoNd1XwAMHEMv?format=jpg&name=medium", title = "https://twitter.com/SebMcKinnon"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FlrtkyDWIAA2BI7?format=png&name=small", title = "https://twitter.com/SebMcKinnon"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FlT1Nw5XgAIiIZ2?format=jpg&name=medium", title = "https://twitter.com/loishh"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FlT1OzuXgAIP0Ok?format=jpg&name=medium", title = "https://twitter.com/loishh"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FlT1WsGXwAIg0sd?format=jpg&name=medium", title = "https://twitter.com/loishh"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/Fo8GvtuXoAAo1V4?format=jpg&name=4096x4096", title = "https://twitter.com/iamagco"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FhxDcxCaMAItU-F?format=jpg&name=4096x4096", title = "https://twitter.com/Kuvshinov_Ilya"),
+    GlanceImage(link = "https://i.pinimg.com/564x/2f/81/91/2f819138e82e2211f9a36d5fa8bca98f.jpg", title = "https://twitter.com/Kuvshinov_Ilya"),
+
+    GlanceImage(link = "https://video.twimg.com/ext_tw_video/1624855840829186049/pu/vid/480x480/Vgbs0N8f5ardH6uz.mp4", title = "https://twitter.com/gunsnrosesgirl3"),
+
+    GlanceImage(link = "https://video.twimg.com/ext_tw_video/1623956161958666241/pu/vid/720x720/ua6Q39hm7X70rxlQ.mp4", title = "https://twitter.com/glebich"),
+
+    GlanceImage(link = "https://video.twimg.com/ext_tw_video/1624695673646882819/pu/vid/720x720/1IChL82u24-I6_if.mp4", title = "https://twitter.com/tasty_plots"),
+    GlanceImage(link = "https://video.twimg.com/ext_tw_video/1621498097808588801/pu/vid/720x720/Wnecd7WOriRXFXCx.mp4", title = "https://twitter.com/tasty_plots"),
+    GlanceImage(link = "https://video.twimg.com/ext_tw_video/1623307331713859585/pu/vid/720x720/x0AzC30iKiiDXEVP.mp4", title = "https://twitter.com/tasty_plots"),
+
+    GlanceImage(link = "https://video.twimg.com/ext_tw_video/1618339498684719114/pu/vid/720x720/MIM1GiYBTSQpauFI.mp4", title = "https://twitter.com/pickover"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/Fol9yYsakAAGyUU?format=jpg&name=large", title = "https://twitter.com/doka_boko_baki"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FmqWjPQaAAMBVWt?format=jpg&name=large", title = "https://twitter.com/doka_boko_baki"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FmqLsN6agAIaOQK?format=jpg&name=large", title = "https://twitter.com/doka_boko_baki"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fml2xz4aYAMdYwp?format=jpg&name=large", title = "https://twitter.com/doka_boko_baki"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FlcxauJakAAYhvr?format=jpg&name=large", title = "https://twitter.com/doka_boko_baki"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FlontgMacAIOBK-?format=jpg&name=large", title = "https://twitter.com/doka_boko_baki"),
+
+    GlanceImage(link = "https://video.twimg.com/ext_tw_video/1622613644344279042/pu/vid/720x720/CUo_C-MHUl_kmptU.mp4", title = "https://twitter.com/SteveMakerspace"),
+
 )

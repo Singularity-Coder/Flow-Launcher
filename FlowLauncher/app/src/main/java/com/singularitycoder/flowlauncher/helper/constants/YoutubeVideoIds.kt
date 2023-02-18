@@ -79,11 +79,11 @@ val animeFightsList = listOf(
 
 // Made in Abyss S2 OST - OMG
 val animeMusicList = listOf(
+    YoutubeVideo(title = "Sirius the Jaeger - Rare Occasions", videoId = "JdNB9sCQ_fo"),
+    YoutubeVideo(title = "Sirius the Jaeger - Definition of Fate", videoId = "3bhJ3DC789g"),
     YoutubeVideo(title = "Made in Abyss S2 - Old Stories by @kpenkin", videoId = "uvUxKOhaEHQ"),
     YoutubeVideo(title = "Made in Abyss S2 - Belaf's Lullaby by @kpenkin", videoId = "ygcCNnUEtx4&t=0s"),
     YoutubeVideo(title = "Made in Abyss S2 - Belaf's Lullaby (Extended Version)", videoId = "jJoQIjY46t4"),
-    YoutubeVideo(title = "Sirius the Jaeger - Definition of Fate", videoId = "3bhJ3DC789g"),
-    YoutubeVideo(title = "Sirius the Jaeger - Rare Occasions", videoId = "JdNB9sCQ_fo"),
     YoutubeVideo(title = "Fate/Apocrypha - Fate/Apocrypha", videoId = "Ql42kdD-KlQ"),
     YoutubeVideo(title = "Fate/Apocrypha - Confronting", videoId = "uuxfvgXReVc"),
     YoutubeVideo(title = "Fate/Apocrypha - The knight of rebelion", videoId = "yprW-4ie-gk"),
@@ -256,6 +256,8 @@ val epicAnimeMomentsList = listOf(
 val otherMusicList = listOf(
     YoutubeVideo(title = "Pandit Jasraj - Vraje Vasantam", videoId = "ItAnTZjopAM"),
     YoutubeVideo(title = "GN Balasubramaniam - Live Concert - Yochana kamala lochana", videoId = "S6bx-zWnuwI"),
+    YoutubeVideo(title = "GN Balasubramaniam - 112th Birth Anniversary Special - Live in Bombay, 1960", videoId = "GjlDXizgqlk"), // Some of GNB's best. The full audio version of the above live concert. Badalika Deera in this is especially good because of Mridangam
+    YoutubeVideo(title = "GN Balasubramaniam - Tiruvaiyāṟu, 1965 [112th Birth Anniversary Special]", videoId = "zvKwF01hEMc"), // more gems
     YoutubeVideo(title = "GN Balasubramaniam - Manasu Swadhina", videoId = "IA5Oa6VJAyk"),
     YoutubeVideo(title = "GN Balasubramaniam - Raga Tana Pallavi - Raga Shanmukhapriya", videoId = "h3SINDPqtEg"),
     YoutubeVideo(title = "GN Balasubramaniam - RTP SHANMUKHAPRIYA", videoId = "SjwTTnK1ha0"),
@@ -285,6 +287,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "GN Balasubramaniam - Evari Bodhana", videoId = "6dJIRdvpv_o"),
     YoutubeVideo(title = "GN Balasubramaniam - Paramakrupa Sagari", videoId = "qf-feeWxXuk"),
     YoutubeVideo(title = "GN Balasubramaniam - Ma Janaki Chattabattaga", videoId = "2xSaswohan4"), // A treat to the ears
+    YoutubeVideo(title = "GN Balasubramaniam - Badalika Deera- Ritigowla - Thyagaraja - Adi - Thyagaraja", videoId = "VoG5Ho-0y-Y"),
     YoutubeVideo(title = "Parur Sundaram Iyer & MSG_Manavyala", videoId = "823uFFoaLGc"),
     YoutubeVideo(title = "MS Gopalakrishnan- Violin - Manavyalakinchara", videoId = "m7lKOttZR7g"),
     YoutubeVideo(title = "Madurai Mani Iyer - Brochevarevarura", videoId = "lgdwg2KmjN4"),
@@ -375,6 +378,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "James Brown - It's A New Day (Part 1 and 2)", videoId = "ZW8n3SEDcIw"),
     YoutubeVideo(title = "James Brown - Sweet Bernadette (1967)", videoId = "sERh1sZWQUY"), // One of JB's best
     YoutubeVideo(title = "James Brown - Papa's Got A Brand New Bag (Paris, 1967)", videoId = "VTM_VrzOyWU"),
+    YoutubeVideo(title = "James Brown - James Brown - There Was A Time, I Feel Alright .m4v", videoId = "aQxPAS2C9ZM"),
     YoutubeVideo(title = "Otis Redding - Papas Got a Brand New Bag Live", videoId = "-LmfX4Yo0Hs"),
     YoutubeVideo(title = "Lamb of God - Again We Rise", videoId = "Xe07zUkryeI"),
     YoutubeVideo(title = "Lamb of God - Walk with Me In Hell", videoId = "m4QyQk8vOCY"),

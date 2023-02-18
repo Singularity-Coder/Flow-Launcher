@@ -347,6 +347,7 @@
                 android:layout_margin="16dp"
                 android:clipChildren="true"
                 android:clipToPadding="true"
+                android:visibility="gone"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -143,3 +143,10 @@ fun Context.isPackageInstalled(packageName: String): Boolean {
         false
     }
 }
+
+fun Intent.launchAppIfExists(activity: Activity) {
+    if (this.resolveActivity(activity.packageManager) != null) {
+        val appPackage = this.resolveActivity(activity.packageManager).packageName
+        activity.launchApp(appPackage)
+    }
+}

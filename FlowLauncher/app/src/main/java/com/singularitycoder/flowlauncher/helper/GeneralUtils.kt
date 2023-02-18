@@ -19,8 +19,6 @@ import android.text.Spanned
 import android.util.TypedValue
 import android.view.*
 import android.view.View.MeasureSpec
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -298,19 +296,4 @@ fun <T> AppCompatActivity.collectLatestLifecycleFlow(flow: Flow<T>, collect: sus
 
 fun Context?.showToast(message: String, duration: Int = Toast.LENGTH_LONG) {
     Toast.makeText(this, message, duration).show()
-}
-
-fun Context.getRealUrlFromWebView(
-    url: String,
-    onRealUrlReady: (url: String) -> Unit,
-) {
-    WebView(this).apply {
-        webViewClient = object : WebViewClient() {
-            override fun onPageFinished(view: WebView, realUrl: String) {
-                println("real url: $realUrl")
-                onRealUrlReady.invoke(realUrl)
-            }
-        }
-        loadUrl(url)
-    }
 }

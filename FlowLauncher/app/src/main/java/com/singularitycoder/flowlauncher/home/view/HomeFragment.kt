@@ -8,9 +8,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.AlarmClock
+import android.provider.MediaStore
 import android.speech.RecognizerIntent
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -79,9 +81,10 @@ class HomeFragment : Fragment() {
     private lateinit var dateTimeTimer: Timer
     private lateinit var timeAnnouncementTimer: Timer
 
-    private val homeAppsAdapter by lazy { HomeAppsAdapter() }
     private val homeViewModel: HomeViewModel by viewModels()
     private val appFlowViewModel: AppFlowViewModel by viewModels()
+    private val homeAppsAdapter by lazy { HomeAppsAdapter() }
+    private val timeAnnouncementWorkManager by lazy { WorkManager.getInstance(requireContext()) }
 
     private var speechAction = SpeechAction.NONE
     private var contactName = ""
@@ -89,10 +92,6 @@ class HomeFragment : Fragment() {
     private var removedAppPosition = 0
     private var removedApp: App? = null
     private var flowName: String? = ""
-
-    private val timeAnnouncementWorkManager by lazy {
-        WorkManager.getInstance(requireContext())
-    }
 
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
@@ -124,15 +123,13 @@ class HomeFragment : Fragment() {
             return@registerForActivityResult
         }
         lifecycleScope.launch {
-            val isContactsSynced = Preferences.read(requireContext())
-                .getBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, false)
+            val isContactsSynced = Preferences.read(requireContext()).getBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, false)
             if (isContactsSynced.not()) {
                 requireContext().getContacts().sortedBy { it.name }.forEach { it: Contact ->
                     contactDao.insert(it)
                 }
             }
-            Preferences.write(requireContext())
-                .putBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, true).apply()
+            Preferences.write(requireContext()).putBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, true).apply()
             val contact = contactDao.getAll().firstOrNull { it.name.contains(contactName) }
             when (speechAction) {
                 SpeechAction.CALL -> {
@@ -242,6 +239,7 @@ class HomeFragment : Fragment() {
         homeAppsAdapter.setItemClickListener { app, position ->
             requireActivity().launchApp(app.packageName)
         }
+
         homeAppsAdapter.setItemLongClickListener { view, app, position ->
             showPopupMenu(
                 view = view,
@@ -250,18 +248,16 @@ class HomeFragment : Fragment() {
                 position = position
             )
         }
+
         setHomeFabTouchOptions()
+
         rvApps.setOnLongClickListener {
             root.performLongClick()
             false
         }
 
         tvTime.onSafeClick {
-            val intent = Intent(AlarmClock.ACTION_SET_ALARM)
-            if (intent.resolveActivity(requireContext().packageManager) != null) {
-                val clockPackage = intent.resolveActivity(requireContext().packageManager).packageName
-                requireActivity().launchApp(clockPackage)
-            }
+            Intent(AlarmClock.ACTION_SET_ALARM).launchAppIfExists(requireActivity())
         }
 
         tvTime.setOnLongClickListener {
@@ -295,14 +291,14 @@ class HomeFragment : Fragment() {
 
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
             val selectedFlow = it.firstOrNull { it.isSelected }
-            val isFlowNameHasFlow = selectedFlow?.appFlowName?.toLowCase()?.contains("flow") == true
+            val isFlowNameHasFlow = selectedFlow?.appFlowName?.contains(other = "flow", ignoreCase = true) == true
             flowName = if (isFlowNameHasFlow) selectedFlow?.appFlowName else "${selectedFlow?.appFlowName} Flow"
             homeAppsAdapter.homeAppList = selectedFlow?.appList ?: emptyList()
             enableDisableApps(selectedFlow)
             withContext(Main) {
                 // https://stackoverflow.com/questions/43221847/cannot-call-this-method-while-recyclerview-is-computing-a-layout-or-scrolling-wh
                 homeAppsAdapter.notifyDataSetChanged()
-                blurAndSaveBitmapForImageBackground()
+                blurAndSaveBitmapForFlowSelectionScreenBackground()
             }
         }
 
@@ -318,15 +314,14 @@ class HomeFragment : Fragment() {
             selectedApp.enable(requireContext())
         }
         defaultFlowApps?.forEach { defaultApp: App ->
-            val isDefaultAppNotPresentInSelectedApp =
-                selectedFlow?.appList?.map { it.packageName }?.contains(defaultApp.packageName)?.not() == true
+            val isDefaultAppNotPresentInSelectedApp = selectedFlow?.appList?.map { it.packageName }?.contains(defaultApp.packageName)?.not() == true
             if (isDefaultAppNotPresentInSelectedApp) {
                 defaultApp.disable(requireContext())
             }
         }
     }
 
-    private fun blurAndSaveBitmapForImageBackground() = lifecycleScope.launch {
+    private fun blurAndSaveBitmapForFlowSelectionScreenBackground() = lifecycleScope.launch {
         try {
             val blurredBitmapFile = File(
                 /* parent = */ requireContext().getHomeLayoutBlurredImageFileDir(),
@@ -422,8 +417,7 @@ class HomeFragment : Fragment() {
             )
             this.menu.forEach { it: MenuItem ->
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    it.iconTintList =
-                        ContextCompat.getColorStateList(requireContext(), R.color.purple_500)
+                    it.iconTintList = ContextCompat.getColorStateList(requireContext(), R.color.purple_500)
                 }
             }
             show()
@@ -575,7 +569,7 @@ class HomeFragment : Fragment() {
                     }
                 }
                 QuickActionHome.SELECT_FLOW.ordinal -> {
-                    blurAndSaveBitmapForImageBackground()
+                    blurAndSaveBitmapForFlowSelectionScreenBackground()
                     (requireActivity() as AppCompatActivity).showScreen(
                         AddEditFlowFragment.newInstance(),
                         AddEditFlowFragment::class.java.simpleName
@@ -594,13 +588,16 @@ class HomeFragment : Fragment() {
 
                 }
                 QuickActionHome.PHONE.ordinal -> {
-                    requireContext().openDialer("")
+                    Intent(Intent.ACTION_DIAL).launchAppIfExists(requireActivity())
                 }
                 QuickActionHome.SMS.ordinal -> {
-                    requireContext().sendSms("", "")
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        data = Uri.parse("sms:")
+                    }
+                    intent.launchAppIfExists(requireActivity())
                 }
                 QuickActionHome.CAMERA.ordinal -> {
-                    requireActivity().launchApp("com.android.camera2")
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).launchAppIfExists(requireActivity())
                 }
             }
         }

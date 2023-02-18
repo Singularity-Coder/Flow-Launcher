@@ -1,6 +1,8 @@
 package com.singularitycoder.flowlauncher.helper
 
+import android.content.Context
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.annotation.WorkerThread
 import java.io.*
 import java.net.HttpURLConnection
@@ -298,4 +300,19 @@ private class Converter {
 // https://stackoverflow.com/questions/18504404/get-the-webarchive-that-by-webview-savewebarchive
 fun WebView.loadLocallyArchivedWebsite(archiveFilePath: String, fileName: String) {
     loadDataWithBaseURL(null, "$archiveFilePath/$fileName.mhtml", "application/x-webarchive-xml", "UTF-8", null);
+}
+
+fun Context.getRealUrlFromWebView(
+    url: String,
+    onRealUrlReady: (url: String) -> Unit,
+) {
+    WebView(this).apply {
+        webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView, realUrl: String) {
+                println("real url: $realUrl")
+                onRealUrlReady.invoke(realUrl)
+            }
+        }
+        loadUrl(url)
+    }
 }

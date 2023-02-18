@@ -12,10 +12,17 @@ TODO image video gallery picker
 TODO create a chat bubble which on press shows the home, app switch, back buttons
 TODO Universal search - Apps, Contacts
 
-TODO good pics
 
 
 PHASE 2
+TODO Network level
+TODO Battery level
+TODO Recently closed apps
+TODO Notifications count
+TODO Date time from broadcast receiver
+
+TODO show notification count in quick action notifications - Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
+TODO try to fix command touch multi selection issue
 TODO Add frag upload media from csv
 TODO Add frag Export media to csv
 TODO Ideal barcode scan - scan result on same screen
@@ -30,6 +37,7 @@ TODO MyMind Notes checklist widegt, Remainder widget from RemindMe with quick ad
 
 
 BUGS
+TODO unable to add apps to new flows until we quit the flow selection screen and come back again
 TODO Unable to detect package installed. Check further - https://stackoverflow.com/questions/11392183/how-to-check-programmatically-if-an-application-is-installed-or-not-in-android
 TODO store install uninstall package flags in db and listen to flag changes and then refresh screen
 TODO improve touch selection area for quick actions
@@ -43,7 +51,7 @@ TODO Letter strip quick scroll for app search
 TODO swipe screen to the right to close it - com.r0adkll:slidableactivity:2.1.0
 TODO Compass in Glance
 TODO Current Lat Long in Glance
-TODO Steps count in Today - If we know current lat long and if we know the distance btw 1 lat long to another, we can plot the steps based on the start and end lat long positions
+TODO Steps count in Today - Distance btw 2 lat longs. If we know current lat long and if we know the distance btw 1 lat long to another, we can plot the steps based on the start and end lat long positions. Calorie burn for walking x meters
 TODO Maybe option to change color
 TODO Voice commands - Brightness, alarm
 TODO 12 hr, 24 hr clock
@@ -53,6 +61,11 @@ TODO Quick Settings Set Alarm
 TODO Quick Settings Set Timer
 TODO Quick Settings Quick Note
 TODO Quick Settings Calc
+TODO select news category
+TODO speed the user is moving
+TODO checkin at locations
+TODO auto turn on off display when u put the display on a flat surface.
+TODO gestures for quick actions. 2, 3, 4, 5 finger gestures
 
 
 GLANCE FRAG WIDGETS

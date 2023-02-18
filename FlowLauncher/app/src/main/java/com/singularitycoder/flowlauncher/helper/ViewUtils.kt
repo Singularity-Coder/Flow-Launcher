@@ -129,14 +129,10 @@ fun TextView.showHideIcon(
     val leftRight = 5
     val topBottom = 6
 
-    val leftDrawable = ContextCompat.getDrawable(context, leftIcon)
-        ?.changeColor(context = context, color = leftIconColor)
-    val topDrawable = ContextCompat.getDrawable(context, topIcon)
-        ?.changeColor(context = context, color = topIconColor)
-    val rightDrawable = ContextCompat.getDrawable(context, rightIcon)
-        ?.changeColor(context = context, color = rightIconColor)
-    val bottomDrawable = ContextCompat.getDrawable(context, bottomIcon)
-        ?.changeColor(context = context, color = bottomIconColor)
+    val leftDrawable = ContextCompat.getDrawable(context, leftIcon)?.changeColor(context = context, color = leftIconColor)
+    val topDrawable = ContextCompat.getDrawable(context, topIcon)?.changeColor(context = context, color = topIconColor)
+    val rightDrawable = ContextCompat.getDrawable(context, rightIcon)?.changeColor(context = context, color = rightIconColor)
+    val bottomDrawable = ContextCompat.getDrawable(context, bottomIcon)?.changeColor(context = context, color = bottomIconColor)
 
     if (showTick) {
         when (direction) {
@@ -144,18 +140,8 @@ fun TextView.showHideIcon(
             top -> this.setCompoundDrawablesWithIntrinsicBounds(null, topDrawable, null, null)
             right -> this.setCompoundDrawablesWithIntrinsicBounds(null, null, rightDrawable, null)
             bottom -> this.setCompoundDrawablesWithIntrinsicBounds(null, null, null, bottomDrawable)
-            leftRight -> this.setCompoundDrawablesWithIntrinsicBounds(
-                leftDrawable,
-                null,
-                rightDrawable,
-                null
-            )
-            topBottom -> this.setCompoundDrawablesWithIntrinsicBounds(
-                null,
-                topDrawable,
-                null,
-                bottomDrawable
-            )
+            leftRight -> this.setCompoundDrawablesWithIntrinsicBounds(leftDrawable, null, rightDrawable, null)
+            topBottom -> this.setCompoundDrawablesWithIntrinsicBounds(null, topDrawable, null, bottomDrawable)
         }
     } else this.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
 }
@@ -172,8 +158,7 @@ fun Drawable.changeColor(
 
 fun Context.color(@ColorRes colorRes: Int) = ContextCompat.getColor(this, colorRes)
 
-fun Context.drawable(@DrawableRes drawableRes: Int): Drawable? =
-    ContextCompat.getDrawable(this, drawableRes)
+fun Context.drawable(@DrawableRes drawableRes: Int): Drawable? = ContextCompat.getDrawable(this, drawableRes)
 
 fun Context.showAlertDialog(
     title: String = "",
@@ -183,10 +168,7 @@ fun Context.showAlertDialog(
     positiveAction: () -> Unit = {},
     negativeAction: () -> Unit = {},
 ) {
-    MaterialAlertDialogBuilder(
-        this,
-        com.google.android.material.R.style.ThemeOverlay_MaterialComponents_Dialog
-    ).apply {
+    MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_MaterialComponents_Dialog).apply {
         setCancelable(false)
         if (title.isNotBlank()) setTitle(title)
         setMessage(message)

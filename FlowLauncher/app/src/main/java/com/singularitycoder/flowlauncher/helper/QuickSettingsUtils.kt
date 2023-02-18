@@ -572,6 +572,7 @@ fun Context.isWriteSecureSettingsPermissionGranted(): Boolean {
             checkSelfPermission(Manifest.permission.WRITE_SECURE_SETTINGS) == PackageManager.PERMISSION_GRANTED)
 }
 
+// https://github.com/farmerbb/Taskbar
 fun setComponentEnabled(context: Context, clazz: Class<*>?, enabled: Boolean) {
     val component = ComponentName(context, clazz!!)
     context.packageManager.setComponentEnabledSetting(
@@ -581,6 +582,7 @@ fun setComponentEnabled(context: Context, clazz: Class<*>?, enabled: Boolean) {
     )
 }
 
+// https://github.com/farmerbb/Taskbar
 fun isAccessibilityServiceEnabled(context: Context): Boolean {
     val accessibilityServices = Settings.Secure.getString(context.contentResolver, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES)
     val component = ComponentName(context, PowerMenuService::class.java)
@@ -595,6 +597,7 @@ fun Context.showVolumeQuickSettings() {
     audioManager.adjustSuggestedStreamVolume(AudioManager.ADJUST_SAME, AudioManager.USE_DEFAULT_STREAM_TYPE, AudioManager.FLAG_SHOW_UI)
 }
 
+// https://github.com/farmerbb/Taskbar
 fun Context.showFileManager() {
     val fileManagerIntent: Intent
 
@@ -626,5 +629,26 @@ fun flashLight(isOn: Boolean, cameraManager: CameraManager) {
             cameraManager.setTorchMode(cameraId, isOn)
         }
     } catch (_: Exception) {
+    }
+}
+
+// https://github.com/farmerbb/Taskbar
+// U can get notifications count form this
+fun Context.modifyNotifications() {
+    try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
+            startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
+    } catch (e: ActivityNotFoundException) {
+        showToast(getString(R.string.tb_lock_device_not_supported))
+    }
+}
+
+// https://github.com/farmerbb/Taskbar
+// U can get recently used/closed apps
+fun Context.requestUsageAccess() {
+    try {
+        startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+    } catch (e: ActivityNotFoundException) {
+        showToast(getString(R.string.tb_lock_device_not_supported))
     }
 }
