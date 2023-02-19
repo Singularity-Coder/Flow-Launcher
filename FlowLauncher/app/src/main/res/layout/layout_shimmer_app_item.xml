@@ -14,9 +14,9 @@
         android:id="@+id/v1"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        android:layout_marginStart="24dp"
         android:layout_weight="1"
         android:background="@drawable/background_rounded_shimmer_view"
-        app:layout_constraintEnd_toStartOf="@+id/v2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,10 +44,10 @@
         android:id="@+id/v4"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        android:layout_marginEnd="24dp"
         android:layout_weight="1"
         android:background="@drawable/background_rounded_shimmer_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/v3"
         app:layout_constraintTop_toTopOf="@+id/v2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

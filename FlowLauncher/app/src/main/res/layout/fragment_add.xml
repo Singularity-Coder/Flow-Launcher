@@ -71,6 +71,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:scrollbars="none"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_toolbar"
         tools:listitem="@layout/list_item_add" />

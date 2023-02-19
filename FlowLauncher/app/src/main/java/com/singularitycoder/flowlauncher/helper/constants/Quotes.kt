@@ -667,6 +667,10 @@ val animeQuoteList = listOf(
         title = "A man should own up to his mistakes and bear through the consequences!",
         author = "Magic Emperor"
     ),
+    Quote(
+        title = "Scars are warrior’s decorations.",
+        author = "Spy X Family"
+    ),
 ).shuffled()
 
 val generalQuoteList = listOf(

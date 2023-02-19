@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_top_rounded"
+    android:orientation="vertical"
+    tools:context=".quickSettings.QuickSettingsBottomSheetFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="-16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/animated_gradient"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_drag_handle"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_round_horizontal_rule_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/white" />
+
+                <!--        <TextView-->
+                <!--            android:id="@+id/tv_header"-->
+                <!--            android:layout_width="wrap_content"-->
+                <!--            android:layout_height="wrap_content"-->
+                <!--            android:layout_gravity="center"-->
+                <!--            android:layout_marginTop="-4dp"-->
+                <!--            android:text="Select Apps"-->
+                <!--            android:textAlignment="center"-->
+                <!--            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"-->
+                <!--            android:textColor="@android:color/darker_gray"-->
+                <!--            app:layout_constraintEnd_toEndOf="@+id/iv_drag_handle"-->
+                <!--            app:layout_constraintStart_toStartOf="@+id/iv_drag_handle"-->
+                <!--            app:layout_constraintTop_toBottomOf="@+id/iv_drag_handle" />-->
+
+                <!--        <com.google.android.material.divider.MaterialDivider-->
+                <!--            android:id="@+id/divider"-->
+                <!--            android:layout_width="match_parent"-->
+                <!--            android:layout_height="1dp"-->
+                <!--            android:layout_marginTop="16dp"-->
+                <!--            app:dividerColor="@color/black_50"-->
+                <!--            app:layout_constraintTop_toBottomOf="@+id/tv_header" />-->
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="80dp"
+                app:layout_constraintTop_toBottomOf="@+id/cl_header">
+
+                <ImageView
+                    android:id="@+id/iv_voice_search"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="32dp"
+                    android:src="@drawable/ic_round_keyboard_voice_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_spoken_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:maxLines="3"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="Listening..."
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                    android:textColor="@color/white"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_voice_search" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.appcompat.widget.LinearLayoutCompat>

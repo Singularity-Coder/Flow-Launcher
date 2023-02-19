@@ -75,15 +75,17 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "Fullmetal Alchemist - Greed vs Wrath", videoId = "L2-vOjf4SEk"),
     YoutubeVideo(title = "Fullmetal Alchemist - Greed VS King Bradley", videoId = "l5lDEGEOcu4"),
     YoutubeVideo(title = "Asuka's Death - End Of Evangelion", videoId = "OO-1Yyi5KPY"),
+    YoutubeVideo(title = "Miss Kobayashi's Dragon Maid - How dragons play", videoId = "xEPY5AjpaCg"),
+    YoutubeVideo(title = "Miss Kobayashi's Dragon Maid - Tohru VS Elma", videoId = "l7_Sj1F-IcA"),
 )
 
 // Made in Abyss S2 OST - OMG
 val animeMusicList = listOf(
-    YoutubeVideo(title = "Sirius the Jaeger - Rare Occasions", videoId = "JdNB9sCQ_fo"),
-    YoutubeVideo(title = "Sirius the Jaeger - Definition of Fate", videoId = "3bhJ3DC789g"),
     YoutubeVideo(title = "Made in Abyss S2 - Old Stories by @kpenkin", videoId = "uvUxKOhaEHQ"),
     YoutubeVideo(title = "Made in Abyss S2 - Belaf's Lullaby by @kpenkin", videoId = "ygcCNnUEtx4&t=0s"),
     YoutubeVideo(title = "Made in Abyss S2 - Belaf's Lullaby (Extended Version)", videoId = "jJoQIjY46t4"),
+    YoutubeVideo(title = "Sirius the Jaeger - Rare Occasions", videoId = "JdNB9sCQ_fo"),
+    YoutubeVideo(title = "Sirius the Jaeger - Definition of Fate", videoId = "3bhJ3DC789g"),
     YoutubeVideo(title = "Fate/Apocrypha - Fate/Apocrypha", videoId = "Ql42kdD-KlQ"),
     YoutubeVideo(title = "Fate/Apocrypha - Confronting", videoId = "uuxfvgXReVc"),
     YoutubeVideo(title = "Fate/Apocrypha - The knight of rebelion", videoId = "yprW-4ie-gk"),

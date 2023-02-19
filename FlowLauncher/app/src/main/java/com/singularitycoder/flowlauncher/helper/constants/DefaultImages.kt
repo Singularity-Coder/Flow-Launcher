@@ -552,4 +552,14 @@ val tempImageUrlList = listOf(
 
     GlanceImage(link = "https://video.twimg.com/ext_tw_video/1622613644344279042/pu/vid/720x720/CUo_C-MHUl_kmptU.mp4", title = "https://twitter.com/SteveMakerspace"),
 
+    GlanceImage(link = "https://pbs.twimg.com/media/EV2dQdCVAAAO-Xn?format=jpg&name=large", title = "https://twitter.com/CiloRanko"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Ed-D2Y7VAAAH3p8?format=jpg&name=large", title = "https://twitter.com/CiloRanko"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EmbNSWEVoAAZabe?format=jpg&name=large", title = "https://twitter.com/CiloRanko"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FIRWp3maUAAqda5?format=jpg&name=4096x4096", title = "https://twitter.com/CiloRanko"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FIRWp9baAAMZaea?format=jpg&name=4096x4096", title = "https://twitter.com/CiloRanko"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FIRWp9hacAA2ksO?format=jpg&name=4096x4096", title = "https://twitter.com/CiloRanko"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FIRWp9caQAAvRwI?format=jpg&name=4096x4096", title = "https://twitter.com/CiloRanko"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FMDmExXXoAMZJgM?format=jpg&name=large", title = "https://twitter.com/samdoesarts"),
+
 )

@@ -550,15 +550,16 @@ class HomeFragment : Fragment() {
             when (action?.id) {
                 QuickActionHome.VOICE_SEARCH.ordinal -> {
                     // Start Speech to Text
-                    val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                        putExtra(
-                            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-                        )
-                        putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-                        putExtra(RecognizerIntent.EXTRA_PROMPT, "Start Speaking Now!")
-                    }
-                    speechToTextResult.launch(intent)
+//                    val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+//                        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+//                        putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+//                        putExtra(RecognizerIntent.EXTRA_PROMPT, "Start Speaking Now!")
+//                    }
+//                    speechToTextResult.launch(intent)
+                    VoiceSearchBottomSheetFragment.newInstance(voiceSearchQuery = "").show(
+                        /* manager = */ requireActivity().supportFragmentManager,
+                        /* tag = */ BottomSheetTag.VOICE_SEARCH
+                    )
                 }
                 QuickActionHome.QUICK_SETTINGS.ordinal -> {
                     if (requireContext().isWriteSettingsPermissionGranted()) {

@@ -13,8 +13,11 @@ import android.view.HapticFeedbackConstants
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AlphaAnimation
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.annotation.AnimRes
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.singularitycoder.flowlauncher.MainActivity
@@ -52,14 +56,16 @@ fun EditText.onImeClick(
 }
 
 // https://stackoverflow.com/questions/6115715/how-do-i-programmatically-set-the-background-color-gradient-on-a-custom-title-ba
-fun getGradientDrawable(): GradientDrawable {
+// https://stackoverflow.com/questions/17823451/set-android-shape-color-programmatically
+// https://stackoverflow.com/questions/28578701/how-to-create-android-shape-background-programmatically
+fun gradientDrawable(): GradientDrawable {
     return GradientDrawable().apply {
         colors = intArrayOf(
             R.color.purple_500,
             R.color.purple_50,
         )
-        orientation = GradientDrawable.Orientation.LEFT_RIGHT
-        gradientType = GradientDrawable.LINEAR_GRADIENT
+        orientation = GradientDrawable.Orientation.RIGHT_LEFT
+        gradientType = GradientDrawable.SWEEP_GRADIENT
         shape = GradientDrawable.RECTANGLE
     }
 }
@@ -247,6 +253,16 @@ fun createGradientDrawable(width: Int, height: Int): GradientDrawable {
         setColor(Color.TRANSPARENT)
         setSize(width, height)
     }
+}
+
+fun Context.layoutAnimationController(@AnimRes animationRes: Int): LayoutAnimationController {
+    return AnimationUtils.loadLayoutAnimation(this, animationRes)
+}
+
+// To reanimate list if necessary
+fun RecyclerView.runLayoutAnimation(@AnimRes animationRes: Int) {
+    layoutAnimation = context.layoutAnimationController(animationRes)
+    scheduleLayoutAnimation()
 }
 
 inline fun <reified T> List<T>.toArrayList(): ArrayList<T> = ArrayList(this)

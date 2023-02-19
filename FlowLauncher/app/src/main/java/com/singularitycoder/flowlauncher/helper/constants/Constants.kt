@@ -108,6 +108,7 @@ object AppGrid {
 object BottomSheetTag {
     const val QUICK_SETTINGS = "QUICK_SETTINGS_BOTTOM_SHEET"
     const val APP_SELECTOR = "QUICK_SETTINGS_BOTTOM_SHEET"
+    const val VOICE_SEARCH = "VOICE_SEARCH_BOTTOM_SHEET"
 }
 
 object FragmentsTag {

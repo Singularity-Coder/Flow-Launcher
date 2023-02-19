@@ -46,6 +46,10 @@ val callContactSmsPermissionList = arrayOf(
     Manifest.permission.READ_CALL_LOG,
 )
 
+fun Context.isRecordAudioPermissionGranted(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+}
+
 fun Context.isCallContactSmsPermissionGranted(): Boolean {
     return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED &&

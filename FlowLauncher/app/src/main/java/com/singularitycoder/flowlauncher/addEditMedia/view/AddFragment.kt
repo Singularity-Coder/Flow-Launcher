@@ -128,10 +128,7 @@ class AddFragment : Fragment() {
         sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { glanceImageList: List<GlanceImage>? ->
             if (listType != AddItemType.GLANCE_IMAGE) return@observe
             addItemAdapter.itemsList = glanceImageList?.map {
-                val item = AddItem(
-                    link = it.link,
-                    title = it.title
-                )
+                val item = AddItem(link = it.link, title = it.title)
                 item
             } ?: emptyList()
             addItemList = addItemAdapter.itemsList.toMutableList()
@@ -141,10 +138,7 @@ class AddFragment : Fragment() {
         sharedViewModel.quoteListLiveData.observe(viewLifecycleOwner) { quoteList: List<Quote>? ->
             if (listType != AddItemType.QUOTE) return@observe
             addItemAdapter.itemsList = quoteList?.map {
-                val item = AddItem(
-                    link = it.title,
-                    title = it.author
-                )
+                val item = AddItem(link = it.title, title = it.author)
                 item
             } ?: emptyList()
             addItemList = addItemAdapter.itemsList.toMutableList()
@@ -154,10 +148,7 @@ class AddFragment : Fragment() {
         sharedViewModel.youtubeVideoListLiveData.observe(viewLifecycleOwner) { youtubeVideoList: List<YoutubeVideo>? ->
             if (listType != AddItemType.YOUTUBE_VIDEO) return@observe
             addItemAdapter.itemsList = youtubeVideoList?.map {
-                val item = AddItem(
-                    link = it.videoId,
-                    title = it.title
-                )
+                val item = AddItem(link = it.videoId, title = it.title)
                 item
             } ?: emptyList()
             addItemList = addItemAdapter.itemsList.toMutableList()
@@ -188,6 +179,12 @@ class AddFragment : Fragment() {
             }
         }
         rvRoutineSteps.apply {
+            layoutAnimation = when (listType) {
+                AddItemType.QUOTE -> rvRoutineSteps.context.layoutAnimationController(R.anim.layout_animation_fall_down)
+                AddItemType.YOUTUBE_VIDEO -> rvRoutineSteps.context.layoutAnimationController(R.anim.layout_animation_slide_from_bottom)
+                AddItemType.GLANCE_IMAGE -> rvRoutineSteps.context.layoutAnimationController(R.anim.layout_animation_fade_in)
+                else -> null
+            }
             layoutManager = LinearLayoutManager(context)
             adapter = addItemAdapter
             addItemAdapter.setListType(listType)

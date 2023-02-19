@@ -123,7 +123,6 @@ class TodayFragment : Fragment() {
                     }
                     todayOptions[1] -> {
                         (requireActivity() as? MainActivity)?.showScreen(AddFragment.newInstance(AddItemType.QUOTE), FragmentsTag.ADD_ITEM, isAdd = true)
-                        root.showSnackBar(todayOptions[1])
                     }
                 }
             }

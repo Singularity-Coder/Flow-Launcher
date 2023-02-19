@@ -42,13 +42,12 @@ class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
 
     private val appFlowViewModel: AppFlowViewModel by viewModels()
     private val appSelectorAdapter: AppSelectorAdapter by lazy { AppSelectorAdapter() }
-    private lateinit var linearLayoutManager: LinearLayoutManager
-
     private val selectedAppsList = mutableListOf<App>()
 
-    private var selectedFlowId = 0L
-
+    private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var binding: FragmentAppSelectorBottomSheetBinding
+
+    private var selectedFlowId = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

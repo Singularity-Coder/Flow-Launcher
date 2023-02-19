@@ -4,15 +4,39 @@ PHASE 1
 TODO SOS signal - SOS Torch, Buzzer, Morse code sender on flash,
 TODO Panic Mode - Shows a countdown timer with 5 sec to disable it if its an accident - send message to pre selected contacts. Need a screen to select contacts if its first time.
 
-TODO Add list animation for add new stuff. 3 types of animations for 3 different media
 TODO Voice search replace with custom bottom sheet
 TODO Play sound on refresh complete
+TODO Universal search - Apps, Contacts
 
 TODO image video gallery picker
 TODO create a chat bubble which on press shows the home, app switch, back buttons
-TODO Universal search - Apps, Contacts
 
 
+FONTS
+https://fonts.google.com/specimen/Julee
+https://fonts.google.com/specimen/Lobster
+https://fonts.google.com/specimen/Dancing+Script
+https://fonts.google.com/specimen/Pacifico
+https://fonts.google.com/specimen/Kreon
+https://fonts.google.com/specimen/Explora
+https://fonts.google.com/specimen/Lora
+https://fonts.google.com/specimen/Taviraj
+https://fonts.google.com/specimen/Bodoni+Moda
+https://fonts.google.com/specimen/Libre+Bodoni
+https://fonts.google.com/specimen/Elsie
+https://fonts.google.com/specimen/Elsie+Swash+Caps
+https://fonts.google.com/specimen/Grand+Hotel
+https://fontsgeek.com/fonts/SignPainter-HouseScript-Regular
+https://fonts.google.com/specimen/Yesteryear
+https://fonts.google.com/specimen/Sofia
+https://fonts.google.com/specimen/Sofia+Sans
+https://befonts.com/secret-script-font.html
+https://www.dafont.com/desolator.font
+https://www.dafont.com/radicalis.font
+https://fonts.google.com/specimen/Montserrat+Alternates
+https://fonts.google.com/specimen/Montserrat
+https://fonts.google.com/specimen/Rancho
+https://fonts.google.com/specimen/Quicksand
 
 PHASE 2
 TODO Network level
