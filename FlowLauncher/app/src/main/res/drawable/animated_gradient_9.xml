@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/gradient_orange"
+        android:duration="500" />
+    <item
+        android:drawable="@drawable/gradient_deep_orange"
+        android:duration="500" />
+    <item
+        android:drawable="@drawable/gradient_brown"
+        android:duration="500" />
+    <item
+        android:drawable="@drawable/gradient_grey"
+        android:duration="500" />
+    <item
+        android:drawable="@drawable/gradient_blue_grey"
+        android:duration="500" />
+    <item
+        android:drawable="@drawable/gradient_light_black"
+        android:duration="500" />
+</animation-list>

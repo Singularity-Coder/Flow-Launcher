@@ -5,12 +5,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorRes
 import androidx.core.view.isVisible
@@ -36,6 +38,7 @@ import com.singularitycoder.flowlauncher.helper.quickActionView.QuickActionView
 import com.singularitycoder.flowlauncher.today.model.Quote
 import kotlinx.coroutines.launch
 import java.util.*
+
 
 class AddFragment : Fragment() {
 
@@ -78,11 +81,30 @@ class AddFragment : Fragment() {
 
         println("originalImageUri: ${data.data}")
 
-        val glanceImage = GlanceImage(
-            link = file.absolutePath,
-            title = file.name
-        )
+        val glanceImage = GlanceImage(link = file.absolutePath, title = file.name)
         sharedViewModel.addGlanceImageToDb(glanceImage)
+    }
+
+    private val singleMediaSelectionResult = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { it: Uri? ->
+        it ?: return@registerForActivityResult
+        val file = requireContext().readFileFromExternalDbAndWriteFileToInternalDb(it) ?: return@registerForActivityResult
+
+        println("originalImageUri: $it")
+
+        val glanceImage = GlanceImage(link = file.absolutePath, title = file.name)
+        sharedViewModel.addGlanceImageToDb(glanceImage)
+    }
+
+    private val multipleMediaSelectionResult = registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { list: List<@JvmSuppressWildcards Uri>? ->
+        if (list.isNullOrEmpty()) return@registerForActivityResult
+        list.forEach { it: @JvmSuppressWildcards Uri ->
+            val file = requireContext().readFileFromExternalDbAndWriteFileToInternalDb(it) ?: return@registerForActivityResult
+
+            println("originalImageUri: $it")
+
+            val glanceImage = GlanceImage(link = file.absolutePath, title = file.name)
+            sharedViewModel.addGlanceImageToDb(glanceImage)
+        }
     }
 
     private val videoSelectionResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it: ActivityResult? ->
@@ -92,10 +114,7 @@ class AddFragment : Fragment() {
 
         println("originalVideoUri: ${data.data}")
 
-        val glanceImage = GlanceImage(
-            link = file.absolutePath,
-            title = file.name
-        )
+        val glanceImage = GlanceImage(link = file.absolutePath, title = file.name)
         sharedViewModel.addGlanceImageToDb(glanceImage)
     }
 
@@ -113,8 +132,8 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.observeForData()
         binding.setupUI()
+        binding.observeForData()
         binding.setupUserActionListeners()
     }
 
@@ -197,6 +216,7 @@ class AddFragment : Fragment() {
 //        setAddFabTouchOptions2()
 
         ibAddItem.onSafeClick {
+            if (etAddItem.text.isNullOrBlank()) return@onSafeClick
             when (listType) {
                 AddItemType.QUOTE -> {
                     lifecycleScope.launch {
@@ -280,10 +300,7 @@ class AddFragment : Fragment() {
                 return false
             }
 
-            override fun onSwiped(
-                viewHolder: RecyclerView.ViewHolder,
-                direction: Int,
-            ) = Unit
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
         }
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvRoutineSteps)
     }
@@ -351,7 +368,15 @@ class AddFragment : Fragment() {
                 QuickActionAddMedia.SELECT_FROM_GALLERY.ordinal -> {
                     when (listType) {
                         AddItemType.GLANCE_IMAGE -> {
-                            readStoragePermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                // https://stackoverflow.com/questions/73999566/how-to-construct-pickvisualmediarequest-for-activityresultlauncher
+                                // https://www.youtube.com/watch?v=uHX5NB6wHao
+                                val mediaType = ActivityResultContracts.PickVisualMedia.ImageAndVideo as ActivityResultContracts.PickVisualMedia.VisualMediaType
+                                val request: PickVisualMediaRequest = PickVisualMediaRequest.Builder().setMediaType(mediaType).build()
+                                multipleMediaSelectionResult.launch(request)
+                            } else {
+                                readStoragePermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            }
                         }
                     }
                 }

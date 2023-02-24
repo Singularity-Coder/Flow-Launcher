@@ -19,7 +19,7 @@
             android:id="@+id/ll_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/animated_gradient"
+            android:background="@drawable/animated_gradient_1"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,6 +32,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:elevation="4dp"
                     android:src="@drawable/ic_round_horizontal_rule_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +73,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="32dp"
+                    android:elevation="4dp"
                     android:src="@drawable/ic_round_keyboard_voice_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
+                    android:elevation="4dp"
                     android:maxLines="3"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
@@ -93,6 +96,54 @@
                     android:textColor="@color/white"
                     android:visibility="visible"
                     app:layout_constraintTop_toBottomOf="@+id/iv_voice_search" />
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_voice_to_text_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_network_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:elevation="4dp"
+                        android:maxLines="3"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:visibility="gone"
+                        android:text="Network State"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_voice_search" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_retry"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="0dp"
+                        android:text="Try again"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        app:cornerRadius="24dp"
+                        app:elevation="0dp"
+                        app:rippleColor="@color/transparent_white_50"
+                        app:strokeColor="@color/white"
+                        app:strokeWidth="1dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>

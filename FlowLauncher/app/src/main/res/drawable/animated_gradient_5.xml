@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient
-        android:angle="135"
-        android:endColor="#34e89e"
-        android:startColor="#0f3443" />
-</shape>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/gradient_orange_light"
+        android:duration="500" />
+    <item
+        android:drawable="@drawable/gradient_deep_orange_light"
+        android:duration="500" />
+    <item
+        android:drawable="@drawable/gradient_brown_light"
+        android:duration="500" />
+    <item
+        android:drawable="@drawable/gradient_grey_light"
+        android:duration="500" />
+    <item
+        android:drawable="@drawable/gradient_blue_grey_light"
+        android:duration="500" />
+</animation-list>

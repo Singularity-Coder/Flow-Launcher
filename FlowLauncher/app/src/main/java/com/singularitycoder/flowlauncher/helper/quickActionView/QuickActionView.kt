@@ -598,7 +598,8 @@ open class QuickActionView private constructor(private val mContext: Context) {
             addView(scrimView, scrimParams)
             indicatorView = View(context)
             indicatorView.background = indicatorDrawable
-            val indicatorParams = LayoutParams(indicatorDrawable?.intrinsicWidth ?: 206, indicatorDrawable?.intrinsicHeight ?: 206)
+            val defaultCircleDiameter = ceil((deviceWidth() * 0.149)).toInt()
+            val indicatorParams = LayoutParams(indicatorDrawable?.intrinsicWidth ?: defaultCircleDiameter, indicatorDrawable?.intrinsicHeight ?: defaultCircleDiameter)
             addView(indicatorView, indicatorParams)
             for (action in actionsList) {
                 val helper = ConfigHelper(action.config, config)

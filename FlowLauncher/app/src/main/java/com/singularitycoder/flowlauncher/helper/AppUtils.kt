@@ -9,12 +9,14 @@ import android.content.pm.PackageInstaller.SessionParams
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
 import android.content.pm.ResolveInfo
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.provider.Settings
+import androidx.core.content.ContextCompat
 import com.singularitycoder.flowlauncher.home.model.App
-import java.io.IOException
+import java.io.*
+
 
 // https://stackoverflow.com/questions/10297149/listen-for-app-installed-upgraded-broadcast-message-in-android
 
@@ -149,4 +151,73 @@ fun Intent.launchAppIfExists(activity: Activity) {
         val appPackage = this.resolveActivity(activity.packageManager).packageName
         activity.launchApp(appPackage)
     }
+}
+
+// https://stackoverflow.com/questions/37984988/how-to-send-apk-using-share-intent-programatically-in-android
+fun Context.getApkFileUri(packageName: String): Uri? = try {
+    val appInfo = appInfoList().find { it?.activityInfo?.packageName == packageName }
+    val fileName = appInfo?.loadLabel(packageManager).toString()
+    val file1 = File(appInfo?.activityInfo?.applicationInfo?.publicSourceDir ?: "")
+    var file2 = File(Environment.getExternalStorageDirectory().toString() + "/Folder")
+
+    println("file1 name: ${file1.name} ---- ${appInfo?.loadLabel(packageManager)}")
+    println("fileName: $fileName")
+
+    file2.mkdirs()
+    file2 = File(file2.path + "/" + fileName + ".apk")
+    file2.createNewFile()
+
+    val inputStream: InputStream = FileInputStream(file1)
+    val out: OutputStream = FileOutputStream(file2)
+    // byte[] buf = new byte[1024];
+    val buf = ByteArray(4096)
+    var len: Int
+
+    while (inputStream.read(buf).also { len = it } > 0) {
+        out.write(buf, 0, len)
+    }
+
+    inputStream.close()
+    out.close()
+    println("File copied.")
+
+    Uri.fromFile(File(file2.absolutePath))
+} catch (ex: FileNotFoundException) {
+    println(ex.message + " in the specified directory.")
+    null
+} catch (e: IOException) {
+    println(e.message)
+    null
+}
+
+fun Context.shareApk(packageName: String) {
+    val intent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+        type = "application/vnd.android.package-archive"
+        putParcelableArrayListExtra(Intent.EXTRA_STREAM, arrayListOf(getApkFileUri(packageName) ?: return))
+    }
+    ContextCompat.startActivity(
+        /* context = */ this,
+        /* intent = */ Intent.createChooser(intent, "Share files via"),
+        /* options = */ null
+    )
+}
+
+// Problem: android.os.FileUriExposedException: file:///product/app/Drive/Drive.apk exposed beyond app through ClipData.Item.getUri()
+// https://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed
+fun Context.shareApkOf(app: App) = try {
+    val appInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        packageManager.getApplicationInfo(app.packageName, PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+    } else {
+        packageManager.getApplicationInfo(app.packageName, PackageManager.GET_META_DATA)
+    }
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "*/*"
+        putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + appInfo.publicSourceDir))
+        putExtra(Intent.EXTRA_TEXT, "${app.title} APK")
+        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    }
+    startActivity(Intent.createChooser(intent, "Share it using"))
+} catch (e: Exception) {
+    e.printStackTrace()
+    showToast("Cannot share!")
 }

@@ -32,6 +32,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -40,6 +41,7 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
+import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
 import com.singularitycoder.flowlauncher.addEditAppFlow.view.AddEditFlowFragment
 import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
@@ -83,6 +85,7 @@ class HomeFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by viewModels()
     private val appFlowViewModel: AppFlowViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     private val homeAppsAdapter by lazy { HomeAppsAdapter() }
     private val timeAnnouncementWorkManager by lazy { WorkManager.getInstance(requireContext()) }
 
@@ -251,11 +254,6 @@ class HomeFragment : Fragment() {
 
         setHomeFabTouchOptions()
 
-        rvApps.setOnLongClickListener {
-            root.performLongClick()
-            false
-        }
-
         tvTime.onSafeClick {
             Intent(AlarmClock.ACTION_SET_ALARM).launchAppIfExists(requireActivity())
         }
@@ -299,6 +297,42 @@ class HomeFragment : Fragment() {
                 // https://stackoverflow.com/questions/43221847/cannot-call-this-method-while-recyclerview-is-computing-a-layout-or-scrolling-wh
                 homeAppsAdapter.notifyDataSetChanged()
                 blurAndSaveBitmapForFlowSelectionScreenBackground()
+            }
+        }
+
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = sharedViewModel.voiceToTextStateFlow) { text: String ->
+            if (text.isEmpty()) return@collectLatestLifecycleFlow
+            lifecycleScope.launch(IO) {
+                println("speech result: $text")
+                when (text.substringBefore(" ").toLowCase()) {
+                    SpeechAction.OPEN.value, SpeechAction.LAUNCH.value -> {
+                        // TODO get app list from DB
+                        val appName = text.substringAfter(" ")
+                        val app = context?.appList()?.firstOrNull { it.title.contains(appName) } ?: kotlin.run {
+                            // show list of apps with the starting letter
+                            return@launch
+                        }
+                        withContext(Main) {
+                            requireActivity().launchApp(app.packageName)
+                        }
+                    }
+                    SpeechAction.CALL.value -> {
+                        speechAction = SpeechAction.CALL
+                        contactName = text.substringAfter(" ")
+                        grantContactsPermission()
+                    }
+                    SpeechAction.MESSAGE.value -> {
+                        speechAction = SpeechAction.MESSAGE
+                        contactName = text.substringAfter(" ").substringBefore("saying")
+                        messageBody = text.substringAfter("saying ")
+                        grantContactsPermission()
+                    }
+                    SpeechAction.SEARCH.value, SpeechAction.FIND.value -> {
+                        val query = text.substringAfter(" ")
+                        requireActivity().searchWithChrome(query = query)
+                    }
+                }
+                sharedViewModel.setVoiceToTextValue(text = "")
             }
         }
 
@@ -361,7 +395,7 @@ class HomeFragment : Fragment() {
             val time = convertLongToTime(timeNow, DateType.h_mm_a)
             val hours = time.substringBefore(":")
             val minutes = time.substringAfter(":").substringBefore(" ")
-            val dayPeriod = time.substringAfter(" ")
+            val dayPeriod = time.substringAfter(" ").toUpCase()
             val html = "$hours : $minutes <small><small><small>$dayPeriod</small></small></small>"
             val day = Calendar.getInstance().time.toString().substringBefore(" ")
 
@@ -403,6 +437,10 @@ class HomeFragment : Fragment() {
                     }
                     R.id.menu_item_remove_app -> {
                         removeApp(app, position)
+                        false
+                    }
+                    R.id.menu_item_share_app -> {
+                        requireContext().shareApkOf(app)
                         false
                     }
                     else -> false
@@ -556,7 +594,7 @@ class HomeFragment : Fragment() {
 //                        putExtra(RecognizerIntent.EXTRA_PROMPT, "Start Speaking Now!")
 //                    }
 //                    speechToTextResult.launch(intent)
-                    VoiceSearchBottomSheetFragment.newInstance(voiceSearchQuery = "").show(
+                    VoiceSearchBottomSheetFragment.newInstance().show(
                         /* manager = */ requireActivity().supportFragmentManager,
                         /* tag = */ BottomSheetTag.VOICE_SEARCH
                     )

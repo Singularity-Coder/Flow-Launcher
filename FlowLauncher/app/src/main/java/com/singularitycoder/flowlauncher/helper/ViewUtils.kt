@@ -1,12 +1,15 @@
 package com.singularitycoder.flowlauncher.helper
 
 import android.app.Activity
+import android.app.NotificationManager
+import android.content.ContentResolver
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.SystemClock
 import android.view.HapticFeedbackConstants
@@ -18,6 +21,7 @@ import android.view.animation.LayoutAnimationController
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.annotation.AnimRes
+import androidx.annotation.AnyRes
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
@@ -204,6 +208,7 @@ fun Context.showPopup(
             menu.add(it)
         }
         setOnMenuItemClickListener { it: MenuItem? ->
+            view.setHapticFeedback()
             onItemClick.invoke(menuList.indexOf(it?.title))
             false
         }
@@ -226,6 +231,7 @@ fun Context.showListPopupMenu(
 //        setContentWidth(measureContentWidth(adapter))
         width = ListPopupWindow.MATCH_PARENT
         setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            view?.setHapticFeedback()
             onItemClick.invoke(position)
             this.dismiss()
         }
@@ -266,6 +272,20 @@ fun RecyclerView.runLayoutAnimation(@AnimRes animationRes: Int) {
 }
 
 inline fun <reified T> List<T>.toArrayList(): ArrayList<T> = ArrayList(this)
+
+fun Context.resourceUri(@AnyRes resourceId: Int): Uri = Uri.Builder()
+    .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+    .authority(packageName)
+    .path(resourceId.toString())
+    .build()
+
+fun Context.getResourceUri(@AnyRes resourceId: Int): Uri {
+    return Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://$packageName/$resourceId")
+}
+
+fun Context.clearNotification(notificationId: Int) {
+    (getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.cancel(packageName, notificationId)
+}
 
 // https://stackoverflow.com/questions/2228151/how-to-enable-haptic-feedback-on-button-view
 fun View.setHapticFeedback() {

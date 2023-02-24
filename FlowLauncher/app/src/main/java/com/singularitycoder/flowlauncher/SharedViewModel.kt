@@ -18,6 +18,8 @@ import com.singularitycoder.flowlauncher.today.model.Quote
 import com.singularitycoder.flowlauncher.today.model.TrendingTweet
 import com.singularitycoder.flowlauncher.today.model.Weather
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,7 +31,7 @@ class SharedViewModel @Inject constructor(
     trendingTweetDao: TrendingTweetDao,
     private val glanceImageDao: GlanceImageDao,
     private val youtubeVideoDao: YoutubeVideoDao,
-    private val quoteDao: QuoteDao
+    private val quoteDao: QuoteDao,
 ) : ViewModel() {
 
     val weatherLiveData: LiveData<Weather> by lazy {
@@ -54,6 +56,9 @@ class SharedViewModel @Inject constructor(
     val quoteListLiveData: LiveData<List<Quote>> by lazy {
         quoteDao.getAllLiveData()
     }
+
+    private val _voiceToTextStateFlow = MutableStateFlow<String>("")
+    val voiceToTextStateFlow = _voiceToTextStateFlow.asStateFlow()
 
     //--------------------------------------------------------------------------------
 
@@ -84,4 +89,10 @@ class SharedViewModel @Inject constructor(
     }
 
     //--------------------------------------------------------------------------------
+
+    fun setVoiceToTextValue(text: String) {
+        _voiceToTextStateFlow.value = text
+    }
+
+    fun getVoiceToTextValue() = _voiceToTextStateFlow.value
 }

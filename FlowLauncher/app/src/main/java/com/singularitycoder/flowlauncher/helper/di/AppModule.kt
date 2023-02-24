@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.media.AudioManager
 import android.net.wifi.WifiManager
+import com.singularitycoder.flowlauncher.helper.NetworkStatus
 import com.singularitycoder.flowlauncher.helper.NotificationUtils
 import com.singularitycoder.flowlauncher.helper.db.*
 import dagger.Module
@@ -40,4 +41,10 @@ object AppModule {
     fun injectNotificationUtils(
         @ApplicationContext appContext: Context
     ): NotificationUtils = NotificationUtils(appContext)
+
+    @Singleton
+    @Provides
+    fun injectNetworkStatus(
+        @ApplicationContext appContext: Context
+    ): NetworkStatus = NetworkStatus(appContext)
 }

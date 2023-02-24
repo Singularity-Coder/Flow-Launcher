@@ -10,6 +10,8 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.media.AudioAttributes
+import android.media.RingtoneManager
 import android.os.Build
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
@@ -26,7 +28,10 @@ import kotlinx.parcelize.Parcelize
 // >= API 26 which is Oreo, u need channels
 // To have context inside this class, extend it from ContextWrapper
 // Use NotificationManagerCompat is available in support lib. Used for posting notifications to support older versions of android
+// https://stackoverflow.com/questions/18253482/vibrate-and-sound-defaults-on-notification
 class NotificationUtils(context: Context?) : ContextWrapper(context) {
+
+    private val vibrationPattern1 = longArrayOf(0, 1000, 0, 0, 0) // { delay, vibrate, sleep, vibrate, sleep } pattern
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -54,8 +59,11 @@ class NotificationUtils(context: Context?) : ContextWrapper(context) {
     ).apply {
         enableLights(true) // Shows notification indicator on device
         enableVibration(true) // Device vibrates
+        val soundAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
+        setSound(resourceUri(R.raw.shotgun), soundAttributes)
+        vibrationPattern = vibrationPattern1
         description = channelDescription // Shows up in device notification settings
-        lightColor = Color.RED // Notification indicator color on device
+        lightColor = Color.WHITE // Notification indicator color on device
         lockscreenVisibility = Notification.VISIBILITY_PUBLIC // Shows notification content even when the device is locked
     }
 
@@ -70,28 +78,27 @@ class NotificationUtils(context: Context?) : ContextWrapper(context) {
         }
         val pendingIntent = PendingIntent.getActivity(
             /* context = */ this,
-            /* requestCode = */ data.notifType.ordinal,
+            /* requestCode = */ data.notificationType.ordinal,
             /* intent = */ intent,
             /* flags = */ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_UPDATE_CURRENT
         )
-        val largeNotifStyle = NotificationCompat.BigPictureStyle()
+        val largeNotificationStyle = NotificationCompat.BigPictureStyle()
             .setBigContentTitle(data.title)
             .setSummaryText(data.description)
             .bigLargeIcon(drawable(R.mipmap.ic_launcher)?.toBitmap())
 
-        if (null != bigPicture) largeNotifStyle.bigPicture(drawable(bigPicture)?.toBitmap())
+        if (null != bigPicture) largeNotificationStyle.bigPicture(drawable(bigPicture)?.toBitmap())
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            largeNotifStyle.showBigPictureWhenCollapsed(true)
+            largeNotificationStyle.showBigPictureWhenCollapsed(true)
         }
 
-        val smallNotifStyle = NotificationCompat.BigTextStyle()
+        val smallNotificationStyle = NotificationCompat.BigTextStyle()
             .setBigContentTitle(data.title)
             .setSummaryText(data.description)
             .bigText(data.description)
-
-        val notificationStyle = if (data.isLargeNotif) largeNotifStyle else smallNotifStyle
-
+        val notificationStyle = if (data.isLargeNotification) largeNotificationStyle else smallNotificationStyle
+        val notificationSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notification = NotificationCompat.Builder(this, Notif.SCREENSHOT_COUNTDOWN.channelId)
             .setContentTitle(data.title)
             .setContentText(data.description)
@@ -99,6 +106,10 @@ class NotificationUtils(context: Context?) : ContextWrapper(context) {
             .setPriority(NotificationCompat.PRIORITY_HIGH) // For < API 26 this is a must
             .setStyle(notificationStyle)
             .setContentIntent(pendingIntent)
+            .setSound(resourceUri(R.raw.shotgun))
+            .setVibrate(vibrationPattern1)
+            .setTicker("Screenshot countdown")
+            .setLights(/* argb = */ Color.WHITE, /* onMs = */ 1000, /* offMs = */ 0)
             .setAutoCancel(true) // When u click on notif it removes itself from the notif drawer
             .build()
 
@@ -114,6 +125,6 @@ data class FlowNotification(
     val title: String?,
     val description: String? = null,
     val intentKey: String?,
-    val notifType: Notif = Notif.SCREENSHOT_COUNTDOWN,
-    val isLargeNotif: Boolean = false
+    val notificationType: Notif = Notif.SCREENSHOT_COUNTDOWN,
+    val isLargeNotification: Boolean = false
 ) : Parcelable

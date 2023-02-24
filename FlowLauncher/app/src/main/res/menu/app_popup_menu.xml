@@ -11,4 +11,9 @@
         android:icon="@drawable/highlight_off_black_24dp"
         android:title="Remove"
         app:showAsAction="withText" />
+    <item
+        android:id="@+id/menu_item_share_app"
+        android:icon="@drawable/outline_arrow_circle_right_24"
+        android:title="Share"
+        app:showAsAction="withText" />
 </menu>

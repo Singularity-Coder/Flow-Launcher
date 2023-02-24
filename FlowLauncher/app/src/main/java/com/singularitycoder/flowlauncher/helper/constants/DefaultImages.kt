@@ -25,6 +25,7 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://video.twimg.com/tweet_video/FfUWscGVIAE0HCt.mp4", title = "https://twitter.com/TatsuyaBot/"),
     GlanceImage(link = "https://video.twimg.com/tweet_video/FgsRnebaEAAtMZK.mp4", title = "https://twitter.com/TatsuyaBot/"),
     GlanceImage(link = "https://video.twimg.com/tweet_video/Fn1mVTpaYAcXC7d.mp4", title = "https://twitter.com/TatsuyaBot/"),
+    GlanceImage(link = "https://video.twimg.com/tweet_video/FpdqbGTagAEMgpD.mp4", title = "https://twitter.com/TatsuyaBot/"),
 
     // https://twitter.com/etiennejcb
     GlanceImage(link = "https://video.twimg.com/tweet_video/FgBDuG0WQAUn9bZ.mp4", title = "https://twitter.com/etiennejcb"),
@@ -139,7 +140,7 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://i.pinimg.com/564x/09/c2/fb/09c2fbf36bc6c269d125ae1eb1aa6bcb.jpg", title = "https://www.artstation.com/wlop"),
 
     // https://twitter.com/RDJlock - I am speechless again
-    GlanceImage(link = "https://pbs.twimg.com/media/EagwCyHVAAA4dGr?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
+    GlanceImage(link = "https://i.pinimg.com/564x/34/d9/68/34d9681acef16b010f436f20b5258ae7.jpg", title = "https://twitter.com/RDJlock"),
     GlanceImage(link = "https://pbs.twimg.com/media/FHDOOANXMAUqOPH?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
     GlanceImage(link = "https://pbs.twimg.com/media/FRgcKPWUUAAAsTk?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
     GlanceImage(link = "https://pbs.twimg.com/media/EtwRc51UcAAHa8G?format=jpg&name=medium", title = "https://twitter.com/RDJlock"),
@@ -509,6 +510,7 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FpIxL-aXgAMTC5V?format=jpg&name=large", title = "https://twitter.com/ELIOLIart"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fo74fB6WAAAQCrD?format=jpg&name=large", title = "https://twitter.com/ELIOLIart"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fo20572XsAASYXK?format=jpg&name=large", title = "https://twitter.com/ELIOLIart"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FparnZGXwAE8pei?format=jpg&name=large", title = "https://twitter.com/ELIOLIart"),
 
     GlanceImage(link = "https://pbs.twimg.com/media/EUBr0gyUEAEEjHO?format=jpg&name=large", title = "https://twitter.com/Rellakinoko"),
     GlanceImage(link = "https://pbs.twimg.com/media/Folq4XpaAAIacxB?format=jpg&name=large", title = "https://twitter.com/Rellakinoko"),
@@ -561,5 +563,7 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FIRWp9caQAAvRwI?format=jpg&name=4096x4096", title = "https://twitter.com/CiloRanko"),
 
     GlanceImage(link = "https://pbs.twimg.com/media/FMDmExXXoAMZJgM?format=jpg&name=large", title = "https://twitter.com/samdoesarts"),
+
+    GlanceImage(link = "https://i.pinimg.com/564x/6e/d4/64/6ed4644bbf9643391935abdd717974fb.jpg", title = "https://in.pinterest.com/roxyfoxy3012/"),
 
 )

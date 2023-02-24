@@ -1,7 +1,21 @@
 package com.singularitycoder.flowlauncher.helper.constants
 
 import com.singularitycoder.flowlauncher.R
+import com.singularitycoder.flowlauncher.helper.drawable
 import com.singularitycoder.flowlauncher.today.model.QuoteColor
+
+val animatedGradientList = listOf(
+    R.drawable.animated_gradient_1,
+    R.drawable.animated_gradient_2,
+    R.drawable.animated_gradient_3,
+    R.drawable.animated_gradient_4,
+    R.drawable.animated_gradient_5,
+    R.drawable.animated_gradient_6,
+    R.drawable.animated_gradient_7,
+    R.drawable.animated_gradient_8,
+    R.drawable.animated_gradient_9,
+    R.drawable.animated_gradient_10,
+)
 
 val gradientList = listOf(
     R.drawable.gradient_default,

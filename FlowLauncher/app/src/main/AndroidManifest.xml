@@ -29,6 +29,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission
         android:name="android.permission.BLUETOOTH"
         android:required="false" />
@@ -76,10 +77,12 @@
         <!-- android:launchMode="singleTask"-->
         <!-- android:stateNotNeeded="true"-->
         <!-- android:clearTaskOnLaunch="true"-->
+        <!--configChanges: disables Activity recreation for MyActivity when the screen orientation and keyboard availability change -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -98,17 +101,20 @@
         <activity
             android:name=".glance.view.ExoPlayerActivity"
             android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:screenOrientation="landscape"
             android:turnScreenOn="true" />
         <activity
             android:name=".glance.view.YoutubeVideoActivity"
             android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:screenOrientation="landscape"
             android:turnScreenOn="true" />
         <activity
             android:name=".helper.BarcodeScanActivity"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:theme="@style/zxing_CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
 

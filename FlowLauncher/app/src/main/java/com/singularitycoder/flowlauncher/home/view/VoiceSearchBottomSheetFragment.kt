@@ -15,49 +15,46 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.viewModels
+import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.singularitycoder.flowlauncher.MainActivity
+import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentVoiceSearchBottomSheetBinding
-import com.singularitycoder.flowlauncher.helper.isRecordAudioPermissionGranted
-import com.singularitycoder.flowlauncher.helper.setTransparentBackground
-import com.singularitycoder.flowlauncher.helper.showPermissionSettings
+import com.singularitycoder.flowlauncher.helper.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+// Primary source: https://medium.com/voice-tech-podcast/android-speech-to-text-tutorial-8f6fa71606ac
 
-const val VOICE_SEARCH_QUERY = "VOICE_SEARCH_QUERY"
+// https://developer.android.com/guide/app-actions/action-schema
+// https://developers.google.com/voice-actions/system
+// https://developer.android.com/guide/app-actions/get-started
+// https://developer.android.com/reference/android/speech/SpeechRecognizer
+// https://cloud.google.com/speech-to-text
+
+// SpeechRecognizer class - gives access to speech recogniser service
 
 @AndroidEntryPoint
 class VoiceSearchBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(voiceSearchQuery: String) = VoiceSearchBottomSheetFragment().apply {
-            arguments = Bundle().apply {
-                putString(VOICE_SEARCH_QUERY, voiceSearchQuery)
-            }
-        }
+        fun newInstance() = VoiceSearchBottomSheetFragment()
     }
 
-    private val sharedViewModel: SharedViewModel by viewModels()
+    //    @Inject
+    private val networkStatus: NetworkStatus by lazy { NetworkStatus(requireContext()) }
 
-    private lateinit var speechRecognizer: SpeechRecognizer
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
+    private var speechRecognizer: SpeechRecognizer? = null
     private lateinit var binding: FragmentVoiceSearchBottomSheetBinding
     private lateinit var animationDrawable: AnimationDrawable
-
-    private var voiceSearchQuery = ""
-
-//    private val speechToTextResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
-//        result ?: return@registerForActivityResult
-//        if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
-//        val data: Intent? = result.data
-//        val text = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()?.trim()
-//        println("speech result: $text")
-//    }
 
     private val recordAudioPermissionResult = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isPermissionGranted: Boolean? ->
         isPermissionGranted ?: return@registerForActivityResult
@@ -77,18 +74,12 @@ class VoiceSearchBottomSheetFragment : BottomSheetDialogFragment() {
             return@registerForActivityResult
         }
 
-        if (animationDrawable.isRunning) {
-            stopVoiceSearch()
-            if (animationDrawable.isRunning) animationDrawable.stop()
-        } else {
-            startVoiceSearch()
-            if (animationDrawable.isRunning.not()) animationDrawable.start()
-        }
+        startVoiceSearch()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        lifecycle.addObserver(networkStatus)
         super.onCreate(savedInstanceState)
-        voiceSearchQuery = arguments?.getString(VOICE_SEARCH_QUERY, "") ?: ""
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -100,7 +91,8 @@ class VoiceSearchBottomSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         binding.initVoiceSearch()
-        checkPermission()
+        observeForData()
+        checkPermissionAndStartSpeechToText()
     }
 
     // https://stackoverflow.com/questions/42301845/android-bottom-sheet-after-state-changed
@@ -119,10 +111,40 @@ class VoiceSearchBottomSheetFragment : BottomSheetDialogFragment() {
         stopVoiceSearch()
     }
 
+    private fun observeForData() {
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = networkStatus.networkState) { it: NetworkState ->
+            when (it) {
+                NetworkState.AVAILABLE -> {
+                    binding.tvNetworkState.apply {
+                        isVisible = true
+                        text = "Back Online"
+                    }
+                }
+                NetworkState.UNAVAILABLE, NetworkState.LOST -> {
+                    stop()
+                    binding.tvNetworkState.apply {
+                        isVisible = true
+                        text = "No Internet"
+                    }
+                }
+                else -> Unit
+            }
+        }
+    }
+
     private fun setupUI() {
+//        binding.llRoot.background = requireContext().drawable(animatedGradientList[Random().nextInt(9)])
+        binding.llRoot.background = requireContext().drawable(R.drawable.animated_gradient_1)
         setTransparentBackground()
         setBottomSheetBehaviour()
         setAnimatedGradientBackground()
+        setupUserActionListeners()
+    }
+
+    private fun setupUserActionListeners() {
+        binding.btnRetry.setOnClickListener {
+            checkPermissionAndStartSpeechToText()
+        }
     }
 
     // https://gist.github.com/magdamiu/77389efb66ae9e693dcf1d5680fdf531
@@ -130,12 +152,11 @@ class VoiceSearchBottomSheetFragment : BottomSheetDialogFragment() {
         animationDrawable = binding.llRoot.background as AnimationDrawable
         animationDrawable.setEnterFadeDuration(500)
         animationDrawable.setExitFadeDuration(500)
-        if (animationDrawable.isRunning.not()) animationDrawable.start()
     }
 
     private fun FragmentVoiceSearchBottomSheetBinding.initVoiceSearch() {
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
-        speechRecognizer.setRecognitionListener(object : RecognitionListener {
+        speechRecognizer?.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(p0: Bundle?) {
                 tvSpokenText.hint = ""
             }
@@ -146,14 +167,17 @@ class VoiceSearchBottomSheetFragment : BottomSheetDialogFragment() {
 
             override fun onRmsChanged(p0: Float) = Unit
             override fun onBufferReceived(p0: ByteArray?) = Unit
-            override fun onEndOfSpeech() {
-                stopVoiceSearch()
-                this@VoiceSearchBottomSheetFragment.dismiss()
+            override fun onEndOfSpeech() = Unit
+
+            override fun onError(p0: Int) {
+                stop()
+                btnRetry.isVisible = true
             }
-            override fun onError(p0: Int) = Unit
+
             override fun onResults(bundle: Bundle?) {
                 val data = bundle?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 tvSpokenText.text = data?.firstOrNull()
+                sharedViewModel.setVoiceToTextValue(text = data?.firstOrNull() ?: "")
                 stopVoiceSearch()
                 this@VoiceSearchBottomSheetFragment.dismiss()
             }
@@ -168,6 +192,11 @@ class VoiceSearchBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun startVoiceSearch() {
+        if (networkStatus.isOnline().not()) {
+            stop()
+            requireContext().showToast("No Internet")
+            return
+        }
         val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
             putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context?.packageName)
@@ -175,17 +204,28 @@ class VoiceSearchBottomSheetFragment : BottomSheetDialogFragment() {
             putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
         }
         if (animationDrawable.isRunning.not()) animationDrawable.start()
+        binding.tvNetworkState.isVisible = false
         binding.tvSpokenText.text = "Speak now"
-        speechRecognizer.startListening(speechRecognizerIntent)
+        binding.llVoiceToTextState.isVisible = false
+        binding.tvSpokenText.isVisible = true
+        binding.ivVoiceSearch.isVisible = true
+        speechRecognizer?.startListening(speechRecognizerIntent)
     }
 
     private fun stopVoiceSearch() {
-        if (animationDrawable.isRunning) animationDrawable.stop()
-        binding.tvSpokenText.text = "Start speaking"
-        speechRecognizer.stopListening()
+        stop()
+        speechRecognizer?.stopListening()
     }
 
-    private fun checkPermission() {
+    private fun stop() {
+        if (animationDrawable.isRunning) animationDrawable.stop()
+        binding.llVoiceToTextState.isVisible = true
+        binding.tvSpokenText.isVisible = false
+        binding.ivVoiceSearch.isVisible = false
+        binding.btnRetry.isVisible = true
+    }
+
+    private fun checkPermissionAndStartSpeechToText() {
         recordAudioPermissionResult.launch(Manifest.permission.RECORD_AUDIO)
     }
 

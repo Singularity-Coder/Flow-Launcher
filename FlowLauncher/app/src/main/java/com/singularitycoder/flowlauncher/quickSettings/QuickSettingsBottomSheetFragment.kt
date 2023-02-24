@@ -41,10 +41,7 @@ import com.singularitycoder.flowlauncher.databinding.FragmentQuickSettingsBottom
 import com.singularitycoder.flowlauncher.databinding.ItemQuickSettingBinding
 import com.singularitycoder.flowlauncher.databinding.LongItemQuickSettingBinding
 import com.singularitycoder.flowlauncher.helper.*
-import com.singularitycoder.flowlauncher.helper.constants.Broadcast
-import com.singularitycoder.flowlauncher.helper.constants.IntentKey
-import com.singularitycoder.flowlauncher.helper.constants.SettingsScreen
-import com.singularitycoder.flowlauncher.helper.constants.quickSettingsPermissions
+import com.singularitycoder.flowlauncher.helper.constants.*
 import com.singularitycoder.flowlauncher.helper.swipebutton.OnStateChangeListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -432,7 +429,10 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
                             mainActivity = MainActivity::class.java
                         )
                         if (it == 0) {
-                            requireContext().takeScreenshot()
+                            doAfter(3.seconds()) {
+                                requireContext().takeScreenshot()
+                            }
+                            requireContext().clearNotification(Notif.SCREENSHOT_COUNTDOWN.ordinal)
                         }
                     }
                 }

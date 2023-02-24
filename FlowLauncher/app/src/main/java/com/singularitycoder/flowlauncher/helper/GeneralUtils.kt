@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.InsetDrawable
+import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
@@ -20,6 +21,7 @@ import android.util.TypedValue
 import android.view.*
 import android.view.View.MeasureSpec
 import android.widget.*
+import androidx.annotation.RawRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
@@ -38,6 +40,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.reflect.Method
 import java.util.*
+
+// System.currentTimeMillis() has 13 digit unix time, so all server times must be multiplied by 1000
 
 val callContactSmsPermissionList = arrayOf(
     Manifest.permission.READ_CONTACTS,
@@ -300,4 +304,17 @@ fun <T> AppCompatActivity.collectLatestLifecycleFlow(flow: Flow<T>, collect: sus
 
 fun Context?.showToast(message: String, duration: Int = Toast.LENGTH_LONG) {
     Toast.makeText(this, message, duration).show()
+}
+
+fun Context?.playSound(@RawRes sound: Int) {
+    try {
+        MediaPlayer.create(this, sound).apply {
+            setOnCompletionListener { it: MediaPlayer? ->
+                it?.reset()
+                it?.release()
+            }
+            start()
+        }
+    } catch (_: Exception) {
+    }
 }

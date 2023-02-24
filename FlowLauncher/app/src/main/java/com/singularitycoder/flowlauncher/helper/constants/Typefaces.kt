@@ -2,6 +2,11 @@ package com.singularitycoder.flowlauncher.helper.constants
 
 import com.singularitycoder.flowlauncher.R
 
+// https://befonts.com/secret-script-font.html
+// https://fontsgeek.com/fonts/SignPainter-HouseScript-Regular
+// https://www.dafont.com/desolator.font
+// https://www.dafont.com/radicalis.font
+
 val typefaceList = listOf(
     // fontsquirrel.com
     R.font.didonesque_roman_regular,
@@ -84,4 +89,8 @@ val typefaceList = listOf(
     R.font.berkshire_swash_regular,
     R.font.charm_regular,
     R.font.charmonman_bold,
+    R.font.julee_regular,
+    R.font.kreon_regular,
+    R.font.lora_italic_variable_font_wght,
+    R.font.lora_variable_font_wght,
 )

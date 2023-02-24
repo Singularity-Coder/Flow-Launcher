@@ -231,6 +231,7 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Erased : 01 - Only I am missing", videoId = "xc74Bm__cP8"),
     YoutubeVideo(title = "Sawano Hiroyuki[nZk] ft Mika Kobayashi - ThreeFiveNineFour [English & Terjemahan]", videoId = "BTaA89dlORE"),
     YoutubeVideo(title = "Ashes on The Fire (Extended) | Attack on Titan Season 4", videoId = "pOH0CgDLuSo"), // EPIC
+    YoutubeVideo(title = "Hajime no Ippo - The Finisher", videoId = "PnvJMNw00ec"),
 )
 
 val epicAnimeMomentsList = listOf(
@@ -290,6 +291,9 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "GN Balasubramaniam - Paramakrupa Sagari", videoId = "qf-feeWxXuk"),
     YoutubeVideo(title = "GN Balasubramaniam - Ma Janaki Chattabattaga", videoId = "2xSaswohan4"), // A treat to the ears
     YoutubeVideo(title = "GN Balasubramaniam - Badalika Deera- Ritigowla - Thyagaraja - Adi - Thyagaraja", videoId = "VoG5Ho-0y-Y"),
+    YoutubeVideo(title = "GN Balasubramaniam - Jayathi Jayathi Bharatha Maatha", videoId = "7ThIQ2Pn94A"), // Simple and beautiful. This can actually be India's national anthem.
+    YoutubeVideo(title = "GN Balasubramaniam - Sudhamayi - Amrutavarshini Sudhanidhi - H.M. Bhagavatar", videoId = "SpucWUdli7g"),
+    YoutubeVideo(title = "GN Balasubramaniam - Sudhamayi - ragam Amrutavarshini", videoId = "v1vWBRN34ik"),
     YoutubeVideo(title = "Parur Sundaram Iyer & MSG_Manavyala", videoId = "823uFFoaLGc"),
     YoutubeVideo(title = "MS Gopalakrishnan- Violin - Manavyalakinchara", videoId = "m7lKOttZR7g"),
     YoutubeVideo(title = "Madurai Mani Iyer - Brochevarevarura", videoId = "lgdwg2KmjN4"),
@@ -299,6 +303,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "MS Subbulakshmi - Bhaja Govindam", videoId = "Go-mAJpH6_w"),
     YoutubeVideo(title = "MS Subbulakshmi - Govindashtakam", videoId = "AMAy49Wkano"),
     YoutubeVideo(title = "Ranjani & Gayatri - Mysuru Asthana Sangeetothsava - Karnatic Vocal Concert", videoId = "cU9YmKmOfD8"),
+    YoutubeVideo(title = "Ranjani & Gayatri - Seethapathi - Khamas - Adi - Tyagaraja", videoId = "i2BDLL0z4Xg"), // One of my favs
     YoutubeVideo(title = "TM Krishna - Ragam Neelambari", videoId = "ovgWK5aQcpM"),
     YoutubeVideo(title = "TM Krishna - Manavyalakinchara, Tyagaraja Smaranotsava Sabha Nellore", videoId = "ovgWK5aQcpM"),
     YoutubeVideo(title = "TM Krishna - Ragam Nalinakanthi", videoId = "5yZEsJDJ9yc"),
