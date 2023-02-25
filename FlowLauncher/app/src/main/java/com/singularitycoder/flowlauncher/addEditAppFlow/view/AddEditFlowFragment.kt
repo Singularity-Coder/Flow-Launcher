@@ -11,6 +11,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,7 +19,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
+import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
+import com.singularitycoder.flowlauncher.addEditAppFlow.model.SelectedFlowArgs
 import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentAddEditFlowBinding
 import com.singularitycoder.flowlauncher.helper.*
@@ -43,6 +46,7 @@ class AddEditFlowFragment : Fragment() {
 
     private lateinit var binding: FragmentAddEditFlowBinding
 
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     private val appFlowViewModel: AppFlowViewModel by viewModels()
     private var flowList = listOf<AppFlow>()
     private var selectedFlowPosition = 0
@@ -63,7 +67,13 @@ class AddEditFlowFragment : Fragment() {
             binding.btnDone.isInvisible = position == flowList.lastIndex
             binding.btnCancel.isInvisible = position == flowList.lastIndex
             binding.etFlowName.isEnabled = position != 0 && position != flowList.lastIndex
-
+            sharedViewModel.setSelectedFlowArgs(
+                SelectedFlowArgs(
+                    isAddFlow = position == flowList.lastIndex,
+                    position = position,
+                    appFlowId = flowList[selectedFlowPosition].id
+                )
+            )
         }
 
         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -81,9 +91,9 @@ class AddEditFlowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().setStatusBarColor(R.color.purple_500)
         binding.setUpViewPager()
+        binding.observeForData()
         binding.setupUI()
         binding.setupUserActionListeners()
-        binding.observeForData()
     }
 
     override fun onDestroy() {
@@ -143,6 +153,7 @@ class AddEditFlowFragment : Fragment() {
                         }
                     }
                     options[1] -> {
+                        println("logggggg selectedFlowPosition: $selectedFlowPosition")
                         AppSelectorBottomSheetFragment.newInstance(selectedFlowId = flowList[selectedFlowPosition].id).show(
                             requireActivity().supportFragmentManager,
                             BottomSheetTag.APP_SELECTOR
@@ -235,7 +246,7 @@ class AddEditFlowFragment : Fragment() {
         override fun createFragment(position: Int): Fragment = FlowSelectedAppsFragment.newInstance(
             isAddFlow = position == flowList.lastIndex,
             position = position,
-            appFlowId = flowList[position].id
+            appFlowId = flowList[selectedFlowPosition].id
         )
     }
 }

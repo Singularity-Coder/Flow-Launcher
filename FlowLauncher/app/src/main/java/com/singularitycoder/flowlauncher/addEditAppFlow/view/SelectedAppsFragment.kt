@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.singularitycoder.flowlauncher.MainActivity
+import com.singularitycoder.flowlauncher.SharedViewModel
 import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
+import com.singularitycoder.flowlauncher.addEditAppFlow.model.SelectedFlowArgs
 import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentSelectedAppsBinding
 import com.singularitycoder.flowlauncher.helper.*
@@ -22,6 +25,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+private const val ARG_PARAM_IS_ADD_FLOW = "ARG_PARAM_POSITION"
+private const val ARG_PARAM_POSITION = "ARG_PARAM_POSITION"
+private const val ARG_PARAM_APP_FLOW_ID = "ARG_PARAM_APP_FLOW_ID"
 
 @AndroidEntryPoint
 class FlowSelectedAppsFragment : Fragment() {
@@ -44,6 +51,7 @@ class FlowSelectedAppsFragment : Fragment() {
     private lateinit var binding: FragmentSelectedAppsBinding
 
     private val selectedAppsAdapter by lazy { SelectedAppsAdapter() }
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     private val appFlowViewModel: AppFlowViewModel by viewModels()
 
     private var isAddFlow = false
@@ -67,9 +75,9 @@ class FlowSelectedAppsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.observeForData()
         binding.setupUI()
         binding.setupUserActionListeners()
-        binding.observeForData()
     }
 
     private fun FragmentSelectedAppsBinding.setupUI() {
@@ -127,14 +135,20 @@ class FlowSelectedAppsFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun FragmentSelectedAppsBinding.observeForData() {
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = sharedViewModel.selectedAppArgsFlow) { it: SelectedFlowArgs ->
+//            isAddFlow = it.isAddFlow
+//            position = it.position
+            appFlowId = it.appFlowId
+        }
+
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
             isAddFlow = it.size == position
             rvApps.isVisible = isAddFlow.not()
             llAddFlow.isVisible = isAddFlow
-            rvApps.isVisible = isAddFlow.not()
+            llNoAppsPlaceholder.isVisible = isAddFlow.not()
             if (isAddFlow) return@collectLatestLifecycleFlow
             val selectedFlow = it.getOrNull(position)
-            binding.llNoAppsPlaceholder.isVisible = selectedFlow?.appList?.isEmpty() == true
+            llNoAppsPlaceholder.isVisible = selectedFlow?.appList?.isEmpty() == true
             selectedAppsAdapter.flowAppList = selectedFlow?.appList ?: emptyList()
             withContext(Main) {
                 // https://stackoverflow.com/questions/43221847/cannot-call-this-method-while-recyclerview-is-computing-a-layout-or-scrolling-wh
@@ -144,7 +158,3 @@ class FlowSelectedAppsFragment : Fragment() {
         }
     }
 }
-
-private const val ARG_PARAM_IS_ADD_FLOW = "ARG_PARAM_POSITION"
-private const val ARG_PARAM_POSITION = "ARG_PARAM_POSITION"
-private const val ARG_PARAM_APP_FLOW_ID = "ARG_PARAM_APP_FLOW_ID"

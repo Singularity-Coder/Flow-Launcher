@@ -39,7 +39,7 @@ import com.singularitycoder.flowlauncher.today.model.Quote
 import kotlinx.coroutines.launch
 import java.util.*
 
-
+// https://proandroiddev.com/enter-animation-using-recyclerview-and-layoutanimation-part-1-list-75a874a5d213
 class AddFragment : Fragment() {
 
     companion object {

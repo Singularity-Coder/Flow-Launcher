@@ -96,7 +96,7 @@ class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
     private fun FragmentAppSelectorBottomSheetBinding.setupUserActionListeners() {
         btnDone.onSafeClick {
             println("loggggg selectedAppsList: ${selectedAppsList.map { it.title }}")
-            println("loggggg selectedFlowId: $selectedFlowId}")
+            println("loggggg selectedFlowId: $selectedFlowId")
             lifecycleScope.launch {
                 val appFlow = appFlowViewModel.getAppFlowById(selectedFlowId)
                 appFlowViewModel.updateAppFlow(
@@ -120,7 +120,7 @@ class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
         rvApps.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                println("loggggg dx: $dx, dy: $dy")
+//                println("loggggg dx: $dx, dy: $dy")
                 if (appSelectorAdapter.selectedAppList.isNotEmpty()) {
                     tvAlphabet.text = appSelectorAdapter.selectedAppList.get(linearLayoutManager.findFirstVisibleItemPosition()).title.substring(0, 1)
                 }
@@ -152,6 +152,7 @@ class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
             }
             val selectedAppFlowAppList = appFlowViewModel.getAppFlowById(selectedFlowId)?.appList
             appSelectorAdapter.selectedAppList = sortedAppList.map { sortedApp: App ->
+                sortedApp.isSelected = false
                 selectedAppFlowAppList?.forEach { selectedApp: App ->
                     if (sortedApp.packageName == selectedApp.packageName) {
                         sortedApp.isSelected = true

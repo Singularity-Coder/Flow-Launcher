@@ -3,6 +3,7 @@ package com.singularitycoder.flowlauncher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.singularitycoder.flowlauncher.addEditAppFlow.model.SelectedFlowArgs
 import com.singularitycoder.flowlauncher.glance.dao.GlanceImageDao
 import com.singularitycoder.flowlauncher.glance.dao.HolidayDao
 import com.singularitycoder.flowlauncher.glance.dao.YoutubeVideoDao
@@ -60,6 +61,9 @@ class SharedViewModel @Inject constructor(
     private val _voiceToTextStateFlow = MutableStateFlow<String>("")
     val voiceToTextStateFlow = _voiceToTextStateFlow.asStateFlow()
 
+    private val _selectedFlowArgsFlow = MutableStateFlow<SelectedFlowArgs>(SelectedFlowArgs())
+    val selectedAppArgsFlow = _selectedFlowArgsFlow.asStateFlow()
+
     //--------------------------------------------------------------------------------
 
     fun addQuoteToDb(quote: Quote) = viewModelScope.launch {
@@ -95,4 +99,10 @@ class SharedViewModel @Inject constructor(
     }
 
     fun getVoiceToTextValue() = _voiceToTextStateFlow.value
+
+    //--------------------------------------------------------------------------------
+
+    fun setSelectedFlowArgs(selectedFlowArgs: SelectedFlowArgs) {
+        _selectedFlowArgsFlow.value = selectedFlowArgs
+    }
 }
