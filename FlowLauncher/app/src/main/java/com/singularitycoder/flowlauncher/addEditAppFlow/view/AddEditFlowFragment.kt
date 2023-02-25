@@ -30,6 +30,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import java.io.File
 
 @AndroidEntryPoint
@@ -142,7 +143,7 @@ class AddEditFlowFragment : Fragment() {
                         }
                     }
                     options[1] -> {
-                        AppSelectorBottomSheetFragment.newInstance(selectedFlowId = flowList[position].id).show(
+                        AppSelectorBottomSheetFragment.newInstance(selectedFlowId = flowList[selectedFlowPosition].id).show(
                             requireActivity().supportFragmentManager,
                             BottomSheetTag.APP_SELECTOR
                         )
@@ -201,7 +202,9 @@ class AddEditFlowFragment : Fragment() {
             flowList = it.toMutableList().apply {
                 add(AppFlow(appFlowName = "Add Flow", isSelected = false, appList = emptyList()))
             }
-            addBottomDots(currentPage = selectedFlowPosition)
+            doAfter(500L) {
+                addBottomDots(currentPage = selectedFlowPosition)
+            }
             viewpagerAddEditFlow.adapter?.notifyDataSetChanged()
             viewpagerAddEditFlow.currentItem = selectedFlowPosition
         }
@@ -219,7 +222,11 @@ class AddEditFlowFragment : Fragment() {
             binding.llDots.addView(tvDotsArray[i])
         }
         if (tvDotsArray.isNotEmpty()) {
-            tvDotsArray.getOrNull(currentPage)?.setTextColor(requireContext().color(R.color.purple_500))
+            val textView = tvDotsArray.getOrNull(currentPage)?.apply {
+                setTextColor(requireContext().color(R.color.purple_500))
+            }
+            tvDotsArray[currentPage] = textView
+            binding.llDots.refreshDrawableState()
         }
     }
 

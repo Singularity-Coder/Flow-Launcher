@@ -82,7 +82,7 @@ val animeFightsList = listOf(
 // Made in Abyss S2 OST - OMG
 val animeMusicList = listOf(
     YoutubeVideo(title = "Made in Abyss S2 - Old Stories by @kpenkin", videoId = "uvUxKOhaEHQ"),
-    YoutubeVideo(title = "Made in Abyss S2 - Belaf's Lullaby by @kpenkin", videoId = "ygcCNnUEtx4&t=0s"),
+    YoutubeVideo(title = "Made in Abyss S2 - Belaf's Lullaby by @kpenkin", videoId = "ygcCNnUEtx4&t"),
     YoutubeVideo(title = "Made in Abyss S2 - Belaf's Lullaby (Extended Version)", videoId = "jJoQIjY46t4"),
     YoutubeVideo(title = "Sirius the Jaeger - Rare Occasions", videoId = "JdNB9sCQ_fo"),
     YoutubeVideo(title = "Sirius the Jaeger - Definition of Fate", videoId = "3bhJ3DC789g"),
