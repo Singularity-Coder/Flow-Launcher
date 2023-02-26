@@ -99,14 +99,7 @@ class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
             println("loggggg selectedFlowId: $selectedFlowId")
             lifecycleScope.launch {
                 val appFlow = appFlowViewModel.getAppFlowById(selectedFlowId)
-                appFlowViewModel.updateAppFlow(
-                    appFlow = AppFlow(
-                        id = appFlow?.id ?: -1,
-                        appFlowName = appFlow?.appFlowName ?: "",
-                        isSelected = appFlow?.isSelected ?: false,
-                        appList = selectedAppsList
-                    )
-                )
+                appFlowViewModel.updateAppFlowById(id = appFlow?.id ?: -1, appList = selectedAppsList)
                 withContext(Main) {
                     dismiss()
                 }

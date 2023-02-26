@@ -33,7 +33,6 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
 import java.io.File
 
 @AndroidEntryPoint
@@ -189,13 +188,15 @@ class AddEditFlowFragment : Fragment() {
         btnDone.onSafeClick {
             // set the current flow to isSelected true
             lifecycleScope.launch(IO) {
-                val selectedAppFlow = appFlowViewModel.getAppFlowById(flowList[selectedFlowPosition].id)
-                val allAppFlows = appFlowViewModel.getAllAppFlows().map {
-                    it.isSelected = selectedAppFlow?.id == it.id
-                    it
+                val selectedAppFlow = appFlowViewModel.getAppFlowById(flowList[selectedFlowPosition].id).apply {
+                    this?.isSelected = true
                 }
-//                appFlowViewModel.deleteAllAppFlows()
-                appFlowViewModel.addAllAppFlows(allAppFlows)
+                val allAppFlowIdList = appFlowViewModel.getAllFlowIds()
+                appFlowViewModel.selectFlow(
+                    isSelected = false,
+                    appFlowList = allAppFlowIdList,
+                    appFlow = selectedAppFlow
+                )
                 withContext(Main) {
                     requireActivity().supportFragmentManager.popBackStackImmediate()
                 }

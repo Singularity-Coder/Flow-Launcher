@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.singularitycoder.flowlauncher.addEditAppFlow.dao.AppFlowDao
 import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
+import com.singularitycoder.flowlauncher.home.model.App
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -38,11 +39,33 @@ class AppFlowViewModel @Inject constructor(
 
     suspend fun getAllAppFlows(): List<AppFlow> = appFlowDao.getAll()
 
+    suspend fun getAllFlowIds(): List<Long> = appFlowDao.getAllIds()
+
     suspend fun deleteAllAppFlows() = appFlowDao.deleteAll()
 
     suspend fun getAppFlowById(id: Long) = appFlowDao.getAppFlowById(id)
 
-    suspend fun updateAppFlow(appFlow: AppFlow) = appFlowDao.update(appFlow)
+    suspend fun updateAppFlow(appFlow: AppFlow?) = appFlowDao.update(appFlow)
+
+    suspend fun selectFlow(
+        isSelected: Boolean,
+        appFlowList: List<Long>,
+        appFlow: AppFlow?
+    ) = appFlowDao.updateAllFlowsToNotSelectedAndThenSetSelectedFlow(
+        isSelected = isSelected,
+        appFlowIdList = appFlowList,
+        appFlow = appFlow
+    )
+
+    suspend fun updateAppFlowById(
+        id: Long,
+        appList: List<App>
+    ) = appFlowDao.updateById(id, appList)
+
+    suspend fun updateAllAppFlowsSelection(
+        isSelected: Boolean,
+        appFlowList: List<Long>
+    ) = appFlowDao.updateAll(isSelected, appFlowList)
 
     fun deleteAppFlow(appFlow: AppFlow) = viewModelScope.launch {
         appFlowDao.delete(appFlow)

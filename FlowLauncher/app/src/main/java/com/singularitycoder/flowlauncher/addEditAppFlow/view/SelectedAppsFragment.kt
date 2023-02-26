@@ -146,6 +146,7 @@ class FlowSelectedAppsFragment : Fragment() {
             rvApps.isVisible = isAddFlow.not()
             llAddFlow.isVisible = isAddFlow
             llNoAppsPlaceholder.isVisible = isAddFlow.not()
+            layoutShimmerAppLoader.shimmerLoader.isVisible = false
             if (isAddFlow) return@collectLatestLifecycleFlow
             val selectedFlow = it.getOrNull(position)
             llNoAppsPlaceholder.isVisible = selectedFlow?.appList?.isEmpty() == true
