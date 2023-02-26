@@ -59,6 +59,7 @@ import com.singularitycoder.flowlauncher.home.worker.AppWorker
 import com.singularitycoder.flowlauncher.home.worker.TimeAnnouncementWorker
 import com.singularitycoder.flowlauncher.quickSettings.QuickSettingsBottomSheetFragment
 import com.singularitycoder.flowlauncher.toBitmapOf
+import com.singularitycoder.flowlauncher.universalSearch.UniversalSearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -602,16 +603,16 @@ class HomeFragment : Fragment() {
                 QuickActionHome.QUICK_SETTINGS.ordinal -> {
                     if (requireContext().isWriteSettingsPermissionGranted()) {
                         QuickSettingsBottomSheetFragment.newInstance().show(
-                            requireActivity().supportFragmentManager,
-                            BottomSheetTag.QUICK_SETTINGS
+                            /* manager = */ requireActivity().supportFragmentManager,
+                            /* tag = */ BottomSheetTag.QUICK_SETTINGS
                         )
                     }
                 }
                 QuickActionHome.SELECT_FLOW.ordinal -> {
                     blurAndSaveBitmapForFlowSelectionScreenBackground()
                     (requireActivity() as AppCompatActivity).showScreen(
-                        AddEditFlowFragment.newInstance(),
-                        AddEditFlowFragment::class.java.simpleName
+                        fragment = AddEditFlowFragment.newInstance(),
+                        tag = AddEditFlowFragment::class.java.simpleName
                     )
                 }
                 QuickActionHome.GLANCE.ordinal -> {
@@ -624,7 +625,10 @@ class HomeFragment : Fragment() {
                     requireContext().showNotificationDrawer()
                 }
                 QuickActionHome.UNIVERSAL_SEARCH.ordinal -> {
-
+                    (requireActivity() as AppCompatActivity).showScreen(
+                        fragment = UniversalSearchFragment.newInstance(),
+                        tag = UniversalSearchFragment::class.java.simpleName
+                    )
                 }
                 QuickActionHome.PHONE.ordinal -> {
                     Intent(Intent.ACTION_DIAL).launchAppIfExists(requireActivity())

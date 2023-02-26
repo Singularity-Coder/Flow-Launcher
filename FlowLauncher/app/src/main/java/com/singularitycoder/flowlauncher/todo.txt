@@ -1,4 +1,5 @@
-
+https://github.com/matthewreagan/WebstersEnglishDictionary/blob/master/dictionary.json
+https://github.com/hemanth/sanskrit-dict/blob/master/dict.js
 
 PHASE 2 - I m bored
 TODO Network level

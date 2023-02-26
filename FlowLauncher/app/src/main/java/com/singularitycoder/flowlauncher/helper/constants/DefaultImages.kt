@@ -3,7 +3,18 @@ package com.singularitycoder.flowlauncher.helper.constants
 import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 
 // Just because the code is open source doesnt mean these are. These are just for show. Purchase them from original source for commercial use.
-val tempImageUrlList = listOf(
+
+// Personal analysis: At this point in time IMO these are the most beautiful:
+// Compositions: 1. wlop, 2. RDJlock, 3. washanapple
+// Clarity in Details: 1. RDJlock, 2. washanapple, 3. dadachyo, 4. wlop, 5. guweiz
+// Faces: 1. dadachyo, 2. 'O'ne, 3. wlop, 4. RDJlock, 5. washanapple, 6. guweiz
+// Dynamic Art. As if stuff is moving: - 1. 666KArt, 2. RossDraws, 3. wlop, 4. Merasgar, 5. fajyobore323,
+// Lighting:
+// Architecture:
+// Backgrounds/Landscapes: 1. HoDaRaKe (Midjourney)
+// Creativity:
+
+val defaultImageUrlList = listOf(
 
     // https://twitter.com/TatsuyaBot/ - 🤯🤯🤯
     GlanceImage(link = "https://video.twimg.com/tweet_video/Fnc7QA7acAEgX3x.mp4", title = "https://twitter.com/TatsuyaBot/"),
@@ -144,6 +155,18 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FHDOOANXMAUqOPH?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
     GlanceImage(link = "https://pbs.twimg.com/media/FRgcKPWUUAAAsTk?format=jpg&name=large", title = "https://twitter.com/RDJlock"),
     GlanceImage(link = "https://pbs.twimg.com/media/EtwRc51UcAAHa8G?format=jpg&name=medium", title = "https://twitter.com/RDJlock"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Eng4LRxUcAQlPu6?format=jpg&name=medium", title = "https://twitter.com/RDJlock"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EnlCpm0VQAsgKyj?format=jpg&name=medium", title = "https://twitter.com/RDJlock"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Eng4LRwVkAUGQDD?format=jpg&name=medium", title = "https://twitter.com/RDJlock"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EuTpudeVoAY-r4x?format=jpg&name=medium", title = "https://twitter.com/RDJlock"),
+
+    // https://twitter.com/washanapple
+    GlanceImage(link = "https://pbs.twimg.com/media/FmWSoSoacAAbHuX?format=jpg&name=medium", title = "https://twitter.com/washanapple"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FLo5rSPagAE_e7C?format=jpg&name=medium", title = "https://twitter.com/washanapple"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FM11q3rVcAEt0bB?format=jpg&name=medium", title = "https://twitter.com/washanapple"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FM11q3rVQAIsTMH?format=jpg&name=medium", title = "https://twitter.com/washanapple"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fb-CjHaagAE58Ar?format=jpg&name=large", title = "https://twitter.com/washanapple"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FdlQsCxaIAIpeEa?format=jpg&name=medium", title = "https://twitter.com/washanapple"),
 
     // https://www.artstation.com/dadachyo - Pure eye candy
     // https://www.pixiv.net/en/users/6491752
@@ -185,6 +208,10 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/007/049/634/large/dadachyo-ddc-20170212-800png.jpg?1503317803", title = "https://www.artstation.com/dadachyo"),
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/032/084/096/large/dadachyo-2018-3.jpg?1605440629", title = "https://www.artstation.com/dadachyo"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/032/084/093/large/dadachyo-2018-2.jpg?1605440626", title = "https://www.artstation.com/dadachyo"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FjhS_EUVIAAGaIZ?format=jpg&name=large", title = "https://www.artstation.com/dadachyo"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FjhMdfJVQAASN5W?format=jpg&name=large", title = "https://www.artstation.com/dadachyo"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Eb57gYBVcAAC5qT?format=jpg&name=large", title = "https://www.artstation.com/dadachyo"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FChY66cUUAEjwgA?format=jpg&name=large", title = "https://www.artstation.com/dadachyo"),
 
     // https://twitter.com/666KArt 🤯
     GlanceImage(link = "https://pbs.twimg.com/media/FR01kUDakAEg7ch?format=jpg&name=large", title = "https://twitter.com/666KArt"),
@@ -522,6 +549,7 @@ val tempImageUrlList = listOf(
 
     GlanceImage(link = "https://pbs.twimg.com/media/FpAnBOcWIAIntcA?format=jpg&name=large", title = "https://twitter.com/aiarteveryhour"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fo2hkhMWYAEDFRG?format=jpg&name=large", title = "https://twitter.com/aiarteveryhour"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FplhFNXWYAESOHi?format=jpg&name=large", title = "https://twitter.com/aiarteveryhour"),
 
     GlanceImage(link = "https://pbs.twimg.com/media/FceoNd1XwAMHEMv?format=jpg&name=medium", title = "https://twitter.com/SebMcKinnon"),
     GlanceImage(link = "https://pbs.twimg.com/media/FlrtkyDWIAA2BI7?format=png&name=small", title = "https://twitter.com/SebMcKinnon"),
@@ -565,5 +593,9 @@ val tempImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FMDmExXXoAMZJgM?format=jpg&name=large", title = "https://twitter.com/samdoesarts"),
 
     GlanceImage(link = "https://i.pinimg.com/564x/6e/d4/64/6ed4644bbf9643391935abdd717974fb.jpg", title = "https://in.pinterest.com/roxyfoxy3012/"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FowjuvRakAEJoKO?format=jpg&name=4096x4096", title = "https://twitter.com/IERotAK"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FjsGG9AacAI-Evy?format=jpg&name=large", title = "https://twitter.com/fajyobore323"),
 
 )

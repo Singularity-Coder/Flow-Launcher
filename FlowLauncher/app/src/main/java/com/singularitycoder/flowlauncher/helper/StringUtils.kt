@@ -1,5 +1,10 @@
 package com.singularitycoder.flowlauncher.helper
 
+import android.content.Context
+import androidx.annotation.RawRes
+import java.io.IOException
+import java.io.InputStream
+import java.nio.charset.Charset
 import java.util.*
 
 fun String.trimNewLines(): String = this.replace(oldValue = System.getProperty("line.separator") ?: "\n", newValue = " ")
@@ -35,4 +40,20 @@ fun String.toYoutubeThumbnailUrl(): String {
     val imageUrl = "https://img.youtube.com/vi/$this/0.jpg"
     println("Image url: $imageUrl")
     return imageUrl
+}
+
+// https://stackoverflow.com/questions/19945411/how-can-i-parse-a-local-json-file-from-assets-folder-into-a-listview
+fun Context.loadJsonStringFrom(@RawRes rawResource: Int): String? {
+    return try {
+//        val inputStream: InputStream = assets.open("yourfilename.json")
+        val inputStream: InputStream = resources.openRawResource(rawResource)
+        val size: Int = inputStream.available()
+        val buffer = ByteArray(size)
+        inputStream.read(buffer)
+        inputStream.close()
+        String(buffer, Charset.forName("UTF-8"))
+    } catch (ex: IOException) {
+        ex.printStackTrace()
+        null
+    }
 }

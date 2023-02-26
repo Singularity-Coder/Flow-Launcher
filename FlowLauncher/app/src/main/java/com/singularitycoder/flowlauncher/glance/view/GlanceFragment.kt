@@ -258,7 +258,7 @@ class GlanceFragment : Fragment() {
             cardYoutubeVideos.performClick()
         }
         sharedViewModel.glanceImageListLiveData.observe(viewLifecycleOwner) { imageList: List<GlanceImage>? ->
-            glanceImageList = imageList?.ifEmpty { tempImageUrlList } ?: emptyList()
+            glanceImageList = imageList?.ifEmpty { defaultImageUrlList } ?: emptyList()
             tvImageCount.text = "${1}/${glanceImageList.size}"
             sliderGlanceImage.max = glanceImageList.lastIndex
             currentImagePosition = 0
