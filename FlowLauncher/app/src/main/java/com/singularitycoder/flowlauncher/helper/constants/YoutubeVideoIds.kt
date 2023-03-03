@@ -261,6 +261,8 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "GN Balasubramaniam - Live Concert - Yochana kamala lochana", videoId = "S6bx-zWnuwI"),
     YoutubeVideo(title = "GN Balasubramaniam - 112th Birth Anniversary Special - Live in Bombay, 1960", videoId = "GjlDXizgqlk"), // Some of GNB's best. The full audio version of the above live concert. Badalika Deera in this is especially good because of Mridangam
     YoutubeVideo(title = "GN Balasubramaniam - Tiruvaiyāṟu, 1965 [112th Birth Anniversary Special]", videoId = "zvKwF01hEMc"), // more gems
+    YoutubeVideo(title = "GN Balasubramaniam - Akashvani National Program", videoId = "cRVMIa-T6wc"), // Maestro at work
+    YoutubeVideo(title = "GN Balasubramaniam - Akashvani concert", videoId = "uSo6oBgSDKI"),
     YoutubeVideo(title = "GN Balasubramaniam - Manasu Swadhina", videoId = "IA5Oa6VJAyk"),
     YoutubeVideo(title = "GN Balasubramaniam - Raga Tana Pallavi - Raga Shanmukhapriya", videoId = "h3SINDPqtEg"),
     YoutubeVideo(title = "GN Balasubramaniam - RTP SHANMUKHAPRIYA", videoId = "SjwTTnK1ha0"),
@@ -449,6 +451,12 @@ val otherEpicMomentsList = listOf(
     YoutubeVideo(title = "RRR | Revolution", videoId = "q502zF4BKOg"),
     YoutubeVideo(title = "TactiCOOL RELOADS", videoId = "VI4NZW8q6nU"), // Cool Comedy
     YoutubeVideo(title = "London Brawling", videoId = "CpasSV_mw2o"), // The fight is as good as the movie's
+    YoutubeVideo(title = "Fist of Legend - JET LI vs A JAPANESE MASTER", videoId = "Ghe5inzBq4k"),
+    YoutubeVideo(title = "Fist of Legend - Jet li (chen zhen) Dojo Fight", videoId = "DaCozyuf-j4"),
+    YoutubeVideo(title = "Fist of Legend - Chen Zhen vs General Fujita", videoId = "LHGHMd5EUJo"),
+    YoutubeVideo(title = "Fist of Legend - (1994) Best Fight Scenes", videoId = "bwM3mXkeaBs"),
+    YoutubeVideo(title = "Ip Man defeats Chun with a one-inch punch in the film IP MAN 3 (2015)", videoId = "Cx9040gp6Z0"),
+    YoutubeVideo(title = "Ip Man vs Karate Master (Wing Chun vs Karate) Ip Man 4 HD", videoId = "dj7Rf1OvsVc"),
 )
 
 val gameCinematicsList = listOf(

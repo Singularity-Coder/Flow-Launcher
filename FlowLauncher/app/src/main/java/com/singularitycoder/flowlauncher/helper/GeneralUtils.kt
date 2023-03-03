@@ -23,6 +23,7 @@ import android.view.View.MeasureSpec
 import android.widget.*
 import androidx.annotation.RawRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
@@ -50,6 +51,35 @@ val callContactSmsPermissionList = arrayOf(
     Manifest.permission.READ_CALL_LOG,
 )
 
+val callContactSmsPermissionList2 = arrayOf(
+    Manifest.permission.CALL_PHONE,
+    Manifest.permission.READ_SMS,
+    Manifest.permission.RECEIVE_SMS,
+    Manifest.permission.SEND_SMS,
+)
+
+val smsPermissionsList = arrayOf(
+    Manifest.permission.READ_SMS,
+    Manifest.permission.RECEIVE_SMS,
+    Manifest.permission.SEND_SMS
+)
+
+fun Activity.requestPermission(permissions: Array<String>, requestCode: Int) {
+    ActivityCompat.requestPermissions(this, permissions, requestCode)
+}
+
+fun Context.isCallPhonePermissionGranted(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED
+}
+
+fun Context.isContactsPermissionGranted(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
+}
+
+fun Context.isSmsPermissionGranted(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED
+}
+
 fun Context.isRecordAudioPermissionGranted(): Boolean {
     return ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
 }
@@ -59,6 +89,13 @@ fun Context.isCallContactSmsPermissionGranted(): Boolean {
             ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALL_LOG) == PackageManager.PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED
+}
+
+fun Context.isCallContactSmsPermissionGranted2(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
 }
 
 // https://stackoverflow.com/questions/32083410/cant-get-write-settings-permission

@@ -43,17 +43,17 @@ dependencies {
     // View Stuff
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "com.google.android.exoplayer:exoplayer:2.18.2"
+    implementation "com.google.android.exoplayer:exoplayer:2.18.3"
     implementation "androidx.fragment:fragment-ktx:1.5.5"
     implementation "androidx.activity:activity-ktx:1.6.1"
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.r0adkll:slidableactivity:2.1.0'
-    implementation "com.google.android.exoplayer:exoplayer:2.18.2"
 
     // Coil Stuff
-    implementation "io.coil-kt:coil:2.2.2"
-    implementation "io.coil-kt:coil-gif:2.2.2"
-    implementation "io.coil-kt:coil-video:2.2.2"
+    var coil_version = "2.2.2"
+    implementation "io.coil-kt:coil:$coil_version"
+    implementation "io.coil-kt:coil-gif:$coil_version"
+    implementation "io.coil-kt:coil-video:$coil_version"
 
     // Web scraping stuff
     implementation "org.jsoup:jsoup:1.15.3"

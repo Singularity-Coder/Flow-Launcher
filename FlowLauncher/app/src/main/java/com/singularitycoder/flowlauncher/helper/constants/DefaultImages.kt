@@ -2,17 +2,54 @@ package com.singularitycoder.flowlauncher.helper.constants
 
 import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 
-// Just because the code is open source doesnt mean these are. These are just for show. Purchase them from original source for commercial use.
+// Just because the code is open source doesnt mean these images/media are. These are just for show. Purchase them from original source for commercial use.
 
-// Personal analysis: At this point in time IMO these are the most beautiful:
-// Compositions: 1. wlop, 2. RDJlock, 3. washanapple
-// Clarity in Details: 1. RDJlock, 2. washanapple, 3. dadachyo, 4. wlop, 5. guweiz
-// Faces: 1. dadachyo, 2. 'O'ne, 3. wlop, 4. RDJlock, 5. washanapple, 6. guweiz
-// Dynamic Art. As if stuff is moving: - 1. 666KArt, 2. RossDraws, 3. wlop, 4. Merasgar, 5. fajyobore323,
+// Personal analysis of art: Art is subjective since different people perceive things differently.
+// From different levels of color blindness, biases based on beliefs which affect emotions, to the current mental/emotional state u r in when watching art.
+// This is me trying to understand art and does not reflect the actual level of the artist in anyway.
+
+// What is art? IMO its something u cannot capture or see everyday. But tech is kind of ruining that or just increasing our expectations. A special moment in time. Something u cannot see in real life. Something that evokes an emotion. etc, etc. So fantasy stuff is by default art.
+
+// What is beauty? Generally symmetrical, repeating, delicate, something that evokes emotion, generally white/light/fair/bright, etc.
+// In the Vedas it is said that the Lotus Flower is the last word in beauty. Especially the blue one (In the world we live in).
+// Among the Gods, Lord Krishna is said to be the most beautiful and is often associated with the Lotus.
+// Among the planets in our solar system, earth is said to be the most beautiful, although I think its Jupiter.
+// Generally speaking a living entity is more interesting than a non living one and on top of that humans are the most interesting creatures because of the things we do.
+// So an art piece with a living entity especially a human being becomes more interesting. That is my general observation.
+
+// At this point in time IMO these are the artists that have the MOST BEAUTIFUL (emphasis on the beauty part. So something can be ultra realistic but if its not artistic enough then its not beautiful IMO):
+
+// Compositions:
+// 1. wlop, 2. RDJlock, 3. washanapple
+
+// Clarity in Details: I can look at the smallest of detail and it has clear strokes. Personal preference
+// 1. RDJlock, 2. guweiz, 3. wlop, 4. washanapple, 5. doka_boko_baki (AI)
+
+// Faces:
+// 1. dadachyo, 2. 'O'ne, 3. wlop, 4. RDJlock, 5. guweiz, 6. ayakasuda, 7. washanapple
+
+// Dynamic Art: As if stuff is moving.
+// 1. 666KArt, 2. RossDraws, 3. wlop, 4. Merasgar, 5. fajyobore323,
+
 // Lighting:
+// 1. wlop, 2. RDJlock, 3. RossDraws,
+
+// Creativity: Variations in the type of subjects, perspectives, etc
+// 1. wlop, 2. RDJlock, 3. washanapple, 4. RossDraws,
+
+// Complexity: Looks complex with multiple things to see and think
+// 1. wlop, 2. RDJlock, 3. washanapple, 4. RossDraws,
+
+// Physics: Cloth movement, fluid movement, lighting and its reflections, etc. This is important because humans subconsciously know when something is off and that reduces some of the magic and immersiveness of art.
+// 1. 666KArt, 2. RossDraws,
+
+// Realistic: Just because something looks realistic doesnt mean its beautiful. There is no point drawing a sofa as it looks in the real world. Might as well just snap a photo with a camera. It should be IMO something that humans dont see on a day to day basis.
+//
+
 // Architecture:
-// Backgrounds/Landscapes: 1. HoDaRaKe (Midjourney)
-// Creativity:
+
+// Backgrounds/Landscapes:
+// 1. HoDaRaKe (Midjourney AI)
 
 val defaultImageUrlList = listOf(
 
@@ -579,6 +616,9 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/Fml2xz4aYAMdYwp?format=jpg&name=large", title = "https://twitter.com/doka_boko_baki"),
     GlanceImage(link = "https://pbs.twimg.com/media/FlcxauJakAAYhvr?format=jpg&name=large", title = "https://twitter.com/doka_boko_baki"),
     GlanceImage(link = "https://pbs.twimg.com/media/FlontgMacAIOBK-?format=jpg&name=large", title = "https://twitter.com/doka_boko_baki"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FqOYcf8aMAUxmWM?format=jpg&name=4096x4096", title = "https://twitter.com/doka_boko_baki"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FqOCHelX0AgJSis?format=jpg&name=4096x4096", title = "https://twitter.com/doka_boko_baki"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FqIry2VaAAAfyMw?format=jpg&name=4096x4096", title = "https://twitter.com/doka_boko_baki"),
 
     GlanceImage(link = "https://video.twimg.com/ext_tw_video/1622613644344279042/pu/vid/720x720/CUo_C-MHUl_kmptU.mp4", title = "https://twitter.com/SteveMakerspace"),
 

@@ -149,6 +149,7 @@ class FlowSelectedAppsFragment : Fragment() {
             layoutShimmerAppLoader.shimmerLoader.isVisible = false
             if (isAddFlow) return@collectLatestLifecycleFlow
             val selectedFlow = it.getOrNull(position)
+            Preferences.write(requireContext()).putInt(Preferences.KEY_SELECTED_FLOW_POSITION, position).apply()
             llNoAppsPlaceholder.isVisible = selectedFlow?.appList?.isEmpty() == true
             selectedAppsAdapter.flowAppList = selectedFlow?.appList ?: emptyList()
             withContext(Main) {

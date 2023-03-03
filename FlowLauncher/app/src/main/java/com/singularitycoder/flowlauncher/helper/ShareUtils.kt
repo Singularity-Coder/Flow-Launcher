@@ -1,5 +1,6 @@
 package com.singularitycoder.flowlauncher.helper
 
+import android.Manifest
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -9,6 +10,7 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
+import com.gargoylesoftware.htmlunit.javascript.host.Notification.requestPermission
 
 // https://stackoverflow.com/questions/33222918/sharing-bitmap-via-android-intent
 fun Context.shareImageAndTextViaApps(
@@ -39,6 +41,7 @@ fun Context.openDialer(phoneNumber: String) {
 
 // Needs CALL_PHONE permission
 fun Context.makeCall(phoneNum: String) {
+    if (isCallPhonePermissionGranted().not()) return
     val intent = Intent(Intent.ACTION_CALL, Uri.fromParts("tel", phoneNum, null))
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
     if (intent.resolveActivity(packageManager) != null) {

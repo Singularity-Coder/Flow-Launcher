@@ -19,6 +19,7 @@ import android.os.Build
 import android.provider.Settings
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -95,9 +96,10 @@ fun AudioManager.lowerVolume() {
 }
 
 // https://stackoverflow.com/questions/19517417/opening-android-settings-programmatically
-fun Context.openSettings(screen: String) = try {
+fun Context.openSettings(screen: String?) = try {
     startActivity(Intent(screen))
 } catch (_: Exception) {
+    showToast(message = "Couldn't find it!", duration = Toast.LENGTH_SHORT)
 }
 
 fun Context.hasPermission(permission: String): Boolean {

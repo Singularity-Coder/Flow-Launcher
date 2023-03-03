@@ -129,7 +129,7 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             val isContactsSynced = Preferences.read(requireContext()).getBoolean(Preferences.KEY_IS_CONTACTS_SYNCED, false)
             if (isContactsSynced.not()) {
-                requireContext().getContacts().sortedBy { it.name }.forEach { it: Contact ->
+                requireContext().getContactsList().sortedBy { it.name }.forEach { it: Contact ->
                     contactDao.insert(it)
                 }
             }

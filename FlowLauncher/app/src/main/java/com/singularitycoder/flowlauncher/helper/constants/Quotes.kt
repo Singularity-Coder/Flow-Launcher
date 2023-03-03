@@ -709,6 +709,10 @@ val generalQuoteList = listOf(
             The people in power now, write these history text books and control the narrative of the past. 
         """.trimIndentsAndNewLines()
     ),
+    Quote(
+        title = "Battles are won with tactics. Wars are won with logistics.",
+        author = "Elon Musk"
+    ),
 ).shuffled()
 
 val allQuotesList = listOf(

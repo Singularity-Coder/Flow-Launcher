@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.media.AudioManager
 import android.net.wifi.WifiManager
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.singularitycoder.flowlauncher.helper.NetworkStatus
 import com.singularitycoder.flowlauncher.helper.NotificationUtils
 import com.singularitycoder.flowlauncher.helper.db.*
@@ -47,4 +49,8 @@ object AppModule {
     fun injectNetworkStatus(
         @ApplicationContext appContext: Context
     ): NetworkStatus = NetworkStatus(appContext)
+
+    @Singleton
+    @Provides
+    fun injectGson(): Gson = GsonBuilder().setLenient().create()
 }
