@@ -178,7 +178,6 @@ class AddEditFlowFragment : Fragment() {
                     )
                 )
                 withContext(Main) {
-                    etFlowName.requestFocus()
                     etFlowName.hideKeyboard()
                     etFlowName.clearFocus()
                 }

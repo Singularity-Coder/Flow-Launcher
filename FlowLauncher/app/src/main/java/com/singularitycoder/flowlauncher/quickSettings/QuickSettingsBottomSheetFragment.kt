@@ -32,6 +32,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -145,21 +146,13 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
 
     private val barcodeScanLauncherResult = registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
         if (result.contents.isNullOrBlankOrNaOrNullString()) {
-            binding.root.showSnackBar(message = getString(R.string.something_is_wrong))
+            requireContext().showToast(message = getString(R.string.something_is_wrong))
             return@registerForActivityResult
         }
 
         val scannedResult = result.contents
         println("Scanned result : ${result.contents}")
-        requireContext().showAlertDialog(
-            title = "QR code scan result",
-            message = scannedResult,
-            positiveBtnText = "Copy",
-            positiveAction = {
-                requireContext().clipboard()?.text = scannedResult
-                binding.root.showSnackBar(message = "Copied")
-            }
-        )
+        (requireActivity() as? MainActivity)?.showOnBarcodeScanComplete(scannedResult)
     }
 
     private val quickSettingsBroadcastReceiver = object : BroadcastReceiver() {
@@ -397,9 +390,15 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
                 setTorchEnabled(true)
                 setOrientationLocked(true)
                 setBeepEnabled(true)
+                setDesiredBarcodeFormats(
+                    listOf(
+                        ScanOptions.PRODUCT_CODE_TYPES.toList(),
+                        ScanOptions.ONE_D_CODE_TYPES.toList(),
+                        listOf(ScanOptions.QR_CODE, ScanOptions.DATA_MATRIX, ScanOptions.PDF_417,),
+                    ).flatten()
+                )
             }
             barcodeScanLauncherResult.launch(scanOptions)
-            dismiss()
         }
         layoutVolume.root.onSafeClick {
             requireContext().showVolumeQuickSettings()

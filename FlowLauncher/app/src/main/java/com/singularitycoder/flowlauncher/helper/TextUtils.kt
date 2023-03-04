@@ -47,15 +47,16 @@ fun EditText.setDigits(allowedChars: String) {
 
 /** Request focus before showing keyboard - editText.requestFocus() */
 fun EditText?.showKeyboard() {
+    this?.requestFocus()
     if (this?.hasFocus() == true) {
-        val imm =
-            this.context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager
+        val imm = this.context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager
         imm?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 }
 
 /** Request focus before hiding keyboard - editText.requestFocus() */
 fun EditText?.hideKeyboard() {
+    this?.requestFocus()
     if (this?.hasFocus() == true) {
         val imm = this.context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager
         imm?.hideSoftInputFromWindow(this.windowToken, 0)

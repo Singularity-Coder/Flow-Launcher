@@ -12,10 +12,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.singularitycoder.flowlauncher.databinding.ActivityMainBinding
 import com.singularitycoder.flowlauncher.glance.view.GlanceFragment
+import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.Broadcast
 import com.singularitycoder.flowlauncher.helper.constants.HomeScreen
-import com.singularitycoder.flowlauncher.helper.lowerVolume
-import com.singularitycoder.flowlauncher.helper.raiseVolume
 import com.singularitycoder.flowlauncher.home.view.HomeFragment
 import com.singularitycoder.flowlauncher.today.view.TodayFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -93,6 +92,18 @@ class MainActivity : AppCompatActivity() {
 
     fun showHomeScreen(position: Int) {
         binding.viewpagerMain.currentItem = position
+    }
+
+    fun showOnBarcodeScanComplete(scannedResult: String) {
+        showAlertDialog(
+            title = "QR code scan result",
+            message = scannedResult,
+            positiveBtnText = "Copy",
+            positiveAction = {
+                clipboard()?.text = scannedResult
+                showToast(message = "Copied")
+            }
+        )
     }
 
     inner class MainViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {

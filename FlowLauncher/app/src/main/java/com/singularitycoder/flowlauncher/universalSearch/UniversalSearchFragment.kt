@@ -40,8 +40,6 @@ import java.io.File
 // Why sanskrit words? https://manojkumargarg.wordpress.com/sanskrit/
 // I think the language has some deep wisdom hidden in it. I also like the idea of using it in computers given the algorithmic nature of the language.
 
-// TODO handle permissions before opening this screen
-
 @AndroidEntryPoint
 class UniversalSearchFragment : Fragment() {
 
@@ -92,6 +90,10 @@ class UniversalSearchFragment : Fragment() {
 
             lifecycleScope.launch {
                 smsList = requireContext().getSmsList()
+            }
+
+            doAfter(1.seconds()) {
+                binding.etSearch.showKeyboard()
             }
         }
     }
@@ -144,16 +146,10 @@ class UniversalSearchFragment : Fragment() {
             val androidSettingsJsonString = requireContext().loadJsonStringFrom(rawResource = R.raw.android_settings)
             androidSettingsMap = (JSONObject(androidSettingsJsonString ?: "").toMap() as? Map<String, String>) ?: emptyMap()
         }
-
-        doAfter(1.seconds()) {
-            etSearch.requestFocus()
-            etSearch.showKeyboard()
-        }
     }
 
     private fun FragmentUniversalSearchBinding.setupUserActionListeners() {
         etSearch.onImeClick {
-            etSearch.requestFocus()
             etSearch.hideKeyboard()
             etSearch.clearFocus()
         }
@@ -178,12 +174,10 @@ class UniversalSearchFragment : Fragment() {
         nestedScrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             println("scrollY: $scrollY oldScrollY: $oldScrollY".trimIndent())
             if (scrollY - oldScrollY > 20) {
-                etSearch.requestFocus()
                 etSearch.hideKeyboard()
             }
 
             if (scrollY == 0) {
-                etSearch.requestFocus()
                 etSearch.showKeyboard()
             }
         })
@@ -196,7 +190,7 @@ class UniversalSearchFragment : Fragment() {
             appList = selectedFlow?.appList ?: emptyList()
         }
 
-        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.appsStateFlow) { query: String ->
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.textChangeFlow) { query: String ->
             if (appList.any { it.title.contains(query, true) && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
             val allAppsList = appList.filter { it: App -> it.title.contains(query, true) }.distinctBy { it.packageName }
             val tvAppsLayoutList = listOf(layoutApp1, layoutApp2, layoutApp3, layoutApp4)
@@ -218,7 +212,7 @@ class UniversalSearchFragment : Fragment() {
             }
         }
 
-        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.contactsStateFlow) { query: String ->
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.textChangeFlow) { query: String ->
             if (contactsList.any { it.name.contains(query, true) && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
             val allContactsList = contactsList.filter { it: Contact -> it.name.contains(query, true) || it.mobileNumber.contains(query, true) }.distinctBy { it.mobileNumber }
             val tvContactsLayoutList = listOf(layoutContact1, layoutContact2, layoutContact3)
@@ -250,7 +244,7 @@ class UniversalSearchFragment : Fragment() {
             }
         }
 
-        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.smsStateFlow) { query: String ->
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.textChangeFlow) { query: String ->
             if (smsList.any { it.body?.contains(query, true) == true && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
             val allSmsList = smsList.filter { it: Sms -> it.body?.contains(query, true) == true || it.number?.contains(query, true) == true }.distinctBy { it.body }
             val tvSmsLayoutList = listOf(layoutMessage1, layoutMessage2, layoutMessage3)
@@ -274,7 +268,7 @@ class UniversalSearchFragment : Fragment() {
             }
         }
 
-        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.androidSettingsStateFlow) { query: String ->
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.textChangeFlow) { query: String ->
             if (androidSettingsMap.values.any { it.contains(query, true) && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
             val mapList = androidSettingsMap.filter { it: Map.Entry<String, String> -> it.value.contains(query, true) }
             val tvAndroidSettingsLayoutList = listOf(layoutSetting1, layoutSetting2, layoutSetting3)
@@ -297,7 +291,7 @@ class UniversalSearchFragment : Fragment() {
             }
         }
 
-        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.sanskritWordsStateFlow) { query: String ->
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.textChangeFlow) { query: String ->
             if (sanskritVocabMap.keys.any { it.contains(query, true) && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
             val keysList = sanskritVocabMap.keys.filter { key: String -> key.contains(query, true) }
             val tvSanskritWordLayoutList = listOf(layoutWord1, layoutWord2, layoutWord3)
@@ -321,7 +315,7 @@ class UniversalSearchFragment : Fragment() {
             }
         }
 
-        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.englishWordsStateFlow) { query: String ->
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.textChangeFlow) { query: String ->
             if (englishVocabMap.keys.any { it.contains(query, true) && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
             val keysList = englishVocabMap.keys.filter { key: String -> key.contains(query, true) }
             val tvEnglishWordLayoutList = listOf(layoutWord4, layoutWord5, layoutWord6)
