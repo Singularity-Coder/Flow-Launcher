@@ -5,22 +5,25 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import coil.ImageLoader
 import coil.load
-import coil.request.ImageRequest
-import com.google.gson.Gson
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
 import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentUniversalSearchBinding
+import com.singularitycoder.flowlauncher.databinding.ListItemAppBinding
+import com.singularitycoder.flowlauncher.databinding.ListItemContactBinding
+import com.singularitycoder.flowlauncher.databinding.ListItemSanskritWordBinding
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.HOME_LAYOUT_BLURRED_IMAGE
 import com.singularitycoder.flowlauncher.home.model.App
@@ -33,10 +36,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.File
-import javax.inject.Inject
 
 // Why sanskrit words? https://manojkumargarg.wordpress.com/sanskrit/
 // I think the language has some deep wisdom hidden in it. I also like the idea of using it in computers given the algorithmic nature of the language.
+
+// TODO handle permissions before opening this screen
 
 @AndroidEntryPoint
 class UniversalSearchFragment : Fragment() {
@@ -45,9 +49,6 @@ class UniversalSearchFragment : Fragment() {
         @JvmStatic
         fun newInstance() = UniversalSearchFragment()
     }
-
-    @Inject
-    lateinit var gson: Gson
 
     private var sanskritVocabMap: Map<String, String> = HashMap()
     private var englishVocabMap: Map<String, String> = HashMap()
@@ -60,6 +61,40 @@ class UniversalSearchFragment : Fragment() {
 
     private val universalSearchViewModel: UniversalSearchViewModel by viewModels()
     private val appFlowViewModel: AppFlowViewModel by viewModels()
+
+    private val permissionsResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, @JvmSuppressWildcards Boolean>? ->
+        permissions ?: return@registerForActivityResult
+        permissions.entries.forEach { it: Map.Entry<String, @JvmSuppressWildcards Boolean> ->
+            println("Permission status: ${it.key} = ${it.value}")
+            val permission = it.key
+            val isGranted = it.value
+            when {
+                isGranted -> {
+                    // disable blocking layout and proceed
+                }
+                ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), permission) -> {
+                    // permission permanently denied. Show settings dialog
+                    // enable blocking layout and show popup to go to settings
+                    requireContext().showPermissionSettings()
+                }
+                else -> {
+                    // Permission denied but not permanently, tell user why you need it. Ideally provide a button to request it again and another to dismiss
+                    // enable blocking layout
+                }
+            }
+        }
+        if (requireContext().isCallContactSmsPermissionGranted2().not()) {
+            requireContext().showPermissionSettings()
+        } else {
+            lifecycleScope.launch {
+                contactsList = requireActivity().getContactsList()
+            }
+
+            lifecycleScope.launch {
+                smsList = requireContext().getSmsList()
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentUniversalSearchBinding.inflate(inflater, container, false)
@@ -80,6 +115,8 @@ class UniversalSearchFragment : Fragment() {
     }
 
     private fun FragmentUniversalSearchBinding.setupUI() {
+        grantPermissions()
+
         lifecycleScope.launch {
             val blurredBitmapFile = File(
                 /* parent = */ requireContext().getHomeLayoutBlurredImageFileDir(),
@@ -108,21 +145,10 @@ class UniversalSearchFragment : Fragment() {
             androidSettingsMap = (JSONObject(androidSettingsJsonString ?: "").toMap() as? Map<String, String>) ?: emptyMap()
         }
 
-        lifecycleScope.launch {
-            contactsList = requireActivity().getContactsList()
-        }
-
-        lifecycleScope.launch {
-            smsList = requireContext().getSmsList()
-        }
-
         doAfter(1.seconds()) {
             etSearch.requestFocus()
             etSearch.showKeyboard()
         }
-
-//        sanskritVocabMap = gson.fromJson(sanskritWordsJsonString, Vocabulary::class.java).wordMap
-//        englishVocabMap = gson.fromJson(englishWordsJsonString, Vocabulary::class.java).wordMap
     }
 
     private fun FragmentUniversalSearchBinding.setupUserActionListeners() {
@@ -135,6 +161,7 @@ class UniversalSearchFragment : Fragment() {
         etSearch.doAfterTextChanged { it: Editable? ->
             val query = it.toString().toLowCase().trim()
 
+            cardApps.isVisible = appList.any { it.title.contains(query, true) && query.isNotBlank() }
             cardContacts.isVisible = contactsList.any { (it.name.contains(query, true) || it.mobileNumber.contains(query, true)) && query.isNotBlank() }
             cardMessages.isVisible = smsList.any { (it.body?.contains(query, true) == true) && query.isNotBlank() }
             cardAndroidSettings.isVisible = androidSettingsMap.keys.any { it.contains(query, true) && query.isNotBlank() }
@@ -169,11 +196,13 @@ class UniversalSearchFragment : Fragment() {
             appList = selectedFlow?.appList ?: emptyList()
         }
 
-        // TODO fix this
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.appsStateFlow) { query: String ->
             if (appList.any { it.title.contains(query, true) && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
-            val allAppsList = appList.filter { it: App -> it.title.contains(query, true) }
+            val allAppsList = appList.filter { it: App -> it.title.contains(query, true) }.distinctBy { it.packageName }
             val tvAppsLayoutList = listOf(layoutApp1, layoutApp2, layoutApp3, layoutApp4)
+            tvAppsLayoutList.forEach { it: ListItemAppBinding ->
+                it.root.isInvisible = true
+            }
             var count = 0
             for (app: App in allAppsList) {
                 if (count >= 4) break
@@ -193,6 +222,9 @@ class UniversalSearchFragment : Fragment() {
             if (contactsList.any { it.name.contains(query, true) && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
             val allContactsList = contactsList.filter { it: Contact -> it.name.contains(query, true) || it.mobileNumber.contains(query, true) }.distinctBy { it.mobileNumber }
             val tvContactsLayoutList = listOf(layoutContact1, layoutContact2, layoutContact3)
+            tvContactsLayoutList.forEach { it: ListItemContactBinding ->
+                it.root.isVisible = false
+            }
             var count = 0
             for (contact: Contact in allContactsList) {
                 if (count >= 3) break
@@ -218,14 +250,17 @@ class UniversalSearchFragment : Fragment() {
             }
         }
 
-        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.contactsStateFlow) { query: String ->
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.smsStateFlow) { query: String ->
             if (smsList.any { it.body?.contains(query, true) == true && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
             val allSmsList = smsList.filter { it: Sms -> it.body?.contains(query, true) == true || it.number?.contains(query, true) == true }.distinctBy { it.body }
-            val tvContactsLayoutList = listOf(layoutMessage1, layoutMessage2, layoutMessage3)
+            val tvSmsLayoutList = listOf(layoutMessage1, layoutMessage2, layoutMessage3)
+            tvSmsLayoutList.forEach { it: ListItemContactBinding ->
+                it.root.isVisible = false
+            }
             var count = 0
             for (sms: Sms in allSmsList) {
                 if (count >= 3) break
-                tvContactsLayoutList[count].apply {
+                tvSmsLayoutList[count].apply {
                     root.isVisible = true
                     cardPicture.isVisible = false
                     tvTitle.text = sms.number
@@ -243,6 +278,9 @@ class UniversalSearchFragment : Fragment() {
             if (androidSettingsMap.values.any { it.contains(query, true) && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
             val mapList = androidSettingsMap.filter { it: Map.Entry<String, String> -> it.value.contains(query, true) }
             val tvAndroidSettingsLayoutList = listOf(layoutSetting1, layoutSetting2, layoutSetting3)
+            tvAndroidSettingsLayoutList.forEach { it: ListItemSanskritWordBinding ->
+                it.root.isVisible = false
+            }
             var count = 0
             for (item: Map.Entry<String, String> in mapList) {
                 if (count >= 3) break
@@ -263,6 +301,9 @@ class UniversalSearchFragment : Fragment() {
             if (sanskritVocabMap.keys.any { it.contains(query, true) && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
             val keysList = sanskritVocabMap.keys.filter { key: String -> key.contains(query, true) }
             val tvSanskritWordLayoutList = listOf(layoutWord1, layoutWord2, layoutWord3)
+            tvSanskritWordLayoutList.forEach { it: ListItemSanskritWordBinding ->
+                it.root.isVisible = false
+            }
             var count = 0
             for (key: String in keysList) {
                 if (count >= 3) break
@@ -284,6 +325,9 @@ class UniversalSearchFragment : Fragment() {
             if (englishVocabMap.keys.any { it.contains(query, true) && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
             val keysList = englishVocabMap.keys.filter { key: String -> key.contains(query, true) }
             val tvEnglishWordLayoutList = listOf(layoutWord4, layoutWord5, layoutWord6)
+            tvEnglishWordLayoutList.forEach { it: ListItemSanskritWordBinding ->
+                it.root.isVisible = false
+            }
             var count = 0
             for (key: String in keysList) {
                 if (count >= 3) break
@@ -302,10 +346,7 @@ class UniversalSearchFragment : Fragment() {
         }
     }
 
-    private data class Vocabulary(val wordMap: HashMap<String, String>)
-
-    private data class Word(
-        val word: String? = "",
-        val meaning: String? = ""
-    )
+    private fun grantPermissions() {
+        permissionsResult.launch(callContactSmsPermissionList2)
+    }
 }

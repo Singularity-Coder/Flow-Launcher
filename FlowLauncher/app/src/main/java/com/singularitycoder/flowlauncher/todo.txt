@@ -9,7 +9,7 @@ TODO show notification count in quick action notifications - Settings.ACTION_NOT
 TODO SOS signal - SOS Torch, Buzzer, Morse code sender on flash,
 TODO Panic Mode - Shows a countdown timer with 5 sec to disable it if its an accident - send message to pre selected contacts. Need a screen to select contacts if its first time.
 
-TODO Universal search - Apps, Files, Web, Recent searches, Recent Apps
+TODO Universal search - Files, Web, Recent searches, Recent Apps on opening search
 
 TODO image video gallery picker
 TODO create a chat bubble which on press shows the home, app switch, back buttons

@@ -66,39 +66,45 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_margin="16dp">
 
                         <include
                             android:id="@+id/layout_app_1"
                             layout="@layout/list_item_app"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent" />
 
                         <include
                             android:id="@+id/layout_app_2"
                             layout="@layout/list_item_app"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="gone" />
+                            android:visibility="invisible"
+                            app:layout_constraintEnd_toStartOf="@+id/layout_app_3"
+                            app:layout_constraintStart_toEndOf="@+id/layout_app_1" />
 
                         <include
                             android:id="@+id/layout_app_3"
                             layout="@layout/list_item_app"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="gone" />
+                            android:visibility="invisible"
+                            app:layout_constraintEnd_toStartOf="@+id/layout_app_4"
+                            app:layout_constraintStart_toEndOf="@+id/layout_app_2" />
 
                         <include
                             android:id="@+id/layout_app_4"
                             layout="@layout/list_item_app"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="gone" />
+                            android:visibility="invisible"
+                            app:layout_constraintEnd_toEndOf="parent" />
 
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </com.google.android.material.card.MaterialCardView>
 

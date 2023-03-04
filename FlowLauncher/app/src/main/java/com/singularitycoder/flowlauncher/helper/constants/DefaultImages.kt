@@ -14,7 +14,7 @@ import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 // In the Vedas it is said that the Lotus Flower is the last word in beauty. Especially the blue one (In the world we live in).
 // Among the Gods, Lord Krishna is said to be the most beautiful and is often associated with the Lotus.
 // Among the planets in our solar system, earth is said to be the most beautiful, although I think its Jupiter.
-// Generally speaking a living entity is more interesting than a non living one and on top of that humans are the most interesting creatures because of the things we do.
+// Generally speaking a living entity is more interesting than a non living one and on top of that humans are the most interesting creatures because of the things we do. Movement further adds to the attractiveness.
 // So an art piece with a living entity especially a human being becomes more interesting. That is my general observation.
 
 // At this point in time IMO these are the artists that have the MOST BEAUTIFUL (emphasis on the beauty part. So something can be ultra realistic but if its not artistic enough then its not beautiful IMO):

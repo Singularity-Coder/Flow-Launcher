@@ -52,16 +52,14 @@ val callContactSmsPermissionList = arrayOf(
 )
 
 val callContactSmsPermissionList2 = arrayOf(
-    Manifest.permission.CALL_PHONE,
+    Manifest.permission.READ_CONTACTS,
     Manifest.permission.READ_SMS,
-    Manifest.permission.RECEIVE_SMS,
-    Manifest.permission.SEND_SMS,
 )
 
-val smsPermissionsList = arrayOf(
-    Manifest.permission.READ_SMS,
+val otherPermissions = arrayOf(
     Manifest.permission.RECEIVE_SMS,
-    Manifest.permission.SEND_SMS
+    Manifest.permission.SEND_SMS,
+    Manifest.permission.CALL_PHONE,
 )
 
 fun Activity.requestPermission(permissions: Array<String>, requestCode: Int) {
@@ -92,10 +90,8 @@ fun Context.isCallContactSmsPermissionGranted(): Boolean {
 }
 
 fun Context.isCallContactSmsPermissionGranted2(): Boolean {
-    return ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
 }
 
 // https://stackoverflow.com/questions/32083410/cant-get-write-settings-permission

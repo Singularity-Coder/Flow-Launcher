@@ -457,6 +457,7 @@ val otherEpicMomentsList = listOf(
     YoutubeVideo(title = "Fist of Legend - (1994) Best Fight Scenes", videoId = "bwM3mXkeaBs"),
     YoutubeVideo(title = "Ip Man defeats Chun with a one-inch punch in the film IP MAN 3 (2015)", videoId = "Cx9040gp6Z0"),
     YoutubeVideo(title = "Ip Man vs Karate Master (Wing Chun vs Karate) Ip Man 4 HD", videoId = "dj7Rf1OvsVc"),
+    YoutubeVideo(title = "ANIME ROCK, PAPER, SCISSORS", videoId = "GVT3WUa-48Y"), // Hilarious. This captures the essence of anime very well.
 )
 
 val gameCinematicsList = listOf(
