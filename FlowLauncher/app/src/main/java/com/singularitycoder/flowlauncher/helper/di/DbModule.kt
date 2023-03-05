@@ -3,6 +3,7 @@ package com.singularitycoder.flowlauncher.helper.di
 import android.content.Context
 import androidx.room.Room
 import com.singularitycoder.flowlauncher.addEditAppFlow.dao.AppFlowDao
+import com.singularitycoder.flowlauncher.deviceActivity.dao.DeviceActivityDao
 import com.singularitycoder.flowlauncher.glance.dao.GlanceImageDao
 import com.singularitycoder.flowlauncher.glance.dao.HolidayDao
 import com.singularitycoder.flowlauncher.glance.dao.YoutubeVideoDao
@@ -72,4 +73,8 @@ object DbModule {
     @Singleton
     @Provides
     fun injectFlowImageDao(db: FlowDatabase): GlanceImageDao = db.flowImageDao()
+
+    @Singleton
+    @Provides
+    fun injectDeviceActivityDao(db: FlowDatabase): DeviceActivityDao = db.deviceActivityDao()
 }

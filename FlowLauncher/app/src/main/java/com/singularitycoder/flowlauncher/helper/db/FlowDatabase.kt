@@ -5,6 +5,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.singularitycoder.flowlauncher.addEditAppFlow.dao.AppFlowDao
 import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
+import com.singularitycoder.flowlauncher.deviceActivity.dao.DeviceActivityDao
+import com.singularitycoder.flowlauncher.deviceActivity.model.DeviceActivity
 import com.singularitycoder.flowlauncher.glance.dao.GlanceImageDao
 import com.singularitycoder.flowlauncher.glance.dao.HolidayDao
 import com.singularitycoder.flowlauncher.glance.dao.YoutubeVideoDao
@@ -36,6 +38,7 @@ import com.singularitycoder.flowlauncher.today.model.Weather
         GlanceImage::class,
         YoutubeVideo::class,
         Quote::class,
+        DeviceActivity::class
     ],
     version = 4,
     exportSchema = false
@@ -57,5 +60,6 @@ abstract class FlowDatabase : RoomDatabase() {
     abstract fun flowImageDao(): GlanceImageDao
     abstract fun quoteDao(): QuoteDao
     abstract fun youtubeVideoDao(): YoutubeVideoDao
+    abstract fun deviceActivityDao(): DeviceActivityDao
 }
 

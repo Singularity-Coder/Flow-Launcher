@@ -292,6 +292,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "GN Balasubramaniam - Evari Bodhana", videoId = "6dJIRdvpv_o"),
     YoutubeVideo(title = "GN Balasubramaniam - Paramakrupa Sagari", videoId = "qf-feeWxXuk"),
     YoutubeVideo(title = "GN Balasubramaniam - Ma Janaki Chattabattaga", videoId = "2xSaswohan4"), // A treat to the ears
+    YoutubeVideo(title = "GN Balasubramaniam - Ma Janaki - Khamboji", videoId = "f0Ti5Ty7OYA"), // The faster version. Just as amazing but a but noisy
     YoutubeVideo(title = "GN Balasubramaniam - Badalika Deera- Ritigowla - Thyagaraja - Adi - Thyagaraja", videoId = "VoG5Ho-0y-Y"),
     YoutubeVideo(title = "GN Balasubramaniam - Jayathi Jayathi Bharatha Maatha", videoId = "7ThIQ2Pn94A"), // Simple and beautiful. This can actually be India's national anthem.
     YoutubeVideo(title = "GN Balasubramaniam - Sudhamayi - Amrutavarshini Sudhanidhi - H.M. Bhagavatar", videoId = "SpucWUdli7g"),

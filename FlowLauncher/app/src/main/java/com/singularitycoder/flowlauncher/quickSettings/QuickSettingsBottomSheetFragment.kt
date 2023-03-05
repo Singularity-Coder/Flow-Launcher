@@ -394,7 +394,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
                     listOf(
                         ScanOptions.PRODUCT_CODE_TYPES.toList(),
                         ScanOptions.ONE_D_CODE_TYPES.toList(),
-                        listOf(ScanOptions.QR_CODE, ScanOptions.DATA_MATRIX, ScanOptions.PDF_417,),
+                        listOf(ScanOptions.QR_CODE, ScanOptions.DATA_MATRIX, ScanOptions.PDF_417),
                     ).flatten()
                 )
             }

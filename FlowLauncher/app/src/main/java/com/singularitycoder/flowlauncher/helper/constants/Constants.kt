@@ -174,6 +174,7 @@ object Table {
     const val QUOTE = "table_quote"
     const val YOUTUBE_VIDEO = "table_youtube_video"
     const val GLANCE_IMAGE = "table_glance_image"
+    const val DEVICE_ACTIVITY = "table_device_activity"
 }
 
 object Broadcast {

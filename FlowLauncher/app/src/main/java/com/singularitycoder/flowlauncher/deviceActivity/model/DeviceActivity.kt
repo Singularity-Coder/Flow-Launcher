@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher.deviceActivity
+package com.singularitycoder.flowlauncher.deviceActivity.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

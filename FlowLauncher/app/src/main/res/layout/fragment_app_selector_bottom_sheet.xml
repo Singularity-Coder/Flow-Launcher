@@ -96,7 +96,7 @@
             layout="@layout/layout_shimmer_app_selector_loader"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="48dp"
             android:visibility="visible"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />

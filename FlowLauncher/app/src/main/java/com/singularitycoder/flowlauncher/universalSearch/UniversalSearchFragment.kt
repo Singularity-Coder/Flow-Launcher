@@ -157,14 +157,16 @@ class UniversalSearchFragment : Fragment() {
         etSearch.doAfterTextChanged { it: Editable? ->
             val query = it.toString().toLowCase().trim()
 
-            cardApps.isVisible = appList.any { it.title.contains(query, true) && query.isNotBlank() }
-            cardContacts.isVisible = contactsList.any { (it.name.contains(query, true) || it.mobileNumber.contains(query, true)) && query.isNotBlank() }
-            cardMessages.isVisible = smsList.any { (it.body?.contains(query, true) == true) && query.isNotBlank() }
-            cardAndroidSettings.isVisible = androidSettingsMap.keys.any { it.contains(query, true) && query.isNotBlank() }
-            cardSanskritWords.isVisible = sanskritVocabMap.keys.any { it.contains(query, true) && query.isNotBlank() }
-            cardEnglishWords.isVisible = englishVocabMap.keys.any { it.contains(query, true) && query.isNotBlank() }
+            if (query.isBlank()) return@doAfterTextChanged
 
             universalSearchViewModel.setQueryValue(query)
+
+            cardApps.isVisible = appList.any { it.title.contains(query, true) }
+            cardContacts.isVisible = contactsList.any { it.name.contains(query, true) || it.mobileNumber.contains(query, true) }
+            cardMessages.isVisible = smsList.any { (it.body?.contains(query, true) == true) }
+            cardAndroidSettings.isVisible = androidSettingsMap.keys.any { it.contains(query, true) }
+            cardSanskritWords.isVisible = sanskritVocabMap.keys.any { it.contains(query, true) }
+            cardEnglishWords.isVisible = englishVocabMap.keys.any { it.contains(query, true) }
         }
 
         btnCancel.onSafeClick {

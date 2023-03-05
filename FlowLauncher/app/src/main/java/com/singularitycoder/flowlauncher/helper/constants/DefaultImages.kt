@@ -9,11 +9,19 @@ import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 // This is me trying to understand art and does not reflect the actual level of the artist in anyway.
 
 // What is art? IMO its something u cannot capture or see everyday. But tech is kind of ruining that or just increasing our expectations. A special moment in time. Something u cannot see in real life. Something that evokes an emotion. etc, etc. So fantasy stuff is by default art.
+// Art is the freedom of expression of a certain individual. But there is no such thing as unlimited freedom because its the constraints that create a form. Without constraints there is no form.
+// So the expression must be limited to some bounds. Else it becomes noise. Its something like the fundamental particles not doing their job. We have the shape of an object because of the fundamental forces acting on it. Which is why we have definite laws/constraints in the universe without which any activity becomes impossible.
+// So freedom is within the constraints. Change must be within the limits. There is no such thing as no limits. When something is without limits then in one sense it doesnt exist. Like air. Its everywhere but also it appears like nothing.
+// So if something exists then form is essential and if it has a form it must have limits atleast based on the logic of the current observable world. Not sure how this works in quantum world though.
+// Bottom line is, in order for us to perceive something, it needs a form and form only comes with constraints. So an essential item in art is the theme. What message it delivers. What is it saying. What emotion its trying to convey. These are its constraints.
+// Some very nice quotes on freedom:
+// 1. Art lives from constraints and dies from freedom. - Leonardo da Vinci
+// 2. Freedom is not the absence of limitations and constraints but it is finding the right ones, those that fit our nature and liberate us. - Timothy Keller
 
-// What is beauty? Generally symmetrical, repeating, delicate, something that evokes emotion, generally white/light/fair/bright, etc.
+// What is beauty? Generally symmetrical, repeating, delicate, something that evokes emotion, generally white/light/fair/bright/good/positive etc.
 // In the Vedas it is said that the Lotus Flower is the last word in beauty. Especially the blue one (In the world we live in).
 // Among the Gods, Lord Krishna is said to be the most beautiful and is often associated with the Lotus.
-// Among the planets in our solar system, earth is said to be the most beautiful, although I think its Jupiter.
+// Among the planets in our solar system, earth is said to be the most beautiful, although I think its Jupiter when it comes to looks. But philosophically speaking, we can say that earth is the cradle of life, source of all life sustaining resources, etc, etc. So in that sense yes its the complete beauty while Juipter probably kills everyone. In that sense art must generally represent goodness and the good values of life. Positive stuff.
 // Generally speaking a living entity is more interesting than a non living one and on top of that humans are the most interesting creatures because of the things we do. Movement further adds to the attractiveness.
 // So an art piece with a living entity especially a human being becomes more interesting. That is my general observation.
 
@@ -41,7 +49,7 @@ import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 // 1. wlop, 2. RDJlock, 3. washanapple, 4. RossDraws,
 
 // Physics: Cloth movement, fluid movement, lighting and its reflections, etc. This is important because humans subconsciously know when something is off and that reduces some of the magic and immersiveness of art.
-// 1. 666KArt, 2. RossDraws,
+// 1. 666KArt, 2. RossDraws, 3. wlop
 
 // Realistic: Just because something looks realistic doesnt mean its beautiful. There is no point drawing a sofa as it looks in the real world. Might as well just snap a photo with a camera. It should be IMO something that humans dont see on a day to day basis.
 //

@@ -1,38 +1,47 @@
-package com.singularitycoder.flowlauncher.today.dao
+package com.singularitycoder.flowlauncher.deviceActivity.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
+import com.singularitycoder.flowlauncher.deviceActivity.model.DeviceActivity
 import com.singularitycoder.flowlauncher.helper.constants.Table
-import com.singularitycoder.flowlauncher.today.model.Quote
+import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface QuoteDao {
+interface DeviceActivityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(quote: Quote)
+    suspend fun insert(deviceActivity: DeviceActivity)
 
     @Transaction
-    @Query("SELECT * FROM ${Table.QUOTE} WHERE author LIKE :author LIMIT 1")
-    suspend fun getItemByTitle(author: String): Quote?
+    @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY} WHERE id LIKE :id LIMIT 1")
+    suspend fun getItemByTitle(id: String): DeviceActivity?
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(quote: Quote)
+    suspend fun update(deviceActivity: DeviceActivity)
 
     @Delete
-    suspend fun delete(quote: Quote)
+    suspend fun delete(deviceActivity: DeviceActivity)
 
-    @Query("SELECT * FROM ${Table.QUOTE}")
-    fun getLatestLiveData(): LiveData<Quote>
+    @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY}")
+    fun getLatestLiveData(): LiveData<DeviceActivity>
 
-    @Query("SELECT * FROM ${Table.QUOTE}")
-    fun getAllLiveData(): LiveData<List<Quote>>
+    @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY}")
+    fun getAllStateFlow(): Flow<List<DeviceActivity>>
 
-    @Query("SELECT * FROM ${Table.QUOTE}")
-    suspend fun getAll(): List<Quote>
+    @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY}")
+    fun getAllLiveData(): LiveData<List<DeviceActivity>>
 
-    @Query("DELETE FROM ${Table.QUOTE}")
+    @Transaction
+    @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY} WHERE id = :id")
+    suspend fun getAppFlowById(id: Long): DeviceActivity?
+
+    @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY}")
+    suspend fun getAll(): List<DeviceActivity>
+
+    @Query("DELETE FROM ${Table.DEVICE_ACTIVITY}")
     suspend fun deleteAll()
 
-    @Query("DELETE FROM ${Table.QUOTE} WHERE title LIKE :link")
+    @Query("DELETE FROM ${Table.DEVICE_ACTIVITY} WHERE title LIKE :link")
     suspend fun deleteByTitle(link: String): Int
 }

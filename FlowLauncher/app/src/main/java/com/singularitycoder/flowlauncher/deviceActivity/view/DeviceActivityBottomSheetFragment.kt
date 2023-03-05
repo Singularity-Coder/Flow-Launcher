@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher.deviceActivity
+package com.singularitycoder.flowlauncher.deviceActivity.view
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -18,16 +17,12 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCa
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.singularitycoder.flowlauncher.MainActivity
-import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
-import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
-import com.singularitycoder.flowlauncher.databinding.FragmentAppSelectorBottomSheetBinding
 import com.singularitycoder.flowlauncher.databinding.FragmentDeviceActivityBottomSheetBinding
+import com.singularitycoder.flowlauncher.deviceActivity.model.DeviceActivity
+import com.singularitycoder.flowlauncher.deviceActivity.viewmodel.DeviceActivityViewModel
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.home.model.App
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
@@ -37,13 +32,12 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
         fun newInstance() = DeviceActivityBottomSheetFragment()
     }
 
-    private val appSelectorAdapter: AppSelectorAdapter by lazy { AppSelectorAdapter() }
+    private val deviceActivityViewModel by viewModels<DeviceActivityViewModel>()
+    private val appSelectorAdapter: DeviceActivityAdapter by lazy { DeviceActivityAdapter() }
     private val selectedAppsList = mutableListOf<App>()
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var binding: FragmentDeviceActivityBottomSheetBinding
-
-    private var selectedFlowId = 0L
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentDeviceActivityBottomSheetBinding.inflate(inflater, container, false)
@@ -52,7 +46,6 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTransparentBackground()
         binding.setupUI()
         binding.setupUserActionListeners()
         binding.observeForData()
@@ -76,6 +69,7 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
     // https://stackoverflow.com/questions/15543186/how-do-i-create-colorstatelist-programmatically
     @SuppressLint("NotifyDataSetChanged")
     private fun FragmentDeviceActivityBottomSheetBinding.setupUI() {
+        setTransparentBackground()
         setBottomSheetBehaviour()
         linearLayoutManager = LinearLayoutManager(context)
         rvApps.apply {
@@ -102,19 +96,19 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun FragmentDeviceActivityBottomSheetBinding.observeForData() {
-        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { appFlowList: List<AppFlow> ->
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = deviceActivityViewModel.appFlowListStateFlow) { it: List<DeviceActivity> ->
             val sortedAppList = ArrayList<App>()
             val appMap = HashMap<String, ArrayList<App>>()
-            appFlowList.firstOrNull()?.appList?.forEach { it: App ->
-                appMap.put(
-                    it.title.subSequence(0, 1).toString(),
-                    appMap.get(it.title.subSequence(0, 1).toString())?.apply {
-                        add(it)
-                    } ?: ArrayList<App>().apply {
-                        add(it)
-                    }
-                )
-            }
+//            appFlowList.firstOrNull()?.appList?.forEach { it: App ->
+//                appMap.put(
+//                    it.title.subSequence(0, 1).toString(),
+//                    appMap.get(it.title.subSequence(0, 1).toString())?.apply {
+//                        add(it)
+//                    } ?: ArrayList<App>().apply {
+//                        add(it)
+//                    }
+//                )
+//            }
             appMap.keys.sorted().forEach { it: String ->
                 val preparedList = appMap.get(it)?.mapIndexed { index, contact ->
                     if (index == 0) contact.isAlphabetShown = true
@@ -122,17 +116,17 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
                 } ?: emptyList()
                 sortedAppList.addAll(preparedList)
             }
-            val selectedAppFlowAppList = appFlowViewModel.getAppFlowById(selectedFlowId)?.appList
-            appSelectorAdapter.selectedAppList = sortedAppList.map { sortedApp: App ->
-                sortedApp.isSelected = false
-                selectedAppFlowAppList?.forEach { selectedApp: App ->
-                    if (sortedApp.packageName == selectedApp.packageName) {
-                        sortedApp.isSelected = true
-                        selectedAppsList.add(sortedApp)
-                    }
-                }
-                sortedApp
-            }
+//            val selectedAppFlowAppList = deviceActivityViewModel.getAppFlowById(selectedFlowId)?.appList
+//            appSelectorAdapter.selectedAppList = sortedAppList.map { sortedApp: App ->
+//                sortedApp.isSelected = false
+//                selectedAppFlowAppList?.forEach { selectedApp: App ->
+//                    if (sortedApp.packageName == selectedApp.packageName) {
+//                        sortedApp.isSelected = true
+//                        selectedAppsList.add(sortedApp)
+//                    }
+//                }
+//                sortedApp
+//            }
             appSelectorAdapter.notifyDataSetChanged()
             layoutShimmerAppSelectorLoader.shimmerLoader.isVisible = false
         }

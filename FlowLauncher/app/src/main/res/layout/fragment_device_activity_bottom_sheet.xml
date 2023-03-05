@@ -30,24 +30,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="-4dp"
-            android:text="Select Apps"
+            android:text="Device Activity"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:textColor="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="@+id/iv_drag_handle"
             app:layout_constraintStart_toStartOf="@+id/iv_drag_handle"
             app:layout_constraintTop_toBottomOf="@+id/iv_drag_handle" />
-
-        <Button
-            android:id="@+id/btn_done"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Done"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/divider"
-            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"
@@ -96,7 +85,7 @@
             layout="@layout/layout_shimmer_app_selector_loader"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="48dp"
             android:visibility="visible"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />

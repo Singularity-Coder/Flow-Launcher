@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher.addEditAppFlow.view
+package com.singularitycoder.flowlauncher.deviceActivity.view
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import com.singularitycoder.flowlauncher.databinding.ListItemAppSelectorBinding
 import com.singularitycoder.flowlauncher.helper.onSafeClick
 import com.singularitycoder.flowlauncher.home.model.App
 
-class AppSelectorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class DeviceActivityAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var selectedAppList = listOf<App>()
     private var checkboxListener: (isChecked: Boolean, app: App) -> Unit = { isChecked, app -> }
