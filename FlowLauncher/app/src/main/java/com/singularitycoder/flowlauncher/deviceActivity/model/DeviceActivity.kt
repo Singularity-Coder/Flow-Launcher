@@ -1,6 +1,7 @@
 package com.singularitycoder.flowlauncher.deviceActivity.model
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.singularitycoder.flowlauncher.helper.constants.Table
 
@@ -9,4 +10,5 @@ data class DeviceActivity(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
     var title: String = "",
     var date: Long = 0,
+    @Ignore var isDateShown: Boolean = false,
 )

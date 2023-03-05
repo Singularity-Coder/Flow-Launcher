@@ -53,7 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cl_header">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_apps"
+            android:id="@+id/rv_device_activity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
@@ -62,10 +62,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="6"
-            tools:listitem="@layout/list_item_app_selector" />
+            tools:listitem="@layout/list_item_device_activity" />
 
         <TextView
-            android:id="@+id/tv_alphabet"
+            android:id="@+id/tv_date"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             android:paddingTop="8dp"
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
-            android:text="A"
+            android:text="5 March, 2023"
             android:textColor="@android:color/darker_gray"
             android:textStyle="bold"
             android:visibility="visible"
@@ -88,6 +88,6 @@
             android:layout_marginTop="48dp"
             android:visibility="visible"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

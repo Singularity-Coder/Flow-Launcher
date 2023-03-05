@@ -24,9 +24,6 @@ interface DeviceActivityDao {
     suspend fun delete(deviceActivity: DeviceActivity)
 
     @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY}")
-    fun getLatestLiveData(): LiveData<DeviceActivity>
-
-    @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY}")
     fun getAllStateFlow(): Flow<List<DeviceActivity>>
 
     @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY}")
@@ -34,7 +31,7 @@ interface DeviceActivityDao {
 
     @Transaction
     @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY} WHERE id = :id")
-    suspend fun getAppFlowById(id: Long): DeviceActivity?
+    suspend fun getDeviceActivityFlowById(id: Long): DeviceActivity?
 
     @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY}")
     suspend fun getAll(): List<DeviceActivity>

@@ -21,7 +21,6 @@ import com.singularitycoder.flowlauncher.databinding.FragmentDeviceActivityBotto
 import com.singularitycoder.flowlauncher.deviceActivity.model.DeviceActivity
 import com.singularitycoder.flowlauncher.deviceActivity.viewmodel.DeviceActivityViewModel
 import com.singularitycoder.flowlauncher.helper.*
-import com.singularitycoder.flowlauncher.home.model.App
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,8 +32,7 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private val deviceActivityViewModel by viewModels<DeviceActivityViewModel>()
-    private val appSelectorAdapter: DeviceActivityAdapter by lazy { DeviceActivityAdapter() }
-    private val selectedAppsList = mutableListOf<App>()
+    private val deviceActivityAdapter: DeviceActivityAdapter by lazy { DeviceActivityAdapter() }
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var binding: FragmentDeviceActivityBottomSheetBinding
@@ -72,23 +70,22 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
         setTransparentBackground()
         setBottomSheetBehaviour()
         linearLayoutManager = LinearLayoutManager(context)
-        rvApps.apply {
+        rvDeviceActivity.apply {
             layoutManager = linearLayoutManager
-            adapter = appSelectorAdapter
+            adapter = deviceActivityAdapter
         }
     }
 
     private fun FragmentDeviceActivityBottomSheetBinding.setupUserActionListeners() {
-        appSelectorAdapter.setCheckboxListener { isChecked: Boolean, app: App ->
-            if (isChecked) selectedAppsList.add(app) else selectedAppsList.remove(app)
+        deviceActivityAdapter.setDeleteListener { it: DeviceActivity ->
+
         }
 
-        rvApps.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        rvDeviceActivity.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-//                println("loggggg dx: $dx, dy: $dy")
-                if (appSelectorAdapter.selectedAppList.isNotEmpty()) {
-                    tvAlphabet.text = appSelectorAdapter.selectedAppList.get(linearLayoutManager.findFirstVisibleItemPosition()).title.substring(0, 1)
+                if (deviceActivityAdapter.deviceActivityList.isNotEmpty()) {
+                    tvDate.text = deviceActivityAdapter.deviceActivityList.get(linearLayoutManager.findFirstVisibleItemPosition()).title.substring(0, 1)
                 }
             }
         })
@@ -96,38 +93,25 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun FragmentDeviceActivityBottomSheetBinding.observeForData() {
-        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = deviceActivityViewModel.appFlowListStateFlow) { it: List<DeviceActivity> ->
-            val sortedAppList = ArrayList<App>()
-            val appMap = HashMap<String, ArrayList<App>>()
-//            appFlowList.firstOrNull()?.appList?.forEach { it: App ->
-//                appMap.put(
-//                    it.title.subSequence(0, 1).toString(),
-//                    appMap.get(it.title.subSequence(0, 1).toString())?.apply {
-//                        add(it)
-//                    } ?: ArrayList<App>().apply {
-//                        add(it)
-//                    }
-//                )
-//            }
-            appMap.keys.sorted().forEach { it: String ->
-                val preparedList = appMap.get(it)?.mapIndexed { index, contact ->
-                    if (index == 0) contact.isAlphabetShown = true
-                    contact
-                } ?: emptyList()
-                sortedAppList.addAll(preparedList)
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = deviceActivityViewModel.deviceActivityListStateFlow) { activityList: List<DeviceActivity> ->
+            val sortedDeviceActivitiesList = ArrayList<DeviceActivity>()
+            val deviceActivityMap = HashMap<Long, ArrayList<DeviceActivity>>()
+            activityList.forEach { it: DeviceActivity ->
+                val key = it.date
+                deviceActivityMap.put(
+                    /* key = */ key,
+                    /* value = */ deviceActivityMap.get(key)?.apply { add(it) } ?: ArrayList<DeviceActivity>().apply { add(it) }
+                )
             }
-//            val selectedAppFlowAppList = deviceActivityViewModel.getAppFlowById(selectedFlowId)?.appList
-//            appSelectorAdapter.selectedAppList = sortedAppList.map { sortedApp: App ->
-//                sortedApp.isSelected = false
-//                selectedAppFlowAppList?.forEach { selectedApp: App ->
-//                    if (sortedApp.packageName == selectedApp.packageName) {
-//                        sortedApp.isSelected = true
-//                        selectedAppsList.add(sortedApp)
-//                    }
-//                }
-//                sortedApp
-//            }
-            appSelectorAdapter.notifyDataSetChanged()
+            deviceActivityMap.keys.sorted().forEach { date: Long ->
+                val preparedList = deviceActivityMap.get(date)?.mapIndexed { index, deviceActivity ->
+                    if (index == 0) deviceActivity.isDateShown = true
+                    deviceActivity
+                } ?: emptyList()
+                sortedDeviceActivitiesList.addAll(preparedList)
+            }
+            deviceActivityAdapter.deviceActivityList = sortedDeviceActivitiesList
+            deviceActivityAdapter.notifyDataSetChanged()
             layoutShimmerAppSelectorLoader.shimmerLoader.isVisible = false
         }
     }

@@ -5,50 +5,49 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.singularitycoder.flowlauncher.databinding.ListItemAppSelectorBinding
+import com.singularitycoder.flowlauncher.databinding.ListItemDeviceActivityBinding
+import com.singularitycoder.flowlauncher.deviceActivity.model.DeviceActivity
+import com.singularitycoder.flowlauncher.helper.clipboard
 import com.singularitycoder.flowlauncher.helper.onSafeClick
-import com.singularitycoder.flowlauncher.home.model.App
 
 class DeviceActivityAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var selectedAppList = listOf<App>()
-    private var checkboxListener: (isChecked: Boolean, app: App) -> Unit = { isChecked, app -> }
+    var deviceActivityList = listOf<DeviceActivity>()
+    private var deleteItemListener: (deviceActivity: DeviceActivity) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val itemBinding = ListItemAppSelectorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemBinding = ListItemDeviceActivityBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AppFlowViewHolder(itemBinding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as AppFlowViewHolder).setData(selectedAppList[position])
+        (holder as AppFlowViewHolder).setData(deviceActivityList[position])
     }
 
-    override fun getItemCount(): Int = selectedAppList.size
+    override fun getItemCount(): Int = deviceActivityList.size
 
     override fun getItemViewType(position: Int): Int = position
 
-    fun setCheckboxListener(checkboxListener: (isChecked: Boolean, app: App) -> Unit) {
-        this.checkboxListener = checkboxListener
+    fun setDeleteListener(deleteListener: (deviceActivity: DeviceActivity) -> Unit) {
+        this.deleteItemListener = deleteListener
     }
 
     inner class AppFlowViewHolder(
-        private val itemBinding: ListItemAppSelectorBinding,
+        private val itemBinding: ListItemDeviceActivityBinding,
     ) : RecyclerView.ViewHolder(itemBinding.root) {
         @SuppressLint("SetTextI18n")
-        fun setData(app: App) {
+        fun setData(deviceActivity: DeviceActivity) {
             itemBinding.apply {
-                tvAlphabet.isVisible = app.isAlphabetShown
-                tvAlphabet.text = app.title.subSequence(0, 1)
-                checkboxApp.isChecked = app.isSelected
-                tvAppName.text = app.title
-                tvPackageName.text = app.packageName
-                ivAppIcon.load(app.iconPath)
+                tvDate.isVisible = deviceActivity.isDateShown
+                tvDate.text = deviceActivity.date.toString() // format this
+                tvDeviceActivityTitle.text = deviceActivity.title
+                tvTime.text = deviceActivity.date.toString()
                 root.onSafeClick {
-                    checkboxApp.performClick()
+                    root.context.clipboard()?.text = deviceActivity.title
                 }
-                checkboxApp.setOnCheckedChangeListener { buttonView, isChecked ->
-                    checkboxListener.invoke(isChecked, app)
+                root.setOnLongClickListener {
+                    deleteItemListener.invoke(deviceActivity)
+                    true
                 }
             }
         }
