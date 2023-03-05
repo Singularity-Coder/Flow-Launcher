@@ -109,10 +109,11 @@ object BottomSheetTag {
     const val QUICK_SETTINGS = "QUICK_SETTINGS_BOTTOM_SHEET"
     const val APP_SELECTOR = "QUICK_SETTINGS_BOTTOM_SHEET"
     const val VOICE_SEARCH = "VOICE_SEARCH_BOTTOM_SHEET"
+    const val DEVICE_ACTIVITY = "DEVICE_ACTIVITY_BOTTOM_SHEET"
 }
 
 object FragmentsTag {
-    val ADD_ITEM = AddFragment::class.java.simpleName
+    val ADD_ITEM: String = AddFragment::class.java.simpleName
 }
 
 object IntentKey {

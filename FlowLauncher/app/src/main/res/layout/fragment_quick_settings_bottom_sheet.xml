@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/layout_camera"
+                app:layout_constraintEnd_toEndOf="@+id/layout_device_activity"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/slider_volume" />
 
@@ -168,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/layout_camera"
+                app:layout_constraintEnd_toEndOf="@+id/layout_device_activity"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_wifi" />
 
@@ -201,12 +201,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/layout_camera"
+                app:layout_constraintEnd_toStartOf="@+id/layout_device_activity"
                 app:layout_constraintStart_toEndOf="@+id/layout_torch"
                 app:layout_constraintTop_toBottomOf="@+id/layout_bluetooth" />
 
             <include
-                android:id="@+id/layout_camera"
+                android:id="@+id/layout_device_activity"
                 layout="@layout/item_quick_setting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -225,7 +225,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/layout_camera"
+                app:layout_constraintStart_toEndOf="@+id/layout_device_activity"
                 app:layout_constraintTop_toBottomOf="@+id/layout_bluetooth" />
 
             <include
@@ -254,8 +254,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/layout_camera"
-                app:layout_constraintStart_toStartOf="@+id/layout_camera"
+                app:layout_constraintEnd_toEndOf="@+id/layout_device_activity"
+                app:layout_constraintStart_toStartOf="@+id/layout_device_activity"
                 app:layout_constraintTop_toBottomOf="@+id/layout_torch" />
 
             <include

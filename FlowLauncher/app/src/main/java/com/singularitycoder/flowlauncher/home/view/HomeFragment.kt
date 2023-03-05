@@ -105,12 +105,12 @@ class HomeFragment : Fragment() {
                     setTimeDateAndFlow()
                 }
                 Broadcast.PACKAGE_REMOVED -> {
+                    // FIXME item not removing from db
                     homeViewModel.removeAppFromDb(removedApp)
-                    // TODO remove icon as well
                     val appIconName = "app_icon_${removedApp?.packageName}".replace(oldValue = ".", newValue = "_")
                     val appIconDir = "${requireContext().filesDir?.absolutePath}/app_icons"
                     deleteBitmapFromInternalStorage(appIconName, appIconDir)
-//                    homeAppsAdapter.notifyItemRemoved(removedAppPosition)
+                    homeAppsAdapter.notifyItemRemoved(removedAppPosition)
                 }
                 // FIXME not working
                 Broadcast.PACKAGE_INSTALLED -> {

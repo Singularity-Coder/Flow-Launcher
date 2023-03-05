@@ -13,7 +13,6 @@ import android.media.AudioManager
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +31,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -41,6 +39,7 @@ import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.databinding.FragmentQuickSettingsBottomSheetBinding
 import com.singularitycoder.flowlauncher.databinding.ItemQuickSettingBinding
 import com.singularitycoder.flowlauncher.databinding.LongItemQuickSettingBinding
+import com.singularitycoder.flowlauncher.deviceActivity.view.DeviceActivityBottomSheetFragment
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.*
 import com.singularitycoder.flowlauncher.helper.swipebutton.OnStateChangeListener
@@ -222,8 +221,8 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         setWifiHotspotStatus()
         setBluetoothStatus()
         setLocationStatus()
-        layoutCamera.ivAppIcon.apply {
-            setImageDrawable(requireContext().drawable(R.drawable.ic_baseline_camera_alt_24))
+        layoutDeviceActivity.ivAppIcon.apply {
+            setImageDrawable(requireContext().drawable(R.drawable.round_perm_device_information_24))
         }
         layoutBarcodeScanner.ivAppIcon.apply {
             setImageDrawable(requireContext().drawable(R.drawable.ic_round_qr_code_scanner_24))
@@ -379,8 +378,12 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             requireContext().openSettings(screen = SettingsScreen.LOCATION)
             dismiss()
         }
-        layoutCamera.root.onSafeClick {
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).launchAppIfExists(requireActivity())
+        layoutDeviceActivity.root.onSafeClick {
+            DeviceActivityBottomSheetFragment.newInstance().show(
+                /* manager = */ requireActivity().supportFragmentManager,
+                /* tag = */ BottomSheetTag.DEVICE_ACTIVITY
+            )
+            dismiss()
         }
         layoutBarcodeScanner.root.onSafeClick {
             val scanOptions = ScanOptions().apply {

@@ -8,8 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -21,7 +24,9 @@ import com.singularitycoder.flowlauncher.databinding.FragmentDeviceActivityBotto
 import com.singularitycoder.flowlauncher.deviceActivity.model.DeviceActivity
 import com.singularitycoder.flowlauncher.deviceActivity.viewmodel.DeviceActivityViewModel
 import com.singularitycoder.flowlauncher.helper.*
+import com.singularitycoder.flowlauncher.helper.constants.allAndroidPermissions
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
@@ -37,6 +42,32 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var binding: FragmentDeviceActivityBottomSheetBinding
 
+    private val permissionsResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, @JvmSuppressWildcards Boolean>? ->
+        permissions ?: return@registerForActivityResult
+        permissions.entries.forEach { it: Map.Entry<String, @JvmSuppressWildcards Boolean> ->
+            println("Permission status: ${it.key} = ${it.value}")
+            val permission = it.key
+            val isGranted = it.value
+            when {
+                isGranted -> {
+                    // disable blocking layout and proceed
+                }
+                ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), permission) -> {
+                    // permission permanently denied. Show settings dialog
+                    // enable blocking layout and show popup to go to settings
+                    requireContext().showPermissionSettings()
+                }
+                else -> {
+                    // Permission denied but not permanently, tell user why you need it. Ideally provide a button to request it again and another to dismiss
+                    // enable blocking layout
+                }
+            }
+        }
+        if (permissions.values.all { it }.not()) {
+            requireContext().showPermissionSettings()
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentDeviceActivityBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
@@ -49,26 +80,12 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
         binding.observeForData()
     }
 
-    // https://stackoverflow.com/questions/42301845/android-bottom-sheet-after-state-changed
-    // https://stackoverflow.com/questions/35937453/set-state-of-bottomsheetdialogfragment-to-expanded
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog: Dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-        dialog.setOnShowListener { dialogInterface: DialogInterface? ->
-            // FIXME not working
-        }
-        return dialog
-    }
-
-    // https://stackoverflow.com/questions/40616833/bottomsheetdialogfragment-listen-to-dismissed-by-user-event
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
-    }
-
     // https://stackoverflow.com/questions/15543186/how-do-i-create-colorstatelist-programmatically
     @SuppressLint("NotifyDataSetChanged")
     private fun FragmentDeviceActivityBottomSheetBinding.setupUI() {
         setTransparentBackground()
         setBottomSheetBehaviour()
+        grantPermissions()
         linearLayoutManager = LinearLayoutManager(context)
         rvDeviceActivity.apply {
             layoutManager = linearLayoutManager
@@ -77,6 +94,10 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun FragmentDeviceActivityBottomSheetBinding.setupUserActionListeners() {
+        btnClear.onSafeClick {
+
+        }
+
         deviceActivityAdapter.setDeleteListener { it: DeviceActivity ->
 
         }
@@ -148,5 +169,9 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
                 // React to dragging events
             }
         })
+    }
+
+    private fun grantPermissions() {
+        permissionsResult.launch(allAndroidPermissions)
     }
 }
