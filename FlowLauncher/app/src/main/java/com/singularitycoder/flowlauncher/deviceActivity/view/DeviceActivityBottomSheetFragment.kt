@@ -1,8 +1,6 @@
 package com.singularitycoder.flowlauncher.deviceActivity.view
 
 import android.annotation.SuppressLint
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -20,13 +17,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCa
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.singularitycoder.flowlauncher.MainActivity
+import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.databinding.FragmentDeviceActivityBottomSheetBinding
 import com.singularitycoder.flowlauncher.deviceActivity.model.DeviceActivity
 import com.singularitycoder.flowlauncher.deviceActivity.viewmodel.DeviceActivityViewModel
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.allAndroidPermissions
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
@@ -55,7 +52,15 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
                 ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), permission) -> {
                     // permission permanently denied. Show settings dialog
                     // enable blocking layout and show popup to go to settings
-                    requireContext().showPermissionSettings()
+                    requireContext().showAlertDialog(
+                        title = "Grant Permissions",
+                        message = "Grant all permissions in settings to register all device events.",
+                        positiveBtnText = "Settings",
+                        negativeBtnText = getString(R.string.tb_action_cancel),
+                        positiveAction = {
+                            requireContext().showPermissionSettings()
+                        }
+                    )
                 }
                 else -> {
                     // Permission denied but not permanently, tell user why you need it. Ideally provide a button to request it again and another to dismiss
@@ -63,9 +68,9 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
                 }
             }
         }
-        if (permissions.values.all { it }.not()) {
-            requireContext().showPermissionSettings()
-        }
+//        if (permissions.values.all { it }.not()) {
+//            requireContext().showPermissionSettings()
+//        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -86,7 +91,11 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
         setTransparentBackground()
         setBottomSheetBehaviour()
         grantPermissions()
-        linearLayoutManager = LinearLayoutManager(context)
+        linearLayoutManager = LinearLayoutManager(
+            /* context = */ context,
+            /* orientation = */ RecyclerView.VERTICAL,
+            /* reverseLayout = */ true
+        )
         rvDeviceActivity.apply {
             layoutManager = linearLayoutManager
             adapter = deviceActivityAdapter
@@ -95,18 +104,38 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun FragmentDeviceActivityBottomSheetBinding.setupUserActionListeners() {
         btnClear.onSafeClick {
-
+            requireContext().showAlertDialog(
+                title = "Delete all activity?",
+                message = "Careful! This cannot be undone.",
+                positiveBtnText = "Delete All",
+                negativeBtnText = getString(R.string.tb_action_cancel),
+                positiveAction = {
+                    // TODO Do biometric auth to confirm delete all
+                    deviceActivityViewModel.deleteAllDeviceActivity()
+                    dismiss()
+                }
+            )
         }
 
         deviceActivityAdapter.setDeleteListener { it: DeviceActivity ->
-
+            requireContext().showAlertDialog(
+                title = "Delete this activity?",
+                message = it.title,
+                positiveBtnText = "Delete",
+                negativeBtnText = getString(R.string.tb_action_cancel),
+                positiveAction = {
+                    // TODO Do biometric auth to confirm delete all
+                    deviceActivityViewModel.deleteDeviceActivity(deviceActivity = it)
+                    if (deviceActivityAdapter.deviceActivityList.isEmpty()) dismiss()
+                }
+            )
         }
 
         rvDeviceActivity.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (deviceActivityAdapter.deviceActivityList.isNotEmpty()) {
-                    tvDate.text = deviceActivityAdapter.deviceActivityList.get(linearLayoutManager.findFirstVisibleItemPosition()).title.substring(0, 1)
+                    tvDate.text = deviceActivityAdapter.deviceActivityList.get(linearLayoutManager.findFirstVisibleItemPosition()).date.toDeviceActivityDate()
                 }
             }
         })
@@ -116,17 +145,17 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
     private fun FragmentDeviceActivityBottomSheetBinding.observeForData() {
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = deviceActivityViewModel.deviceActivityListStateFlow) { activityList: List<DeviceActivity> ->
             val sortedDeviceActivitiesList = ArrayList<DeviceActivity>()
-            val deviceActivityMap = HashMap<Long, ArrayList<DeviceActivity>>()
+            val deviceActivityMap = HashMap<String?, ArrayList<DeviceActivity>>()
             activityList.forEach { it: DeviceActivity ->
-                val key = it.date
+                val key = it.date.toDeviceActivityDate()
                 deviceActivityMap.put(
                     /* key = */ key,
                     /* value = */ deviceActivityMap.get(key)?.apply { add(it) } ?: ArrayList<DeviceActivity>().apply { add(it) }
                 )
             }
-            deviceActivityMap.keys.sorted().forEach { date: Long ->
+            deviceActivityMap.keys.forEach { date: String? ->
                 val preparedList = deviceActivityMap.get(date)?.mapIndexed { index, deviceActivity ->
-                    if (index == 0) deviceActivity.isDateShown = true
+                    if (index == deviceActivityMap.get(date)?.lastIndex) deviceActivity.isDateShown = true
                     deviceActivity
                 } ?: emptyList()
                 sortedDeviceActivitiesList.addAll(preparedList)

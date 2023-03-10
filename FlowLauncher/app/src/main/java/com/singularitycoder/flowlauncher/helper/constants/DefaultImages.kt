@@ -14,6 +14,7 @@ import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 // So freedom is within the constraints. Change must be within the limits. There is no such thing as no limits. When something is without limits then in one sense it doesnt exist. Like air. Its everywhere but also it appears like nothing.
 // So if something exists then form is essential and if it has a form it must have limits atleast based on the logic of the current observable world. Not sure how this works in quantum world though.
 // Bottom line is, in order for us to perceive something, it needs a form and form only comes with constraints. So an essential item in art is the theme. What message it delivers. What is it saying. What emotion its trying to convey. These are its constraints.
+// That is also the reason why Carnatic music is so beautiful. Because the constraints are already fixed. So the singer need not worry about the lyrics or the shape of the song.
 // Some very nice quotes on freedom:
 // 1. Art lives from constraints and dies from freedom. - Leonardo da Vinci
 // 2. Freedom is not the absence of limitations and constraints but it is finding the right ones, those that fit our nature and liberate us. - Timothy Keller
@@ -646,4 +647,13 @@ val defaultImageUrlList = listOf(
 
     GlanceImage(link = "https://pbs.twimg.com/media/FjsGG9AacAI-Evy?format=jpg&name=large", title = "https://twitter.com/fajyobore323"),
 
+    // https://www.artstation.com/txt
+    GlanceImage(link = "https://i.pinimg.com/originals/b3/6b/a1/b36ba1f21eb69a01d901b1e7df927b04.jpg", title = "https://www.artstation.com/txt"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/028/780/283/large/kuishi-xu-4e2dfed68776d0f11b5a42db537a6dd.jpg?1595487972", title = "https://www.artstation.com/txt"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/059/898/472/large/kuishi-xu-54862880f978df3e02251d6add9f108.jpg?1677396478", title = "https://www.artstation.com/txt"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/059/898/475/large/kuishi-xu-c6700e10c4f72fd133b15724e474a65.jpg?1677396457", title = "https://www.artstation.com/txt"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/057/963/052/large/kuishi-xu-3057fc2274ae76299fce94c91363b3a.jpg?1673065499", title = "https://www.artstation.com/txt"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/042/042/918/large/kuishi-xu-tuanhua-ruihua.jpg?1633432127", title = "https://www.artstation.com/txt"),
+    GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/028/780/335/large/kuishi-xu-.jpg?1595488294", title = "https://www.artstation.com/txt"),
+    GlanceImage(link = "https://i.pinimg.com/564x/db/9e/81/db9e810b58be04fc056bcb7c327372de.jpg", title = "https://www.artstation.com/txt"),
 )

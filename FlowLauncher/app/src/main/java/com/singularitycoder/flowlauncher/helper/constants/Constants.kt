@@ -13,6 +13,7 @@ import com.singularitycoder.flowlauncher.helper.dpToPx
 import kotlinx.parcelize.Parcelize
 import java.util.concurrent.TimeUnit
 
+const val DIRECTORY_DEFAULT_MEDIA = "DEFAULT_MEDIA"
 const val FILE_PROVIDER_AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider"
 const val REQUEST_CODE_VIDEO = 1001
 
@@ -40,6 +41,14 @@ val quickSettingsPermissions = arrayOf(
         Manifest.permission.BLUETOOTH
     }
 )
+
+object IntentKey {
+    const val YOUTUBE_VIDEO_LIST = "YOUTUBE_VIDEO_LIST"
+    const val YOUTUBE_VIDEO_ID = "YOUTUBE_VIDEO_ID"
+    const val NOTIF_SCREENSHOT_COUNTDOWN = "NOTIF_SCREENSHOT_COUNTDOWN"
+    const val PACKAGE_NAME = "PACKAGE_NAME"
+    const val DOWNLOAD_STATUS = "DOWNLOAD_STATUS"
+}
 
 object IntentAction {
     const val ACTION_ACCESSIBILITY_ACTION = "com.singularitycoder.flowlauncher.ACCESSIBILITY_ACTION"
@@ -116,12 +125,6 @@ object FragmentsTag {
     val ADD_ITEM: String = AddFragment::class.java.simpleName
 }
 
-object IntentKey {
-    const val YOUTUBE_VIDEO_LIST = "YOUTUBE_VIDEO_LIST"
-    const val YOUTUBE_VIDEO_ID = "YOUTUBE_VIDEO_ID"
-    const val NOTIF_SCREENSHOT_COUNTDOWN = "NOTIF_SCREENSHOT_COUNTDOWN"
-}
-
 object AddItemType {
     const val QUOTE = "QUOTE"
     const val GLANCE_IMAGE = "FLOW_IMAGE"
@@ -179,11 +182,9 @@ object Table {
 }
 
 object Broadcast {
-    const val TIME_CHANGED = "BROADCAST_TIME_CHANGED"
-    const val PACKAGE_REMOVED = "BROADCAST_PACKAGE_REMOVED"
-    const val PACKAGE_INSTALLED = "BROADCAST_PACKAGE_ADDED"
     const val VOLUME_RAISED = "BROADCAST_VOLUME_RAISED"
     const val VOLUME_LOWERED = "BROADCAST_VOLUME_LOWERED"
+    const val DOWNLOAD_COMPLETE = "BROADCAST_DOWNLOAD_COMPLETE"
 }
 
 object WorkerTag {
@@ -193,6 +194,7 @@ object WorkerTag {
     const val PUBLIC_HOLIDAYS_PARSER = "WORKER_TAG_PUBLIC_HOLIDAYS_PARSER"
     const val TRENDING_TWEETS_PARSER = "WORKER_TAG_TRENDING_TWEETS_PARSER"
     const val TIME_ANNOUNCER = "WORKER_TAG_TIME_ANNOUNCER"
+    const val UNIVERSAL_SEARCH = "WORKER_TAG_UNIVERSAL_SEARCH"
 }
 
 enum class SpeechAction(val value: String) {

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface DeviceActivityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(deviceActivity: DeviceActivity)
+    suspend fun insert(deviceActivity: DeviceActivity?)
 
     @Transaction
     @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY} WHERE id LIKE :id LIMIT 1")
@@ -21,7 +21,7 @@ interface DeviceActivityDao {
     suspend fun update(deviceActivity: DeviceActivity)
 
     @Delete
-    suspend fun delete(deviceActivity: DeviceActivity)
+    suspend fun delete(deviceActivity: DeviceActivity?)
 
     @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY}")
     fun getAllStateFlow(): Flow<List<DeviceActivity>>

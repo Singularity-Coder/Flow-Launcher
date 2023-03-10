@@ -1,15 +1,16 @@
-PHASE 2 - I m bored
+
+PHASE 2
+TODO Universal search - Files, Web, Recent searches, Recent Apps on opening search
+TODO get all notifications and store in db - show in new screen - stack notfs of same apps
+
 TODO Network level
 TODO Battery level
 TODO Recently closed apps
-TODO Notifications count
 TODO Date time from broadcast receiver
 TODO show notification count in quick action notifications - Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
 
 TODO SOS signal - SOS Torch, Buzzer, Morse code sender on flash,
 TODO Panic Mode - Shows a countdown timer with 5 sec to disable it if its an accident - send message to pre selected contacts. Need a screen to select contacts if its first time.
-
-TODO Universal search - Files, Web, Recent searches, Recent Apps on opening search
 
 TODO image video gallery picker
 TODO create a chat bubble which on press shows the home, app switch, back buttons

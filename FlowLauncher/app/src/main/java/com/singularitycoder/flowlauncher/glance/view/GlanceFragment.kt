@@ -171,7 +171,7 @@ class GlanceFragment : Fragment() {
 
         btnMenu.onSafeClick { it: Pair<View?, Boolean> ->
             it.first ?: return@onSafeClick
-            val glanceOptions = listOf("Add Image", "Add Remainders", "Add Youtube Videos")
+            val glanceOptions = listOf("Add Image", "Add Remainders", "Add Youtube Videos", /*"Download Default Images"*/)
             requireContext().showPopup(
                 view = it.first!!,
                 menuList = glanceOptions
@@ -185,6 +185,27 @@ class GlanceFragment : Fragment() {
                     }
                     glanceOptions[2] -> {
                         (requireActivity() as? MainActivity)?.showScreen(AddFragment.newInstance(AddItemType.YOUTUBE_VIDEO), FragmentsTag.ADD_ITEM, isAdd = true)
+                    }
+                    glanceOptions[3] -> {
+                        val downloadItemList = defaultImageUrlList.map { it: GlanceImage ->
+                            FileDownloader.DownloadItem(
+                                url = it.link,
+                                fileName = prepareCustomName(url = it.link, prefix = "flow_launcher_default_media")
+                            )
+                        }
+                        FileDownloader(
+                            downloadItemsList = downloadItemList,
+                            context = requireContext(),
+                            fileDirectory = DIRECTORY_DEFAULT_MEDIA,
+                            downloadTitle = "Download Media",
+                            downloadDesc = "Downloading Flow Launcher Media...",
+                            onSuccess = { it: ArrayList<FileDownloader.DownloadItem?> ->
+                                binding.root.showSnackBar("Downloaded complete.")
+                            },
+                            onFailure = { it: ArrayList<FileDownloader.DownloadItem?> ->
+                                binding.root.showSnackBar("Failed to download files.")
+                            }
+                        )
                     }
                 }
             }

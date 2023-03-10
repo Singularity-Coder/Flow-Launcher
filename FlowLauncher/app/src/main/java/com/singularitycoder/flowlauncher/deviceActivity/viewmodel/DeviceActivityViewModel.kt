@@ -31,4 +31,16 @@ class DeviceActivityViewModel @Inject constructor(
                 _deviceActivityListStateFlow.value = it
             }
     }
+
+    fun addDeviceActivity(deviceActivity: DeviceActivity?) = viewModelScope.launch {
+        deviceActivityDao.insert(deviceActivity)
+    }
+
+    fun deleteDeviceActivity(deviceActivity: DeviceActivity?) = viewModelScope.launch {
+        deviceActivityDao.delete(deviceActivity)
+    }
+
+    fun deleteAllDeviceActivity() = viewModelScope.launch {
+        deviceActivityDao.deleteAll()
+    }
 }

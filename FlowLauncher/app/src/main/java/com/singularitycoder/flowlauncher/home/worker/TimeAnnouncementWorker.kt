@@ -9,8 +9,8 @@ import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.singularitycoder.flowlauncher.helper.DateType
 import com.singularitycoder.flowlauncher.helper.constants.KEY_IS_WORK_COMPLETE
-import com.singularitycoder.flowlauncher.helper.convertLongToTime
 import com.singularitycoder.flowlauncher.helper.timeNow
+import com.singularitycoder.flowlauncher.helper.toTimeOfType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
@@ -25,7 +25,7 @@ class TimeAnnouncementWorker(val context: Context, workerParams: WorkerParameter
         try {
             initTextToSpeech()
 
-            val time = convertLongToTime(timeNow, DateType.h_mm_a)
+            val time = timeNow toTimeOfType DateType.h_mm_a
             val hours = time.substringBefore(":")
             val minutes = time.substringAfter(":").substringBefore(" ")
             val dayPeriod = time.substringAfter(" ")

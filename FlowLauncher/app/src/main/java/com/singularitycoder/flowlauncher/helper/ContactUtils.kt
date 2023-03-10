@@ -17,7 +17,7 @@ import kotlin.coroutines.suspendCoroutine
 // https://stackoverflow.com/questions/12562151/android-get-all-contacts
 suspend fun Context.getContactsList(): List<Contact> = suspendCoroutine<List<Contact>> {
     if (isContactsPermissionGranted().not()) {
-        showToast("Contacts permission not granted!")
+        applicationContext.showToast("Contacts permission not granted!")
         it.resume(emptyList<Contact>())
         return@suspendCoroutine
     }
@@ -61,7 +61,7 @@ suspend fun Context.getContactsList(): List<Contact> = suspendCoroutine<List<Con
 // https://stackoverflow.com/questions/848728/how-can-i-read-sms-messages-from-the-device-programmatically-in-android
 suspend fun Context.getSmsList(): List<Sms> = suspendCoroutine<List<Sms>> {
     if (isSmsPermissionGranted().not()) {
-        showToast("SMS permission not granted!")
+        applicationContext.showToast("SMS permission not granted!")
         it.resume(emptyList<Sms>())
         return@suspendCoroutine
     }

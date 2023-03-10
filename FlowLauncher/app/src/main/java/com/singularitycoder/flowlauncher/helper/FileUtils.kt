@@ -1,13 +1,20 @@
 package com.singularitycoder.flowlauncher.helper
 
 import android.Manifest
+import android.app.DownloadManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.os.storage.StorageManager
 import android.provider.OpenableColumns
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,6 +22,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.*
 
 
 fun File?.customPath(directory: String?, fileName: String?): String {
@@ -160,4 +168,87 @@ fun File?.toBitmap(): Bitmap? {
 
 fun Context.getHomeLayoutBlurredImageFileDir(): String {
     return "${filesDir.absolutePath}/common_images"
+}
+
+/** Checks if a volume containing external storage is available for read and write. */
+fun isExternalStorageWritable(): Boolean {
+    return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
+}
+
+/** Checks if a volume containing external storage is available to at least read. */
+fun isExternalStorageReadable(): Boolean {
+    return Environment.getExternalStorageState() in setOf(Environment.MEDIA_MOUNTED, Environment.MEDIA_MOUNTED_READ_ONLY)
+}
+
+fun Cursor.isStatusSuccessful(): Boolean {
+    val columnStatus = this.getColumnIndex(DownloadManager.COLUMN_STATUS)
+    return this.getInt(columnStatus) == DownloadManager.STATUS_SUCCESSFUL
+}
+
+fun Cursor.fileName(): String {
+    val columnTitle = this.getColumnIndex(DownloadManager.COLUMN_TITLE)
+    return this.getString(columnTitle)
+}
+
+fun Cursor.uriString(): String {
+    val columnUri = this.getColumnIndex(DownloadManager.COLUMN_URI)
+    return this.getString(columnUri)
+}
+
+fun Cursor.localUriString(): String {
+    val columnLocalUri = this.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI)
+    return this.getString(columnLocalUri)
+}
+
+fun prepareCustomName(
+    url: String,
+    prefix: String,
+): String {
+    if (url.isBlank() || prefix.isBlank()) return "file_${UUID.randomUUID()}".sanitize()
+    val validExtensionsList = listOf(".mp4", ".jpg", ".jpeg", ".gif", ".png")
+    val extension = ".${url.substringAfterLast(delimiter = ".")}".toLowCase().trim()
+    val validExtension = if (validExtensionsList.contains(extension)) extension else ".png"
+    return prefix.sanitize() + "_" +
+            url.substringAfterLast(delimiter = "/")
+                .substringBeforeLast(delimiter = ".")
+                .toLowCase()
+                .sanitize() + validExtension
+}
+
+/**
+ * The idea is to replace all special characters with underscores
+ * 48 to 57 are ASCII characters of numbers from 0 to 1
+ * 97 to 122 are ASCII characters of lowercase alphabets from a to z
+ * https://www.w3schools.com/charsets/ref_html_ascii.asp
+ * */
+fun String?.sanitize(): String {
+    if (this.isNullOrBlank()) return ""
+    var sanitizedString = ""
+    val range0to9 = '0'.code..'9'.code
+    val rangeLowerCaseAtoZ = 'a'.code..'z'.code
+    this.forEachIndexed { index: Int, char: Char ->
+        if (char.code !in range0to9 && char.code !in rangeLowerCaseAtoZ) {
+            if (sanitizedString.lastOrNull() != '_' && this.lastIndex != index) {
+                sanitizedString += "_"
+            }
+        } else {
+            sanitizedString += char
+        }
+    }
+    return sanitizedString
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun Context.availableStorageSpace(
+    storageType: StorageType = StorageType.INTERNAL,
+): Long {
+    val internalStorage = filesDir
+    val externalStorage = getExternalFilesDir("") ?: File("")
+    val storageManager = applicationContext.getSystemService<StorageManager>() ?: return 0L
+    val appSpecificInternalDirUuid: UUID = storageManager.getUuidForPath(if (storageType == StorageType.INTERNAL) internalStorage else externalStorage)
+    return storageManager.getAllocatableBytes(appSpecificInternalDirUuid) // Available Bytes
+}
+
+enum class StorageType {
+    INTERNAL, EXTERNAL
 }

@@ -26,22 +26,6 @@ val dateFormatList = listOf(
     "hh:mm a"
 )
 
-fun convertLongToTime(time: Long, type: DateType): String {
-    val date = Date(time)
-    val dateFormat = SimpleDateFormat(type.value, Locale.getDefault())
-    return dateFormat.format(date)
-}
-
-fun convertDateToLong(date: String, dateType: String): Long {
-    if (date.isNullOrBlankOrNaOrNullString()) return convertDateToLong(date = Date().toString(), dateType)
-    val dateFormat = SimpleDateFormat(dateType, Locale.getDefault())
-    return try {
-        if (dateFormat.parse(date) is Date) dateFormat.parse(date).time else convertDateToLong(date = Date().toString(), dateType)
-    } catch (e: Exception) {
-        0L
-    }
-}
-
 fun Int.milliSeconds(): Long = this.toLong()
 
 fun Int.seconds(): Long = TimeUnit.SECONDS.toMillis(this.toLong())
@@ -82,6 +66,16 @@ infix fun Long.toTimeOfType(type: DateType): String {
     return dateFormat.format(date)
 }
 
+fun convertDateToLong(date: String, dateType: String): Long {
+    if (date.isNullOrBlankOrNaOrNullString()) return convertDateToLong(date = Date().toString(), dateType)
+    val dateFormat = SimpleDateFormat(dateType, Locale.getDefault())
+    return try {
+        if (dateFormat.parse(date) is Date) dateFormat.parse(date).time else convertDateToLong(date = Date().toString(), dateType)
+    } catch (e: Exception) {
+        0L
+    }
+}
+
 fun String?.toFormattedHolidayDate(): String? {
     return when {
         this?.contains("to") == true -> {
@@ -94,6 +88,14 @@ fun String?.toFormattedHolidayDate(): String? {
             this?.substringAfter("of ")?.trim()
         }
     }
+}
+
+fun Long?.toDeviceActivityDate(): String? {
+    return this?.toTimeOfType(DateType.dd_MMM_yyyy_hh_mm_a)?.substringBefore(",")?.trim()
+}
+
+fun Long?.toDeviceActivityTime(): String? {
+    return this?.toTimeOfType(DateType.dd_MMM_yyyy_hh_mm_a)?.substringAfter(",")?.trim()
 }
 
 enum class DateType(val value: String) {

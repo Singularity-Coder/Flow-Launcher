@@ -8,12 +8,12 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.InsetDrawable
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.RingtoneManager
+import android.media.ToneGenerator
 import android.net.Uri
-import android.os.Build
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.provider.CallLog
 import android.provider.Settings
 import android.text.Spanned
@@ -25,6 +25,7 @@ import androidx.annotation.RawRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.forEach
@@ -335,8 +336,9 @@ fun <T> AppCompatActivity.collectLatestLifecycleFlow(flow: Flow<T>, collect: sus
     }
 }
 
-fun Context?.showToast(message: String, duration: Int = Toast.LENGTH_LONG) {
+fun Context?.showToast(message: String, duration: Int = Toast.LENGTH_LONG) = try {
     Toast.makeText(this, message, duration).show()
+} catch (_: Exception) {
 }
 
 fun Context?.playSound(@RawRes sound: Int) {
@@ -350,4 +352,39 @@ fun Context?.playSound(@RawRes sound: Int) {
         }
     } catch (_: Exception) {
     }
+}
+
+fun Context.sendCustomBroadcast(
+    action: String?,
+    bundle: Bundle = bundleOf()
+) {
+    val intent = Intent(action).apply {
+        putExtras(bundle)
+    }
+    try {
+        sendBroadcast(intent)
+    } catch (_: Exception) {
+    }
+}
+
+// https://commonsware.com/Q/pages/chap-pkg-001.html
+fun setTone() {
+    ToneGenerator(
+        /* streamType = */ AudioManager.STREAM_NOTIFICATION,
+        /* volume = */ 100
+    ).startTone(ToneGenerator.TONE_PROP_ACK)
+}
+
+fun Activity?.isAppEnabled(fullyQualifiedAppId: String): Boolean {
+    val appInfo = this?.packageManager?.getApplicationInfo(fullyQualifiedAppId, 0)
+    return appInfo?.enabled == true
+}
+
+fun Context.batteryPercent(): Int {
+    val bm = applicationContext.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+    return bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+}
+
+fun Context.isCameraPresent(): Boolean {
+    return packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
 }

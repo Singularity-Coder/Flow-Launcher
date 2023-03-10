@@ -233,8 +233,3 @@ val allAndroidPermissions = listOf(
         androidPermissions3
     } else emptyList(),
 ).flatten().toTypedArray()
-
-
-enum class AndroidPermissions(val key: String, val value: String) {
-
-}
