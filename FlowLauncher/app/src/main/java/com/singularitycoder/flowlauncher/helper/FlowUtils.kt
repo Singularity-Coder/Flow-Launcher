@@ -7,6 +7,7 @@ import com.singularitycoder.flowlauncher.home.model.Contact
 import com.singularitycoder.flowlauncher.home.model.Sms
 
 object FlowUtils {
+    var recentAppList = emptyList<App>()
     var appList = emptyList<App>()
     var contactsList = emptyList<Contact>()
     var smsList = emptyList<Sms>()

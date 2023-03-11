@@ -34,6 +34,81 @@
                 android:layout_height="16dp" />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_recent_apps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="visible"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:ellipsize="end"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="2"
+                        android:text="Recent Apps"
+                        android:textColor="@color/title_color"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp">
+
+                        <include
+                            android:id="@+id/layout_recent_app_1"
+                            layout="@layout/list_item_app"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <include
+                            android:id="@+id/layout_recent_app_2"
+                            layout="@layout/list_item_app"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="invisible"
+                            app:layout_constraintEnd_toStartOf="@+id/layout_recent_app_3"
+                            app:layout_constraintStart_toEndOf="@+id/layout_recent_app_1" />
+
+                        <include
+                            android:id="@+id/layout_recent_app_3"
+                            layout="@layout/list_item_app"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="invisible"
+                            app:layout_constraintEnd_toStartOf="@+id/layout_recent_app_4"
+                            app:layout_constraintStart_toEndOf="@+id/layout_recent_app_2" />
+
+                        <include
+                            android:id="@+id/layout_recent_app_4"
+                            layout="@layout/list_item_app"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="invisible"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_apps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

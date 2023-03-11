@@ -1,19 +1,20 @@
 package com.singularitycoder.flowlauncher.universalSearch
 
+import android.app.usage.UsageStats
 import android.content.Context
-import androidx.lifecycle.lifecycleScope
+import android.os.Build
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.singularitycoder.flowlauncher.*
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.db.FlowDatabase
+import com.singularitycoder.flowlauncher.home.model.App
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
@@ -30,6 +31,20 @@ class UniversalSearchWorker(val context: Context, workerParams: WorkerParameters
             val appContext = context.applicationContext ?: throw IllegalStateException()
             val dbEntryPoint = EntryPointAccessors.fromApplication(appContext, DbEntryPoint::class.java)
             val dao = dbEntryPoint.db().appDao()
+
+            coroutineScope {
+                val recentAppsList = mutableListOf<App>()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    dao.getAll().forEach { app: App ->
+                        context.getRecentAppsWithUsageStats().forEach { usageStats: UsageStats ->
+                            if (app.packageName == usageStats.packageName) {
+                                recentAppsList.add(app)
+                            }
+                        }
+                    }
+                }
+                FlowUtils.recentAppList = recentAppsList
+            }
 
             coroutineScope {
                 FlowUtils.appList = dao.getAll()
@@ -57,7 +72,7 @@ class UniversalSearchWorker(val context: Context, workerParams: WorkerParameters
             coroutineScope {
                 FlowUtils.smsList = context.getSmsList()
             }
-            
+
             Result.success()
         }
     }

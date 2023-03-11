@@ -2,8 +2,10 @@ package com.singularitycoder.flowlauncher.helper
 
 import android.Manifest
 import android.app.Activity
+import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
@@ -12,7 +14,9 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.media.ToneGenerator
+import android.net.ConnectivityManager
 import android.net.Uri
+import android.net.wifi.WifiManager
 import android.os.*
 import android.provider.CallLog
 import android.provider.Settings
@@ -32,6 +36,7 @@ import androidx.core.view.forEach
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -362,7 +367,7 @@ fun Context.sendCustomBroadcast(
         putExtras(bundle)
     }
     try {
-        sendBroadcast(intent)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     } catch (_: Exception) {
     }
 }
@@ -385,6 +390,38 @@ fun Context.batteryPercent(): Int {
     return bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 }
 
+// https://github.com/farmerbb/Taskbar
+fun Context.isBatteryCharging(): Boolean {
+    val intentFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+    val batteryStatus: Intent? = registerReceiver(null, intentFilter)
+    val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+    return status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL
+}
+
+// https://github.com/farmerbb/Taskbar
+fun Context.wifiLevel(): Int {
+    val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    val ethernet = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET)
+    val wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI) ?: return 0
+    if (wifi.isConnected.not()) return 0
+
+    val numberOfLevels = 5
+    val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+    return WifiManager.calculateSignalLevel(wifiManager.connectionInfo.rssi, numberOfLevels)
+}
+
 fun Context.isCameraPresent(): Boolean {
     return packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
+}
+
+// https://github.com/farmerbb/Taskbar
+fun Context.isBluetoothEnabled(): Boolean {
+    val adapter = BluetoothAdapter.getDefaultAdapter()
+    return adapter != null && adapter.isEnabled
+}
+
+// https://github.com/farmerbb/Taskbar
+fun Context.isAirplaneModeOn(): Boolean {
+    return Settings.Global.getInt(contentResolver, Settings.Global.AIRPLANE_MODE_ON, 0) != 0
 }

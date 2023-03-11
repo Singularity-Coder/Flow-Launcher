@@ -1,18 +1,26 @@
 package com.singularitycoder.flowlauncher.helper
 
 import android.app.Activity
+import android.app.AppOpsManager
 import android.app.PendingIntent
+import android.app.usage.UsageStats
+import android.app.usage.UsageStatsManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInstaller.SessionParams
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
 import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Build
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Environment
+import android.os.Process
 import android.provider.Settings
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.singularitycoder.flowlauncher.home.model.App
 import java.io.*
@@ -27,22 +35,12 @@ import java.io.*
  * The limited visibility also affects explicit interactions with other apps, such as starting another app's service.
  * To allow your app to see all other installed apps, Android 11 introduces the QUERY_ALL_PACKAGES permission.
  * */
-fun Context.appList(): List<App> {
-    val intent = Intent(Intent.ACTION_MAIN, null).apply {
-        addCategory(Intent.CATEGORY_LAUNCHER)
-    }
-    val allApps = if (Build.VERSION.SDK_INT > 33) {
-        packageManager.queryIntentActivities(intent, PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_DEFAULT_ONLY.toLong()))
-    } else {
-        packageManager.queryIntentActivities(intent, 0)
-    }
-    return allApps.map { item: ResolveInfo? ->
-        App().apply {
-            title = item?.loadLabel(packageManager).toString()
-            packageName = item?.activityInfo?.packageName ?: ""
-            icon = item?.activityInfo?.loadIcon(packageManager)
-            println("packageName: $packageName")
-        }
+fun Context.appList(): List<App> = appInfoList().map { item: ResolveInfo? ->
+    App().apply {
+        title = item?.loadLabel(packageManager).toString()
+        packageName = item?.activityInfo?.packageName ?: ""
+        icon = item?.activityInfo?.loadIcon(packageManager)
+        println("packageName: $packageName")
     }
 }
 
@@ -220,4 +218,47 @@ fun Context.shareApkOf(app: App) = try {
 } catch (e: Exception) {
     e.printStackTrace()
     showToast("Cannot share!")
+}
+
+// For getting recently used apps, etc
+// https://stackoverflow.com/questions/27215013/check-if-my-application-has-usage-access-enabled
+fun Context.isUsageAccessPermissionGranted(): Boolean {
+    val appOpsManager = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+    val mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), packageName)
+    if (mode != AppOpsManager.MODE_ALLOWED) return false
+
+    // Verify that access is possible. Some devices "lie" and return MODE_ALLOWED even when it's not.
+    val usageStatsManager = if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP_MR1) {
+        getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+    } else return false
+    val stats = usageStatsManager.queryUsageStats(
+        /* intervalType = */ UsageStatsManager.INTERVAL_DAILY,
+        /* beginTime = */ timeNow - 1000 * 10,
+        /* endTime = */ timeNow
+    )
+    return stats != null && stats.isNotEmpty()
+}
+
+// https://stackoverflow.com/questions/27215013/check-if-my-application-has-usage-access-enabled
+fun Context.isUsageAccessPermissionGranted2(): Boolean {
+    return try {
+        val appOpsManager = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        val applicationInfo: ApplicationInfo = packageManager.getApplicationInfo(packageName, 0)
+        val mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, applicationInfo.uid, applicationInfo.packageName)
+        mode == AppOpsManager.MODE_ALLOWED
+    } catch (e: NameNotFoundException) {
+        false
+    }
+}
+
+// https://github.com/farmerbb/Taskbar
+@RequiresApi(VERSION_CODES.LOLLIPOP_MR1)
+fun Context.getRecentAppsWithUsageStats(): List<UsageStats> {
+    val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+    val usageStatsList = usageStatsManager.queryUsageStats(
+        /* intervalType = */ UsageStatsManager.INTERVAL_BEST,
+        /* beginTime = */ timeNow - 24.hours(),
+        /* endTime = */ timeNow
+    )
+    return usageStatsList
 }

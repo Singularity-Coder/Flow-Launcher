@@ -15,6 +15,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 
+// https://github.com/Singularity-Coder/Instant-Android/blob/master/kotlin/AndroidStorageMadness/
+
 // Checksum - expected downloads == actual downloads
 // Retry failed downloads twice and quit
 // Show failed downloads in a popup

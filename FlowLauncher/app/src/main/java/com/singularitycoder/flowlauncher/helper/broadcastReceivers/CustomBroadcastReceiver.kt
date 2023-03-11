@@ -31,7 +31,6 @@ class CustomBroadcastReceiver : BroadcastReceiver() {
             else -> {
                 val packageName = intent.data?.encodedSchemeSpecificPart
                 val bundle = bundleOf(IntentKey.PACKAGE_NAME to packageName)
-                // FIXME something is wrong with this broadcast - Caused by: java.lang.SecurityException: Permission Denial: not allowed to send broadcast android.intent.action.PACKAGE_CHANGED
                 context.sendCustomBroadcast(action = intent.action, bundle = bundle)
             }
         }

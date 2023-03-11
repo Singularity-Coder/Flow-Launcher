@@ -1,6 +1,9 @@
 package com.singularitycoder.flowlauncher.universalSearch
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
@@ -22,8 +25,6 @@ import androidx.work.WorkManager
 import coil.load
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
-import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
-import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
 import com.singularitycoder.flowlauncher.databinding.FragmentUniversalSearchBinding
 import com.singularitycoder.flowlauncher.databinding.ListItemAppBinding
 import com.singularitycoder.flowlauncher.databinding.ListItemContactBinding
@@ -39,7 +40,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -54,17 +54,9 @@ class UniversalSearchFragment : Fragment() {
         fun newInstance() = UniversalSearchFragment()
     }
 
-//    private var sanskritVocabMap: Map<String, String> = HashMap()
-//    private var englishVocabMap: Map<String, String> = HashMap()
-//    private var androidSettingsMap: Map<String, String> = HashMap()
-//    private var contactsList = emptyList<Contact>()
-//    private var smsList = emptyList<Sms>()
-//    private var appList = emptyList<App>()
-
     private lateinit var binding: FragmentUniversalSearchBinding
 
     private val universalSearchViewModel: UniversalSearchViewModel by viewModels()
-//    private val appFlowViewModel: AppFlowViewModel by viewModels()
 
     private val permissionsResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, @JvmSuppressWildcards Boolean>? ->
         permissions ?: return@registerForActivityResult
@@ -87,19 +79,15 @@ class UniversalSearchFragment : Fragment() {
                 }
             }
         }
-        if (requireContext().isCallContactSmsPermissionGranted2().not()) {
-            requireContext().showPermissionSettings()
-        } else {
-//            lifecycleScope.launch {
-//                contactsList = requireActivity().getContactsList()
-//            }
-//
-//            lifecycleScope.launch {
-//                smsList = requireContext().getSmsList()
-//            }
-
-            doAfter(1.seconds()) {
-                binding.etSearch.showKeyboard()
+        doAfter(1.seconds()) {
+            binding.etSearch.showKeyboard()
+        }
+        if (permissions.values.all { it }) {
+            if (requireContext().isUsageAccessPermissionGranted().not()) {
+                try {
+                    startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+                } catch (_: ActivityNotFoundException) {
+                }
             }
         }
     }
@@ -136,22 +124,6 @@ class UniversalSearchFragment : Fragment() {
                 ivBackground.setImageBitmap(blurredBitmap)
             }
         }
-
-        // TODO ideally these should be stored in DB in work manager and fetched from DB. Work will start on home screen. Triggered again to referesh data when opening this screen. Absolutely ZERO patience to handle this now.
-//        lifecycleScope.launch {
-//            val sanskritWordsJsonString = requireContext().loadJsonStringFrom(rawResource = R.raw.sanskrit_dictionary)
-//            sanskritVocabMap = (JSONObject(sanskritWordsJsonString ?: "").toMap() as? Map<String, String>) ?: emptyMap()
-//        }
-//
-//        lifecycleScope.launch {
-//            val englishWordsJsonString = requireContext().loadJsonStringFrom(rawResource = R.raw.websters_english_dictionary)
-//            englishVocabMap = (JSONObject(englishWordsJsonString ?: "").toMap() as? Map<String, String>) ?: emptyMap()
-//        }
-//
-//        lifecycleScope.launch {
-//            val androidSettingsJsonString = requireContext().loadJsonStringFrom(rawResource = R.raw.android_settings)
-//            androidSettingsMap = (JSONObject(androidSettingsJsonString ?: "").toMap() as? Map<String, String>) ?: emptyMap()
-//        }
     }
 
     private fun FragmentUniversalSearchBinding.setupUserActionListeners() {
@@ -163,6 +135,7 @@ class UniversalSearchFragment : Fragment() {
         etSearch.doAfterTextChanged { it: Editable? ->
             val query = it.toString().toLowCase().trim()
 
+            cardRecentApps.isVisible = FlowUtils.recentAppList.isNotEmpty() && query.isBlank()
             cardApps.isVisible = FlowUtils.appList.any { it.title.contains(query, true) && query.isNotBlank() }
             cardContacts.isVisible = FlowUtils.contactsList.any { (it.name.contains(query, true) || it.mobileNumber.contains(query, true)) && query.isNotBlank() }
             cardMessages.isVisible = FlowUtils.smsList.any { (it.body?.contains(query, true) == true) && query.isNotBlank() }
@@ -192,11 +165,30 @@ class UniversalSearchFragment : Fragment() {
     }
 
     private fun FragmentUniversalSearchBinding.observeForData() {
-//        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
-//            val position = Preferences.read(requireContext()).getInt(Preferences.KEY_SELECTED_FLOW_POSITION, 0)
-//            val selectedFlow = it.getOrNull(position)
-//            FlowUtils.appList = selectedFlow?.appList ?: emptyList()
-//        }
+        (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.textChangeFlow) { query: String ->
+            if (FlowUtils.recentAppList.any { it.title.contains(query, true) && query.isNotBlank() }.not()) {
+                cardRecentApps.isVisible = false
+                return@collectLatestLifecycleFlow
+            }
+            val allRecentAppsList = FlowUtils.recentAppList.filter { it: App -> it.title.contains(query, true) }.distinctBy { it.packageName }
+            val tvAppsLayoutList = listOf(layoutRecentApp1, layoutRecentApp2, layoutRecentApp3, layoutRecentApp4)
+            tvAppsLayoutList.forEach { it: ListItemAppBinding ->
+                it.root.isInvisible = true
+            }
+            var count = 0
+            for (app: App in allRecentAppsList) {
+                if (count >= 4) break
+                tvAppsLayoutList[count].apply {
+                    root.isVisible = true
+                    ivAppIcon.load(app.iconPath)
+                    tvAppName.text = app.title
+                    root.onSafeClick {
+                        requireActivity().launchApp(app.packageName)
+                    }
+                }
+                count++
+            }
+        }
 
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.textChangeFlow) { query: String ->
             if (FlowUtils.appList.any { it.title.contains(query, true) && query.isNotBlank() }.not()) return@collectLatestLifecycleFlow
