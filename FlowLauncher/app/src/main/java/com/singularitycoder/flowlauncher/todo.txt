@@ -1,6 +1,6 @@
 
 PHASE 2
-TODO Universal search - Files, Web, Recent searches, Recent Apps on opening search
+TODO Universal search - Files, Web, Recent searches
 TODO get all notifications and store in db - show in new screen - stack notfs of same apps
 
 TODO Network level

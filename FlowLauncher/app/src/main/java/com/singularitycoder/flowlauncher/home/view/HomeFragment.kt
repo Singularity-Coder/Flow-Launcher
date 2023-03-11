@@ -796,21 +796,15 @@ class HomeFragment : Fragment() {
         timeAnnouncementWorkManager.enqueueUniqueWork(WorkerTag.TIME_ANNOUNCER, ExistingWorkPolicy.REPLACE, workRequest)
         timeAnnouncementWorkManager.getWorkInfoByIdLiveData(workRequest.id).observe(viewLifecycleOwner) { workInfo: WorkInfo? ->
             when (workInfo?.state) {
-                WorkInfo.State.RUNNING -> {
-                    println("RUNNING: show Progress")
-                }
+                WorkInfo.State.RUNNING -> println("RUNNING: show Progress")
                 WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
-                WorkInfo.State.SUCCEEDED -> {
-                    println("SUCCEEDED: showing Progress")
-                }
+                WorkInfo.State.SUCCEEDED -> println("SUCCEEDED: showing Progress")
                 WorkInfo.State.FAILED -> {
                     println("FAILED: stop showing Progress")
                     binding.root.showSnackBar("Something went wrong!")
                 }
                 WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
-                WorkInfo.State.CANCELLED -> {
-                    println("CANCELLED: stop showing Progress")
-                }
+                WorkInfo.State.CANCELLED -> println("CANCELLED: stop showing Progress")
                 else -> Unit
             }
         }

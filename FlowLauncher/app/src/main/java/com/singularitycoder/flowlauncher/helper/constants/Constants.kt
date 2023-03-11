@@ -195,6 +195,12 @@ object WorkerTag {
     const val TRENDING_TWEETS_PARSER = "WORKER_TAG_TRENDING_TWEETS_PARSER"
     const val TIME_ANNOUNCER = "WORKER_TAG_TIME_ANNOUNCER"
     const val UNIVERSAL_SEARCH = "WORKER_TAG_UNIVERSAL_SEARCH"
+    const val WEB_LINKS_FETCH = "WORKER_TAG_WEB_LINKS_FETCH"
+}
+
+object WorkerData {
+    const val URL = "WORKER_DATA_URL"
+    const val URL_LINKS_LIST = "WORKER_DATA_URL_LINKS_LIST"
 }
 
 enum class SpeechAction(val value: String) {

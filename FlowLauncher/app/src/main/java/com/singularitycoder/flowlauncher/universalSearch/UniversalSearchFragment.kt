@@ -18,10 +18,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequest
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import coil.load
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
@@ -31,6 +28,7 @@ import com.singularitycoder.flowlauncher.databinding.ListItemContactBinding
 import com.singularitycoder.flowlauncher.databinding.ListItemSanskritWordBinding
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.HOME_LAYOUT_BLURRED_IMAGE
+import com.singularitycoder.flowlauncher.helper.constants.WorkerData
 import com.singularitycoder.flowlauncher.helper.constants.WorkerTag
 import com.singularitycoder.flowlauncher.home.model.App
 import com.singularitycoder.flowlauncher.home.model.Contact
@@ -55,7 +53,7 @@ class UniversalSearchFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentUniversalSearchBinding
-
+    private var searchQuery = ""
     private val universalSearchViewModel: UniversalSearchViewModel by viewModels()
 
     private val permissionsResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, @JvmSuppressWildcards Boolean>? ->
@@ -134,6 +132,7 @@ class UniversalSearchFragment : Fragment() {
 
         etSearch.doAfterTextChanged { it: Editable? ->
             val query = it.toString().toLowCase().trim()
+            searchQuery = query
 
             cardRecentApps.isVisible = FlowUtils.recentAppList.isNotEmpty() && query.isBlank()
             cardApps.isVisible = FlowUtils.appList.any { it.title.contains(query, true) && query.isNotBlank() }
@@ -142,10 +141,12 @@ class UniversalSearchFragment : Fragment() {
             cardAndroidSettings.isVisible = FlowUtils.androidSettingsMap.keys.any { it.contains(query, true) && query.isNotBlank() }
             cardSanskritWords.isVisible = FlowUtils.sanskritVocabMap.keys.any { it.contains(query, true) && query.isNotBlank() }
             cardEnglishWords.isVisible = FlowUtils.englishVocabMap.keys.any { it.contains(query, true) && query.isNotBlank() }
+            cardWebSearch.isVisible = false
 
             if (query.isBlank()) return@doAfterTextChanged
 
             universalSearchViewModel.setQueryValue(query)
+            fetchWebLinksWithWorker(query)
         }
 
         btnCancel.onSafeClick {
@@ -348,5 +349,53 @@ class UniversalSearchFragment : Fragment() {
 
     private fun grantPermissions() {
         permissionsResult.launch(callContactSmsPermissionList2)
+    }
+
+    private fun FragmentUniversalSearchBinding.setWebSearchData(webLinksList: List<String>) {
+        val tvAndroidSettingsLayoutList = listOf(layoutWebLink1, layoutWebLink2, layoutWebLink3)
+        tvAndroidSettingsLayoutList.forEach { it: ListItemSanskritWordBinding ->
+            it.root.isVisible = false
+        }
+        var count = 0
+        for (link: String in webLinksList) {
+            if (count >= 3) break
+            tvAndroidSettingsLayoutList[count].apply {
+                root.isVisible = true
+                ivOpenOutward.isVisible = true
+                tvWord.text = link
+                root.onSafeClick {
+                    requireContext().showWebPage(url = "https://www.google.com/search?q=$link")
+                }
+            }
+            count++
+        }
+        cardWebSearch.isVisible = webLinksList.isNotEmpty() && searchQuery.isNotBlank()
+    }
+
+    private fun fetchWebLinksWithWorker(query: String) {
+        val workConstraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val data = Data.Builder().apply {
+            putString(WorkerData.URL, "https://www.google.com/search?q=$query")
+        }.build()
+        val workRequest = OneTimeWorkRequestBuilder<WebLinkFetchWorker>()
+            .setInputData(data)
+            .setConstraints(workConstraints)
+            .build()
+        WorkManager.getInstance(requireContext()).enqueueUniqueWork(WorkerTag.WEB_LINKS_FETCH, ExistingWorkPolicy.REPLACE, workRequest)
+        WorkManager.getInstance(requireContext()).getWorkInfoByIdLiveData(workRequest.id).observe(viewLifecycleOwner) { workInfo: WorkInfo? ->
+            when (workInfo?.state) {
+                WorkInfo.State.RUNNING -> println("RUNNING: show Progress")
+                WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
+                WorkInfo.State.SUCCEEDED -> {
+                    println("SUCCEEDED: stop Progress")
+                    val webLinksList = workInfo.outputData.getStringArray(WorkerData.URL_LINKS_LIST)
+                    binding.setWebSearchData(webLinksList?.toList() ?: emptyList())
+                }
+                WorkInfo.State.FAILED -> println("FAILED: stop showing Progress")
+                WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
+                WorkInfo.State.CANCELLED -> println("CANCELLED: stop showing Progress")
+                else -> Unit
+            }
+        }
     }
 }
