@@ -133,27 +133,27 @@ class TodayFragment : Fragment() {
         var newsPosition = 0
         var newsImagePosition = 0
         cardNews.onSafeClick {
-            val calculatedNewsPosition = if (newsPosition == newsList.size) {
+            val calculatedNewsPosition = if (newsPosition == newsList.lastIndex) {
                 newsPosition = 0
                 newsPosition
             } else newsPosition
-            val calculatedNewsImagePosition = if (newsImagePosition == typefaceList.size) {
+            val calculatedNewsImagePosition = if (newsImagePosition == tempImageDrawableList.lastIndex) {
                 newsImagePosition = 0
                 newsImagePosition
             } else newsImagePosition
             // TODO get actual news image.
-            ivNewsImage.load(tempImageDrawableList[calculatedNewsImagePosition]) {
+            ivNewsImage.load(tempImageDrawableList.getOrNull(calculatedNewsImagePosition)) {
                 placeholder(R.color.black)
             }
-            val source = if (newsList[calculatedNewsPosition].source.isNullOrBlank()) {
-                newsList[calculatedNewsPosition].link?.substringAfter("//")?.substringBefore("/")?.replace("www.", "")
+            val source = if (newsList.getOrNull(calculatedNewsPosition)?.source.isNullOrBlank()) {
+                newsList.getOrNull(calculatedNewsPosition)?.link?.substringAfter("//")?.substringBefore("/")?.replace("www.", "")
             } else {
-                newsList[calculatedNewsPosition].source
+                newsList.getOrNull(calculatedNewsPosition)?.source
             }
-            tvSource.text = "$source  \u2022  ${newsList[calculatedNewsPosition].time}"
-            tvTitle.text = newsList[calculatedNewsPosition].title
+            tvSource.text = "$source  \u2022  ${newsList.getOrNull(calculatedNewsPosition)?.time}"
+            tvTitle.text = newsList.getOrNull(calculatedNewsPosition)?.title
             btnFullStory.onSafeClick {
-                requireActivity().showWebPage(url = newsList[calculatedNewsPosition].link ?: "")
+                requireActivity().showWebPage(url = newsList.getOrNull(calculatedNewsPosition)?.link ?: "")
             }
             newsPosition++
             newsImagePosition++

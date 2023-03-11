@@ -349,19 +349,19 @@ class GlanceFragment : Fragment() {
     private fun FragmentGlanceBinding.setOnGlanceImageClickListener() {
         cardGlanceImages.onSafeClick {
             cardImageCount.isVisible = true
-            currentGlanceImage = glanceImageList[currentImagePosition]
+            currentGlanceImage = glanceImageList.getOrNull(currentImagePosition) ?: GlanceImage(0, "", "")
             tvImageCount.text = "${currentImagePosition + 1}/${glanceImageList.size}"
 
             fun loadExpandedImageView() {
                 lifecycleScope.launch {
                     blurBitmapForImageBackground()
                 }
-                ivGlanceImageExpanded.load(glanceImageList[currentImagePosition].link)
+                ivGlanceImageExpanded.load(glanceImageList.getOrNull(currentImagePosition)?.link)
                 ivGlanceImageExpandedBackground.load(R.drawable.black_wall)
             }
 
             when {
-                glanceImageList[currentImagePosition].link.endsWith(suffix = ".gif", ignoreCase = true) -> {
+                glanceImageList.getOrNull(currentImagePosition)?.link?.endsWith(suffix = ".gif", ignoreCase = true) == true -> {
                     exoPlayerView.isVisible = false
                     exoPlayer?.release()
                     lifecycleScope.launch {
@@ -370,7 +370,7 @@ class GlanceFragment : Fragment() {
                                 if (SDK_INT >= 28) add(ImageDecoderDecoder.Factory()) else add(GifDecoder.Factory())
                             }
                             .build()
-                        val imageRequest = ImageRequest.Builder(requireContext()).data(glanceImageList[currentImagePosition].link).build()
+                        val imageRequest = ImageRequest.Builder(requireContext()).data(glanceImageList.getOrNull(currentImagePosition)?.link).build()
                         val drawable = imageLoader.execute(imageRequest).drawable
 
                         withContext(Main) {
@@ -382,7 +382,7 @@ class GlanceFragment : Fragment() {
                         }
                     }
                 }
-                VideoFormat.values().map { it.extension.toLowCase() }.contains(glanceImageList[currentImagePosition].link.substringAfterLast(".").toLowCase()) -> {
+                VideoFormat.values().map { it.extension.toLowCase() }.contains(glanceImageList.getOrNull(currentImagePosition)?.link?.substringAfterLast(".")?.toLowCase()) -> {
                     exoPlayerView.isVisible = true
                     exoPlayer?.release()
                     exoPlayer = ExoPlayer.Builder(requireContext()).build()
@@ -390,7 +390,7 @@ class GlanceFragment : Fragment() {
                     exoPlayer?.apply {
                         addMediaSource(
                             DefaultMediaSourceFactory(requireContext()).createMediaSource(
-                                MediaItem.fromUri(glanceImageList[currentImagePosition].link)
+                                MediaItem.fromUri(glanceImageList.getOrNull(currentImagePosition)?.link ?: "")
                             )
                         )
                         repeatMode = Player.REPEAT_MODE_ONE
@@ -401,7 +401,7 @@ class GlanceFragment : Fragment() {
                 else -> {
                     exoPlayerView.isVisible = false
                     exoPlayer?.release()
-                    ivGlanceImage.load(glanceImageList[currentImagePosition].link) {
+                    ivGlanceImage.load(glanceImageList.getOrNull(currentImagePosition)?.link) {
                         placeholder(R.color.black)
                         error(R.color.md_red_dark)
                     }

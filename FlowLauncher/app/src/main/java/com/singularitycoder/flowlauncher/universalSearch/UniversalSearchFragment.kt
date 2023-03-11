@@ -312,7 +312,7 @@ class UniversalSearchFragment : Fragment() {
                 tvSanskritWordLayoutList[count].apply {
                     root.isVisible = true
                     ivOpenOutward.isVisible = true
-                    ivOpenOutward.setImageDrawable(requireContext().drawable(R.drawable.sharp_content_copy_24))
+                    ivOpenOutward.setImageDrawable(requireContext().drawable(R.drawable.outline_content_copy_24))
                     tvWord.text = "$key: ${FlowUtils.sanskritVocabMap[key]}"
                     root.onSafeClick {
                         requireContext().clipboard()?.text = tvWord.text
@@ -336,7 +336,7 @@ class UniversalSearchFragment : Fragment() {
                 tvEnglishWordLayoutList[count].apply {
                     root.isVisible = true
                     ivOpenOutward.isVisible = true
-                    ivOpenOutward.setImageDrawable(requireContext().drawable(R.drawable.sharp_content_copy_24))
+                    ivOpenOutward.setImageDrawable(requireContext().drawable(R.drawable.outline_content_copy_24))
                     tvWord.text = "$key: ${FlowUtils.englishVocabMap[key]}"
                     root.onSafeClick {
                         requireContext().clipboard()?.text = tvWord.text
@@ -351,7 +351,7 @@ class UniversalSearchFragment : Fragment() {
     private fun parseUniversalSearchDataWithWorker() {
         val workManager = WorkManager.getInstance(requireContext())
         val workRequest = PeriodicWorkRequestBuilder<UniversalSearchWorker>(PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MINUTES).build()
-        workManager.enqueueUniquePeriodicWork(WorkerTag.UNIVERSAL_SEARCH, ExistingPeriodicWorkPolicy.KEEP, workRequest)
+        workManager.enqueueUniquePeriodicWork(WorkerTag.UNIVERSAL_SEARCH, ExistingPeriodicWorkPolicy.UPDATE, workRequest)
     }
 
     private fun grantPermissions() {
