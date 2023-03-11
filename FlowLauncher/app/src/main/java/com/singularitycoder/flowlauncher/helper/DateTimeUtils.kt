@@ -1,5 +1,6 @@
 package com.singularitycoder.flowlauncher.helper
 
+import android.os.SystemClock
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -37,6 +38,14 @@ fun Int.hours(): Long = TimeUnit.HOURS.toMillis(this.toLong())
 // Get Epoch Time
 val timeNow: Long
     get() = System.currentTimeMillis()
+
+/**
+ * https://developer.android.com/reference/android/os/SystemClock
+ * System.currentTimeMillis() -> current time in millis
+ * uptimeMillis() -> is counted in milliseconds since the system was booted.
+ * elapsedRealtime() and elapsedRealtimeNanos() -> return the time since the system was booted
+ * */
+val deviceStartTime = System.currentTimeMillis() - SystemClock.elapsedRealtime()
 
 fun Long.toIntuitiveDateTime(): String {
     val postedTime = this

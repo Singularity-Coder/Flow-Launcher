@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.singularitycoder.flowlauncher.helper.taskbar
+package com.singularitycoder.flowlauncher.helper.services
 
 import android.accessibilityservice.AccessibilityService
 import android.content.BroadcastReceiver

@@ -339,6 +339,11 @@ class HomeFragment : Fragment() {
                 Intent.ACTION_WALLPAPER_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Wallpaper changed."))
                 }
+                IntentAction.ACTION_NOTIFICATION_LIST -> {
+                    // Handle notification count and list
+                    val notificationCount = intent.getBundleExtra(IntentKey.NOTIFICATION_COUNT)
+                    requireContext().showToast("Num of notifs: $notificationCount")
+                }
             }
         }
     }
@@ -482,6 +487,7 @@ class HomeFragment : Fragment() {
             activity?.registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_PACKAGES_SUSPENDED))
             activity?.registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_PACKAGES_UNSUSPENDED))
         }
+        activity?.registerReceiver(broadcastReceiver, IntentFilter(IntentAction.ACTION_NOTIFICATION_LIST))
     }
 
     override fun onPause() {
@@ -853,13 +859,14 @@ class HomeFragment : Fragment() {
             setIndicatorDrawable(null)
         }
         homeFabQuickActionView.setOnActionHoverChangedListener { action: Action?, quickActionView: QuickActionView?, isHovering: Boolean ->
-            if (isHovering) {
-                quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_500))
-                quickActionView?.setIconColor(R.color.purple_50)
-            } else {
-                quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_50))
-                quickActionView?.setIconColor(R.color.purple_500)
-            }
+            // FIXME deselection issue
+//            if (isHovering) {
+//                quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_500))
+//                quickActionView?.setIconColor(R.color.purple_50)
+//            } else {
+//                quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_50))
+//                quickActionView?.setIconColor(R.color.purple_500)
+//            }
         }
         homeFabQuickActionView.setOnActionSelectedListener { action: Action?, quickActionView: QuickActionView? ->
             when (action?.id) {

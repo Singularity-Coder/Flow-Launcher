@@ -1,6 +1,7 @@
 package com.singularitycoder.flowlauncher.helper
 
 import android.Manifest
+import android.annotation.TargetApi
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
@@ -20,12 +21,16 @@ import android.net.wifi.WifiManager
 import android.os.*
 import android.provider.CallLog
 import android.provider.Settings
+import android.telephony.PhoneStateListener
+import android.telephony.SignalStrength
+import android.telephony.TelephonyManager
 import android.text.Spanned
 import android.util.TypedValue
 import android.view.*
 import android.view.View.MeasureSpec
 import android.widget.*
 import androidx.annotation.RawRes
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -416,7 +421,7 @@ fun Context.isCameraPresent(): Boolean {
 }
 
 // https://github.com/farmerbb/Taskbar
-fun Context.isBluetoothEnabled(): Boolean {
+fun isBluetoothEnabled2(): Boolean {
     val adapter = BluetoothAdapter.getDefaultAdapter()
     return adapter != null && adapter.isEnabled
 }
@@ -424,4 +429,19 @@ fun Context.isBluetoothEnabled(): Boolean {
 // https://github.com/farmerbb/Taskbar
 fun Context.isAirplaneModeOn(): Boolean {
     return Settings.Global.getInt(contentResolver, Settings.Global.AIRPLANE_MODE_ON, 0) != 0
+}
+
+// https://github.com/farmerbb/Taskbar
+@RequiresApi(Build.VERSION_CODES.M)
+inline fun Context.telephoneSignalStrengthListener(crossinline callback: (signalStrength: Int) -> Unit) {
+    val listener: PhoneStateListener = object : PhoneStateListener() {
+        override fun onSignalStrengthsChanged(signalStrength: SignalStrength) {
+            try {
+                callback.invoke(signalStrength.level)
+            } catch (_: SecurityException) {
+            }
+        }
+    }
+    val telephoneManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    telephoneManager.listen(listener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS)
 }

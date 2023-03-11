@@ -48,10 +48,12 @@ object IntentKey {
     const val NOTIF_SCREENSHOT_COUNTDOWN = "NOTIF_SCREENSHOT_COUNTDOWN"
     const val PACKAGE_NAME = "PACKAGE_NAME"
     const val DOWNLOAD_STATUS = "DOWNLOAD_STATUS"
+    const val NOTIFICATION_COUNT = "NOTIFICATION_COUNT"
 }
 
 object IntentAction {
     const val ACTION_ACCESSIBILITY_ACTION = "com.singularitycoder.flowlauncher.ACCESSIBILITY_ACTION"
+    const val ACTION_NOTIFICATION_LIST = "com.singularitycoder.flowlauncher.NOTIFICATION_LIST"
 }
 
 object IntentExtra {
@@ -185,6 +187,7 @@ object Broadcast {
     const val VOLUME_RAISED = "BROADCAST_VOLUME_RAISED"
     const val VOLUME_LOWERED = "BROADCAST_VOLUME_LOWERED"
     const val DOWNLOAD_COMPLETE = "BROADCAST_DOWNLOAD_COMPLETE"
+    const val NOTIFICATION_LIST = "BROADCAST_NOTIFICATION_LIST"
 }
 
 object WorkerTag {

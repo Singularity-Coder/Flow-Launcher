@@ -43,7 +43,7 @@ dependencies {
     // View Stuff
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "com.google.android.exoplayer:exoplayer:2.18.3"
+    implementation "com.google.android.exoplayer:exoplayer:2.18.4"
     implementation "androidx.fragment:fragment-ktx:1.5.5"
     implementation "androidx.activity:activity-ktx:1.6.1"
     implementation 'com.facebook.shimmer:shimmer:0.5.0'

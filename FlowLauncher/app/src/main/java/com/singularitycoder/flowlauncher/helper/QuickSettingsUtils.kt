@@ -29,7 +29,8 @@ import com.singularitycoder.flowlauncher.BuildConfig
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.helper.constants.IntentAction
 import com.singularitycoder.flowlauncher.helper.constants.IntentExtra
-import com.singularitycoder.flowlauncher.helper.taskbar.PowerMenuService
+import com.singularitycoder.flowlauncher.helper.services.NotificationFetchService
+import com.singularitycoder.flowlauncher.helper.services.PowerMenuService
 import java.io.DataOutputStream
 import java.io.IOException
 import java.lang.reflect.Field
@@ -490,7 +491,8 @@ fun Context.showQuickSettings() {
 
 // https://github.com/farmerbb/Taskbar
 fun Context.sendAccessibilityAction(action: Int, onComplete: () -> Unit) {
-    setComponentEnabled(this, PowerMenuService::class.java, true)
+    setComponentEnabled(context = this, clazz = PowerMenuService::class.java, enabled = true)
+    setComponentEnabled(context = this, clazz = NotificationFetchService::class.java, enabled = true)
     val isAccessibilityServiceEnabled = isAccessibilityServiceEnabled(this)
     when {
         isAccessibilityServiceEnabled.not() && isWriteSecureSettingsPermissionGranted() -> {
@@ -575,13 +577,14 @@ fun Context.isWriteSecureSettingsPermissionGranted(): Boolean {
 }
 
 // https://github.com/farmerbb/Taskbar
-fun setComponentEnabled(context: Context, clazz: Class<*>?, enabled: Boolean) {
+fun setComponentEnabled(context: Context, clazz: Class<*>?, enabled: Boolean) = try {
     val component = ComponentName(context, clazz!!)
     context.packageManager.setComponentEnabledSetting(
         /* p0 = */ component,
         /* p1 = */ if (enabled) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
         /* p2 = */ PackageManager.DONT_KILL_APP
     )
+} catch (_: Exception) {
 }
 
 // https://github.com/farmerbb/Taskbar
