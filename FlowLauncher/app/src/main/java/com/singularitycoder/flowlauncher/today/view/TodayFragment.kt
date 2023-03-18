@@ -218,12 +218,11 @@ class TodayFragment : Fragment() {
                 newsTypefacePosition = 0
                 newsTypefacePosition
             } else newsTypefacePosition
-            // TODO replace this with db list
-            tvQuote.text = "${quoteList[calculatedQuotePosition].title}\n\n- ${quoteList[calculatedQuotePosition].author}"
-            tvQuote.setTextColor(requireContext().color(quoteColorList[calculatedGradientPosition].textColor))
-            tvQuote.setTypeface(requireContext(), typefaceList[calculatedTypefacePosition])
-            clQuotes.background = requireContext().drawable(quoteColorList[calculatedGradientPosition].gradientColor)
-            ivQuoteBackground.imageTintList = ColorStateList.valueOf(requireContext().color(quoteColorList[calculatedGradientPosition].iconColor))
+            tvQuote.text = "${quoteList.getOrNull(calculatedQuotePosition)?.title}\n\n- ${quoteList.getOrNull(calculatedQuotePosition)?.author}"
+            tvQuote.setTextColor(requireContext().color(quoteColorList.getOrNull(calculatedGradientPosition)?.textColor ?: R.color.purple_500))
+            tvQuote.setTypeface(requireContext(), typefaceList.getOrNull(calculatedTypefacePosition) ?: R.font.milkshake)
+            clQuotes.background = requireContext().drawable(quoteColorList.getOrNull(calculatedGradientPosition)?.gradientColor ?: R.color.purple_50)
+            ivQuoteBackground.imageTintList = ColorStateList.valueOf(requireContext().color(quoteColorList.getOrNull(calculatedGradientPosition)?.iconColor ?: R.color.purple_50))
             quotePosition++
             gradientPosition++
             newsTypefacePosition++
@@ -233,10 +232,10 @@ class TodayFragment : Fragment() {
             val quoteContextPosition = if (quotePosition == 0) {
                 quoteList.lastIndex
             } else quotePosition - 1
-            if (quoteList[quoteContextPosition].context.isBlank()) return@setOnLongClickListener false
+            if (quoteList.getOrNull(quoteContextPosition)?.context?.isBlank() == true) return@setOnLongClickListener false
             requireContext().showAlertDialog(
                 title = "Context",
-                message = quoteList[quoteContextPosition].context,
+                message = quoteList.getOrNull(quoteContextPosition)?.context ?: "",
                 positiveBtnText = "Ok"
             )
             true

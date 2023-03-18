@@ -155,6 +155,8 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FoIa3X9aMAEH0yI?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/FoIiO0vaYAAwGOf?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/FoIiO1jagAE45wV?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FqbhKZbaQAA2Crs?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FqbhKZOaEAAhpey?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
 
     // Pexels
     GlanceImage(link = "https://images.pexels.com/photos/1251247/pexels-photo-1251247.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
@@ -213,6 +215,10 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FM11q3rVQAIsTMH?format=jpg&name=medium", title = "https://twitter.com/washanapple"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fb-CjHaagAE58Ar?format=jpg&name=large", title = "https://twitter.com/washanapple"),
     GlanceImage(link = "https://pbs.twimg.com/media/FdlQsCxaIAIpeEa?format=jpg&name=medium", title = "https://twitter.com/washanapple"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FZpQ_xrakAEOG6Z?format=jpg&name=large", title = "https://twitter.com/washanapple"),
+    GlanceImage(link = "https://pbs.twimg.com/media/E6--BslVcAc8AXk?format=jpg&name=medium", title = "https://twitter.com/washanapple"),
+    GlanceImage(link = "https://pbs.twimg.com/media/E8LtndFUUAMUNlk?format=jpg&name=large", title = "https://twitter.com/washanapple"),
+    GlanceImage(link = "https://pbs.twimg.com/media/E2P70KTUUAEi98I?format=jpg&name=large", title = "https://twitter.com/washanapple"),
 
     // https://www.artstation.com/dadachyo - Pure eye candy
     // https://www.pixiv.net/en/users/6491752
@@ -656,4 +662,11 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/042/042/918/large/kuishi-xu-tuanhua-ruihua.jpg?1633432127", title = "https://www.artstation.com/txt"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/028/780/335/large/kuishi-xu-.jpg?1595488294", title = "https://www.artstation.com/txt"),
     GlanceImage(link = "https://i.pinimg.com/564x/db/9e/81/db9e810b58be04fc056bcb7c327372de.jpg", title = "https://www.artstation.com/txt"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FqGOZeWaAAA4K_E?format=jpg&name=4096x4096", title = "https://twitter.com/_Yuming_Li"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fj78h0cUYAAPoZj?format=jpg&name=4096x4096", title = "https://twitter.com/_Yuming_Li"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FoSI2M5aAAANJZb?format=jpg&name=4096x4096", title = "https://twitter.com/_Yuming_Li"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FqtZlzfaYAE2pXJ?format=jpg&name=4096x4096", title = "https://twitter.com/_Yuming_Li"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FqcmI3JakAAyJK7?format=jpg&name=4096x4096", title = "https://twitter.com/_Yuming_Li"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FpejgzQaQAAOx3L?format=jpg&name=large", title = "https://twitter.com/_Yuming_Li"),
 )

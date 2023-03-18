@@ -70,7 +70,6 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.time.Duration
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -715,7 +714,7 @@ class HomeFragment : Fragment() {
             setOnMenuItemClickListener { menuItem: MenuItem ->
                 when (menuItem.itemId) {
                     R.id.menu_item_app_info -> {
-                        requireContext().showAppInfo(app)
+                        requireContext().showInfoOf(app)
                         false
                     }
                     R.id.menu_item_remove_app -> {
@@ -825,24 +824,34 @@ class HomeFragment : Fragment() {
     private fun setHomeFabTouchOptions() {
         val icon1 = requireContext().drawable(R.drawable.ic_round_keyboard_voice_24)?.changeColor(requireContext(), R.color.purple_500)
         val action1 = Action(id = QuickActionHome.VOICE_SEARCH.ordinal, icon = icon1!!, title = QuickActionHome.VOICE_SEARCH.value)
+
         val icon2 = requireContext().drawable(R.drawable.ic_round_tune_24)?.changeColor(requireContext(), R.color.purple_500)
         val action2 = Action(id = QuickActionHome.QUICK_SETTINGS.ordinal, icon = icon2!!, title = QuickActionHome.QUICK_SETTINGS.value)
+
         val icon3 = requireContext().drawable(R.drawable.ic_round_apps_24)?.changeColor(requireContext(), R.color.purple_500)
         val action3 = Action(id = QuickActionHome.SELECT_FLOW.ordinal, icon = icon3!!, title = QuickActionHome.SELECT_FLOW.value)
+
         val icon4 = requireContext().drawable(R.drawable.round_eye_24)?.changeColor(requireContext(), R.color.purple_500)
         val action4 = Action(id = QuickActionHome.GLANCE.ordinal, icon = icon4!!, title = QuickActionHome.GLANCE.value)
+
         val icon5 = requireContext().drawable(R.drawable.round_today_24)?.changeColor(requireContext(), R.color.purple_500)
         val action5 = Action(id = QuickActionHome.TODAY.ordinal, icon = icon5!!, title = QuickActionHome.TODAY.value)
+
         val icon6 = requireContext().drawable(R.drawable.ic_round_notifications_24)?.changeColor(requireContext(), R.color.purple_500)
         val action6 = Action(id = QuickActionHome.NOTIFICATIONS.ordinal, icon = icon6!!, title = QuickActionHome.NOTIFICATIONS.value)
+
         val icon7 = requireContext().drawable(R.drawable.ic_round_search_24)?.changeColor(requireContext(), R.color.purple_500)
         val action7 = Action(id = QuickActionHome.UNIVERSAL_SEARCH.ordinal, icon = icon7!!, title = QuickActionHome.UNIVERSAL_SEARCH.value)
+
         val icon8 = requireContext().drawable(R.drawable.round_phone_24)?.changeColor(requireContext(), R.color.purple_500)
         val action8 = Action(id = QuickActionHome.PHONE.ordinal, icon = icon8!!, title = QuickActionHome.PHONE.value)
+
         val icon9 = requireContext().drawable(R.drawable.round_sms_24)?.changeColor(requireContext(), R.color.purple_500)
         val action9 = Action(id = QuickActionHome.SMS.ordinal, icon = icon9!!, title = QuickActionHome.SMS.value)
+
         val icon10 = requireContext().drawable(R.drawable.round_photo_camera_24)?.changeColor(requireContext(), R.color.purple_500)
         val action10 = Action(id = QuickActionHome.CAMERA.ordinal, icon = icon10!!, title = QuickActionHome.PHONE.value)
+
         val homeFabQuickActionView = QuickActionView.make(requireContext()).apply {
             addAction(action1) // more configuring
             addAction(action2)

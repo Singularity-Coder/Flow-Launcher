@@ -342,10 +342,13 @@ class AddFragment : Fragment() {
     private fun setAddFabTouchOptions() {
         val icon1 = requireContext().drawable(R.drawable.round_image_24)?.changeColor(requireContext(), R.color.purple_500)
         val action1 = Action(id = QuickActionAddMedia.SELECT_FROM_GALLERY.ordinal, icon = icon1!!, title = QuickActionAddMedia.SELECT_FROM_GALLERY.value)
+
         val icon2 = requireContext().drawable(R.drawable.round_photo_camera_24)?.changeColor(requireContext(), R.color.purple_500)
         val action2 = Action(id = QuickActionAddMedia.TAKE_PHOTO.ordinal, icon = icon2!!, title = QuickActionAddMedia.TAKE_PHOTO.value)
+
         val icon3 = requireContext().drawable(R.drawable.baseline_videocam_24)?.changeColor(requireContext(), R.color.purple_500)
         val action3 = Action(id = QuickActionAddMedia.TAKE_VIDEO.ordinal, icon = icon3!!, title = QuickActionAddMedia.TAKE_VIDEO.value)
+
         val addFabQuickActionView = QuickActionView.make(requireContext()).apply {
             addAction(action1)
             addAction(action2)

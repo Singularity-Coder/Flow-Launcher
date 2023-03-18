@@ -232,11 +232,31 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Sawano Hiroyuki[nZk] ft Mika Kobayashi - ThreeFiveNineFour [English & Terjemahan]", videoId = "BTaA89dlORE"),
     YoutubeVideo(title = "Ashes on The Fire (Extended) | Attack on Titan Season 4", videoId = "pOH0CgDLuSo"), // EPIC
     YoutubeVideo(title = "Hajime no Ippo - The Finisher", videoId = "PnvJMNw00ec"),
+    YoutubeVideo(title = "Code Geass - Continued Story", videoId = "MMcr3PISNhw"), // How did I forget this? The best anime ending ever. No questions here. Code Geass is the complete anime. It had internal politics, geo politics, high level strategy, mechas, arms race, battles, ...
+    YoutubeVideo(title = "Code Geass - Madder Sky", videoId = "cLsLQqNduIM"), // EPIC
+    YoutubeVideo(title = "Code Geass - The Master", videoId = "7HoMz4Ly_AQ"), // This moment was extraordinary. All hail Lelouch!
+    YoutubeVideo(title = "Code Geass - Grand Fleet", videoId = "74m8LB5RZCk"),
+    YoutubeVideo(title = "Code Geass - 0", videoId = "H1GZ8jBHkHw"),
+    YoutubeVideo(title = "Code Geass - Knightmare", videoId = "M8rumTERQ6M"),
+    YoutubeVideo(title = "Code Geass - Stories", videoId = "MhsL9xe_pu8"),
+    YoutubeVideo(title = "Code Geass - Previous Notice", videoId = "1AVRq6KPxF4"),
+    YoutubeVideo(title = "Code Geass - With You", videoId = "u-ukRDK7vuQ"),
+    YoutubeVideo(title = "Code Geass - Avalon", videoId = "qCq-zrzEm7A"),
+    YoutubeVideo(title = "Code Geass - Final Catastrophe", videoId = "r8T2G8IrQgY"),
+    YoutubeVideo(title = "Code Geass - Boku wa, Tori ni Naru", videoId = "NxxXgHh2r7w"),
+    YoutubeVideo(title = "Code Geass - Check Mate", videoId = "mOmsEJQlFH4"),
+    YoutubeVideo(title = "Code Geass - What's Justice", videoId = "D78KGXUWCos"),
+    YoutubeVideo(title = "Code Geass - Lullaby of M", videoId = "AN61Xlz01XQ"),
+    YoutubeVideo(title = "Code Geass - If I were a Bird", videoId = "77bPg-Siheo"),
+    YoutubeVideo(title = "Code Geass - In Justice", videoId = "M8rumTERQ6M"),
+    YoutubeVideo(title = "Code Geass - Strange Girl", videoId = "NBo-YxCM1xU"),
+    YoutubeVideo(title = "Code Geass - Boyhood", videoId = "gQ-jsl6t3D8"),
 )
 
 val epicAnimeMomentsList = listOf(
     YoutubeVideo(title = "Code Geass, Best Anime Ever, Ending! 1080p", videoId = "rS-FBuWG_zQ"),
     YoutubeVideo(title = "Code Geass R2 - Lelouch Takes Over the World", videoId = "xnFdY7168DY"),
+    YoutubeVideo(title = "Code Geass R2 - Lelouch Remembers He Is Zero", videoId = "lzMiutHeU6A"), // https://www.youtube.com/watch?v=TlB-7N29UTM
     YoutubeVideo(title = "Attack On Titan - Death of Eren's Mother", videoId = "4ZQ8R6kPmhM"), // Warning: This will traumatize kids for sure and probably you as well
     YoutubeVideo(title = "Attack On Titan - Eren vs Annie - Eren Transforms in the forest", videoId = "BPohSG4ZNes"),
     YoutubeVideo(title = "Attack on Titan - The Owl", videoId = "gLtky3DaBO0"),
@@ -297,16 +317,6 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "GN Balasubramaniam - Jayathi Jayathi Bharatha Maatha", videoId = "7ThIQ2Pn94A"), // Simple and beautiful. This can actually be India's national anthem.
     YoutubeVideo(title = "GN Balasubramaniam - Sudhamayi - Amrutavarshini Sudhanidhi - H.M. Bhagavatar", videoId = "SpucWUdli7g"),
     YoutubeVideo(title = "GN Balasubramaniam - Sudhamayi - ragam Amrutavarshini", videoId = "v1vWBRN34ik"),
-    YoutubeVideo(title = "TM Krishna - Raga Ravi Chandrika", videoId = "BIEzjDD3pvA"), // This is heavenly
-    YoutubeVideo(title = "TM Krishna - Ragam Neelambari", videoId = "ovgWK5aQcpM"),
-    YoutubeVideo(title = "TM Krishna - Manavyalakinchara, Tyagaraja Smaranotsava Sabha Nellore", videoId = "ovgWK5aQcpM"),
-    YoutubeVideo(title = "TM Krishna - Ragam Nalinakanthi", videoId = "5yZEsJDJ9yc"),
-    YoutubeVideo(title = "TM Krishna - Amba Neelayataakshi - Neelambari - Adi - Mutthuswamy Deekshitar", videoId = "Z6bGA61mOi4"),
-    YoutubeVideo(title = "TM Krishna - BvB Concert", videoId = "ceCwf44zuW8"),
-    YoutubeVideo(title = "TM Krishna - Raga Nattai", videoId = "5MAI223JEVc"),
-    YoutubeVideo(title = "TM Krishna - Chala Kallaladu - Raga Arabhi", videoId = "f5flTIM59Ws"),
-    YoutubeVideo(title = "TM Krishna - Marubari Javali Kamas Adi", videoId = "sxUCTlKFQyc"),
-    YoutubeVideo(title = "TM Krishna - Brova bharama-bahudaari", videoId = "HnqstRsEtRY"),
     YoutubeVideo(title = "Parur Sundaram Iyer & MSG_Manavyala", videoId = "823uFFoaLGc"),
     YoutubeVideo(title = "MS Gopalakrishnan- Violin - Manavyalakinchara", videoId = "m7lKOttZR7g"),
     YoutubeVideo(title = "Madurai Mani Iyer - Brochevarevarura", videoId = "lgdwg2KmjN4"),
@@ -325,6 +335,16 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "Malladi Brothers - Brihadeeswaraya Namasthe", videoId = "-TXW02E4pm8"),
     YoutubeVideo(title = "Uyyala Looka Vayya - Neelambari - Sri Thyagaraja Swamy Composition", videoId = "54T3H_powNM"), // One of the best Neelambari if not the best
     YoutubeVideo(title = "Seetha Kalyana Vaibhogame (Ameya Records)", videoId = "lBVRsXXDJA0"),
+    YoutubeVideo(title = "TM Krishna - Raga Ravi Chandrika", videoId = "BIEzjDD3pvA"), // This is heavenly
+    YoutubeVideo(title = "TM Krishna - Ragam Neelambari", videoId = "ovgWK5aQcpM"),
+    YoutubeVideo(title = "TM Krishna - Manavyalakinchara, Tyagaraja Smaranotsava Sabha Nellore", videoId = "ovgWK5aQcpM"),
+    YoutubeVideo(title = "TM Krishna - Ragam Nalinakanthi", videoId = "5yZEsJDJ9yc"),
+    YoutubeVideo(title = "TM Krishna - Amba Neelayataakshi - Neelambari - Adi - Mutthuswamy Deekshitar", videoId = "Z6bGA61mOi4"),
+    YoutubeVideo(title = "TM Krishna - BvB Concert", videoId = "ceCwf44zuW8"),
+    YoutubeVideo(title = "TM Krishna - Raga Nattai", videoId = "5MAI223JEVc"),
+    YoutubeVideo(title = "TM Krishna - Chala Kallaladu - Raga Arabhi", videoId = "f5flTIM59Ws"),
+    YoutubeVideo(title = "TM Krishna - Marubari Javali Kamas Adi", videoId = "sxUCTlKFQyc"),
+    YoutubeVideo(title = "TM Krishna - Brova bharama-bahudaari", videoId = "HnqstRsEtRY"),
     YoutubeVideo(title = "E.S.Posthumus - Nasivern Pi", videoId = "sHPZ9eQrHeE"), // Absolutely Incredible. Almost every sound track is great. https://www.youtube.com/channel/UCvJKyvGIe7VpfBDpkHOMfOw
     YoutubeVideo(title = "E.S.Posthumus - Pompeii", videoId = "1lwl9ZHklLY"),
     YoutubeVideo(title = "E.S.Posthumus - Unstoppable", videoId = "uFZSh6MSXno"),
@@ -390,7 +410,9 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "James Brown - It's A New Day (Part 1 and 2)", videoId = "ZW8n3SEDcIw"),
     YoutubeVideo(title = "James Brown - Sweet Bernadette (1967)", videoId = "sERh1sZWQUY"), // One of JB's best
     YoutubeVideo(title = "James Brown - Papa's Got A Brand New Bag (Paris, 1967)", videoId = "VTM_VrzOyWU"),
-    YoutubeVideo(title = "James Brown - James Brown - There Was A Time, I Feel Alright .m4v", videoId = "aQxPAS2C9ZM"),
+    YoutubeVideo(title = "James Brown - There Was A Time, I Feel Alright .m4v", videoId = "aQxPAS2C9ZM"),
+    YoutubeVideo(title = "James Brown - Mother Popcorn (Pt. 1 & 2)", videoId = "zpAPXUMpO_Y"),
+    YoutubeVideo(title = "James Brown - Soul Power 1971 (12 min Long Version)", videoId = "l0OJUcxdL24"),
     YoutubeVideo(title = "Otis Redding - Papas Got a Brand New Bag Live", videoId = "-LmfX4Yo0Hs"),
     YoutubeVideo(title = "Lamb of God - Again We Rise", videoId = "Xe07zUkryeI"),
     YoutubeVideo(title = "Lamb of God - Walk with Me In Hell", videoId = "m4QyQk8vOCY"),

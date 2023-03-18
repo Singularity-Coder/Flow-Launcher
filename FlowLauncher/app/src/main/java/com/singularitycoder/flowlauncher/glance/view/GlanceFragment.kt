@@ -159,9 +159,9 @@ class GlanceFragment : Fragment() {
 
         btnShowInBrowser.onSafeClick {
             requireActivity().showWebPage(
-                url = glanceImageList[currentImagePosition].title.ifBlank {
-                    glanceImageList[currentImagePosition].link
-                }
+                url = glanceImageList.getOrNull(currentImagePosition)?.title?.ifBlank {
+                    glanceImageList.getOrNull(currentImagePosition)?.link
+                } ?: ""
             )
         }
 
@@ -225,7 +225,7 @@ class GlanceFragment : Fragment() {
         sliderGlanceImage.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 println("seekbar progress: $progress")
-                ivGlanceImage.load(glanceImageList[progress].link) {
+                ivGlanceImage.load(glanceImageList.getOrNull(progress)?.link) {
                     placeholder(R.color.black)
                     error(R.color.md_red_dark)
                 }
@@ -289,7 +289,7 @@ class GlanceFragment : Fragment() {
 
     private fun FragmentGlanceBinding.onMotionEventActionDown() {
         val currentPosition = if (currentImagePosition == 0) glanceImageList.lastIndex else currentImagePosition - 1
-        val isGlanceVideoShown = VideoFormat.values().map { it.extension.toLowCase() }.contains(glanceImageList[currentPosition].link.substringAfterLast(".").toLowCase())
+        val isGlanceVideoShown = VideoFormat.values().map { it.extension.toLowCase() }.contains(glanceImageList.getOrNull(currentPosition)?.link?.substringAfterLast(".")?.toLowCase())
         if (isGlanceVideoShown) {
             exoGlanceVideoExpanded.isVisible = true
             exoPlayerExpanded?.release()
@@ -298,7 +298,7 @@ class GlanceFragment : Fragment() {
             exoPlayerExpanded?.apply {
                 addMediaSource(
                     DefaultMediaSourceFactory(requireContext()).createMediaSource(
-                        MediaItem.fromUri(glanceImageList[currentPosition].link)
+                        MediaItem.fromUri(glanceImageList.getOrNull(currentPosition)?.link ?: "")
                     )
                 )
                 repeatMode = Player.REPEAT_MODE_ONE

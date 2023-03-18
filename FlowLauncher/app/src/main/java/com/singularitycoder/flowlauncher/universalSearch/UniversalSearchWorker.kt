@@ -26,54 +26,52 @@ class UniversalSearchWorker(val context: Context, workerParams: WorkerParameters
         fun db(): FlowDatabase
     }
 
-    override suspend fun doWork(): Result {
-        return withContext(IO) {
-            val appContext = context.applicationContext ?: throw IllegalStateException()
-            val dbEntryPoint = EntryPointAccessors.fromApplication(appContext, DbEntryPoint::class.java)
-            val dao = dbEntryPoint.db().appDao()
+    override suspend fun doWork(): Result = withContext(IO) {
+        val appContext = context.applicationContext ?: throw IllegalStateException()
+        val dbEntryPoint = EntryPointAccessors.fromApplication(appContext, DbEntryPoint::class.java)
+        val dao = dbEntryPoint.db().appDao()
 
-            coroutineScope {
-                val recentAppsList = mutableListOf<App>()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    dao.getAll().forEach { app: App ->
-                        context.getRecentAppsWithUsageStats().forEach { usageStats: UsageStats ->
-                            if (app.packageName == usageStats.packageName) {
-                                recentAppsList.add(app)
-                            }
+        coroutineScope {
+            val recentAppsList = mutableListOf<App>()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                dao.getAll().forEach { app: App ->
+                    context.getRecentAppsWithUsageStats().forEach { usageStats: UsageStats ->
+                        if (app.packageName == usageStats.packageName) {
+                            recentAppsList.add(app)
                         }
                     }
                 }
-                FlowUtils.recentAppList = recentAppsList
             }
-
-            coroutineScope {
-                FlowUtils.appList = dao.getAll()
-            }
-
-            coroutineScope {
-                val sanskritWordsJsonString = context.loadJsonStringFrom(rawResource = R.raw.sanskrit_dictionary)
-                FlowUtils.sanskritVocabMap = (JSONObject(sanskritWordsJsonString ?: "").toMap() as? Map<String, String>) ?: emptyMap()
-            }
-
-            coroutineScope {
-                val englishWordsJsonString = context.loadJsonStringFrom(rawResource = R.raw.websters_english_dictionary)
-                FlowUtils.englishVocabMap = (JSONObject(englishWordsJsonString ?: "").toMap() as? Map<String, String>) ?: emptyMap()
-            }
-
-            coroutineScope {
-                val androidSettingsJsonString = context.loadJsonStringFrom(rawResource = R.raw.android_settings)
-                FlowUtils.androidSettingsMap = (JSONObject(androidSettingsJsonString ?: "").toMap() as? Map<String, String>) ?: emptyMap()
-            }
-
-            coroutineScope {
-                FlowUtils.contactsList = context.getContactsList()
-            }
-
-            coroutineScope {
-                FlowUtils.smsList = context.getSmsList()
-            }
-
-            Result.success()
+            FlowUtils.recentAppList = recentAppsList
         }
+
+        coroutineScope {
+            FlowUtils.appList = dao.getAll()
+        }
+
+        coroutineScope {
+            val sanskritWordsJsonString = context.loadJsonStringFrom(rawResource = R.raw.sanskrit_dictionary)
+            FlowUtils.sanskritVocabMap = (JSONObject(sanskritWordsJsonString ?: "").toMap() as? Map<String, String>) ?: emptyMap()
+        }
+
+        coroutineScope {
+            val englishWordsJsonString = context.loadJsonStringFrom(rawResource = R.raw.websters_english_dictionary)
+            FlowUtils.englishVocabMap = (JSONObject(englishWordsJsonString ?: "").toMap() as? Map<String, String>) ?: emptyMap()
+        }
+
+        coroutineScope {
+            val androidSettingsJsonString = context.loadJsonStringFrom(rawResource = R.raw.android_settings)
+            FlowUtils.androidSettingsMap = (JSONObject(androidSettingsJsonString ?: "").toMap() as? Map<String, String>) ?: emptyMap()
+        }
+
+        coroutineScope {
+            FlowUtils.contactsList = context.getContactsList()
+        }
+
+        coroutineScope {
+            FlowUtils.smsList = context.getSmsList()
+        }
+
+        Result.success()
     }
 }

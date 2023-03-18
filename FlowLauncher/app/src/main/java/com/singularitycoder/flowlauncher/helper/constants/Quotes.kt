@@ -671,6 +671,16 @@ val animeQuoteList = listOf(
         title = "Scars are warrior’s decorations.",
         author = "Spy X Family"
     ),
+    Quote(
+        title = """
+            In a battle, no matter the situation, treat every second like it's your last, and chances are, you might actually survive!
+        """.trimIndentsAndNewLines(),
+        author = "Moon-led journey across another world"
+    ),
+    Quote(
+        title = "If all you ever choose to do are things you can already do, you'll never start anything new.",
+        author = "Grand Blue"
+    ),
 ).shuffled()
 
 val generalQuoteList = listOf(

@@ -106,7 +106,7 @@ fun Context.showInstalledAppDetails(app: App) {
 }
 
 // https://stackoverflow.com/questions/4421527/how-can-i-start-android-application-info-screen-programmatically
-fun Context.showAppInfo(app: App) {
+fun Context.showInfoOf(app: App) {
     val apiLevel = Build.VERSION.SDK_INT
     try {
         // Open the specific App Info page:

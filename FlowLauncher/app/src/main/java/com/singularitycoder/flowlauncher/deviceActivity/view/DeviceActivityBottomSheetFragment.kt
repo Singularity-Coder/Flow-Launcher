@@ -135,7 +135,8 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (deviceActivityAdapter.deviceActivityList.isNotEmpty()) {
-                    tvDate.text = deviceActivityAdapter.deviceActivityList.get(linearLayoutManager.findFirstVisibleItemPosition()).date.toDeviceActivityDate()
+                    tvDate.isVisible = deviceActivityAdapter.deviceActivityList.isNotEmpty()
+                    tvDate.text = deviceActivityAdapter.deviceActivityList.get(linearLayoutManager.findLastVisibleItemPosition()).date.toDeviceActivityDate()
                 }
             }
         })
@@ -144,6 +145,7 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun FragmentDeviceActivityBottomSheetBinding.observeForData() {
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = deviceActivityViewModel.deviceActivityListStateFlow) { activityList: List<DeviceActivity> ->
+            tvDate.isVisible = activityList.isNotEmpty()
             val sortedDeviceActivitiesList = ArrayList<DeviceActivity>()
             val deviceActivityMap = HashMap<String?, ArrayList<DeviceActivity>>()
             activityList.forEach { it: DeviceActivity ->
