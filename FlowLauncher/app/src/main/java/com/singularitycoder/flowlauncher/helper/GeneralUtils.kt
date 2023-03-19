@@ -194,7 +194,7 @@ fun doAfter(duration: Long, task: () -> Unit) {
 
 fun Timer.doEvery(
     duration: Long,
-    withInitialDelay: Long = 2.seconds(),
+    withInitialDelay: Long = 0.seconds(),
     task: suspend () -> Unit
 ) = scheduleAtFixedRate(
     object : TimerTask() {

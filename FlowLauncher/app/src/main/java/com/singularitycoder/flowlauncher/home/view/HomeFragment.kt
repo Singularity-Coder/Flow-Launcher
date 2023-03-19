@@ -14,6 +14,8 @@ import android.os.Bundle
 import android.provider.AlarmClock
 import android.provider.MediaStore
 import android.speech.RecognizerIntent
+import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -59,7 +61,6 @@ import com.singularitycoder.flowlauncher.home.model.App
 import com.singularitycoder.flowlauncher.home.model.Contact
 import com.singularitycoder.flowlauncher.home.viewmodel.HomeViewModel
 import com.singularitycoder.flowlauncher.home.worker.AppWorker
-import com.singularitycoder.flowlauncher.home.worker.TimeAnnouncementWorker
 import com.singularitycoder.flowlauncher.quickSettings.QuickSettingsBottomSheetFragment
 import com.singularitycoder.flowlauncher.toBitmapOf
 import com.singularitycoder.flowlauncher.universalSearch.UniversalSearchFragment
@@ -88,20 +89,21 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var dateTimeTimer: Timer
     private lateinit var timeAnnouncementTimer: Timer
+    private lateinit var textToSpeech: TextToSpeech
 
     private val homeViewModel: HomeViewModel by viewModels()
     private val appFlowViewModel: AppFlowViewModel by viewModels()
     private val deviceActivityViewModel by viewModels<DeviceActivityViewModel>()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val homeAppsAdapter by lazy { HomeAppsAdapter() }
-    private val timeAnnouncementWorkManager by lazy { WorkManager.getInstance(requireContext()) }
 
     private var speechAction = SpeechAction.NONE
-    private var contactName = ""
-    private var messageBody = ""
-    private var removedAppPosition = 0
+    private var contactName: String = ""
+    private var messageBody: String = ""
+    private var removedAppPosition: Int = 0
     private var removedApp: App? = null
     private var flowName: String? = ""
+    private var isTimeAnnouncementStopped: Boolean = false
 
     // TODO set proper event messages
     /**
@@ -505,6 +507,7 @@ class HomeFragment : Fragment() {
         setTimeDateAndFlow()
         refreshAppList()
         refreshDateTime()
+        initTextToSpeech()
         startTimeAnnouncementWorker()
         parseUniversalSearchDataWithWorker()
         rvApps.apply {
@@ -541,11 +544,12 @@ class HomeFragment : Fragment() {
         }
 
         tvTime.setOnLongClickListener {
-            if (timeAnnouncementWorkManager.getWorkInfosByTag(WorkerTag.TIME_ANNOUNCER).isCancelled) {
-                val workRequest = OneTimeWorkRequestBuilder<TimeAnnouncementWorker>().build()
-                timeAnnouncementWorkManager.enqueueUniqueWork(WorkerTag.TIME_ANNOUNCER, ExistingWorkPolicy.REPLACE, workRequest)
+            if (isTimeAnnouncementStopped) {
+                startTimeAnnouncementWorker()
+                isTimeAnnouncementStopped = false
             } else {
-                timeAnnouncementWorkManager.cancelUniqueWork(WorkerTag.TIME_ANNOUNCER)
+                timeAnnouncementTimer.cancel()
+                isTimeAnnouncementStopped = true
             }
             true
         }
@@ -786,31 +790,14 @@ class HomeFragment : Fragment() {
 
     private fun startTimeAnnouncementWorker() {
         timeAnnouncementTimer = Timer()
-        timeAnnouncementTimer.doEvery(
-            duration = 1.minutes(),
-            withInitialDelay = 0.seconds(),
-        ) {
-            val time = timeNow toTimeOfType DateType.h_mm_a
-            val minutes = time.substringAfter(":").substringBefore(" ")
-            if (minutes == "00") {
-                val workRequest = OneTimeWorkRequestBuilder<TimeAnnouncementWorker>().build()
-                timeAnnouncementWorkManager.enqueueUniqueWork(WorkerTag.TIME_ANNOUNCER, ExistingWorkPolicy.REPLACE, workRequest)
-            }
-        }
-        val workRequest = OneTimeWorkRequestBuilder<TimeAnnouncementWorker>().build()
-        timeAnnouncementWorkManager.enqueueUniqueWork(WorkerTag.TIME_ANNOUNCER, ExistingWorkPolicy.REPLACE, workRequest)
-        timeAnnouncementWorkManager.getWorkInfoByIdLiveData(workRequest.id).observe(viewLifecycleOwner) { workInfo: WorkInfo? ->
-            when (workInfo?.state) {
-                WorkInfo.State.RUNNING -> println("RUNNING: show Progress")
-                WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
-                WorkInfo.State.SUCCEEDED -> println("SUCCEEDED: showing Progress")
-                WorkInfo.State.FAILED -> {
-                    println("FAILED: stop showing Progress")
-                    binding.root.showSnackBar("Something went wrong!")
-                }
-                WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
-                WorkInfo.State.CANCELLED -> println("CANCELLED: stop showing Progress")
-                else -> Unit
+        timeAnnouncementTimer.doEvery(duration = 35.seconds()) {
+            withContext(Main) {
+                val time = timeNow toTimeOfType DateType.h_mm_a
+                val minutes = time.substringAfter(":").substringBefore(" ")
+                val hours = time.substringBefore(":")
+                val dayPeriod = time.substringAfter(" ")
+                val timeToAnnounce = "It's $hours $minutes $dayPeriod"
+                if (minutes == "00") startTextToSpeech(textToSpeak = timeToAnnounce)
             }
         }
     }
@@ -941,6 +928,38 @@ class HomeFragment : Fragment() {
     private fun showProgress(isShow: Boolean) {
 //        if (homeAppsAdapter.homeAppList.isNotEmpty()) return
         binding.layoutShimmerAppLoader.root.isVisible = isShow
+    }
+
+    private fun initTextToSpeech() {
+        textToSpeech = TextToSpeech(context) { status: Int ->
+            if (status == TextToSpeech.SUCCESS) {
+                val result: Int = textToSpeech.setLanguage(Locale.getDefault())
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    println("Language not supported for Text-to-Speech!")
+                }
+            }
+        }
+        textToSpeech.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onStart(utteranceId: String) {
+                println("Started reading $utteranceId")
+            }
+
+            override fun onDone(utteranceId: String) {
+                println("Finished reading $utteranceId")
+            }
+
+            override fun onError(utteranceId: String) {
+                println("Error reading $utteranceId")
+            }
+        })
+    }
+
+    private fun startTextToSpeech(textToSpeak: String) {
+        val params = Bundle().apply { putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, textToSpeak /* utteranceId = */) }
+        textToSpeech.apply {
+            speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, params, textToSpeak)
+            playSilentUtterance(1000, TextToSpeech.QUEUE_ADD, textToSpeak) // Stay silent for 1000 ms
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")

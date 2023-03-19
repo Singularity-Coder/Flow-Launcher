@@ -197,6 +197,9 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/001/337/630/large/wl-op-7s.jpg?1444639378", title = "https://www.artstation.com/wlop"),
     GlanceImage(link = "https://cdnb.artstation.com/p/assets/images/images/008/014/601/large/wl-op-19s.jpg?1509935788", title = "https://www.artstation.com/wlop"),
     GlanceImage(link = "https://i.pinimg.com/564x/09/c2/fb/09c2fbf36bc6c269d125ae1eb1aa6bcb.jpg", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FrbO9ztakAAvOX8?format=jpg&name=large", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FrbO9zraQAEBpzO?format=jpg&name=large", title = "https://www.artstation.com/wlop"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FrbO_vsaUAATbxl?format=jpg&name=large", title = "https://www.artstation.com/wlop"),
 
     // https://twitter.com/RDJlock - I am speechless again
     GlanceImage(link = "https://i.pinimg.com/564x/34/d9/68/34d9681acef16b010f436f20b5258ae7.jpg", title = "https://twitter.com/RDJlock"),
@@ -669,4 +672,5 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FqtZlzfaYAE2pXJ?format=jpg&name=4096x4096", title = "https://twitter.com/_Yuming_Li"),
     GlanceImage(link = "https://pbs.twimg.com/media/FqcmI3JakAAyJK7?format=jpg&name=4096x4096", title = "https://twitter.com/_Yuming_Li"),
     GlanceImage(link = "https://pbs.twimg.com/media/FpejgzQaQAAOx3L?format=jpg&name=large", title = "https://twitter.com/_Yuming_Li"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fre8hrzaUAE8hxy?format=jpg&name=4096x4096", title = "https://twitter.com/_Yuming_Li"),
 )

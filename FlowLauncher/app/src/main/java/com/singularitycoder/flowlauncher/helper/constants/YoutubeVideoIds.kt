@@ -77,6 +77,11 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "Asuka's Death - End Of Evangelion", videoId = "OO-1Yyi5KPY"),
     YoutubeVideo(title = "Miss Kobayashi's Dragon Maid - How dragons play", videoId = "xEPY5AjpaCg"),
     YoutubeVideo(title = "Miss Kobayashi's Dragon Maid - Tohru VS Elma", videoId = "l7_Sj1F-IcA"),
+    YoutubeVideo(title = "Chainsaw Man - Denji vs Bat Devil Fight Scene", videoId = "iYB1aGc2XYU"),
+    YoutubeVideo(title = "Chainsaw Man - Chainsaw Man Vs Katana Devil", videoId = "eaOTjniOSjE"),
+    YoutubeVideo(title = "Chainsaw Man - Denji vs Leech Devil", videoId = "wDg_luHbbJw"), // The Kon part was amazing
+    YoutubeVideo(title = "Chainsaw Man - Ghost Devil vs Katana Man", videoId = "hfo_qN_Gr9A"),
+    YoutubeVideo(title = "Chainsaw Man - Aki vs Ghost Devil", videoId = "DS3KKGJUujA"),
 )
 
 // Made in Abyss S2 OST - OMG
