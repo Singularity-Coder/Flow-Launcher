@@ -175,6 +175,7 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Sawano Hiroyuki - Zenhan Saisyurokugata Tohnohoshi Gokuseifuku", videoId = "9qurFQeGAew"),
     YoutubeVideo(title = "Sawano Hiroyuki - Tsuika Saisyurokugata Tohtohitotsuboshi Gokuseifuku", videoId = "0kPXa5REmzc"),
     YoutubeVideo(title = "Sawano Hiroyuki - Juyobutsu Hakko Kyouchogata Tohtofutatsuboshi Gokuseifuku", videoId = "o6g6tqiYauo"),
+    YoutubeVideo(title = "Sawano Hiroyuki - ReoNa『time", videoId = "CDMnKbsyLMM"),
     YoutubeVideo(title = "Mobile Suit Gundam: Hathaway - mSgH", videoId = "zmw4RBWgu04"),
     YoutubeVideo(title = "Mobile Suit Gundam: Hathaway - XI", videoId = "iHKV6XpZaYY"),
     YoutubeVideo(title = "Mobile Suit Gundam: Hathaway - car5p3 / PENELOPE", videoId = "vKpOLg3ZJX0"), // Feel the rush 3:15 to 3:50
@@ -340,6 +341,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "Malladi Brothers - Brihadeeswaraya Namasthe", videoId = "-TXW02E4pm8"),
     YoutubeVideo(title = "Uyyala Looka Vayya - Neelambari - Sri Thyagaraja Swamy Composition", videoId = "54T3H_powNM"), // One of the best Neelambari if not the best
     YoutubeVideo(title = "Seetha Kalyana Vaibhogame (Ameya Records)", videoId = "lBVRsXXDJA0"),
+    YoutubeVideo(title = "TM Krishna - Raga Nalina Kanthi - maanavi naalaginca - Tyaagaraaja krithi", videoId = "jT1uHpbs0ck"), // Absolutely incredible. Beautiful and sublime. Easily one of the best Nalina Kanthi if not the best. A great example of how the sound of the instruments doesnt subdue the singer's voice but actually assist the singer to bring the best form of the song unlike his other Nalina Kanthis. It could just be a good env or mic placement or volume control of instruments.
     YoutubeVideo(title = "TM Krishna - Raga Ravi Chandrika", videoId = "BIEzjDD3pvA"), // This is heavenly
     YoutubeVideo(title = "TM Krishna - Ragam Neelambari", videoId = "ovgWK5aQcpM"),
     YoutubeVideo(title = "TM Krishna - Manavyalakinchara, Tyagaraja Smaranotsava Sabha Nellore", videoId = "ovgWK5aQcpM"),
@@ -455,7 +457,6 @@ val otherEpicMomentsList = listOf(
     YoutubeVideo(title = "Astartes Project by Syama Pedersen", videoId = "O7hgjuFfn3A"),
     YoutubeVideo(title = "King Arthur - Opening Scene FHD - Giant Elephant", videoId = "cRIbbxdGATs"),
     YoutubeVideo(title = "King Arthur - All Powers from King Arthur: Legend of the Sword", videoId = "_nQqIxdsI0o"),
-    YoutubeVideo(title = "Rocky Vs Garuda - KGF Chapter 1", videoId = "LecLq_-OpTU"),
     YoutubeVideo(title = "The Statue Reveal - KGF Chapter 1", videoId = "HsXpoTM2N8o"),
     YoutubeVideo(title = "Arcane: League of Legends - Powder's Monkey Bomb Explodes", videoId = "Tz1THyAhx8E"),
     YoutubeVideo(title = "Love, Death & Robots - Season 3 Episode 9 - JIBARO", videoId = "w140SKkoRDw"),

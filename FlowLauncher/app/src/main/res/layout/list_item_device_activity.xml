@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/tv_time"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="18dp"
@@ -44,6 +44,7 @@
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:textColor="@android:color/darker_gray"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tv_device_activity_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

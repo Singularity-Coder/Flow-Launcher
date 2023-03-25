@@ -43,4 +43,8 @@ class DeviceActivityViewModel @Inject constructor(
     fun deleteAllDeviceActivity() = viewModelScope.launch {
         deviceActivityDao.deleteAll()
     }
+
+    fun deleteAllDeviceActivityOlderThan7Days(elapsedTime: Long) = viewModelScope.launch {
+        deviceActivityDao.deleteAllActivityOlderThan7Days(elapsedTime)
+    }
 }

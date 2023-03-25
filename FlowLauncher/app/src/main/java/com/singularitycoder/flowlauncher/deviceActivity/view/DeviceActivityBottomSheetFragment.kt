@@ -24,6 +24,7 @@ import com.singularitycoder.flowlauncher.deviceActivity.viewmodel.DeviceActivity
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.allAndroidPermissions
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
@@ -83,6 +84,8 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
         binding.setupUI()
         binding.setupUserActionListeners()
         binding.observeForData()
+        println("time now: $timeNow")
+        println("time now: ${TimeUnit.DAYS.toMillis(1)}")
     }
 
     // https://stackoverflow.com/questions/15543186/how-do-i-create-colorstatelist-programmatically
@@ -96,6 +99,7 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
             /* orientation = */ RecyclerView.VERTICAL,
             /* reverseLayout = */ true
         )
+        linearLayoutManager.stackFromEnd = true
         rvDeviceActivity.apply {
             layoutManager = linearLayoutManager
             adapter = deviceActivityAdapter
@@ -106,29 +110,37 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
         btnClear.onSafeClick {
             requireContext().showAlertDialog(
                 title = "Delete all activity?",
-                message = "Careful! This cannot be undone.",
+                message = "This will delete all activity older than 7 days. Careful! This cannot be undone.",
                 positiveBtnText = "Delete All",
                 negativeBtnText = getString(R.string.tb_action_cancel),
                 positiveAction = {
                     // TODO Do biometric auth to confirm delete all
-                    deviceActivityViewModel.deleteAllDeviceActivity()
-                    dismiss()
+                    val sevenDays = TimeUnit.DAYS.toMillis(7)
+                    deviceActivityViewModel.deleteAllDeviceActivityOlderThan7Days(elapsedTime = timeNow - sevenDays)
                 }
             )
         }
 
         deviceActivityAdapter.setDeleteListener { it: DeviceActivity ->
-            requireContext().showAlertDialog(
-                title = "Delete this activity?",
-                message = it.title,
-                positiveBtnText = "Delete",
-                negativeBtnText = getString(R.string.tb_action_cancel),
-                positiveAction = {
-                    // TODO Do biometric auth to confirm delete all
-                    deviceActivityViewModel.deleteDeviceActivity(deviceActivity = it)
-                    if (deviceActivityAdapter.deviceActivityList.isEmpty()) dismiss()
-                }
-            )
+            val twoDays = TimeUnit.DAYS.toMillis(2)
+            val isOlderThan2Days = timeNow - twoDays > it.date
+            if (isOlderThan2Days) {
+                requireContext().showAlertDialog(
+                    title = "Delete this activity?",
+                    message = it.title,
+                    positiveBtnText = "Delete",
+                    negativeBtnText = getString(R.string.tb_action_cancel),
+                    positiveAction = {
+                        // TODO Do biometric auth to confirm delete all
+                        deviceActivityViewModel.deleteDeviceActivity(deviceActivity = it)
+                    }
+                )
+            } else {
+                requireContext().showAlertDialog(
+                    message = "Please wait for 48 hours before deleting an activity from the time of creation.",
+                    positiveBtnText = "Ok",
+                )
+            }
         }
 
         rvDeviceActivity.addOnScrollListener(object : RecyclerView.OnScrollListener() {

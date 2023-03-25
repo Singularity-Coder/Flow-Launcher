@@ -43,8 +43,8 @@ dependencies {
     // View Stuff
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "com.google.android.exoplayer:exoplayer:2.18.4"
-    implementation "androidx.fragment:fragment-ktx:1.5.5"
+    implementation "com.google.android.exoplayer:exoplayer:2.18.5"
+    implementation "androidx.fragment:fragment-ktx:1.5.6"
     implementation "androidx.activity:activity-ktx:1.6.1"
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.r0adkll:slidableactivity:2.1.0'
@@ -68,7 +68,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 
     // Room ORM
-    var room_version = "2.5.0"
+    var room_version = "2.5.1"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -96,7 +96,7 @@ dependencies {
     // Others
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation "androidx.work:work-runtime-ktx:2.8.0"
+    implementation "androidx.work:work-runtime-ktx:2.8.1"
     implementation 'com.google.code.gson:gson:2.9.1'
     implementation 'androidx.browser:browser:1.5.0'
 }

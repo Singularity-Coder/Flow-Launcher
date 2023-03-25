@@ -478,7 +478,15 @@ val animeQuoteList = listOf(
     ),
     Quote(
         title = "A true ninja silences their heart.",
-        author = "Shinobi no Ittoki"
+        author = "Shinobi no Ittoki",
+        context = """
+            I think here silencing the heart means, controlling desires and emotions.
+            Our emotions are driven by desires. We want to be righteous, victorious, look good in front of others, etc.
+            But these desires can hamper us from performing our duty. So if a soldier is on a mission to protect 
+            his country, and if he thinks about stuff like righteous, justice, etc during war, it will only invoke unnecessary emotions.
+            And emotions create friction in performing our duty smoothly. So when we decide to act, we should stop thinking about
+            morals, values, etc during work. We should become mere instruments in executing the task flawlessly.
+        """.trimIndent()
     ),
     Quote(
         title = "If you run, you gain one, but if you move forward, you gain two.",
@@ -673,7 +681,8 @@ val animeQuoteList = listOf(
     ),
     Quote(
         title = """
-            In a battle, no matter the situation, treat every second like it's your last, and chances are, you might actually survive!
+            In a battle, no matter the situation, treat every second like it's your last, 
+            and chances are, you might actually survive!
         """.trimIndentsAndNewLines(),
         author = "Moon-led journey across another world"
     ),

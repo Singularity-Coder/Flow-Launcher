@@ -1,7 +1,6 @@
 package com.singularitycoder.flowlauncher.helper
 
 import android.Manifest
-import android.annotation.TargetApi
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
@@ -60,11 +59,6 @@ val callContactSmsPermissionList = arrayOf(
     Manifest.permission.READ_SMS,
     Manifest.permission.WRITE_CALL_LOG,
     Manifest.permission.READ_CALL_LOG,
-)
-
-val callContactSmsPermissionList2 = arrayOf(
-    Manifest.permission.READ_CONTACTS,
-    Manifest.permission.READ_SMS,
 )
 
 val otherPermissions = arrayOf(

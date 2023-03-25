@@ -348,7 +348,7 @@ class UniversalSearchFragment : Fragment() {
     }
 
     private fun grantPermissions() {
-        permissionsResult.launch(callContactSmsPermissionList2)
+        permissionsResult.launch(callContactSmsPermissionList)
     }
 
     private fun FragmentUniversalSearchBinding.setWebSearchData(webLinksList: List<String>) {

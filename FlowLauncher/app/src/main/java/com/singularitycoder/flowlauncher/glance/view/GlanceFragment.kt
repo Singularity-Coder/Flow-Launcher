@@ -68,33 +68,6 @@ class GlanceFragment : Fragment() {
         "${requireContext().filesDir.absolutePath}/glance_images"
     }
 
-    private val callSmsPermissionsResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, @JvmSuppressWildcards Boolean>? ->
-        permissions ?: return@registerForActivityResult
-        permissions.entries.forEach { it: Map.Entry<String, @JvmSuppressWildcards Boolean> ->
-            println("Permission status: ${it.key} = ${it.value}")
-            val permission = it.key
-            val isGranted = it.value
-            when {
-                isGranted -> {
-                    // disable blocking layout and proceed
-                }
-                ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), permission) -> {
-                    // permission permanently denied. Show settings dialog
-                    // enable blocking layout and show popup to go to settings
-                    requireContext().showPermissionSettings()
-                }
-                else -> {
-                    // Permission denied but not permanently, tell user why you need it. Ideally provide a button to request it again and another to dismiss
-                    // enable blocking layout
-                }
-            }
-        }
-        if (requireContext().isCallContactSmsPermissionGranted()) {
-            binding.layoutUnreadSms.tvValue.text = requireContext().unreadSmsCount().toString()
-            binding.layoutMissedCalls.tvValue.text = requireContext().missedCallCount().toString()
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentGlanceBinding.inflate(inflater, container, false)
         return binding.root
@@ -109,7 +82,10 @@ class GlanceFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        callSmsPermissionsResult.launch(callContactSmsPermissionList)
+        if (requireContext().isCallContactSmsPermissionGranted()) {
+            binding.layoutUnreadSms.tvValue.text = requireContext().unreadSmsCount().toString()
+            binding.layoutMissedCalls.tvValue.text = requireContext().missedCallCount().toString()
+        }
         val lastHolidayFetchTime = Preferences.read(requireContext()).getLong(Preferences.KEY_LAST_HOLIDAYS_FETCH_TIME, timeNow - THIRTY_DAYS_IN_MILLIS - /* grace 3k mills */ 3000)
         if (timeNow > lastHolidayFetchTime + THIRTY_DAYS_IN_MILLIS) {
 //            parsePublicHolidaysWithWorker()
@@ -200,10 +176,11 @@ class GlanceFragment : Fragment() {
                             downloadTitle = "Download Media",
                             downloadDesc = "Downloading Flow Launcher Media...",
                             onSuccess = { it: ArrayList<FileDownloader.DownloadItem?> ->
-                                binding.root.showSnackBar("Downloaded complete.")
+                                /** storage > emulated > 0 > Android > data > com.singularitycoder.flowlauncer > files > DEFAULT_MEDIA */
+                                binding.root.showSnackBar("Download complete.")
                             },
                             onFailure = { it: ArrayList<FileDownloader.DownloadItem?> ->
-                                binding.root.showSnackBar("Failed to download files.")
+                                cardGlanceImages.performClick()
                             }
                         )
                     }

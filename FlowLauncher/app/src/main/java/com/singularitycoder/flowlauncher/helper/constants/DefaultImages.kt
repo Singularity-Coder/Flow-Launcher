@@ -29,16 +29,16 @@ import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 // At this point in time IMO these are the artists that have the MOST BEAUTIFUL (emphasis on the beauty part. So something can be ultra realistic but if its not artistic enough then its not beautiful IMO):
 
 // Compositions:
-// 1. wlop, 2. RDJlock, 3. washanapple
+// 1. wlop, 2. 666KArt, 3. Aliya Chen & Felicia Chen, 4. RDJlock, 5. washanapple
 
-// Clarity in Details: I can look at the smallest of detail and it has clear strokes. Personal preference
+// Clarity in Details: I can look at the smallest of detail and it has clear strokes. Doesnt mean it should be realistic. It should be artistic and detailed. Personal preference
 // 1. RDJlock, 2. guweiz, 3. wlop, 4. washanapple, 5. doka_boko_baki (AI)
 
 // Faces:
-// 1. dadachyo, 2. 'O'ne, 3. wlop, 4. RDJlock, 5. guweiz, 6. ayakasuda, 7. washanapple
+// 1. dadachyo, 2. 'O'ne, 3. wlop, 4. dalcefo, 5. guweiz, 6. ayakasuda, 7. washanapple, 8. RDJlock,
 
 // Dynamic Art: As if stuff is moving.
-// 1. 666KArt, 2. RossDraws, 3. wlop, 4. Merasgar, 5. fajyobore323,
+// 1. 666KArt, 2. Aliya Chen & Felicia Chen 3. RossDraws, 4. wlop, 5. Merasgar, 6. fajyobore323,
 
 // Lighting:
 // 1. wlop, 2. RDJlock, 3. RossDraws,
@@ -47,18 +47,21 @@ import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 // 1. wlop, 2. RDJlock, 3. washanapple, 4. RossDraws,
 
 // Complexity: Looks complex with multiple things to see and think
-// 1. wlop, 2. RDJlock, 3. washanapple, 4. RossDraws,
+// 1. wlop, 2. Aliya Chen & Felicia Chen, 3. RDJlock, 4. washanapple, 5. RossDraws,
 
 // Physics: Cloth movement, fluid movement, lighting and its reflections, etc. This is important because humans subconsciously know when something is off and that reduces some of the magic and immersiveness of art.
-// 1. 666KArt, 2. RossDraws, 3. wlop
+// 1. 666KArt, 2. Aliya Chen & Felicia Chen, 3. RossDraws, 4. wlop
 
 // Realistic: Just because something looks realistic doesnt mean its beautiful. There is no point drawing a sofa as it looks in the real world. Might as well just snap a photo with a camera. It should be IMO something that humans dont see on a day to day basis.
+// But then again even that is subjective based on a person's experiences. If somebody was born poor and never saw a sofa before then seeing one for the first time could evoke some positive surprising emotion.
 //
 
 // Architecture:
 
 // Backgrounds/Landscapes:
 // 1. HoDaRaKe (Midjourney AI)
+
+// Colors: Higlighting subject
 
 val defaultImageUrlList = listOf(
 
@@ -157,6 +160,10 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FoIiO1jagAE45wV?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/FqbhKZbaQAA2Crs?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/FqbhKZOaEAAhpey?format=jpg&name=large", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FbPXf2EaQAEPIWs?format=jpg&name=4096x4096", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FbPXg8FagAAhyB6?format=jpg&name=4096x4096", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FbPXiAaaAAELU0H?format=jpg&name=4096x4096", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FbPXjPoakAA3hYl?format=jpg&name=4096x4096", title = "https://twitter.com/HoDaRaKe"),
 
     // Pexels
     GlanceImage(link = "https://images.pexels.com/photos/1251247/pexels-photo-1251247.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
@@ -210,6 +217,7 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/EnlCpm0VQAsgKyj?format=jpg&name=medium", title = "https://twitter.com/RDJlock"),
     GlanceImage(link = "https://pbs.twimg.com/media/Eng4LRwVkAUGQDD?format=jpg&name=medium", title = "https://twitter.com/RDJlock"),
     GlanceImage(link = "https://pbs.twimg.com/media/EuTpudeVoAY-r4x?format=jpg&name=medium", title = "https://twitter.com/RDJlock"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EK_ul6LUYAA4_CX?format=jpg&name=medium", title = "https://twitter.com/RDJlock"),
 
     // https://twitter.com/washanapple
     GlanceImage(link = "https://pbs.twimg.com/media/FmWSoSoacAAbHuX?format=jpg&name=medium", title = "https://twitter.com/washanapple"),
@@ -222,6 +230,7 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/E6--BslVcAc8AXk?format=jpg&name=medium", title = "https://twitter.com/washanapple"),
     GlanceImage(link = "https://pbs.twimg.com/media/E8LtndFUUAMUNlk?format=jpg&name=large", title = "https://twitter.com/washanapple"),
     GlanceImage(link = "https://pbs.twimg.com/media/E2P70KTUUAEi98I?format=jpg&name=large", title = "https://twitter.com/washanapple"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FrqxgEsagAA__k2?format=jpg&name=medium", title = "https://twitter.com/washanapple"),
 
     // https://www.artstation.com/dadachyo - Pure eye candy
     // https://www.pixiv.net/en/users/6491752
@@ -382,6 +391,7 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://i.pinimg.com/564x/0b/73/26/0b7326ae0b9ef05fba2700cfafda4b9f.jpg", title = "https://in.pinterest.com/yunngia/"),
 
     // https://www.pinterest.com
+    GlanceImage(link = "https://i.pinimg.com/564x/cb/e6/05/cbe6059b1c305ab05774c5f08d832f51.jpg", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/57/05/8b/57058b753a827b983f213b3cee2deaec.jpg", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/88/c4/7b/88c47b6bedb8da2f82e72a4b47fa5244.jpg", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/e6/6d/2c/e66d2cabab640aa26718f6075ff6ee09.jpg", title = "https://www.pinterest.com"),
@@ -398,6 +408,7 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://i.pinimg.com/originals/9b/84/28/9b84283a98c2b5ad184cabfdf4343005.png", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/dd/65/84/dd6584a9b55f78b82eba907b51a112ec.jpg", title = "https://www.pinterest.com"),
     GlanceImage(link = "https://i.pinimg.com/564x/8c/26/bd/8c26bdb4f31e8f4cd513904576016878.jpg", title = "https://www.pinterest.com"),
+    GlanceImage(link = "https://pbs.twimg.com/media/ElxI4dAW0AEgPHM?format=jpg&name=medium", title = "https://twitter.com/ExploreCosmos_"),
 
     GlanceImage(link = "https://i.pinimg.com/564x/a1/7e/f4/a17ef45340b9d2d310650361dc1b2447.jpg", title = "https://in.pinterest.com/"),
     GlanceImage(link = "https://i.pinimg.com/564x/7b/21/c6/7b21c604f3a6930c07a7553e9f370ca6.jpg", title = "https://in.pinterest.com/"),
@@ -574,8 +585,22 @@ val defaultImageUrlList = listOf(
 
     GlanceImage(link = "https://i.pinimg.com/564x/b5/92/8e/b5928e9229bae22418b5bcb2f25d0124.jpg", title = "https://in.pinterest.com/reolkaaa/"),
     GlanceImage(link = "https://i.pinimg.com/564x/b6/54/fd/b654fdb821169bf089210586b318dc8c.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/a2/8e/b7/a28eb7d5eb01a620254fc7aa32453889.jpg", title = "https://in.pinterest.com/reolkaaa/"),
     GlanceImage(link = "https://i.pinimg.com/564x/ea/36/31/ea3631a12fbccc5e3fd0b4630ff8ee59.jpg", title = "https://in.pinterest.com/reolkaaa/"),
     GlanceImage(link = "https://i.pinimg.com/564x/a2/a6/77/a2a6775a4b39b29f51e99c215e2e89eb.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/62/58/55/6258556611eb1e5569a8382dbef3abda.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/c2/d1/99/c2d1998d608be46a059712f5fc51851e.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/8f/73/cd/8f73cd72582dbf531686fe721f4a49a6.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/6d/2b/bb/6d2bbbf8da65ff3c9e7b3e84cafb513c.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/a7/78/fa/a778fae7d1c755f41642e99c9809d3d8.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/e5/02/88/e50288989503a196f1f8ebdb74d0cb87.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/78/d4/93/78d493f81b036ccb86fd4adcbbef6624.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/36/cf/64/36cf648d782ee2e4104beb709cdfeda9.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/0e/4e/56/0e4e56200ae261c6ec58fbe558ea1a99.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/f7/4d/25/f74d254798e0c291c82efa08b149bb8e.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/2e/46/95/2e469509ace2734b363a88a32946b68c.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/ff/e3/53/ffe353d417f202b6d91ed5e59bfaa61c.jpg", title = "https://in.pinterest.com/reolkaaa/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/05/2a/a9/052aa9c31eafa99742c9c8a5e53b554f.jpg", title = "https://in.pinterest.com/reolkaaa/"),
 
     GlanceImage(link = "https://pbs.twimg.com/media/Fmb-VoBagAoY6Dg?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
     GlanceImage(link = "https://pbs.twimg.com/media/FhqZ_R7UAAAyXAX?format=png&name=900x900", title = "https://twitter.com/dalcefo"),
@@ -585,6 +610,13 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FiQjUNIUUAAmOFJ?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fh2vpOTUoAAt2ld?format=jpg&name=900x900", title = "https://twitter.com/dalcefo"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fh_Eyf_aEAAK5j_?format=jpg&name=900x900", title = "https://twitter.com/dalcefo"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FrehsNTagAEmHtI?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FrqwXAVaIAErgAG?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fr923LoaQAAJH3w?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fr928e0aYAAfPPo?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fr92-x8aUAAzGsp?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Fryu2hmagAArB-D?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
+    GlanceImage(link = "https://i.pinimg.com/564x/2f/78/b1/2f78b168dc0580b9185944336a9cfbd9.jpg", title = "https://twitter.com/dalcefo"),
 
     // https://twitter.com/ELIOLIart 🤯
     GlanceImage(link = "https://pbs.twimg.com/media/FX_gE-gXkAEqqXf?format=jpg&name=large", title = "https://twitter.com/ELIOLIart"),
@@ -673,4 +705,86 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FqcmI3JakAAyJK7?format=jpg&name=4096x4096", title = "https://twitter.com/_Yuming_Li"),
     GlanceImage(link = "https://pbs.twimg.com/media/FpejgzQaQAAOx3L?format=jpg&name=large", title = "https://twitter.com/_Yuming_Li"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fre8hrzaUAE8hxy?format=jpg&name=4096x4096", title = "https://twitter.com/_Yuming_Li"),
-)
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FrbrwJDaQAEH90C?format=jpg&name=4096x4096", title = "https://www.artstation.com/jwhs"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/002/938/926/large/j-won-han-2323412232323123123121232.jpg?1467542066", title = "https://www.artstation.com/jwhs"),
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/002/938/924/large/j-won-han-232341223232312312312123.jpg?1467542056", title = "https://www.artstation.com/jwhs"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/EJZB67xWwAAnlQp?format=jpg&name=large", title = "https://twitter.com/chenalii"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EWinb_9UcAgJK3N?format=jpg&name=4096x4096", title = "https://twitter.com/chenalii"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EXRghhLU0AAhLOV?format=jpg&name=large", title = "https://twitter.com/chenalii"),
+    GlanceImage(link = "https://pbs.twimg.com/media/ELmt_ilWsAEbMh6?format=jpg&name=large", title = "https://twitter.com/chenalii"),
+    GlanceImage(link = "https://pbs.twimg.com/media/DowIjfwXoAAVBzo?format=jpg&name=medium", title = "https://twitter.com/chenalii"),
+    GlanceImage(link = "https://pbs.twimg.com/media/DjNbEXgV4AAWWk4?format=jpg&name=large", title = "https://twitter.com/chenalii"),
+    GlanceImage(link = "https://pbs.twimg.com/media/DiFEo6BV4AElEKO?format=jpg&name=4096x4096", title = "https://twitter.com/chenalii"),
+    GlanceImage(link = "https://pbs.twimg.com/media/DiFEqQYVQAU7Ftt?format=jpg&name=4096x4096", title = "https://twitter.com/chenalii"),
+    GlanceImage(link = "https://pbs.twimg.com/media/DhhM4iyU0AEMeuE?format=jpg&name=4096x4096", title = "https://twitter.com/chenalii"),
+    GlanceImage(link = "https://pbs.twimg.com/media/DhhM-9yUwAAbHD3?format=jpg&name=medium", title = "https://twitter.com/chenalii"),
+    GlanceImage(link = "https://pbs.twimg.com/media/Dg9X9yFUcAAHII2?format=jpg&name=medium", title = "https://twitter.com/chenalii"),
+    GlanceImage(link = "https://pbs.twimg.com/media/DfBRbCiUwAAgBxJ?format=jpg&name=medium", title = "https://twitter.com/chenalii"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/EqwDASMVQAA2XVK?format=jpg&name=large", title = "https://twitter.com/77fchen"),
+    GlanceImage(link = "https://pbs.twimg.com/media/E3Sf59qVkAcTw0l?format=jpg&name=large", title = "https://twitter.com/77fchen"),
+    GlanceImage(link = "https://pbs.twimg.com/media/E3Sf6dOVcAQFRxs?format=jpg&name=large", title = "https://twitter.com/77fchen"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EVQVnFaUMAcJKtE?format=jpg&name=large", title = "https://twitter.com/77fchen"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EVQVnFqUMAAtS6D?format=jpg&name=large", title = "https://twitter.com/77fchen"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EKiTRWiXUAEB5vd?format=jpg&name=large", title = "https://twitter.com/77fchen"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EKiTRWiXUAIAjiG?format=jpg&name=large", title = "https://twitter.com/77fchen"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EGXh1BLXYAIdDHp?format=jpg&name=large", title = "https://twitter.com/77fchen"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EGXh1A1XoAEAj3_?format=jpg&name=large", title = "https://twitter.com/77fchen"),
+    GlanceImage(link = "https://pbs.twimg.com/media/DtRneXZXcAAy9LF?format=png&name=large", title = "https://twitter.com/77fchen"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EEResZbW4AAoRWN?format=jpg&name=large", title = "https://twitter.com/77fchen"),
+    GlanceImage(link = "https://pbs.twimg.com/media/EEResZXXUAEqc5t?format=jpg&name=large", title = "https://twitter.com/77fchen"),
+    GlanceImage(link = "https://pbs.twimg.com/media/DkMjStiVAAAvW-J?format=png&name=large", title = "https://twitter.com/77fchen"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/EVlhrrXUUAMKz2Z?format=jpg&name=4096x4096", title = "https://twitter.com/jameszjng"),
+
+    GlanceImage(link = "https://i.pinimg.com/564x/89/6b/fb/896bfbfe41f69fcdc35b519d383eb338.jpg", title = "https://in.pinterest.com/wattpad/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/6a/6d/d3/6a6dd3c90a653cc029409be2f9507430.jpg", title = "https://in.pinterest.com/wattpad/"),
+
+    GlanceImage(link = "https://i.pinimg.com/564x/29/ae/8d/29ae8de8684e8497c6669baddc486fc3.jpg", title = "https://in.pinterest.com/hzensg5/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/db/33/73/db3373cdce08bec95d4144a96c190d55.jpg", title = "https://in.pinterest.com/mejiroo_jiro/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/c7/81/4a/c7814a92e46bd299e51470ec7e09d75e.jpg", title = "https://www.listal.com/viewimage/24953590"),
+    GlanceImage(link = "https://i.pinimg.com/564x/76/13/86/7613869de06576c2ae7818049868f327.jpg", title = "https://in.pinterest.com/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/27/1c/b4/271cb4ecc1fbd78def685e6c18b44080.jpg", title = "https://in.pinterest.com/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/8b/41/41/8b41413f6a4cf5c712843a16bf9fb1e4.jpg", title = "https://in.pinterest.com/claireemmaa3/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/d0/a6/05/d0a605488eaeaf09e84f6d7745dd8764.jpg", title = "https://in.pinterest.com/alexabayusaga/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/be/2f/eb/be2feb9dc9cdbb2dc4df70737ac8ac59.jpg", title = "https://in.pinterest.com/snower22/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/3a/b6/4c/3ab64ceead8a9db00eb7583df1afb7d0.jpg", title = "https://in.pinterest.com/julytran3715/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/37/65/45/376545954a701cdfc25107b23f1c3036.jpg", title = "https://in.pinterest.com/phuonglieu2404/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/39/18/0c/39180ce4eaf31e434dcfdc77316cf649.jpg", title = "https://in.pinterest.com/phuonglieu2404/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/77/f5/a5/77f5a59be5343b26639d3bf6da4f41d8.jpg", title = "https://in.pinterest.com/yen109706n/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/c1/8a/28/c18a289ae9871e4f8c6f6cd0f83fee6b.jpg", title = "https://in.pinterest.com/imxhelios/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/2c/d8/ea/2cd8ea2c4e53d71c4ecf519c6fa47914.jpg", title = "https://in.pinterest.com/softiepie1/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/d6/fe/f4/d6fef4a6f81e1b6b3a7535d822d7333e.jpg", title = "https://in.pinterest.com/oi1235676/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/01/fe/4e/01fe4e076d1b8fb70cccd7eead28a7e6.jpg", title = "https://in.pinterest.com/726sHSArt/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/09/7e/32/097e32d5a1437af45bced3bbca5a9309.jpg", title = "https://in.pinterest.com/hallucination1014/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/8c/41/9a/8c419af7c5198f2bb9f8678d66da79a7.jpg", title = "https://in.pinterest.com/imxhelios/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/c3/d6/58/c3d658480d14ec6f67b30da052214cf2.jpg", title = "https://in.pinterest.com/tuyettinhlinh2603/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/c3/d6/58/c3d658480d14ec6f67b30da052214cf2.jpg", title = "https://in.pinterest.com/tuyettinhlinh2603/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/ba/de/9a/bade9a80f538c5b39ad1a8b60fa8f33b.jpg", title = "https://in.pinterest.com/julytran3715/"),
+
+    GlanceImage(link = "https://i.pinimg.com/564x/26/37/cb/2637cb950d6ff27ebf2fdb748c101ff9.jpg", title = "https://in.pinterest.com/xamchan7/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/e0/f1/ac/e0f1ac3ef452496120a7598fef50e2a8.jpg", title = "https://in.pinterest.com/xamchan7/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/4f/ca/7b/4fca7bfbd071b7b60fe55c4b10d34686.jpg", title = "https://in.pinterest.com/xamchan7/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/4c/06/d0/4c06d090b25630986ac57f721637250c.jpg", title = "https://in.pinterest.com/xamchan7/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/2e/a8/a9/2ea8a96686575f16d233eddfc917325c.jpg", title = "https://in.pinterest.com/xamchan7/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/68/ee/3a/68ee3aeb3e93cea265975b3076ca9ca8.jpg", title = "https://in.pinterest.com/xamchan7/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/1a/10/1f/1a101fd12fceacb86a666048b3e51b96.jpg", title = "https://in.pinterest.com/xamchan7/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/67/01/a0/6701a04585289abb6d30eba92fa21fd6.jpg", title = "https://in.pinterest.com/xamchan7/"),
+
+    GlanceImage(link = "https://i.pinimg.com/564x/5c/28/9d/5c289dd94a6bbefb0bf47db42d926d08.jpg", title = "https://in.pinterest.com/peonoocy_y/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/35/b2/e7/35b2e7399f5df7f8aa1df0f730d6f0be.jpg", title = "https://in.pinterest.com/peonoocy_y/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/ff/cd/6e/ffcd6e8eb15fb24f68826594f89c10c7.jpg", title = "https://in.pinterest.com/peonoocy_y/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/13/6b/6c/136b6ceb5f36b45d59b78194eac8338b.jpg", title = "https://in.pinterest.com/peonoocy_y/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/7f/77/81/7f77817fbce7081626c415f3853ce946.jpg", title = "https://in.pinterest.com/peonoocy_y/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/5c/39/02/5c3902c18b65668141a1deeb0841d798.jpg", title = "https://in.pinterest.com/peonoocy_y/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/6a/24/9f/6a249f615ffd1540d1bc98a66352d566.jpg", title = "https://in.pinterest.com/peonoocy_y/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/c7/7b/94/c77b942f87fba8086eb0098767b0b611.jpg", title = "https://in.pinterest.com/peonoocy_y/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/66/47/57/664757acdb0a15de2a45f3c971dd0d84.jpg", title = "https://in.pinterest.com/peonoocy_y/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/d4/9b/ad/d49badf4e908a6d5420c14a8f3ad006b.jpg", title = "https://in.pinterest.com/peonoocy_y/"),
+    GlanceImage(link = "https://i.pinimg.com/564x/0a/ea/a9/0aeaa97ddf33701c5700d10de1f484ab.jpg", title = "https://in.pinterest.com/peonoocy_y/"),
+
+    GlanceImage(link = "https://i.pinimg.com/564x/2b/03/17/2b0317bbeeb521f6b9280e41b1f8a8b7.jpg", title = "https://in.pinterest.com/Laaa24/"),
+
+    )

@@ -463,6 +463,7 @@ class HomeFragment : Fragment() {
 //            refreshAppList()
 //        }
         println("This triggers everytime we switch the screen in viewpager")
+        permissionsResult.launch(callContactSmsPermissionList)
         activity?.registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_TIME_TICK))
         activity?.registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_PACKAGE_FULLY_REMOVED))
         activity?.registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_PACKAGE_INSTALL))
@@ -503,8 +504,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun FragmentHomeBinding.setupUI() {
-        permissionsResult.launch(callContactSmsPermissionList2)
-        setTimeDateAndFlow()
         refreshAppList()
         refreshDateTime()
         initTextToSpeech()

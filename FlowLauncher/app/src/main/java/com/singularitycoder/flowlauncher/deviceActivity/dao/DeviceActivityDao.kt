@@ -39,6 +39,9 @@ interface DeviceActivityDao {
     @Query("DELETE FROM ${Table.DEVICE_ACTIVITY}")
     suspend fun deleteAll()
 
+    @Query("DELETE FROM ${Table.DEVICE_ACTIVITY} WHERE :elapsedTime > date")
+    suspend fun deleteAllActivityOlderThan7Days(elapsedTime: Long)
+
     @Query("DELETE FROM ${Table.DEVICE_ACTIVITY} WHERE title LIKE :link")
     suspend fun deleteByTitle(link: String): Int
 }

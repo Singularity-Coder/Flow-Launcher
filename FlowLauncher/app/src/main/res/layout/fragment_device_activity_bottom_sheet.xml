@@ -72,6 +72,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:reverseLayout="true"
+            app:stackFromEnd="true"
             tools:itemCount="6"
             tools:listitem="@layout/list_item_device_activity" />
 
