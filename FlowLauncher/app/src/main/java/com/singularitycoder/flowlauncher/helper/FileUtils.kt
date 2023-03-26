@@ -19,9 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.util.*
 
 
@@ -236,6 +234,20 @@ fun String?.sanitize(): String {
         }
     }
     return sanitizedString
+}
+
+// https://github.com/LineageOS/android_packages_apps_Jelly
+fun readStringFromStream(
+    inputStream: InputStream,
+    encoding: String
+): String {
+    val reader = BufferedReader(InputStreamReader(inputStream, encoding))
+    val result = StringBuilder()
+    var line: String?
+    while (reader.readLine().also { line = it } != null) {
+        result.append(line)
+    }
+    return result.toString()
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

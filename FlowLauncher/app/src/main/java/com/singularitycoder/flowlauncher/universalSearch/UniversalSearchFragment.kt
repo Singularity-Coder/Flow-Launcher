@@ -167,11 +167,11 @@ class UniversalSearchFragment : Fragment() {
 
     private fun FragmentUniversalSearchBinding.observeForData() {
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = universalSearchViewModel.textChangeFlow) { query: String ->
-            if (FlowUtils.recentAppList.any { it.title.contains(query, true) && query.isNotBlank() }.not()) {
+            if (FlowUtils.recentAppList.isEmpty()) {
                 cardRecentApps.isVisible = false
                 return@collectLatestLifecycleFlow
             }
-            val allRecentAppsList = FlowUtils.recentAppList.filter { it: App -> it.title.contains(query, true) }.distinctBy { it.packageName }
+            val allRecentAppsList = FlowUtils.recentAppList/*.distinctBy { it.packageName }*/
             val tvAppsLayoutList = listOf(layoutRecentApp1, layoutRecentApp2, layoutRecentApp3, layoutRecentApp4)
             tvAppsLayoutList.forEach { it: ListItemAppBinding ->
                 it.root.isInvisible = true
@@ -205,6 +205,7 @@ class UniversalSearchFragment : Fragment() {
                     root.isVisible = true
                     ivAppIcon.load(app.iconPath)
                     tvAppName.text = app.title
+                    tvAppName.highlightQueriedText(query = query, result = tvAppName.text.toString())
                     root.onSafeClick {
                         requireActivity().launchApp(app.packageName)
                     }
@@ -236,7 +237,9 @@ class UniversalSearchFragment : Fragment() {
                         error(bitmapDrawableOfLayout)
                     }
                     tvTitle.text = contact.name
+                    tvTitle.highlightQueriedText(query = query, result = tvTitle.text.toString())
                     tvSubtitle.text = contact.mobileNumber
+                    tvSubtitle.highlightQueriedText(query = query, result = tvSubtitle.text.toString())
                     root.onSafeClick {
                         requireContext().openDialer(contact.mobileNumber)
                     }
@@ -259,7 +262,9 @@ class UniversalSearchFragment : Fragment() {
                     root.isVisible = true
                     cardPicture.isVisible = false
                     tvTitle.text = sms.number
+                    tvTitle.highlightQueriedText(query = query, result = tvTitle.text.toString())
                     tvSubtitle.text = sms.body
+                    tvSubtitle.highlightQueriedText(query = query, result = tvSubtitle.text.toString())
                     ivCall.setImageDrawable(requireContext().drawable(R.drawable.outline_sms_24))
                     root.onSafeClick {
                         requireContext().sendSms(phoneNumber = sms.number ?: "", body = "")
@@ -283,6 +288,7 @@ class UniversalSearchFragment : Fragment() {
                     root.isVisible = true
                     ivOpenOutward.isVisible = true
                     tvWord.text = FlowUtils.androidSettingsMap[item.key]
+                    tvWord.highlightQueriedText(query = query, result = tvWord.text.toString())
                     root.onSafeClick {
                         // TODO find another way
                         requireContext().openSettings(screen = "android.settings.${item.key.replace(oldValue = "ACTION_", newValue = "")}")
@@ -307,6 +313,7 @@ class UniversalSearchFragment : Fragment() {
                     ivOpenOutward.isVisible = true
                     ivOpenOutward.setImageDrawable(requireContext().drawable(R.drawable.outline_content_copy_24))
                     tvWord.text = "$key: ${FlowUtils.sanskritVocabMap[key]}"
+                    tvWord.highlightQueriedText(query = query, result = tvWord.text.toString())
                     root.onSafeClick {
                         requireContext().clipboard()?.text = tvWord.text
                         binding.root.showSnackBar("Copied!")
@@ -331,6 +338,7 @@ class UniversalSearchFragment : Fragment() {
                     ivOpenOutward.isVisible = true
                     ivOpenOutward.setImageDrawable(requireContext().drawable(R.drawable.outline_content_copy_24))
                     tvWord.text = "$key: ${FlowUtils.englishVocabMap[key]}"
+                    tvWord.highlightQueriedText(query = query, result = tvWord.text.toString())
                     root.onSafeClick {
                         requireContext().clipboard()?.text = tvWord.text
                         binding.root.showSnackBar("Copied!")
@@ -363,6 +371,7 @@ class UniversalSearchFragment : Fragment() {
                 root.isVisible = true
                 ivOpenOutward.isVisible = true
                 tvWord.text = link
+                tvWord.highlightQueriedText(query = searchQuery, result = tvWord.text.toString())
                 root.onSafeClick {
                     requireContext().showWebPage(url = "https://www.google.com/search?q=$link")
                 }

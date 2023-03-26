@@ -55,7 +55,7 @@ class AppWorker(val context: Context, workerParams: WorkerParameters) : Coroutin
                     dao.deleteAll()
                     dao.insertAll(it.sortedBy { it.title })
                 }
-                Result.success(sendResult(isWorkComplete = true))
+                Result.success()
             } catch (e: Exception) {
                 println("Exception: $e")
                 Result.failure()

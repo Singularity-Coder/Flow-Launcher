@@ -7,11 +7,15 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.SystemClock
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.StyleSpan
 import android.view.HapticFeedbackConstants
 import android.view.MenuItem
 import android.view.View
@@ -285,6 +289,24 @@ fun Context.getResourceUri(@AnyRes resourceId: Int): Uri {
 
 fun Context.clearNotification(notificationId: Int) {
     (getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.cancel(packageName, notificationId)
+}
+
+// https://github.com/LineageOS/android_packages_apps_Jelly
+fun TextView?.highlightQueriedText(query: String, result: String): TextView? {
+    if (query.isBlank() || result.isBlank()) return this
+    val spannable = SpannableStringBuilder(result)
+    var queryTextPos = result.toLowCase().indexOf(string = query)
+    while (queryTextPos >= 0) {
+        spannable.setSpan(
+            /* what = */ StyleSpan(Typeface.BOLD),
+            /* start = */ queryTextPos,
+            /* end = */ queryTextPos + query.length,
+            /* flags = */ Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        queryTextPos = result.toLowCase().indexOf(string = query, startIndex = queryTextPos + query.length)
+    }
+    this?.text = spannable
+    return this
 }
 
 // https://stackoverflow.com/questions/2228151/how-to-enable-haptic-feedback-on-button-view

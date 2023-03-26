@@ -573,6 +573,7 @@ class HomeFragment : Fragment() {
         }
 
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = appFlowViewModel.appFlowListStateFlow) { it: List<AppFlow> ->
+            if (it.isEmpty()) return@collectLatestLifecycleFlow
             val selectedFlow = it.firstOrNull { it.isSelected }
             val isFlowNameHasFlow = selectedFlow?.appFlowName?.contains(other = "flow", ignoreCase = true) == true
             flowName = if (isFlowNameHasFlow) selectedFlow?.appFlowName else "${selectedFlow?.appFlowName} Flow"
