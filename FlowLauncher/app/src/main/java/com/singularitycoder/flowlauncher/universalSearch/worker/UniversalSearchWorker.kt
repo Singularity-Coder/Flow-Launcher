@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher.universalSearch
+package com.singularitycoder.flowlauncher.universalSearch.worker
 
 import android.app.usage.UsageStats
 import android.content.Context

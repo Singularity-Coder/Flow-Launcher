@@ -690,6 +690,10 @@ val animeQuoteList = listOf(
         title = "If all you ever choose to do are things you can already do, you'll never start anything new.",
         author = "Grand Blue"
     ),
+    Quote(
+        title = "The worst enemies you can have are incompetent allies.",
+        author = "Eminence in the shadow"
+    ),
 ).shuffled()
 
 val generalQuoteList = listOf(

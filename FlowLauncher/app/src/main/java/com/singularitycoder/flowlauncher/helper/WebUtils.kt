@@ -31,7 +31,7 @@ private const val USER_AGENT = "Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) App
 @WorkerThread
 suspend fun htmlString(url: String): String? {
     return try {
-        val urlConnection: HttpURLConnection = createUrlConnection(url, 10000)
+        val urlConnection: HttpURLConnection = createUrlConnection(url, 10_000)
         val result = suspendCoroutine<String?> { continuation: Continuation<String?> ->
             urlConnection.instanceFollowRedirects = true
             val encoding = urlConnection.contentEncoding

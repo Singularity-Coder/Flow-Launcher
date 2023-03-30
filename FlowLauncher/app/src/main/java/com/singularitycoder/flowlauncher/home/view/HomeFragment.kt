@@ -61,10 +61,10 @@ import com.singularitycoder.flowlauncher.home.model.App
 import com.singularitycoder.flowlauncher.home.model.Contact
 import com.singularitycoder.flowlauncher.home.viewmodel.HomeViewModel
 import com.singularitycoder.flowlauncher.home.worker.AppWorker
-import com.singularitycoder.flowlauncher.quickSettings.QuickSettingsBottomSheetFragment
+import com.singularitycoder.flowlauncher.quickSettings.view.QuickSettingsBottomSheetFragment
 import com.singularitycoder.flowlauncher.toBitmapOf
-import com.singularitycoder.flowlauncher.universalSearch.UniversalSearchFragment
-import com.singularitycoder.flowlauncher.universalSearch.UniversalSearchWorker
+import com.singularitycoder.flowlauncher.universalSearch.view.UniversalSearchFragment
+import com.singularitycoder.flowlauncher.universalSearch.worker.UniversalSearchWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -682,7 +682,7 @@ class HomeFragment : Fragment() {
             val hours = time.substringBefore(":")
             val minutes = time.substringAfter(":").substringBefore(" ")
             val dayPeriod = time.substringAfter(" ").toUpCase()
-            val html = "$hours : $minutes <small><small><small>$dayPeriod</small></small></small>"
+            val html = "${if (hours.length == 1) "0$hours" else hours} : $minutes <small><small><small>$dayPeriod</small></small></small>"
             val day = Calendar.getInstance().time.toString().substringBefore(" ")
 
             withContext(Main) {

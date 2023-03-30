@@ -99,6 +99,14 @@ fun Context.isCallContactSmsPermissionGranted2(): Boolean {
             ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
 }
 
+fun Context.isOldStorageWritePermissionGranted(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+}
+
+fun Context.isOldStorageReadPermissionGranted(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+}
+
 // https://stackoverflow.com/questions/32083410/cant-get-write-settings-permission
 fun Context.setRingtone(ringtoneUri: Uri) {
     RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, ringtoneUri);

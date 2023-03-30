@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_top_rounded"
     android:orientation="vertical"
-    tools:context=".quickSettings.QuickSettingsBottomSheetFragment">
+    tools:context=".quickSettings.view.QuickSettingsBottomSheetFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

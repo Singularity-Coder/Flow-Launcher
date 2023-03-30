@@ -202,6 +202,7 @@ object WorkerTag {
 
 object WorkerData {
     const val URL = "WORKER_DATA_URL"
+    const val QUERY = "WORKER_DATA_QUERY"
     const val URL_LINKS_LIST = "WORKER_DATA_URL_LINKS_LIST"
 }
 

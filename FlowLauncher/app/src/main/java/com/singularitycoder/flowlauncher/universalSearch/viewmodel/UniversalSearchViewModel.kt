@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher.universalSearch
+package com.singularitycoder.flowlauncher.universalSearch.viewmodel
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

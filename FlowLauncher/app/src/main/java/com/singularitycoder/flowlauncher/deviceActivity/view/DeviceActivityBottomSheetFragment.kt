@@ -84,11 +84,8 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
         binding.setupUI()
         binding.setupUserActionListeners()
         binding.observeForData()
-        println("time now: $timeNow")
-        println("time now: ${TimeUnit.DAYS.toMillis(1)}")
     }
 
-    // https://stackoverflow.com/questions/15543186/how-do-i-create-colorstatelist-programmatically
     @SuppressLint("NotifyDataSetChanged")
     private fun FragmentDeviceActivityBottomSheetBinding.setupUI() {
         setTransparentBackground()
@@ -123,8 +120,8 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
 
         deviceActivityAdapter.setDeleteListener { it: DeviceActivity ->
             val twoDays = TimeUnit.DAYS.toMillis(2)
-            val isOlderThan2Days = timeNow - twoDays > it.date
-            if (isOlderThan2Days) {
+            val isOlderThan48Hours = timeNow - twoDays > it.date
+            if (isOlderThan48Hours) {
                 requireContext().showAlertDialog(
                     title = "Delete this activity?",
                     message = it.title,

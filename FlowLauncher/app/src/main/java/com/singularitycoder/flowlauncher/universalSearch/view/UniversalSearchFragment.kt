@@ -1,8 +1,10 @@
-package com.singularitycoder.flowlauncher.universalSearch
+package com.singularitycoder.flowlauncher.universalSearch.view
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.Settings
 import android.text.Editable
 import android.view.LayoutInflater
@@ -34,6 +36,9 @@ import com.singularitycoder.flowlauncher.home.model.App
 import com.singularitycoder.flowlauncher.home.model.Contact
 import com.singularitycoder.flowlauncher.home.model.Sms
 import com.singularitycoder.flowlauncher.toBitmapOf
+import com.singularitycoder.flowlauncher.universalSearch.viewmodel.UniversalSearchViewModel
+import com.singularitycoder.flowlauncher.universalSearch.worker.UniversalSearchWorker
+import com.singularitycoder.flowlauncher.universalSearch.worker.WebLinkFetchWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -53,7 +58,7 @@ class UniversalSearchFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentUniversalSearchBinding
-    private var searchQuery = ""
+    private var searchQuery: String = ""
     private val universalSearchViewModel: UniversalSearchViewModel by viewModels()
 
     private val permissionsResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, @JvmSuppressWildcards Boolean>? ->
@@ -106,63 +111,6 @@ class UniversalSearchFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         requireActivity().setStatusBarColor(R.color.purple_500)
-    }
-
-    private fun FragmentUniversalSearchBinding.setupUI() {
-        grantPermissions()
-        parseUniversalSearchDataWithWorker()
-        lifecycleScope.launch {
-            val blurredBitmapFile = File(
-                /* parent = */ requireContext().getHomeLayoutBlurredImageFileDir(),
-                /* child = */ HOME_LAYOUT_BLURRED_IMAGE
-            )
-            if (blurredBitmapFile.exists().not()) return@launch
-            val blurredBitmap = blurredBitmapFile.toBitmap() ?: return@launch
-            withContext(Main) {
-                ivBackground.setImageBitmap(blurredBitmap)
-            }
-        }
-    }
-
-    private fun FragmentUniversalSearchBinding.setupUserActionListeners() {
-        etSearch.onImeClick {
-            etSearch.hideKeyboard()
-            etSearch.clearFocus()
-        }
-
-        etSearch.doAfterTextChanged { it: Editable? ->
-            val query = it.toString().toLowCase().trim()
-            searchQuery = query
-
-            cardRecentApps.isVisible = FlowUtils.recentAppList.isNotEmpty() && query.isBlank()
-            cardApps.isVisible = FlowUtils.appList.any { it.title.contains(query, true) && query.isNotBlank() }
-            cardContacts.isVisible = FlowUtils.contactsList.any { (it.name.contains(query, true) || it.mobileNumber.contains(query, true)) && query.isNotBlank() }
-            cardMessages.isVisible = FlowUtils.smsList.any { (it.body?.contains(query, true) == true) && query.isNotBlank() }
-            cardAndroidSettings.isVisible = FlowUtils.androidSettingsMap.keys.any { it.contains(query, true) && query.isNotBlank() }
-            cardSanskritWords.isVisible = FlowUtils.sanskritVocabMap.keys.any { it.contains(query, true) && query.isNotBlank() }
-            cardEnglishWords.isVisible = FlowUtils.englishVocabMap.keys.any { it.contains(query, true) && query.isNotBlank() }
-            cardWebSearch.isVisible = false
-
-            if (query.isBlank()) return@doAfterTextChanged
-
-            universalSearchViewModel.setQueryValue(query)
-            fetchWebLinksWithWorker(query)
-        }
-
-        btnCancel.onSafeClick {
-            requireActivity().supportFragmentManager.popBackStackImmediate()
-        }
-
-        nestedScrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            println("scrollY: $scrollY oldScrollY: $oldScrollY".trimIndent())
-            if (scrollY - oldScrollY > 20) {
-                etSearch.hideKeyboard()
-            }
-
-            if (scrollY == 0) {
-                etSearch.showKeyboard()
-            }
-        })
     }
 
     private fun FragmentUniversalSearchBinding.observeForData() {
@@ -349,10 +297,83 @@ class UniversalSearchFragment : Fragment() {
         }
     }
 
+    private fun FragmentUniversalSearchBinding.setupUI() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//            if (Environment.isExternalStorageManager().not()) {
+//            } else {
+//                if (requireContext().isOldStorageReadPermissionGranted()) {
+//
+//                }
+//
+//                if (requireContext().isOldStorageWritePermissionGranted()) {
+//
+//                }
+//            }
+//        }
+        grantPermissions()
+        parseUniversalSearchDataWithWorker()
+        setBlurredBackgroundImage()
+    }
+
+    private fun FragmentUniversalSearchBinding.setupUserActionListeners() {
+        etSearch.onImeClick {
+            etSearch.hideKeyboard()
+            etSearch.clearFocus()
+        }
+
+        etSearch.doAfterTextChanged { it: Editable? ->
+            val query = it.toString().toLowCase().trim()
+            searchQuery = query
+
+            cardRecentApps.isVisible = FlowUtils.recentAppList.isNotEmpty() && query.isBlank()
+            cardApps.isVisible = FlowUtils.appList.any { it.title.contains(query, true) && query.isNotBlank() }
+            cardContacts.isVisible = FlowUtils.contactsList.any { (it.name.contains(query, true) || it.mobileNumber.contains(query, true)) && query.isNotBlank() }
+            cardMessages.isVisible = FlowUtils.smsList.any { (it.body?.contains(query, true) == true) && query.isNotBlank() }
+            cardAndroidSettings.isVisible = FlowUtils.androidSettingsMap.keys.any { it.contains(query, true) && query.isNotBlank() }
+            cardSanskritWords.isVisible = FlowUtils.sanskritVocabMap.keys.any { it.contains(query, true) && query.isNotBlank() }
+            cardEnglishWords.isVisible = FlowUtils.englishVocabMap.keys.any { it.contains(query, true) && query.isNotBlank() }
+            cardWebSearch.isVisible = false
+
+            if (query.isBlank()) return@doAfterTextChanged
+
+            universalSearchViewModel.setQueryValue(query)
+            fetchWebLinksWithWorker(query)
+        }
+
+        btnCancel.onSafeClick {
+            requireActivity().supportFragmentManager.popBackStackImmediate()
+        }
+
+        nestedScrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            println("scrollY: $scrollY oldScrollY: $oldScrollY".trimIndent())
+            if (scrollY - oldScrollY > 20) {
+                etSearch.hideKeyboard()
+            }
+
+            if (scrollY == 0) {
+                etSearch.showKeyboard()
+            }
+        })
+    }
+
     private fun parseUniversalSearchDataWithWorker() {
         val workManager = WorkManager.getInstance(requireContext())
         val workRequest = PeriodicWorkRequestBuilder<UniversalSearchWorker>(PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MINUTES).build()
         workManager.enqueueUniquePeriodicWork(WorkerTag.UNIVERSAL_SEARCH, ExistingPeriodicWorkPolicy.UPDATE, workRequest)
+    }
+
+    private fun setBlurredBackgroundImage() {
+        lifecycleScope.launch {
+            val blurredBitmapFile = File(
+                /* parent = */ requireContext().getHomeLayoutBlurredImageFileDir(),
+                /* child = */ HOME_LAYOUT_BLURRED_IMAGE
+            )
+            if (blurredBitmapFile.exists().not()) return@launch
+            val blurredBitmap = blurredBitmapFile.toBitmap() ?: return@launch
+            withContext(Main) {
+                binding.ivBackground.setImageBitmap(blurredBitmap)
+            }
+        }
     }
 
     private fun grantPermissions() {
@@ -385,6 +406,7 @@ class UniversalSearchFragment : Fragment() {
         val workConstraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
         val data = Data.Builder().apply {
             putString(WorkerData.URL, "https://www.google.com/search?q=$query")
+            putString(WorkerData.QUERY, searchQuery)
         }.build()
         val workRequest = OneTimeWorkRequestBuilder<WebLinkFetchWorker>()
             .setInputData(data)

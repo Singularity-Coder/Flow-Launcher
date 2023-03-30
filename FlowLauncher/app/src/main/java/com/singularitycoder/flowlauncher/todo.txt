@@ -94,6 +94,9 @@ TODO My Bills
 TODO top 4 or 5 contacts u will message and call freq - problem is another recyclerview ...the pain
 
 
+Everything about storage on Android
+https://www.youtube.com/watch?v=jcO6p5TlcGs
+
 
 https://stackoverflow.com/questions/7609270/not-able-to-access-adb-in-os-x-through-terminal-command-not-found
 Go to directory containing adb:

@@ -1,9 +1,9 @@
 package com.singularitycoder.flowlauncher.helper
 
-import android.Manifest
+import android.app.Activity
 import android.app.DownloadManager
 import android.content.Context
-import android.content.pm.PackageManager
+import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,8 +12,8 @@ import android.os.Build
 import android.os.Environment
 import android.os.storage.StorageManager
 import android.provider.OpenableColumns
+import android.provider.Settings
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.*
 import java.util.*
-
 
 fun File?.customPath(directory: String?, fileName: String?): String {
     var path = this?.absolutePath
@@ -120,10 +119,6 @@ fun Context.copyFileToInternalStorage(
         println(e.message)
         null
     }
-}
-
-fun Context.isOldStorageReadPermissionGranted(): Boolean {
-    return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
 }
 
 // https://stackoverflow.com/questions/15662258/how-to-save-a-bitmap-on-internal-storage
@@ -248,6 +243,32 @@ fun readStringFromStream(
         result.append(line)
     }
     return result.toString()
+}
+
+// Everything about storage on Android - https://www.youtube.com/watch?v=jcO6p5TlcGs
+// Storage access with Android 11 - https://www.youtube.com/watch?v=RjyYCUW-9tY
+// Access Storage in Android 11 and 12 - https://www.youtube.com/watch?v=0313bhp-8uA
+fun Activity.requestStoragePermissions() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        try {
+            val uri = Uri.fromParts("package", packageName, null)
+            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                addCategory("android.intent.category.DEFAULT")
+                data = uri
+            }
+            startActivityForResult(intent, 1001)
+        } catch (_: Exception) {
+            val intent = Intent().apply {
+                action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+            }
+            startActivityForResult(intent, 1001)
+        }
+    } else {
+        requestPermission(
+            permissions = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            requestCode = 1001
+        )
+    }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

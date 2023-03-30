@@ -164,6 +164,7 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/FbPXg8FagAAhyB6?format=jpg&name=4096x4096", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/FbPXiAaaAAELU0H?format=jpg&name=4096x4096", title = "https://twitter.com/HoDaRaKe"),
     GlanceImage(link = "https://pbs.twimg.com/media/FbPXjPoakAA3hYl?format=jpg&name=4096x4096", title = "https://twitter.com/HoDaRaKe"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FrgNsFZaUAEK9JO?format=jpg&name=medium", title = "https://twitter.com/HoDaRaKe"),
 
     // Pexels
     GlanceImage(link = "https://images.pexels.com/photos/1251247/pexels-photo-1251247.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title = "https://www.pexels.com/"),
@@ -612,7 +613,6 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://pbs.twimg.com/media/Fh_Eyf_aEAAK5j_?format=jpg&name=900x900", title = "https://twitter.com/dalcefo"),
     GlanceImage(link = "https://pbs.twimg.com/media/FrehsNTagAEmHtI?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
     GlanceImage(link = "https://pbs.twimg.com/media/FrqwXAVaIAErgAG?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
-    GlanceImage(link = "https://pbs.twimg.com/media/Fr923LoaQAAJH3w?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fr928e0aYAAfPPo?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fr92-x8aUAAzGsp?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fryu2hmagAArB-D?format=jpg&name=medium", title = "https://twitter.com/dalcefo"),
@@ -744,10 +744,8 @@ val defaultImageUrlList = listOf(
 
     GlanceImage(link = "https://i.pinimg.com/564x/29/ae/8d/29ae8de8684e8497c6669baddc486fc3.jpg", title = "https://in.pinterest.com/hzensg5/"),
     GlanceImage(link = "https://i.pinimg.com/564x/db/33/73/db3373cdce08bec95d4144a96c190d55.jpg", title = "https://in.pinterest.com/mejiroo_jiro/"),
-    GlanceImage(link = "https://i.pinimg.com/564x/c7/81/4a/c7814a92e46bd299e51470ec7e09d75e.jpg", title = "https://www.listal.com/viewimage/24953590"),
     GlanceImage(link = "https://i.pinimg.com/564x/76/13/86/7613869de06576c2ae7818049868f327.jpg", title = "https://in.pinterest.com/"),
     GlanceImage(link = "https://i.pinimg.com/564x/27/1c/b4/271cb4ecc1fbd78def685e6c18b44080.jpg", title = "https://in.pinterest.com/"),
-    GlanceImage(link = "https://i.pinimg.com/564x/8b/41/41/8b41413f6a4cf5c712843a16bf9fb1e4.jpg", title = "https://in.pinterest.com/claireemmaa3/"),
     GlanceImage(link = "https://i.pinimg.com/564x/d0/a6/05/d0a605488eaeaf09e84f6d7745dd8764.jpg", title = "https://in.pinterest.com/alexabayusaga/"),
     GlanceImage(link = "https://i.pinimg.com/564x/be/2f/eb/be2feb9dc9cdbb2dc4df70737ac8ac59.jpg", title = "https://in.pinterest.com/snower22/"),
     GlanceImage(link = "https://i.pinimg.com/564x/3a/b6/4c/3ab64ceead8a9db00eb7583df1afb7d0.jpg", title = "https://in.pinterest.com/julytran3715/"),
@@ -760,7 +758,6 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://i.pinimg.com/564x/01/fe/4e/01fe4e076d1b8fb70cccd7eead28a7e6.jpg", title = "https://in.pinterest.com/726sHSArt/"),
     GlanceImage(link = "https://i.pinimg.com/564x/09/7e/32/097e32d5a1437af45bced3bbca5a9309.jpg", title = "https://in.pinterest.com/hallucination1014/"),
     GlanceImage(link = "https://i.pinimg.com/564x/8c/41/9a/8c419af7c5198f2bb9f8678d66da79a7.jpg", title = "https://in.pinterest.com/imxhelios/"),
-    GlanceImage(link = "https://i.pinimg.com/564x/c3/d6/58/c3d658480d14ec6f67b30da052214cf2.jpg", title = "https://in.pinterest.com/tuyettinhlinh2603/"),
     GlanceImage(link = "https://i.pinimg.com/564x/c3/d6/58/c3d658480d14ec6f67b30da052214cf2.jpg", title = "https://in.pinterest.com/tuyettinhlinh2603/"),
     GlanceImage(link = "https://i.pinimg.com/564x/ba/de/9a/bade9a80f538c5b39ad1a8b60fa8f33b.jpg", title = "https://in.pinterest.com/julytran3715/"),
 
@@ -786,5 +783,47 @@ val defaultImageUrlList = listOf(
     GlanceImage(link = "https://i.pinimg.com/564x/0a/ea/a9/0aeaa97ddf33701c5700d10de1f484ab.jpg", title = "https://in.pinterest.com/peonoocy_y/"),
 
     GlanceImage(link = "https://i.pinimg.com/564x/2b/03/17/2b0317bbeeb521f6b9280e41b1f8a8b7.jpg", title = "https://in.pinterest.com/Laaa24/"),
+
+    GlanceImage(link = "https://cdna.artstation.com/p/assets/images/images/061/129/638/large/whimmy-lotusfairy1.jpg?1680083981", title = "https://www.artstation.com/whimmy"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FWP64ELUYAAYEVq?format=jpg&name=large", title = "https://twitter.com/Delia_letter"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FebvfW6UcAEVa09?format=jpg&name=4096x4096", title = "https://twitter.com/Delia_letter"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FTrEtEFVsAAMOcP?format=jpg&name=large", title = "https://twitter.com/Delia_letter"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FH-vQalaUAMCdXU?format=jpg&name=medium", title = "https://twitter.com/Delia_letter"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FH-wDY6akAEEoOg?format=jpg&name=medium", title = "https://twitter.com/Delia_letter"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FJGsk4OVIAAjX02?format=jpg&name=medium", title = "https://twitter.com/Delia_letter"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FIdpK4saUAIlHBg?format=jpg&name=medium", title = "https://twitter.com/Delia_letter"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FiExQP2UUAAhXIP?format=jpg&name=large", title = "https://twitter.com/_swt2"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/Fbar8txaAAMkJnO?format=jpg&name=4096x4096", title = "https://twitter.com/matchach"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FcrU2DSacAE8UxL?format=jpg&name=4096x4096", title = "https://twitter.com/matchach"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FNdVVygaMAUMfK2?format=jpg&name=large", title = "https://twitter.com/matchach"),
+    GlanceImage(link = "https://pbs.twimg.com/media/E_rDTUVUcAALd2f?format=jpg&name=4096x4096", title = "https://twitter.com/matchach"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FON6WRtaMAMoJc9?format=jpg&name=4096x4096", title = "https://twitter.com/matchach"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FP5jHTuacAAvYGj?format=jpg&name=4096x4096", title = "https://twitter.com/matchach"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FP5jGEtaMAQZXXY?format=jpg&name=4096x4096", title = "https://twitter.com/matchach"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FP5jD09aQAQFJEL?format=jpg&name=4096x4096", title = "https://twitter.com/matchach"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FaDF2xCaMAAhp6u?format=jpg&name=4096x4096", title = "https://twitter.com/matchach"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/EzVoUnxVoAYY8P0?format=jpg&name=large", title = "https://twitter.com/nayu_illust"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FfoDeWGVsAAtpF5?format=jpg&name=large", title = "https://twitter.com/nayu_illust"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FsZ6_iLaUAI_UUL?format=jpg&name=small", title = "https://twitter.com/AuroraLou3"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FsJLm47aMAEK2c7?format=jpg&name=4096x4096", title = "https://twitter.com/Opal_00_58"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FACPFu8VcAkc8hW?format=jpg&name=large", title = "https://twitter.com/ttosom58"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FBMTOfJVkAMtPvk?format=jpg&name=large", title = "https://twitter.com/u_u_zan"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FBMTQMTVIAAs7w5?format=jpg&name=large", title = "https://twitter.com/u_u_zan"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FgJqZkvUYAEX_lr?format=jpg&name=large", title = "https://twitter.com/_swt2"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/FiQBZrSUAAA9r-0?format=jpg&name=4096x4096", title = "https://twitter.com/gemi333"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FiQBZrWUoAIigGa?format=jpg&name=4096x4096", title = "https://twitter.com/gemi333"),
+    GlanceImage(link = "https://pbs.twimg.com/media/FiQBZrPUUAAnZKX?format=jpg&name=4096x4096", title = "https://twitter.com/gemi333"),
+
+    GlanceImage(link = "https://pbs.twimg.com/media/Fh9pR8lVQAItWY1?format=jpg&name=large", title = "https://twitter.com/noco3n_com"),
 
     )

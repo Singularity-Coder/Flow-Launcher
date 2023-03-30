@@ -1,4 +1,4 @@
-package com.singularitycoder.flowlauncher.quickSettings
+package com.singularitycoder.flowlauncher.quickSettings.view
 
 import android.Manifest
 import android.annotation.SuppressLint

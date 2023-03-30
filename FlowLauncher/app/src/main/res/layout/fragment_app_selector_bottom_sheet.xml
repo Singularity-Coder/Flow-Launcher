@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_top_rounded"
     android:orientation="vertical"
-    tools:context=".quickSettings.QuickSettingsBottomSheetFragment">
+    tools:context=".quickSettings.view.QuickSettingsBottomSheetFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_header"
