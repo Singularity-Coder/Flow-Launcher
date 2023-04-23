@@ -583,8 +583,7 @@ class HomeFragment : Fragment() {
                 // https://stackoverflow.com/questions/43221847/cannot-call-this-method-while-recyclerview-is-computing-a-layout-or-scrolling-wh
                 homeAppsAdapter.notifyDataSetChanged()
                 blurAndSaveBitmapForFlowSelectionScreenBackground()
-                // FIXME enabling and disabling apps is the cause of the crazy crash
-//                setEnableDisableAppsWorker(selectedFlow)
+                setEnableDisableAppsWorker(selectedFlow)
             }
         }
 
