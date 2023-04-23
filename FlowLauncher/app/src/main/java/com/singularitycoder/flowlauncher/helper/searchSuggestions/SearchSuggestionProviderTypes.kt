@@ -58,10 +58,3 @@ internal class YahooSearchSuggestionProvider : SearchSuggestionProvider("UTF-8")
         language: String
     ): String = "https://search.yahoo.com/sugg/chrome?output=fxjson&command=$query"
 }
-
-internal class BaiduSearchSuggestionProvider : SearchSuggestionProvider("UTF-8") {
-    override fun createQueryUrl(
-        query: String,
-        language: String
-    ): String = "http://suggestion.baidu.com/su?ie=UTF-8&wd=$query&action=opensearch"
-}

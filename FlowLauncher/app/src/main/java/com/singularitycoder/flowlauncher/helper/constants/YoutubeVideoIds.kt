@@ -74,7 +74,6 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "Fullmetal Alchemist - King bradley vs Greed Ling", videoId = "SEKlQpcM-_k"),
     YoutubeVideo(title = "Fullmetal Alchemist - Greed vs Wrath", videoId = "L2-vOjf4SEk"),
     YoutubeVideo(title = "Fullmetal Alchemist - Greed VS King Bradley", videoId = "l5lDEGEOcu4"),
-    YoutubeVideo(title = "Asuka's Death - End Of Evangelion", videoId = "OO-1Yyi5KPY"),
     YoutubeVideo(title = "Miss Kobayashi's Dragon Maid - How dragons play", videoId = "xEPY5AjpaCg"),
     YoutubeVideo(title = "Miss Kobayashi's Dragon Maid - Tohru VS Elma", videoId = "l7_Sj1F-IcA"),
     YoutubeVideo(title = "Chainsaw Man - Denji vs Bat Devil Fight Scene", videoId = "iYB1aGc2XYU"),
@@ -176,6 +175,7 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Sawano Hiroyuki - Tsuika Saisyurokugata Tohtohitotsuboshi Gokuseifuku", videoId = "0kPXa5REmzc"),
     YoutubeVideo(title = "Sawano Hiroyuki - Juyobutsu Hakko Kyouchogata Tohtofutatsuboshi Gokuseifuku", videoId = "o6g6tqiYauo"),
     YoutubeVideo(title = "Sawano Hiroyuki - ReoNa『time", videoId = "CDMnKbsyLMM"),
+    YoutubeVideo(title = "Sawano Hiroyuki - Honoka Takahashi『LilaS』×TVアニメ「８６―エイティシックス―」Collaboration Movie", videoId = "dfOsUNxc2Xg"), // As usual, Sawano is incredible
     YoutubeVideo(title = "Mobile Suit Gundam: Hathaway - mSgH", videoId = "zmw4RBWgu04"),
     YoutubeVideo(title = "Mobile Suit Gundam: Hathaway - XI", videoId = "iHKV6XpZaYY"),
     YoutubeVideo(title = "Mobile Suit Gundam: Hathaway - car5p3 / PENELOPE", videoId = "vKpOLg3ZJX0"), // Feel the rush 3:15 to 3:50
@@ -283,9 +283,11 @@ val epicAnimeMomentsList = listOf(
 )
 
 val otherMusicList = listOf(
+    YoutubeVideo(title = "Parur Sundaram Iyer & MSG Manavyala", videoId = "823uFFoaLGc"),
+    YoutubeVideo(title = "MS Gopalakrishnan - Violin - Manavyalakinchara", videoId = "m7lKOttZR7g"),
     YoutubeVideo(title = "Pandit Jasraj - Vraje Vasantam", videoId = "ItAnTZjopAM"),
     YoutubeVideo(title = "GN Balasubramaniam - Live Concert - Yochana kamala lochana", videoId = "S6bx-zWnuwI"),
-    YoutubeVideo(title = "GN Balasubramaniam - 112th Birth Anniversary Special - Live in Bombay, 1960", videoId = "GjlDXizgqlk"), // Some of GNB's best. The full audio version of the above live concert. Badalika Deera in this is especially good because of Mridangam
+    YoutubeVideo(title = "GN Balasubramaniam - 112th Birth Anniversary Special - Live in Bombay, 1960", videoId = "GjlDXizgqlk"), // Some of GNB's best. Badalika Deera in this is especially good because of Mridangam
     YoutubeVideo(title = "GN Balasubramaniam - Tiruvaiyāṟu, 1965 [112th Birth Anniversary Special]", videoId = "zvKwF01hEMc"), // more gems
     YoutubeVideo(title = "GN Balasubramaniam - Akashvani National Program", videoId = "cRVMIa-T6wc"), // Maestro at work
     YoutubeVideo(title = "GN Balasubramaniam - Akashvani concert", videoId = "uSo6oBgSDKI"),
@@ -323,8 +325,18 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "GN Balasubramaniam - Jayathi Jayathi Bharatha Maatha", videoId = "7ThIQ2Pn94A"), // Simple and beautiful. This can actually be India's national anthem.
     YoutubeVideo(title = "GN Balasubramaniam - Sudhamayi - Amrutavarshini Sudhanidhi - H.M. Bhagavatar", videoId = "SpucWUdli7g"),
     YoutubeVideo(title = "GN Balasubramaniam - Sudhamayi - ragam Amrutavarshini", videoId = "v1vWBRN34ik"),
-    YoutubeVideo(title = "Parur Sundaram Iyer & MSG_Manavyala", videoId = "823uFFoaLGc"),
-    YoutubeVideo(title = "MS Gopalakrishnan- Violin - Manavyalakinchara", videoId = "m7lKOttZR7g"),
+    YoutubeVideo(title = "TM Krishna - Raga Ravi Chandrika", videoId = "BIEzjDD3pvA"), // This is heavenly
+    YoutubeVideo(title = "TM Krishna - NCPA 2022", videoId = "JOyJRn-_3x8"), // Another gem from TMK
+    YoutubeVideo(title = "TM Krishna - Raga Nalina Kanthi - maanavi naalaginca - Tyaagaraaja krithi", videoId = "jT1uHpbs0ck"), // Absolutely incredible. Beautiful and sublime. Easily one of the best Nalina Kanthi if not the best. A great example of how the sound of the instruments doesnt subdue the singer's voice but actually assist the singer to bring the best form of the song unlike his other Nalina Kanthis. It could just be a good env or mic placement or volume control of instruments.
+    YoutubeVideo(title = "TM Krishna - Ragam Neelambari", videoId = "ovgWK5aQcpM"),
+    YoutubeVideo(title = "TM Krishna - Manavyalakinchara, Tyagaraja Smaranotsava Sabha Nellore", videoId = "ovgWK5aQcpM"),
+    YoutubeVideo(title = "TM Krishna - Ragam Nalinakanthi", videoId = "5yZEsJDJ9yc"),
+    YoutubeVideo(title = "TM Krishna - Amba Neelayataakshi - Neelambari - Adi - Mutthuswamy Deekshitar", videoId = "Z6bGA61mOi4"),
+    YoutubeVideo(title = "TM Krishna - BvB Concert", videoId = "ceCwf44zuW8"),
+    YoutubeVideo(title = "TM Krishna - Raga Nattai", videoId = "5MAI223JEVc"),
+    YoutubeVideo(title = "TM Krishna - Chala Kallaladu - Raga Arabhi", videoId = "f5flTIM59Ws"),
+    YoutubeVideo(title = "TM Krishna - Marubari Javali Kamas Adi", videoId = "sxUCTlKFQyc"),
+    YoutubeVideo(title = "TM Krishna - Brova bharama-bahudaari", videoId = "HnqstRsEtRY"),
     YoutubeVideo(title = "Madurai Mani Iyer - Brochevarevarura", videoId = "lgdwg2KmjN4"),
     YoutubeVideo(title = "Madurai Mani Iyer - Rama nee Samana - Kharaharapriya", videoId = "xjnqcwR4EhM"),
     YoutubeVideo(title = "Madurai Mani Iyer - Chakkani Rajamargamu - Kharaharapriya", videoId = "HVMHQtdW4U8"),
@@ -341,17 +353,6 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "Malladi Brothers - Brihadeeswaraya Namasthe", videoId = "-TXW02E4pm8"),
     YoutubeVideo(title = "Uyyala Looka Vayya - Neelambari - Sri Thyagaraja Swamy Composition", videoId = "54T3H_powNM"), // One of the best Neelambari if not the best
     YoutubeVideo(title = "Seetha Kalyana Vaibhogame (Ameya Records)", videoId = "lBVRsXXDJA0"),
-    YoutubeVideo(title = "TM Krishna - Raga Nalina Kanthi - maanavi naalaginca - Tyaagaraaja krithi", videoId = "jT1uHpbs0ck"), // Absolutely incredible. Beautiful and sublime. Easily one of the best Nalina Kanthi if not the best. A great example of how the sound of the instruments doesnt subdue the singer's voice but actually assist the singer to bring the best form of the song unlike his other Nalina Kanthis. It could just be a good env or mic placement or volume control of instruments.
-    YoutubeVideo(title = "TM Krishna - Raga Ravi Chandrika", videoId = "BIEzjDD3pvA"), // This is heavenly
-    YoutubeVideo(title = "TM Krishna - Ragam Neelambari", videoId = "ovgWK5aQcpM"),
-    YoutubeVideo(title = "TM Krishna - Manavyalakinchara, Tyagaraja Smaranotsava Sabha Nellore", videoId = "ovgWK5aQcpM"),
-    YoutubeVideo(title = "TM Krishna - Ragam Nalinakanthi", videoId = "5yZEsJDJ9yc"),
-    YoutubeVideo(title = "TM Krishna - Amba Neelayataakshi - Neelambari - Adi - Mutthuswamy Deekshitar", videoId = "Z6bGA61mOi4"),
-    YoutubeVideo(title = "TM Krishna - BvB Concert", videoId = "ceCwf44zuW8"),
-    YoutubeVideo(title = "TM Krishna - Raga Nattai", videoId = "5MAI223JEVc"),
-    YoutubeVideo(title = "TM Krishna - Chala Kallaladu - Raga Arabhi", videoId = "f5flTIM59Ws"),
-    YoutubeVideo(title = "TM Krishna - Marubari Javali Kamas Adi", videoId = "sxUCTlKFQyc"),
-    YoutubeVideo(title = "TM Krishna - Brova bharama-bahudaari", videoId = "HnqstRsEtRY"),
     YoutubeVideo(title = "E.S.Posthumus - Nasivern Pi", videoId = "sHPZ9eQrHeE"), // Absolutely Incredible. Almost every sound track is great. https://www.youtube.com/channel/UCvJKyvGIe7VpfBDpkHOMfOw
     YoutubeVideo(title = "E.S.Posthumus - Pompeii", videoId = "1lwl9ZHklLY"),
     YoutubeVideo(title = "E.S.Posthumus - Unstoppable", videoId = "uFZSh6MSXno"),
@@ -451,6 +452,10 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "RRR - Naatu Naatu", videoId = "_vktceH8ZA0"),
     YoutubeVideo(title = "CYMATICS: Science Vs. Music - Nigel Stanford", videoId = "Q3oItpVa9fs"),
     YoutubeVideo(title = "Alam Khan - Akash (Ether) Pt. I", videoId = "fc7oO0clYgM"),
+    YoutubeVideo(title = "Lux Aeterna", videoId = "oc3Cq89P97Y"),
+    YoutubeVideo(title = "Verdi's Messa da Requiem - Movement II: Dies irae & Tuba mirum", videoId = "B74cnt0-8xY"), // TwoSetViolin
+    YoutubeVideo(title = "Mischa Elman", videoId = "31uJT2IKsR0"), // TwoSetViolin
+    YoutubeVideo(title = "David Nadien - Swan Lake Solo with Leonard Bernstein & New York Philharmonic", videoId = "GRp2JyOLz8E"), // TwoSetViolin
 )
 
 val otherEpicMomentsList = listOf(

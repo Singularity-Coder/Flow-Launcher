@@ -61,6 +61,7 @@ import com.singularitycoder.flowlauncher.home.model.App
 import com.singularitycoder.flowlauncher.home.model.Contact
 import com.singularitycoder.flowlauncher.home.viewmodel.HomeViewModel
 import com.singularitycoder.flowlauncher.home.worker.AppWorker
+import com.singularitycoder.flowlauncher.home.worker.EnableDisableAppsWorker
 import com.singularitycoder.flowlauncher.quickSettings.view.QuickSettingsBottomSheetFragment
 import com.singularitycoder.flowlauncher.toBitmapOf
 import com.singularitycoder.flowlauncher.universalSearch.view.UniversalSearchFragment
@@ -578,11 +579,12 @@ class HomeFragment : Fragment() {
             val isFlowNameHasFlow = selectedFlow?.appFlowName?.contains(other = "flow", ignoreCase = true) == true
             flowName = if (isFlowNameHasFlow) selectedFlow?.appFlowName else "${selectedFlow?.appFlowName} Flow"
             homeAppsAdapter.homeAppList = selectedFlow?.appList ?: emptyList()
-            enableDisableApps(selectedFlow)
             withContext(Main) {
                 // https://stackoverflow.com/questions/43221847/cannot-call-this-method-while-recyclerview-is-computing-a-layout-or-scrolling-wh
                 homeAppsAdapter.notifyDataSetChanged()
                 blurAndSaveBitmapForFlowSelectionScreenBackground()
+                // FIXME enabling and disabling apps is the cause of the crazy crash
+//                setEnableDisableAppsWorker(selectedFlow)
             }
         }
 
@@ -628,17 +630,10 @@ class HomeFragment : Fragment() {
 //        }
     }
 
-    private fun enableDisableApps(selectedFlow: AppFlow?) = lifecycleScope.launch {
-        val defaultFlowApps = appFlowViewModel.getAppFlowById(id = 1L)?.appList
-        selectedFlow?.appList?.forEach { selectedApp: App ->
-            selectedApp.enable(requireContext())
-        }
-        defaultFlowApps?.forEach { defaultApp: App ->
-            val isDefaultAppNotPresentInSelectedApp = selectedFlow?.appList?.map { it.packageName }?.contains(defaultApp.packageName)?.not() == true
-            if (isDefaultAppNotPresentInSelectedApp) {
-                defaultApp.disable(requireContext())
-            }
-        }
+    private fun setEnableDisableAppsWorker(selectedFlow: AppFlow?) = lifecycleScope.launch {
+        FlowUtils.selectedFlow = selectedFlow
+        val workRequest = OneTimeWorkRequestBuilder<EnableDisableAppsWorker>().build()
+        WorkManager.getInstance(requireContext()).enqueueUniqueWork(WorkerTag.ENABLE_DISABLE_APPS, ExistingWorkPolicy.REPLACE, workRequest)
     }
 
     private fun blurAndSaveBitmapForFlowSelectionScreenBackground() = lifecycleScope.launch {

@@ -694,6 +694,15 @@ val animeQuoteList = listOf(
         title = "The worst enemies you can have are incompetent allies.",
         author = "Eminence in the shadow"
     ),
+    Quote(
+        title = "What you can't obtain, you destroy. The more precious the item, the more the logic stands. Since there is a high chance it might come back to bite you.",
+        author = "Magic Emperor",
+        context = "This makes sense only in critical war situations."
+    ),
+    Quote(
+        title = "Better to regret what you have done than what you haven't.",
+        author = "Hell's Paradise"
+    ),
 ).shuffled()
 
 val generalQuoteList = listOf(
@@ -735,6 +744,34 @@ val generalQuoteList = listOf(
     Quote(
         title = "Battles are won with tactics. Wars are won with logistics.",
         author = "Elon Musk"
+    ),
+    Quote(
+        title = "Strength respects strength and not weakness.",
+        author = "A.P.J Abdul Kalam",
+        context = """
+            This makes sense. Peace does not come from cooperation but actually by a simple show of might.
+            The law of the jungle applies everywhere. It is simply wrapped with niceties and sophistry when dealing with humans. 
+            Peace acquired through cooperation will only be temporary.
+            In the scriptures it is said that we living entities are put in this material world because 
+            we wanted to imitate Lord Krishna. But since there can only be one king in the spiritual world, this material world
+            was created for us to imitate Him. We see this happening even now. 
+            When 2 parties within a state fight with each other, the government decides to split the land to create new rulers.
+            So basically everyone wants to be a king, everyone wants to dominate others.
+            This happens on all scales both small and big from nations to families. The world is full of hierarchies. And a well defined hierarchy is a peaceful structure.
+            To seek equality is probably not sensible because there is no such thing as equality. Everybody is different and are born in different circumstances.
+            Even if all of them were provided equal resources, some people just know how to use them better. The end goal being control.
+            When everyone wants to control, that is when peace is disturbed.
+            And the only way to fix that is by the sheer use of overwhelming power.
+            So lasting peace can only come from absolute dominance. A central figure powerful enough to subdue them all.
+            In the olden days there were longer periods of peace because the kings were powerful.
+            Of course there is no such thing as lasting or permanent in this material world because of strong men, weak men quote (Line 289). 
+            This makes sense because if a king stayed forever, others wont get the chance to experience being a king. 
+            So based on karma and other instruments like death, each of them get a chance to experience being a king at different levels. Basically a realtime RPG.
+            On that note, punishment is also a good instrument of control. The ability to instill fear in the wrong doers can also maintain peace.
+            This is assuming the ruler is righteous and knows the difference btw good and bad. But then who decides what is good and bad? 
+            Definitely not humans. No human or a group has the capacity to understand all the nuances of the world, of every other human and every other living entity.
+            We are fundamentally biased from birth. Being biased is our default state.
+        """.trimIndent()
     ),
 ).shuffled()
 

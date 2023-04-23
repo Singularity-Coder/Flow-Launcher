@@ -135,6 +135,8 @@ class AddEditFlowFragment : Fragment() {
     }
 
     private fun FragmentAddEditFlowBinding.setupUserActionListeners() {
+        root.setOnClickListener {}
+
         btnMenu.onSafeClick { it: Pair<View?, Boolean> ->
             it.first ?: return@onSafeClick
             val options = listOf("Edit Name", "Add Apps", "Remove")

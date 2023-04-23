@@ -5,7 +5,10 @@ import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.singularitycoder.flowlauncher.helper.constants.WorkerData
-import com.singularitycoder.flowlauncher.helper.searchSuggestions.*
+import com.singularitycoder.flowlauncher.helper.searchSuggestions.BingSearchSuggestionProvider
+import com.singularitycoder.flowlauncher.helper.searchSuggestions.DuckSearchSuggestionProvider
+import com.singularitycoder.flowlauncher.helper.searchSuggestions.GoogleSearchSuggestionProvider
+import com.singularitycoder.flowlauncher.helper.searchSuggestions.YahooSearchSuggestionProvider
 import com.singularitycoder.flowlauncher.helper.seconds
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
@@ -43,8 +46,6 @@ class WebLinkFetchWorker(val context: Context, workerParams: WorkerParameters) :
         linksList = DuckSearchSuggestionProvider().fetchSearchSuggestionResultsList(query).toMutableList()
         if (linksList.isNotEmpty()) return
         linksList = YahooSearchSuggestionProvider().fetchSearchSuggestionResultsList(query).toMutableList()
-        if (linksList.isNotEmpty()) return
-        linksList = BaiduSearchSuggestionProvider().fetchSearchSuggestionResultsList(query).toMutableList()
         if (linksList.isNotEmpty()) return
         fetchWebLinks()
     }

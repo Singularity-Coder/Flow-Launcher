@@ -292,13 +292,17 @@ fun Context.clearNotification(notificationId: Int) {
 }
 
 // https://github.com/LineageOS/android_packages_apps_Jelly
-fun TextView?.highlightQueriedText(query: String, result: String): TextView? {
+fun TextView?.highlightText(
+    query: String,
+    result: String,
+    styleSpan: StyleSpan = StyleSpan(Typeface.BOLD)
+): TextView? {
     if (query.isBlank() || result.isBlank()) return this
     val spannable = SpannableStringBuilder(result)
     var queryTextPos = result.toLowCase().indexOf(string = query)
     while (queryTextPos >= 0) {
         spannable.setSpan(
-            /* what = */ StyleSpan(Typeface.BOLD),
+            /* what = */ styleSpan,
             /* start = */ queryTextPos,
             /* end = */ queryTextPos + query.length,
             /* flags = */ Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
