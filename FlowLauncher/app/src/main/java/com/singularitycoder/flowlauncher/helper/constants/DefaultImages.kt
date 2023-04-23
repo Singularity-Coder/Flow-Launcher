@@ -38,7 +38,7 @@ import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 // 1. RDJlock, 2. guweiz, 3. wlop, 4. washanapple, 5. doka_boko_baki (AI)
 
 // Faces:
-// 1. dadachyo, 2. 'O'ne, 3. peonoocy_y, 4. wlop, 5. dalcefo, 6. guweiz, 7. ayakasuda, 8. washanapple, 9. RDJlock,
+// 1. dadachyo, 2. 'O'ne, 3. wlop, 4. peonoocy_y, 5. dalcefo, 6. guweiz, 7. ayakasuda, 8. washanapple, 9. RDJlock,
 
 // Dynamic Art: As if stuff is moving.
 // 1. 666KArt, 2. Aliya Chen & Felicia Chen 3. RossDraws, 4. wlop, 5. Merasgar, 6. fajyobore323,

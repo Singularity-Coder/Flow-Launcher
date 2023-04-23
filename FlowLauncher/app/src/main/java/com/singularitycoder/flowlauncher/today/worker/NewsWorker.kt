@@ -51,11 +51,11 @@ class NewsWorker(val context: Context, workerParams: WorkerParameters) : Corouti
             println("sizeeee: " + elementList.size)
             for (i in 0..elementList.size) {
                 // The images are base64 encoded i think. Not sure how browsers are loading them
-                val imageUrl = getElementsByClass("uhHOwf BYbUcd").select("img").eq(i).attr("src")
-                val headline = getElementsByClass("mCBkyc tNxQIb ynAwRc nDgy9d").eq(i).text()
+                val headline = getElementsByClass("mCBkyc ynAwRc tNxQIb nDgy9d").eq(i).text()
                 val source = getElementsByClass("CEMjEf NUnG9d").eq(i).text()
                 val time = getElementsByClass("OSrXXb ZE0LJd YsWzw").eq(i).text()
                 val link = getElementsByClass("WlydOe").eq(i).attr("href")
+                val imageUrl = getElementsByClass("uhHOwf BYbUcd").select("img").eq(i).attr("src")
 
                 println(
                     """
