@@ -498,17 +498,21 @@ class HomeFragment : Fragment() {
         activity?.unregisterReceiver(broadcastReceiver)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        if (this::textToSpeech.isInitialized) {
+            if (textToSpeech.isSpeaking) textToSpeech.stop()
+            textToSpeech.shutdown()
+        }
         dateTimeTimer.purge()
         timeAnnouncementTimer.purge()
+        super.onDestroyView()
     }
 
     private fun FragmentHomeBinding.setupUI() {
         refreshAppList()
         refreshDateTime()
         initTextToSpeech()
-        startTimeAnnouncementWorker()
+        setupTimeAnnouncement()
         parseUniversalSearchDataWithWorker()
         rvApps.apply {
             layoutManager = GridLayoutManager(context, AppGrid.COLUMNS)
@@ -545,7 +549,7 @@ class HomeFragment : Fragment() {
 
         tvTime.setOnLongClickListener {
             if (isTimeAnnouncementStopped) {
-                startTimeAnnouncementWorker()
+                setupTimeAnnouncement()
                 isTimeAnnouncementStopped = false
             } else {
                 timeAnnouncementTimer.cancel()
@@ -782,7 +786,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun startTimeAnnouncementWorker() {
+    private fun setupTimeAnnouncement() {
         timeAnnouncementTimer = Timer()
         timeAnnouncementTimer.doEvery(duration = 35.seconds()) {
             withContext(Main) {

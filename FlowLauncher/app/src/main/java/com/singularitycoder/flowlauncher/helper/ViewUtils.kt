@@ -5,16 +5,16 @@ import android.app.NotificationManager
 import android.content.ContentResolver
 import android.content.Context
 import android.content.DialogInterface
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
+import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.SystemClock
+import android.text.ParcelableSpan
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.style.BackgroundColorSpan
 import android.text.style.StyleSpan
 import android.view.HapticFeedbackConstants
 import android.view.MenuItem
@@ -38,6 +38,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
+
 
 fun Context.getThemeAttrColor(attributeColor: Int): Int {
     this.theme.resolveAttribute(attributeColor, FlowUtils.typedValue, true)
@@ -292,25 +293,39 @@ fun Context.clearNotification(notificationId: Int) {
 }
 
 // https://github.com/LineageOS/android_packages_apps_Jelly
+// https://c1ctech.com/android-highlight-a-word-in-texttospeech/
+// https://medium.com/androiddevelopers/spantastic-text-styling-with-spans-17b0c16b4568
+// setSpan(ForegroundColorSpan(Color.RED), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+// setSpan(QuoteSpan(itemBinding.root.context.color(R.color.purple_500)), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+// setSpan(RelativeSizeSpan(1.5f), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
 fun TextView?.highlightText(
     query: String,
     result: String,
-    styleSpan: StyleSpan = StyleSpan(Typeface.BOLD)
+    spanList: List<ParcelableSpan> = listOf(StyleSpan(Typeface.BOLD), BackgroundColorSpan(Color.YELLOW))
 ): TextView? {
     if (query.isBlank() || result.isBlank()) return this
     val spannable = SpannableStringBuilder(result)
     var queryTextPos = result.toLowCase().indexOf(string = query)
     while (queryTextPos >= 0) {
-        spannable.setSpan(
-            /* what = */ styleSpan,
-            /* start = */ queryTextPos,
-            /* end = */ queryTextPos + query.length,
-            /* flags = */ Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+        spanList.forEach { span: ParcelableSpan ->
+            spannable.setSpan(
+                /* what = */ span,
+                /* start = */ queryTextPos,
+                /* end = */ queryTextPos + query.length,
+                /* flags = */ Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
         queryTextPos = result.toLowCase().indexOf(string = query, startIndex = queryTextPos + query.length)
     }
     this?.text = spannable
     return this
+}
+
+fun getBitmapOf(width: Int = 1, height: Int = 1): Bitmap {
+    val conf = Bitmap.Config.ARGB_8888 // see other conf types
+    val bitmap = Bitmap.createBitmap(width, height, conf) // this creates a MUTABLE bitmap
+    val canvas = Canvas(bitmap)
+    return bitmap
 }
 
 // https://stackoverflow.com/questions/2228151/how-to-enable-haptic-feedback-on-button-view

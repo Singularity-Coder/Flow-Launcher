@@ -188,7 +188,7 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Takashi Ohmama - Asticassia", videoId = "TxSWWaXl20g"), // The title for this should be "Hope"
     YoutubeVideo(title = "Enryu - Re: Gundam The Witch of Mercury (Witch of Mercury)", videoId = "L2Kl8lxUbfg"),
     YoutubeVideo(title = "Evolution of Gundam Hathaway 1989-2021 - Novel | Game | Movie", videoId = "Q9sInjYvZ-Q"), // BGM is great
-    YoutubeVideo(title = "Solo Leveling - Official Trailer", videoId = "OsJryfXUFXE"),
+    YoutubeVideo(title = "Sawano Hiroyuki - Solo Leveling - Official Trailer", videoId = "s42q3-7__ko"), // OsJryfXUFXE
     YoutubeVideo(title = "Sawano Hiroyuki Playlist - Avid, Tranquility, CRY, CRYst-Alise, e of s, ViEW, narrative, ninelie ＜cry-v＞, Binary Star, Unti-L, Cage, 0.vers, oldToday, mot1on, No differences, Till I, scaPEGoat", videoId = "PUSkqc1amgI"),
     YoutubeVideo(title = "Sawano Hiroyuki 2nd Playlist", videoId = "388h287dOWc"),
     YoutubeVideo(title = "Ost Anne Happy - Michino Timothy Kimino Kimochi", videoId = "815kbvmNWNM"),
@@ -421,6 +421,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "James Brown - There Was A Time, I Feel Alright .m4v", videoId = "aQxPAS2C9ZM"),
     YoutubeVideo(title = "James Brown - Mother Popcorn (Pt. 1 & 2)", videoId = "zpAPXUMpO_Y"),
     YoutubeVideo(title = "James Brown - Soul Power 1971 (12 min Long Version)", videoId = "l0OJUcxdL24"),
+    YoutubeVideo(title = "James Brown - blind man can see it (extended)", videoId = "FJzZ6zIJZzo"),
     YoutubeVideo(title = "Otis Redding - Papas Got a Brand New Bag Live", videoId = "-LmfX4Yo0Hs"),
     YoutubeVideo(title = "Lamb of God - Again We Rise", videoId = "Xe07zUkryeI"),
     YoutubeVideo(title = "Lamb of God - Walk with Me In Hell", videoId = "m4QyQk8vOCY"),

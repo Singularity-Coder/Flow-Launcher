@@ -1,16 +1,10 @@
 package com.singularitycoder.flowlauncher.helper
 
-import android.Manifest
-import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.widget.Toast
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.net.toUri
-import com.gargoylesoftware.htmlunit.javascript.host.Notification.requestPermission
 
 // https://stackoverflow.com/questions/33222918/sharing-bitmap-via-android-intent
 fun Context.shareImageAndTextViaApps(
@@ -83,47 +77,4 @@ fun Context.sendWhatsAppMessage(whatsAppPhoneNum: String) {
         } catch (_: Exception) {
         }
     }
-}
-
-// https://stackoverflow.com/questions/12013416/is-there-any-way-in-android-to-force-open-a-link-to-open-in-chrome
-fun Activity.searchWithChrome(query: String) {
-    val sanitizedQuery = query.replaceFirst("for", "").trim().replace(" ", "+")
-    val url = "https://www.google.com/search?q=$sanitizedQuery"
-    val intent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        setPackage("com.android.chrome")
-    }
-    try {
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-        }
-    } catch (ex: ActivityNotFoundException) {
-        // If Chrome not installed
-        intent.setPackage(null)
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-        }
-    }
-}
-
-fun Activity.openWithChrome(url: String) {
-    val intent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        setPackage("com.android.chrome")
-    }
-    try {
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-        }
-    } catch (ex: ActivityNotFoundException) {
-        // If Chrome not installed
-        intent.setPackage(null)
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-        }
-    }
-}
-
-fun Context.showWebPage(url: String) {
-    CustomTabsIntent.Builder().build().launchUrl(this, Uri.parse(url))
 }

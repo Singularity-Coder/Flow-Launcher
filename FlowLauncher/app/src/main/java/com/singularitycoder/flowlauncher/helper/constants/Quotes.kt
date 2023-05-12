@@ -700,8 +700,9 @@ val animeQuoteList = listOf(
         context = "This makes sense only in critical war situations."
     ),
     Quote(
-        title = "Better to regret what you have done than what you haven't.",
-        author = "Hell's Paradise"
+        title = "Science unleashes human nature.",
+        author = "Hametsu No Oukoku",
+        context = "Chapter 25 of this manga has possible future events depicted really well."
     ),
 ).shuffled()
 

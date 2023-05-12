@@ -1,8 +1,11 @@
 
 PHASE 2
-TODO Universal search - Files, Recent searches, AI search, Search filters (search by name, color, date, )
-TODO get all notifications and store in db - show in new screen - stack notfs of same apps
+TODO fix drag and rearrange media
+TODO create a chat bubble which on press shows the home, app switch, back, screenshot buttons
+TODO Universal search - Files, Recent searches
 
+TODO Universal search - AI search, Search filters (search by name, color, date, faces, landscapes, buildings, etc )
+TODO get all notifications and store in db - show in new screen - stack notfs of same apps
 TODO Network level
 TODO Battery level
 TODO Recently closed apps
@@ -12,8 +15,6 @@ TODO show notification count in quick action notifications - Settings.ACTION_NOT
 TODO SOS signal - SOS Torch, Buzzer, Morse code sender on flash,
 TODO Panic Mode - Shows a countdown timer with 5 sec to disable it if its an accident - send message to pre selected contacts. Need a screen to select contacts if its first time.
 
-TODO image video gallery picker
-TODO create a chat bubble which on press shows the home, app switch, back buttons
 
 FONTS
 https://fonts.google.com/specimen/Taviraj

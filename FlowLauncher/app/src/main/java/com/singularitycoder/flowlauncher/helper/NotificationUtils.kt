@@ -16,12 +16,13 @@ import android.os.Build
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.graphics.drawable.toBitmap
+import androidx.core.app.*
+import androidx.core.content.LocusIdCompat
+import androidx.core.graphics.drawable.IconCompat
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.helper.constants.Notif
+import com.singularitycoder.flowlauncher.quickSettings.view.QuickShortcutsBubbleActivity
+import com.singularitycoder.flowlauncher.toBitmap
 import kotlinx.parcelize.Parcelize
 
 // https://www.youtube.com/watch?v=Ge4_4ZnAAX8
@@ -71,7 +72,8 @@ class NotificationUtils(context: Context?) : ContextWrapper(context) {
     fun showNotification(
         data: FlowNotification,
         @DrawableRes bigPicture: Int? = null,
-        mainActivity: Class<out Any>
+        mainActivity: Class<out Any>,
+        isFloatBubble: Boolean = false
     ) {
         val intent = Intent(this, mainActivity).apply {
             putParcelableArrayListExtra(data.intentKey, ArrayList<Parcelable?>().apply { add(data) })
@@ -80,7 +82,7 @@ class NotificationUtils(context: Context?) : ContextWrapper(context) {
             /* context = */ this,
             /* requestCode = */ data.notificationType.ordinal,
             /* intent = */ intent,
-            /* flags = */ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_UPDATE_CURRENT
+            /* flags = */ flagUpdateCurrentData(isMutable = false)
         )
         val largeNotificationStyle = NotificationCompat.BigPictureStyle()
             .setBigContentTitle(data.title)
@@ -105,18 +107,60 @@ class NotificationUtils(context: Context?) : ContextWrapper(context) {
             .setSmallIcon(R.mipmap.ic_launcher)
             .setPriority(NotificationCompat.PRIORITY_HIGH) // For < API 26 this is a must
             .setStyle(notificationStyle)
-            .setContentIntent(pendingIntent)
             .setSound(resourceUri(R.raw.shotgun))
             .setVibrate(vibrationPattern1)
             .setTicker("Screenshot countdown")
             .setLights(/* argb = */ Color.WHITE, /* onMs = */ 1000, /* offMs = */ 0)
             .setAutoCancel(true) // When u click on notif it removes itself from the notif drawer
-            .build()
+
+        if (isFloatBubble) {
+            val floatBubbleIntent = Intent(this, QuickShortcutsBubbleActivity::class.java).apply {
+                action = Intent.ACTION_VIEW
+            }
+            val pendingIntentFloatBubble = PendingIntent.getActivity(
+                /* context = */ this,
+                /* requestCode = */ data.notificationType.ordinal,
+                /* intent = */ floatBubbleIntent,
+                /* flags = */ flagUpdateCurrentData(isMutable = true)
+            )
+            val bubbleIcon = IconCompat.createWithBitmap(this.drawable(R.drawable.baseline_flash_on_24)?.toBitmap() ?: getBitmapOf())
+            notification.apply {
+                bubbleMetadata = NotificationCompat.BubbleMetadata.Builder(pendingIntentFloatBubble, bubbleIcon)
+                    .setDesiredHeight(resources.getDimensionPixelSize(R.dimen.bubble_height)) // The height of the expanded bubble.
+                    .setAutoExpandBubble(true)
+                    .build()
+                setCategory(Notification.CATEGORY_MESSAGE)
+                setShortcutId(data.intentKey)
+                // This ID helps the intelligence services of the device to correlate this notification with the corresponding dynamic shortcut.
+                setLocusId(LocusIdCompat(data.intentKey.toString()))
+                setShowWhen(true)
+                notification.setContentIntent(pendingIntent)
+            }
+        } else {
+            notification.setContentIntent(pendingIntent)
+        }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return
         }
-        NotificationManagerCompat.from(this).notify(Notif.SCREENSHOT_COUNTDOWN.ordinal, notification)
+        NotificationManagerCompat.from(this).notify(data.notificationType.ordinal, notification.build())
+    }
+
+    private fun flagUpdateCurrentData(isMutable: Boolean): Int {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_UPDATE_CURRENT
+        return if (isMutable) {
+            if (Build.VERSION.SDK_INT >= 31) {
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        }
     }
 }
 
@@ -124,7 +168,7 @@ class NotificationUtils(context: Context?) : ContextWrapper(context) {
 data class FlowNotification(
     val title: String?,
     val description: String? = null,
-    val intentKey: String?,
+    val intentKey: String? = null,
     val notificationType: Notif = Notif.SCREENSHOT_COUNTDOWN,
     val isLargeNotification: Boolean = false
 ) : Parcelable

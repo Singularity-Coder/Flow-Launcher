@@ -419,26 +419,31 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
             dismiss()
         }
         layoutScreenShot.root.onSafeClick {
-            lifecycleScope.launch {
-                (10 downTo 0).forEach {
-                    delay(1.seconds())
-                    withContext(Main) {
-                        notificationUtils.showNotification(
-                            data = FlowNotification(
-                                title = "Screenshot will start in $it sec.",
-                                intentKey = IntentKey.NOTIF_SCREENSHOT_COUNTDOWN
-                            ),
-                            mainActivity = MainActivity::class.java
-                        )
-                        if (it == 0) {
-                            doAfter(3.seconds()) {
-                                requireContext().takeScreenshot()
-                            }
-                            requireContext().clearNotification(Notif.SCREENSHOT_COUNTDOWN.ordinal)
-                        }
-                    }
-                }
-            }
+            notificationUtils.showNotification(
+                data = FlowNotification(title = "Quick Actions"),
+                mainActivity = MainActivity::class.java,
+                isFloatBubble = true
+            )
+//            lifecycleScope.launch {
+//                (10 downTo 0).forEach {
+//                    delay(1.seconds())
+//                    withContext(Main) {
+//                        notificationUtils.showNotification(
+//                            data = FlowNotification(
+//                                title = "Screenshot will start in $it sec.",
+//                                intentKey = IntentKey.NOTIF_SCREENSHOT_COUNTDOWN
+//                            ),
+//                            mainActivity = MainActivity::class.java
+//                        )
+//                        if (it == 0) {
+//                            doAfter(3.seconds()) {
+//                                requireContext().takeScreenshot()
+//                            }
+//                            requireContext().clearNotification(Notif.SCREENSHOT_COUNTDOWN.ordinal)
+//                        }
+//                    }
+//                }
+//            }
         }
         layoutSettings.root.onSafeClick {
             requireContext().openSettings(screen = SettingsScreen.HOME)

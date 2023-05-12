@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +14,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorRes
+import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -30,6 +30,7 @@ import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 import com.singularitycoder.flowlauncher.glance.model.YoutubeVideo
 import com.singularitycoder.flowlauncher.helper.*
 import com.singularitycoder.flowlauncher.helper.constants.AddItemType
+import com.singularitycoder.flowlauncher.helper.constants.FILE_PROVIDER_AUTHORITY
 import com.singularitycoder.flowlauncher.helper.constants.QuickActionAddMedia
 import com.singularitycoder.flowlauncher.helper.pinterestView.CircleImageView
 import com.singularitycoder.flowlauncher.helper.pinterestView.PinterestView
@@ -37,6 +38,7 @@ import com.singularitycoder.flowlauncher.helper.quickActionView.Action
 import com.singularitycoder.flowlauncher.helper.quickActionView.QuickActionView
 import com.singularitycoder.flowlauncher.today.model.Quote
 import kotlinx.coroutines.launch
+import java.io.File
 import java.util.*
 
 // https://proandroiddev.com/enter-animation-using-recyclerview-and-layoutanimation-part-1-list-75a874a5d213
@@ -52,12 +54,51 @@ class AddFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentAddBinding
+    private lateinit var takenPhotoFile: File
+    private lateinit var takenVideoFile: File
 
     private val addItemAdapter = AddItemAdapter()
     private var addItemList = mutableListOf<AddItem>()
+    private var listType: String? = null
+
     private val sharedViewModel by activityViewModels<SharedViewModel>()
 
-    private var listType: String? = null
+    private val takeCameraPermissionResult = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isPermissionGranted: Boolean? ->
+        isPermissionGranted ?: return@registerForActivityResult
+        if (isPermissionGranted.not()) {
+            requireContext().showPermissionSettings()
+            return@registerForActivityResult
+        }
+        if (requireContext().isCameraPresent().not()) {
+            binding.root.showSnackBar(message = "You don't have a camera on your device!")
+            return@registerForActivityResult
+        }
+        // https://developer.android.com/reference/android/provider/MediaStore#ACTION_IMAGE_CAPTURE
+        takenPhotoFile = requireContext().internalFilesDir(fileName = "camera_photo_${System.currentTimeMillis()}.jpg").also {
+            if (!it.exists()) it.createNewFile()
+        }
+        /** fileProvider file should be exactly in the "path" attribute that u define in file_paths.xml and declare provider in manifest */
+        val fileProvider = FileProvider.getUriForFile(requireContext(), FILE_PROVIDER_AUTHORITY, takenPhotoFile)
+        takePhotoResult.launch(fileProvider)
+    }
+
+    private val takeVideoPermissionResult = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isPermissionGranted: Boolean? ->
+        isPermissionGranted ?: return@registerForActivityResult
+        if (isPermissionGranted.not()) {
+            requireContext().showPermissionSettings()
+            return@registerForActivityResult
+        }
+        if (requireContext().isCameraPresent().not()) {
+            binding.root.showSnackBar(message = "You don't have a camera on your device!")
+            return@registerForActivityResult
+        }
+        takenVideoFile = requireContext().internalFilesDir(fileName = "camera_video_${System.currentTimeMillis()}.mp4").also {
+            if (!it.exists()) it.createNewFile()
+        }
+        /** fileProvider file should be exactly in the "path" attribute that u define in file_paths.xml and declare provider in manifest */
+        val fileProvider = FileProvider.getUriForFile(requireContext(), FILE_PROVIDER_AUTHORITY, takenVideoFile)
+        takeVideoResult.launch(fileProvider)
+    }
 
     private val readStoragePermissionResult = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isPermissionGranted: Boolean? ->
         isPermissionGranted ?: return@registerForActivityResult
@@ -95,7 +136,7 @@ class AddFragment : Fragment() {
         sharedViewModel.addGlanceImageToDb(glanceImage)
     }
 
-    private val multipleMediaSelectionResult = registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { list: List<@JvmSuppressWildcards Uri>? ->
+    private val multipleMediaSelectionResult = registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(maxItems = 5)) { list: List<@JvmSuppressWildcards Uri>? ->
         if (list.isNullOrEmpty()) return@registerForActivityResult
         list.forEach { it: @JvmSuppressWildcards Uri ->
             val file = requireContext().readFileFromExternalDbAndWriteFileToInternalDb(it) ?: return@registerForActivityResult
@@ -115,6 +156,26 @@ class AddFragment : Fragment() {
         println("originalVideoUri: ${data.data}")
 
         val glanceImage = GlanceImage(link = file.absolutePath, title = file.name)
+        sharedViewModel.addGlanceImageToDb(glanceImage)
+    }
+
+    private val takePhotoResult = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess: Boolean? ->
+        if (isSuccess?.not() == true) return@registerForActivityResult
+//        val thumbnailBitmap = (data.extras?.get("data") as? Bitmap)
+
+        println("originalImagePath: ${takenPhotoFile.absolutePath}")
+
+        val glanceImage = GlanceImage(link = takenPhotoFile.absolutePath, title = takenPhotoFile.name)
+        sharedViewModel.addGlanceImageToDb(glanceImage)
+    }
+
+    private val takeVideoResult = registerForActivityResult(ActivityResultContracts.CaptureVideo()) { isSuccess: Boolean? ->
+        if (isSuccess?.not() == true) return@registerForActivityResult
+//        val thumbnailBitmap = (data.extras?.get("data") as? Bitmap)
+
+        println("originalVideoPath: ${takenVideoFile.absolutePath}")
+
+        val glanceImage = GlanceImage(link = takenVideoFile.absolutePath, title = takenVideoFile.name)
         sharedViewModel.addGlanceImageToDb(glanceImage)
     }
 
@@ -242,9 +303,11 @@ class AddFragment : Fragment() {
                 }
             }
         }
+
         ibBack.onSafeClick {
             requireActivity().supportFragmentManager.popBackStackImmediate()
         }
+
         addItemAdapter.setItemClickListener { item: AddItem ->
             root.context.clipboard()?.text = when (listType) {
                 AddItemType.YOUTUBE_VIDEO -> "https://www.youtube.com/watch?v=${item.link} item.title"
@@ -254,6 +317,7 @@ class AddFragment : Fragment() {
             }
             root.showSnackBar(message = "Copied", anchorView = cardAddItemParent)
         }
+
         addItemAdapter.setItemLongClickListener { it: AddItem ->
             requireContext().showAlertDialog(
                 title = "Delete Item",
@@ -277,6 +341,7 @@ class AddFragment : Fragment() {
                 }
             )
         }
+
         etAddItem.onImeClick {
             ibAddItem.performClick()
         }
@@ -291,13 +356,13 @@ class AddFragment : Fragment() {
                 target: RecyclerView.ViewHolder,
             ): Boolean {
                 // FIXME drag is not smooth and gets attached to its immediate next position
-                val fromPosition = viewHolder.bindingAdapterPosition
-                val toPosition = target.bindingAdapterPosition
-                val fromPositionItem = addItemList[fromPosition]
-                addItemList[fromPosition] = addItemList[toPosition]
-                addItemList[toPosition] = fromPositionItem
-                addItemAdapter.notifyItemMoved(fromPosition, toPosition)
-                return false
+//                val fromPosition = viewHolder.bindingAdapterPosition
+//                val toPosition = target.bindingAdapterPosition
+//                val fromPositionItem = addItemList[fromPosition]
+//                addItemList[fromPosition] = addItemList[toPosition]
+//                addItemList[toPosition] = fromPositionItem
+//                addItemAdapter.notifyItemMoved(fromPosition, toPosition)
+                return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
@@ -358,41 +423,45 @@ class AddFragment : Fragment() {
             setIndicatorDrawable(createGradientDrawable(width = 150, height = 150))
         }
         addFabQuickActionView.setOnActionHoverChangedListener { action: Action?, quickActionView: QuickActionView?, isHovering: Boolean ->
-            if (isHovering) {
-                quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_500))
-                quickActionView?.setIconColor(R.color.purple_50)
-            } else {
-                quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_50))
-                quickActionView?.setIconColor(R.color.purple_500)
-            }
+//            if (isHovering) {
+//                quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_500))
+//                quickActionView?.setIconColor(R.color.purple_50)
+//            } else {
+//                quickActionView?.setBackgroundColor(requireContext().color(R.color.purple_50))
+//                quickActionView?.setIconColor(R.color.purple_500)
+//            }
         }
         addFabQuickActionView.setOnActionSelectedListener { action: Action?, quickActionView: QuickActionView? ->
             when (action?.id) {
                 QuickActionAddMedia.SELECT_FROM_GALLERY.ordinal -> {
                     when (listType) {
                         AddItemType.GLANCE_IMAGE -> {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                // https://stackoverflow.com/questions/73999566/how-to-construct-pickvisualmediarequest-for-activityresultlauncher
-                                // https://www.youtube.com/watch?v=uHX5NB6wHao
-                                val mediaType = ActivityResultContracts.PickVisualMedia.ImageAndVideo as ActivityResultContracts.PickVisualMedia.VisualMediaType
-                                val request: PickVisualMediaRequest = PickVisualMediaRequest.Builder().setMediaType(mediaType).build()
-                                multipleMediaSelectionResult.launch(request)
-                            } else {
-                                readStoragePermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                            }
+//                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//                                // https://stackoverflow.com/questions/73999566/how-to-construct-pickvisualmediarequest-for-activityresultlauncher
+//                                // https://www.youtube.com/watch?v=uHX5NB6wHao
+//                                val mediaType = ActivityResultContracts.PickVisualMedia.ImageAndVideo as ActivityResultContracts.PickVisualMedia.VisualMediaType
+//                                val request: PickVisualMediaRequest = PickVisualMediaRequest.Builder().setMediaType(mediaType).build()
+//                                multipleMediaSelectionResult.launch(request)
+//                            } else {
+//                                readStoragePermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+//                            }
+
+                            // https://android-developers.googleblog.com/2023/04/photo-picker-everywhere.html
+                            multipleMediaSelectionResult.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
                         }
                     }
                 }
                 QuickActionAddMedia.TAKE_PHOTO.ordinal -> {
-
+                    takeCameraPermissionResult.launch(Manifest.permission.CAMERA)
                 }
                 QuickActionAddMedia.TAKE_VIDEO.ordinal -> {
-                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                        addCategory(Intent.CATEGORY_OPENABLE)
-                        type = "video/*"
-                    }
-                    if (intent.resolveActivity(requireContext().packageManager) == null) return@setOnActionSelectedListener
-                    videoSelectionResult.launch(intent)
+//                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+//                        addCategory(Intent.CATEGORY_OPENABLE)
+//                        type = "video/*"
+//                    }
+//                    if (intent.resolveActivity(requireContext().packageManager) == null) return@setOnActionSelectedListener
+//                    videoSelectionResult.launch(intent)
+                    takeVideoPermissionResult.launch(Manifest.permission.CAMERA)
                 }
             }
         }

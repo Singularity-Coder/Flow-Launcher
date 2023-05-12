@@ -68,6 +68,10 @@ enum class Notif(
     SCREENSHOT_COUNTDOWN(
         channelName = "SCREENSHOT_COUNTDOWN",
         channelId = "${BuildConfig.APPLICATION_ID}.SCREENSHOT_COUNTDOWN"
+    ),
+    QUICK_ACTION_FLOAT_BUBBLE(
+        channelName = "QUICK_ACTION_FLOAT_BUBBLE",
+        channelId = "${BuildConfig.APPLICATION_ID}.QUICK_ACTION_FLOAT_BUBBLE"
     )
 }
 

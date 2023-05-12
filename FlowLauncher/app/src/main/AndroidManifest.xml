@@ -14,8 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- QUERY_ALL_PACKAGES requires explicit play store approval-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- QUERY_ALL_PACKAGES requires explicit play store approval -->
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
@@ -41,316 +40,313 @@
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
-    <!-- https://developer.android.com/reference/android/Manifest.permission -->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.ACCESS_BLOBS_ACROSS_USERS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.ACCESS_CHECKIN_PROPERTIES"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.ACCOUNT_MANAGER"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BATTERY_STATS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_APPWIDGET"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_AUTOFILL_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_CALL_REDIRECTION_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_CARRIER_MESSAGING_CLIENT_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_CARRIER_MESSAGING_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_CARRIER_SERVICES"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_CHOOSER_TARGET_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_COMPANION_DEVICE_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_CONDITION_PROVIDER_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_CONTROLS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_DEVICE_ADMIN"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_DREAM_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_INCALL_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_INPUT_METHOD"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_MIDI_DEVICE_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_NFC_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_PRINT_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_QUICK_ACCESS_WALLET_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_QUICK_SETTINGS_TILE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_REMOTEVIEWS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_SCREENING_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_TELECOM_CONNECTION_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_TEXT_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_TV_INPUT"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_TV_INTERACTIVE_APP"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_VISUAL_VOICEMAIL_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_VOICE_INTERACTION"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_VPN_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_VR_LISTENER_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BIND_WALLPAPER"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BLUETOOTH_PRIVILEGED"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BROADCAST_PACKAGE_REMOVED"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BROADCAST_SMS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.BROADCAST_WAP_PUSH"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.CALL_PRIVILEGED"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.CAPTURE_AUDIO_OUTPUT"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.CHANGE_COMPONENT_ENABLED_STATE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.CHANGE_CONFIGURATION"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.CLEAR_APP_CACHE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.CONFIGURE_WIFI_DISPLAY"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.CONTROL_LOCATION_UPDATES"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.DELETE_CACHE_FILES"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.DELETE_PACKAGES"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.DIAGNOSTIC"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.DUMP"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.FACTORY_TEST"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.GET_ACCOUNTS_PRIVILEGED"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.GLOBAL_SEARCH"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.INSTALL_LOCATION_PROVIDER"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.INSTALL_PACKAGES"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.INSTANT_APP_FOREGROUND_SERVICE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.INTERACT_ACROSS_PROFILES"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.LAUNCH_MULTI_PANE_SETTINGS_DEEP_LINK"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.LOADER_USAGE_STATS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.LOCATION_HARDWARE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.MANAGE_DOCUMENTS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.MANAGE_MEDIA"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.MANAGE_ONGOING_CALLS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.MANAGE_WIFI_INTERFACES"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.MANAGE_WIFI_NETWORK_SELECTION"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.MASTER_CLEAR"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.MEDIA_CONTENT_CONTROL"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.MODIFY_PHONE_STATE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.OVERRIDE_WIFI_CONFIG"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.READ_INPUT_STATE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.READ_LOGS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.READ_NEARBY_STREAMING_POLICY"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.READ_PRECISE_PHONE_STATE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.REBOOT"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.REQUEST_COMPANION_PROFILE_APP_STREAMING"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.REQUEST_COMPANION_PROFILE_COMPUTER"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.REQUEST_COMPANION_SELF_MANAGED"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.SEND_RESPOND_VIA_MESSAGE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.SET_ALWAYS_FINISH"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.SET_ANIMATION_SCALE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.SET_DEBUG_APP"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.SET_PREFERRED_APPLICATIONS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.SET_PROCESS_LIMIT"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.SET_TIME"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.SET_TIME_ZONE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.SIGNAL_PERSISTENT_PROCESSES"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.SMS_FINANCIAL_TRANSACTIONS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.START_FOREGROUND_SERVICES_FROM_BACKGROUND"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.START_VIEW_APP_FEATURES"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.START_VIEW_PERMISSION_USAGE"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.STATUS_BAR"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.UPDATE_DEVICE_STATS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.USE_ICC_AUTH_WITH_DEVICE_IDENTIFIER"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.WRITE_APN_SETTINGS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.WRITE_GSERVICES"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.WRITE_SECURE_SETTINGS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.WRITE_SETTINGS"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="com.android.voicemail.permission.READ_VOICEMAIL"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-    <!--    <uses-permission-->
-    <!--        android:name="com.android.voicemail.permission.WRITE_VOICEMAIL"-->
-    <!--        tools:ignore="ProtectedPermissions" />-->
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- https://developer.android.com/reference/android/Manifest.permission -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.ACCESS_BLOBS_ACROSS_USERS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.ACCESS_CHECKIN_PROPERTIES" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.ACCOUNT_MANAGER" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BATTERY_STATS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_APPWIDGET" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_AUTOFILL_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_CALL_REDIRECTION_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_CARRIER_MESSAGING_CLIENT_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_CARRIER_MESSAGING_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_CARRIER_SERVICES" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_CHOOSER_TARGET_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_COMPANION_DEVICE_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_CONDITION_PROVIDER_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_CONTROLS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_DEVICE_ADMIN" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_DREAM_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_INCALL_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_INPUT_METHOD" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_MIDI_DEVICE_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_NFC_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_PRINT_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_QUICK_ACCESS_WALLET_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_QUICK_SETTINGS_TILE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_REMOTEVIEWS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_SCREENING_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_TELECOM_CONNECTION_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_TEXT_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_TV_INPUT" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_TV_INTERACTIVE_APP" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_VISUAL_VOICEMAIL_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_VOICE_INTERACTION" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_VPN_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_VR_LISTENER_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BIND_WALLPAPER" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BLUETOOTH_PRIVILEGED" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BROADCAST_PACKAGE_REMOVED" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BROADCAST_SMS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.BROADCAST_WAP_PUSH" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.CALL_PRIVILEGED" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.CAPTURE_AUDIO_OUTPUT" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.CHANGE_COMPONENT_ENABLED_STATE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.CHANGE_CONFIGURATION" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.CLEAR_APP_CACHE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.CONFIGURE_WIFI_DISPLAY" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.CONTROL_LOCATION_UPDATES" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.DELETE_CACHE_FILES" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.DELETE_PACKAGES" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.DIAGNOSTIC" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.DUMP" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.FACTORY_TEST" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.GET_ACCOUNTS_PRIVILEGED" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.GLOBAL_SEARCH" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.INSTALL_LOCATION_PROVIDER" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.INSTALL_PACKAGES" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.INSTANT_APP_FOREGROUND_SERVICE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.INTERACT_ACROSS_PROFILES" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.LAUNCH_MULTI_PANE_SETTINGS_DEEP_LINK" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.LOADER_USAGE_STATS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.LOCATION_HARDWARE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.MANAGE_DOCUMENTS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.MANAGE_MEDIA" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.MANAGE_ONGOING_CALLS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.MANAGE_WIFI_INTERFACES" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.MANAGE_WIFI_NETWORK_SELECTION" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.MASTER_CLEAR" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.MEDIA_CONTENT_CONTROL" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.MODIFY_PHONE_STATE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.OVERRIDE_WIFI_CONFIG" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.READ_INPUT_STATE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.READ_LOGS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.READ_NEARBY_STREAMING_POLICY" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.READ_PRECISE_PHONE_STATE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.REBOOT" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.REQUEST_COMPANION_PROFILE_APP_STREAMING" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.REQUEST_COMPANION_PROFILE_COMPUTER" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.REQUEST_COMPANION_SELF_MANAGED" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.SEND_RESPOND_VIA_MESSAGE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.SET_ALWAYS_FINISH" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.SET_ANIMATION_SCALE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.SET_DEBUG_APP" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.SET_PREFERRED_APPLICATIONS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.SET_PROCESS_LIMIT" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.SET_TIME" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.SET_TIME_ZONE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.SIGNAL_PERSISTENT_PROCESSES" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.SMS_FINANCIAL_TRANSACTIONS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.START_FOREGROUND_SERVICES_FROM_BACKGROUND" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.START_VIEW_APP_FEATURES" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.START_VIEW_PERMISSION_USAGE" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.STATUS_BAR" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.UPDATE_DEVICE_STATS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.USE_ICC_AUTH_WITH_DEVICE_IDENTIFIER" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.WRITE_APN_SETTINGS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.WRITE_GSERVICES" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.WRITE_SECURE_SETTINGS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.WRITE_SETTINGS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="com.android.voicemail.permission.READ_VOICEMAIL" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- <uses-permission -->
+    <!-- android:name="com.android.voicemail.permission.WRITE_VOICEMAIL" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
     <uses-permission android:name="android.permission.ACCEPT_HANDOVER" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
@@ -455,16 +451,13 @@
     <uses-permission android:name="android.permission.UWB_RANGING" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-    <!-- ....................................................................................................... -->
-
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" /> <!-- ....................................................................................................... -->
     <uses-feature
         android:name="android.hardware.camera.flash"
-        android:required="false" />
-
-    <!--For all/other package/app visibility - https://developer.android.com/training/package-visibility-->
-    <!--https://stackoverflow.com/questions/63246442/android-11-r-return-empty-list-when-querying-intent-for-action-image-capture-->
+        android:required="false" /> <!-- For all/other package/app visibility - https://developer.android.com/training/package-visibility -->
+    <!-- https://stackoverflow.com/questions/63246442/android-11-r-return-empty-list-when-querying-intent-for-action-image-capture -->
     <queries>
+
         <!-- Specific apps flow launch will interact -->
         <package android:name="com.android.chrome" />
         <package android:name="com.google.android.youtube" />
@@ -475,12 +468,14 @@
         <!-- Specific intents flow launch will query for sharing, etc. -->
         <intent>
             <action android:name="android.intent.action.SEND" />
+
             <data android:mimeType="*/*" />
         </intent>
-
         <intent>
             <action android:name="android.intent.action.VIEW" />
+
             <category android:name="android.intent.category.BROWSABLE" />
+
             <data android:scheme="https" />
         </intent>
     </queries>
@@ -497,11 +492,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FlowLauncher"
         tools:targetApi="31">
-        <!--The launch mode is set to single task to make sure that only one instance of this Activity is held by the system at any time-->
-        <!-- android:launchMode="singleTask"-->
-        <!-- android:stateNotNeeded="true"-->
-        <!-- android:clearTaskOnLaunch="true"-->
-        <!--configChanges: disables Activity recreation for MyActivity when the screen orientation and keyboard availability change -->
+        <activity
+            android:name=".QuickShoortcutsBubbleActivity"
+            android:exported="false" />
+        <!-- The launch mode is set to single task to make sure that only one instance of this Activity is held by the system at any time -->
+        <!-- android:launchMode="singleTask" -->
+        <!-- android:stateNotNeeded="true" -->
+        <!-- android:clearTaskOnLaunch="true" -->
+        <!-- configChanges: disables Activity recreation for MyActivity when the screen orientation and keyboard availability change -->
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
@@ -514,7 +512,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
 
-                <!--This is launcher stuff-->
+                <!-- This is launcher stuff -->
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -544,6 +542,31 @@
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <!--
+           This Activity is the expanded Bubble. For that, this Activity has to have several
+           attributes.
+           - allowEmbedded="true": The expanded Bubble is embedded in the System UI.
+           - resizeableActivity="true": The expanded Bubble is resized by the System UI.
+           - documentLaunchMode="always": We show multiple bubbles in this sample. There will be
+                                          multiple instances of this Activity.
+        -->
+        <activity
+            android:name=".quickSettings.view.QuickShortcutsBubbleActivity"
+            android:allowEmbedded="true"
+            android:documentLaunchMode="always"
+            android:exported="true"
+            android:resizeableActivity="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="android.example.com"
+                    android:pathPattern="/chat/*"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".helper.services.PowerMenuService"
@@ -553,6 +576,7 @@
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/tb_accessibility_service" />
@@ -565,6 +589,22 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <!--
+ Prompt Google Play services to install the backported photo picker module
+         https://android-developers.googleblog.com/2023/04/photo-picker-everywhere.html
+        -->
+        <service
+            android:name="com.google.android.gms.metadata.ModuleDependencies"
+            android:enabled="false"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+            </intent-filter>
+
+            <meta-data
+                android:name="photopicker_activity:0:required"
+                android:value="" />
+        </service>
 
         <receiver
             android:name=".helper.broadcastReceivers.CustomBroadcastReceiver"
@@ -576,21 +616,16 @@
                 <action android:name="android.intent.action.DATE_CHANGED" />
                 <action android:name="android.intent.action.TIME_CHANGED" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-
                 <action android:name="android.intent.action.BATTERY_CHANGED" />
                 <action android:name="android.intent.action.BATTERY_LOW" />
                 <action android:name="android.intent.action.BATTERY_OKAY" />
-
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-
                 <action android:name="android.intent.action.SCREEN_OFF" />
                 <action android:name="android.intent.action.SCREEN_ON" />
-
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.UID_REMOVED" />
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
-
                 <action android:name="android.intent.action.PACKAGE_INSTALL" />
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_CHANGED" />
@@ -624,7 +659,6 @@
                 <action android:name="android.intent.action.LOCALE_CHANGED" />
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
                 <action android:name="android.intent.action.MANAGE_PACKAGE_STORAGE" />
-
                 <action android:name="android.intent.action.MEDIA_BAD_REMOVAL" />
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
                 <action android:name="android.intent.action.MEDIA_CHECKING" />
@@ -638,7 +672,6 @@
                 <action android:name="android.intent.action.MEDIA_SHARED" />
                 <action android:name="android.intent.action.MEDIA_UNMOUNTABLE" />
                 <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
-
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
                 <action android:name="android.intent.action.MY_PACKAGE_SUSPENDED" />
                 <action android:name="android.intent.action.MY_PACKAGE_UNSUSPENDED" />
@@ -655,14 +688,13 @@
                 <action android:name="android.intent.action.USER_UNLOCKED" />
                 <action android:name="android.intent.action.WALLPAPER_CHANGED" />
             </intent-filter>
-        </receiver>
-
-        <!--https://developer.android.com/reference/android/support/v4/content/FileProvider-->
+        </receiver> <!-- https://developer.android.com/reference/android/support/v4/content/FileProvider -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.androidstoragemadness.fileprovider"
+            android:authorities="com.singularitycoder.flowlauncher.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <!-- resource file to create -->
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
