@@ -128,10 +128,8 @@ class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
             val appMap = HashMap<String, ArrayList<App>>()
             appFlowList.firstOrNull()?.appList?.forEach { it: App ->
                 appMap.put(
-                    it.title.subSequence(0, 1).toString(),
-                    appMap.get(it.title.subSequence(0, 1).toString())?.apply {
-                        add(it)
-                    } ?: ArrayList<App>().apply {
+                    /* key = */ it.title.subSequence(0, 1).toString().toUpCase(),
+                    /* value = */ (appMap.get(it.title.subSequence(0, 1).toString()) ?: ArrayList<App>()).apply {
                         add(it)
                     }
                 )
@@ -178,7 +176,7 @@ class AppSelectorBottomSheetFragment : BottomSheetDialogFragment() {
                         oldState = BottomSheetBehavior.STATE_EXPANDED
                     }
                     BottomSheetBehavior.STATE_HALF_EXPANDED -> Unit
-                    BottomSheetBehavior.STATE_HIDDEN -> Unit
+                    BottomSheetBehavior.STATE_HIDDEN -> dismiss()
                     BottomSheetBehavior.STATE_SETTLING -> {
                         if (oldState == BottomSheetBehavior.STATE_EXPANDED) {
                             behavior.state = BottomSheetBehavior.STATE_HIDDEN

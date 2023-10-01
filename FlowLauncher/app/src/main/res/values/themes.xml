@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.FlowLauncher" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -10,7 +10,8 @@
         <item name="colorSecondaryVariant">@color/purple_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+<!--        <item name="android:navigationBarColor">@color/white</item>-->
         <!-- Customize your theme here. -->
         <!--        <item name="android:windowShowWallpaper">true</item>-->
         <!--        <item name="android:windowBackground">@android:color/transparent</item>-->
@@ -96,5 +97,15 @@
     <!--https://www.howtodoandroid.com/shapeableimageview-material-components-android/-->
     <style name="ShapeAppearanceOverlay.App.CornerSize10Percent" parent="">
         <item name="cornerSize">10%</item>
+    </style>
+
+    <!--    https://stackoverflow.com/questions/12636101/how-to-style-popupmenu-->
+    <!--    https://stackoverflow.com/questions/38667170/meaning-of-format-reference-in-android-attribute-->
+    <!--    https://medium.com/androiddevelopers/android-styling-themes-vs-styles-ebe05f917578-->
+    <!--    https://medium.com/androiddevelopers/android-styling-common-theme-attributes-8f7c50c9eaba-->
+    <!--    <item name="android:popupAnimationStyle"></item>-->
+    <style name="PopupMenuTheme" parent="Widget.AppCompat.PopupMenu">
+        <item name="attributeName">?attr/popupMenuStyle</item>
+        <item name="android:popupBackground">@drawable/bg_popup_menu_rounded</item>
     </style>
 </resources>

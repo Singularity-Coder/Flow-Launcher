@@ -700,9 +700,102 @@ val animeQuoteList = listOf(
         context = "This makes sense only in critical war situations."
     ),
     Quote(
-        title = "Science unleashes human nature.",
+        title = """
+            A fight is not just about power, but brains as well. Look for an opening. 
+            If there’s an opening, seize it. If not, make one. Avail yourself of their weaknesses, 
+            avoid their strengths, and lure them into a false sense of security before you spring your trap to crush them.
+        """.trimIndentsAndNewLines(),
+        author = "Magic Emperor",
+    ),
+    Quote(
+        title = "Be as thorough as you like. Looking in the wrong direction will still give you nothing.",
+        author = "Magic Emperor",
+    ),
+    Quote(
+        title = "Poverty dulls the wit.",
         author = "Hametsu No Oukoku",
         context = "Chapter 25 of this manga has possible future events depicted really well."
+    ),
+    Quote(
+        title = "Science unleashes human nature.",
+        author = "Hametsu No Oukoku"
+    ),
+    Quote(
+        title = "Ignore what happens around you and you'll soon be knee-deep in trouble.",
+        author = "Magic Emperor",
+    ),
+    Quote(
+        title = "The best way to learn to fight is in the middle of a battle.",
+        author = "Hell's Paradise",
+    ),
+    Quote(
+        title = """
+            If one were to observe the world from above the heavens, 
+            then the highs and lows, strengths and weaknesses of humans would be insignificant.
+            No matter how high you stand and how strong you are, it is nothing compared to the heavens.
+            Since everything under it is all the same. Which is why even a nameless blade of grass has meaning.
+        """.trimIndentsAndNewLines(),
+        author = "Tale of a scribe who returns to the countryside",
+    ),
+    Quote(
+        title = "How can one attain the true path without seeing what is beyond?",
+        author = "Tale of a scribe who returns to the countryside",
+    ),
+    Quote(
+        title = "Failure in life begins when you aspire to be someone who is nothing like you.",
+        author = "One Punch Man",
+    ),
+    Quote(
+        title = "The unknown is the ultimate weapon.",
+        author = "Magic Emperor",
+    ),
+    Quote(
+        title = "Err on the side of caution.",
+        author = "Magic Emperor",
+    ),
+    Quote(
+        title = "An unknown enemy is the most fearsome opponent.",
+        author = "Memoir of the king of war",
+    ),
+    Quote(
+        title = "Anger clouds your mind. Don’t let the rage control you.",
+        author = "The Undefeatable Swordsman",
+    ),
+    Quote(
+        title = """
+            When humans cross a line they shouldn’t cross, they can do anything. 
+            Take care of them thoroughly. Men like them will do the same thing to others. 
+            That is what you call a scoundrel.
+        """.trimIndentsAndNewLines(),
+        author = "The Undefeatable Swordsman",
+    ),
+    Quote(
+        title = "Once you renounce the world and live with nature, you can eventually find enlightenment and be in serenity.",
+        author = "The Undefeatable Swordsman",
+    ),
+    Quote(
+        title = """
+            After the "Strange" comes the "Misfortunes". 
+            An idiom stating that anytime something out of the ordinary occurs, an unfortunate event is sure to follow.
+        """.trimIndentsAndNewLines(),
+        author = "Legend of the Northern Blade",
+    ),
+    // The art of Legend of the Northern Blade is on another level. 🤯
+    Quote(
+        title = "A crisis will always become an opportunity. You just have to be patient.",
+        author = "Legend of the Northern Blade",
+    ),
+    Quote(
+        title = "No matter what situation it is, as long as people are involved, there will be mistakes.",
+        author = "Legend of the Northern Blade",
+    ),
+    Quote(
+        title = "The more things you have to protect, the more you ought to be careful.",
+        author = "Legend of the Northern Blade",
+    ),
+    Quote(
+        title = "When in doubt, you shouldn't go through with it.",
+        author = "Legend of the Northern Blade",
     ),
 ).shuffled()
 

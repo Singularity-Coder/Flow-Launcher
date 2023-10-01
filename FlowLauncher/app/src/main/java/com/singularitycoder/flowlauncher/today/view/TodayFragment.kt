@@ -3,17 +3,20 @@ package com.singularitycoder.flowlauncher.today.view
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.work.*
 import coil.load
 import com.google.android.material.chip.Chip
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
+import com.singularitycoder.flowlauncher.addEditAppFlow.view.AppSelectorBottomSheetFragment
 import com.singularitycoder.flowlauncher.addEditMedia.view.AddFragment
 import com.singularitycoder.flowlauncher.databinding.FragmentTodayBinding
 import com.singularitycoder.flowlauncher.helper.*
@@ -26,6 +29,9 @@ import com.singularitycoder.flowlauncher.today.worker.NewsWorker
 import com.singularitycoder.flowlauncher.today.worker.TrendingTweetsWorker
 import com.singularitycoder.flowlauncher.today.worker.WeatherWorker
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 // Refresh on every swipe
 // Rearrangable cards
@@ -110,18 +116,21 @@ class TodayFragment : Fragment() {
     }
 
     private fun FragmentTodayBinding.setupUserActionListeners() {
-        btnMenu.onSafeClick { it: Pair<View?, Boolean> ->
-            it.first ?: return@onSafeClick
-            val todayOptions = listOf("Add Remainders", "Add Quotes")
-            requireContext().showPopup(
-                view = it.first!!,
-                menuList = todayOptions
-            ) { position: Int ->
-                when (todayOptions[position]) {
-                    todayOptions[0] -> {
-                        root.showSnackBar(todayOptions[0])
+        btnMenu.onSafeClick { pair: Pair<View?, Boolean> ->
+            pair.first ?: return@onSafeClick
+            val optionsList = listOf(
+                Pair("Add Remainders", R.drawable.outline_alarm_24),
+                Pair("Add Quotes", R.drawable.outline_format_quote_24),
+            )
+            requireContext().showPopupMenuWithIcons(
+                view = pair.first,
+                menuList = optionsList
+            ) { it: MenuItem? ->
+                when (it?.title?.toString()?.trim()) {
+                    optionsList[0].first -> {
+                        root.showSnackBar(optionsList[0].first)
                     }
-                    todayOptions[1] -> {
+                    optionsList[1].first -> {
                         (requireActivity() as? MainActivity)?.showScreen(AddFragment.newInstance(AddItemType.QUOTE), FragmentsTag.ADD_ITEM, isAdd = true)
                     }
                 }
@@ -228,17 +237,16 @@ class TodayFragment : Fragment() {
             newsTypefacePosition++
         }
 
-        cardQuotes.setOnLongClickListener {
+        cardQuotes.onCustomLongClick {
             val quoteContextPosition = if (quotePosition == 0) {
                 quoteList.lastIndex
             } else quotePosition - 1
-            if (quoteList.getOrNull(quoteContextPosition)?.context?.isBlank() == true) return@setOnLongClickListener false
+            if (quoteList.getOrNull(quoteContextPosition)?.context?.isBlank() == true) return@onCustomLongClick
             requireContext().showAlertDialog(
                 title = "Context",
                 message = quoteList.getOrNull(quoteContextPosition)?.context ?: "",
                 positiveBtnText = "Ok"
             )
-            true
         }
     }
 

@@ -45,6 +45,7 @@ import coil.request.ImageRequest
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
+import com.singularitycoder.flowlauncher.ThisApp
 import com.singularitycoder.flowlauncher.addEditAppFlow.model.AppFlow
 import com.singularitycoder.flowlauncher.addEditAppFlow.view.AddEditFlowFragment
 import com.singularitycoder.flowlauncher.addEditAppFlow.viewModel.AppFlowViewModel
@@ -464,7 +465,11 @@ class HomeFragment : Fragment() {
 //            refreshAppList()
 //        }
         println("This triggers everytime we switch the screen in viewpager")
+
+        (activity?.application as? ThisApp)?.isHomeScreenLoaded = true
+
         permissionsResult.launch(callContactSmsPermissionList)
+
         activity?.registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_TIME_TICK))
         activity?.registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_PACKAGE_FULLY_REMOVED))
         activity?.registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_PACKAGE_INSTALL))
@@ -509,6 +514,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun FragmentHomeBinding.setupUI() {
+        requireActivity().setNavigationBarColor(R.color.white)
         refreshAppList()
         refreshDateTime()
         initTextToSpeech()
@@ -533,6 +539,7 @@ class HomeFragment : Fragment() {
         }
 
         homeAppsAdapter.setItemLongClickListener { view, app, position ->
+            view ?: return@setItemLongClickListener
             showPopupMenu(
                 view = view,
                 menuRes = R.menu.app_popup_menu,
@@ -547,7 +554,7 @@ class HomeFragment : Fragment() {
             Intent(AlarmClock.ACTION_SET_ALARM).launchAppIfExists(requireActivity())
         }
 
-        tvTime.setOnLongClickListener {
+        tvTime.onCustomLongClick {
             if (isTimeAnnouncementStopped) {
                 setupTimeAnnouncement()
                 isTimeAnnouncementStopped = false
@@ -555,7 +562,6 @@ class HomeFragment : Fragment() {
                 timeAnnouncementTimer.cancel()
                 isTimeAnnouncementStopped = true
             }
-            true
         }
     }
 
@@ -658,7 +664,7 @@ class HomeFragment : Fragment() {
             val drawable = ImageLoader(requireContext()).execute(imageRequest).drawable
             val bitmapToBlur = (drawable as BitmapDrawable).bitmap
             val blurredBitmap = BlurStackOptimized().blur(image = bitmapToBlur, radius = 50)
-            blurredBitmap.saveToInternalStorage(fileName = HOME_LAYOUT_BLURRED_IMAGE, fileDir = requireContext().getHomeLayoutBlurredImageFileDir())
+            blurredBitmap.saveToStorage(fileName = HOME_LAYOUT_BLURRED_IMAGE, fileDir = requireContext().getHomeLayoutBlurredImageFileDir())
         } catch (_: Exception) {
         }
     }

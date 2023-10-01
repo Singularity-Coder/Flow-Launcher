@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace 'com.singularitycoder.flowlauncher'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.singularitycoder.flowlauncher"
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -53,9 +53,9 @@ dependencies {
     // View Stuff
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "com.google.android.exoplayer:exoplayer:2.18.6"
-    implementation "androidx.fragment:fragment-ktx:1.5.7"
-    implementation "androidx.activity:activity-ktx:1.7.1"
+    implementation "com.google.android.exoplayer:exoplayer:2.19.1"
+    implementation "androidx.fragment:fragment-ktx:1.6.1"
+    implementation "androidx.activity:activity-ktx:1.7.2"
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.r0adkll:slidableactivity:2.1.0'
 
@@ -78,7 +78,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 
     // Room ORM
-    var room_version = "2.5.1"
+    var room_version = "2.5.2"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -106,9 +106,9 @@ dependencies {
     implementation('com.journeyapps:zxing-android-embedded:4.3.0') { transitive = false } // Barcode Scanner
 
     // Others
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation "androidx.work:work-runtime-ktx:2.8.1"
     implementation 'com.google.code.gson:gson:2.9.1'
-    implementation 'androidx.browser:browser:1.5.0'
+    implementation 'androidx.browser:browser:1.6.0'
 }

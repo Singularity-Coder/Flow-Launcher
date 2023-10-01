@@ -7,10 +7,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.singularitycoder.flowlauncher.databinding.ListItemDeviceActivityBinding
 import com.singularitycoder.flowlauncher.deviceActivity.model.DeviceActivity
-import com.singularitycoder.flowlauncher.helper.clipboard
-import com.singularitycoder.flowlauncher.helper.onSafeClick
-import com.singularitycoder.flowlauncher.helper.toDeviceActivityDate
-import com.singularitycoder.flowlauncher.helper.toDeviceActivityTime
+import com.singularitycoder.flowlauncher.helper.*
 
 class DeviceActivityAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -41,15 +38,14 @@ class DeviceActivityAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun setData(deviceActivity: DeviceActivity) {
             itemBinding.apply {
                 tvDate.isVisible = deviceActivity.isDateShown
-                tvDate.text = deviceActivity.date.toDeviceActivityDate() // format this
+                tvDate.text = deviceActivity.date.toDeviceActivityDate()
                 tvDeviceActivityTitle.text = deviceActivity.title
                 tvTime.text = deviceActivity.date.toDeviceActivityTime()
                 root.onSafeClick {
                     root.context.clipboard()?.text = deviceActivity.title
                 }
-                root.setOnLongClickListener {
+                root.onCustomLongClick {
                     deleteItemListener.invoke(deviceActivity)
-                    true
                 }
             }
         }

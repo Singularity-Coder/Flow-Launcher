@@ -122,7 +122,7 @@ fun Context.copyFileToInternalStorage(
 }
 
 // https://stackoverflow.com/questions/15662258/how-to-save-a-bitmap-on-internal-storage
-fun Bitmap?.saveToInternalStorage(
+fun Bitmap?.saveToStorage(
     fileName: String,
     fileDir: String,
 ) {
@@ -269,6 +269,17 @@ fun Activity.requestStoragePermissions() {
             requestCode = 1001
         )
     }
+}
+
+fun getAllFiles(): List<File?> {
+    // Get the root of the external storage.
+    val externalStorageRoot = Environment.getExternalStorageDirectory()
+
+    // Get a list of all the directories in the root of the external storage.
+    val directories = externalStorageRoot.listFiles()
+
+    // Get a list of all the files in the directory.
+    return directories?.map { it.listFiles()?.toList() ?: emptyList<File?>() }?.flatten<File?>() ?: emptyList()
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

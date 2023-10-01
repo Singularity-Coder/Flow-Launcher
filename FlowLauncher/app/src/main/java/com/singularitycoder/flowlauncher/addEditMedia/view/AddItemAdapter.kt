@@ -19,6 +19,7 @@ import com.singularitycoder.flowlauncher.addEditMedia.model.AddItem
 import com.singularitycoder.flowlauncher.databinding.ListItemAddBinding
 import com.singularitycoder.flowlauncher.helper.constants.AddItemType
 import com.singularitycoder.flowlauncher.helper.constants.VideoFormat
+import com.singularitycoder.flowlauncher.helper.onCustomLongClick
 import com.singularitycoder.flowlauncher.helper.onSafeClick
 import com.singularitycoder.flowlauncher.helper.toLowCase
 import kotlinx.coroutines.CoroutineScope
@@ -105,9 +106,8 @@ class AddItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     }
                 }
 
-                root.setOnLongClickListener {
+                root.onCustomLongClick {
                     itemLongClickListener.invoke(item)
-                    false
                 }
 
                 ibApproveUpdate.onSafeClick {

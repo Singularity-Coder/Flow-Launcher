@@ -26,7 +26,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -45,7 +44,6 @@ import com.singularitycoder.flowlauncher.helper.constants.*
 import com.singularitycoder.flowlauncher.helper.swipebutton.OnStateChangeListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.Main
 import javax.inject.Inject
 
 
@@ -176,6 +174,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTransparentBackground()
+        requireActivity().setNavigationBarColor(R.color.black)
         quickSettingsPermissionsResult.launch(quickSettingsPermissions)
         binding.setupUserActionListeners()
     }
@@ -193,6 +192,11 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
         super.onPause()
         activity?.unregisterReceiver(quickSettingsBroadcastReceiver)
         unregisterTorchState()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().setNavigationBarColor(R.color.white)
     }
 
     // https://stackoverflow.com/questions/42301845/android-bottom-sheet-after-state-changed
@@ -608,7 +612,7 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
                         oldState = BottomSheetBehavior.STATE_EXPANDED
                     }
                     BottomSheetBehavior.STATE_HALF_EXPANDED -> Unit
-                    BottomSheetBehavior.STATE_HIDDEN -> Unit
+                    BottomSheetBehavior.STATE_HIDDEN -> dismiss()
                     BottomSheetBehavior.STATE_SETTLING -> {
                         if (oldState == BottomSheetBehavior.STATE_EXPANDED) {
                             behavior.state = BottomSheetBehavior.STATE_HIDDEN

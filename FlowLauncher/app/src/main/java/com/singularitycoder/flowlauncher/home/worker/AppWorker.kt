@@ -2,19 +2,16 @@ package com.singularitycoder.flowlauncher.home.worker
 
 import android.content.Context
 import android.content.pm.ResolveInfo
-import android.graphics.drawable.BitmapDrawable
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.singularitycoder.flowlauncher.helper.appInfoList
-import com.singularitycoder.flowlauncher.helper.appList
 import com.singularitycoder.flowlauncher.helper.constants.KEY_IS_WORK_COMPLETE
 import com.singularitycoder.flowlauncher.helper.db.FlowDatabase
-import com.singularitycoder.flowlauncher.helper.saveToInternalStorage
+import com.singularitycoder.flowlauncher.helper.saveToStorage
 import com.singularitycoder.flowlauncher.home.model.App
 import com.singularitycoder.flowlauncher.toBitmap
 import com.singularitycoder.flowlauncher.toBlueFilter
-import com.singularitycoder.flowlauncher.toGrayAndBlueFilteredBitmap
 import com.singularitycoder.flowlauncher.toGrayscaleFilter
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -22,7 +19,6 @@ import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
-import org.jsoup.HttpStatusException
 
 class AppWorker(val context: Context, workerParams: WorkerParameters) : CoroutineWorker(context, workerParams) {
 
@@ -43,7 +39,7 @@ class AppWorker(val context: Context, workerParams: WorkerParameters) : Coroutin
                     val appIconName = "app_icon_${item?.activityInfo?.packageName}".replace(oldValue = ".", newValue = "_")
                     val appIconDir = "${context.filesDir.absolutePath}/app_icons"
                     val bitmap = item?.activityInfo?.loadIcon(context.packageManager)?.toBitmap()?.toGrayscaleFilter()?.toBlueFilter().apply {
-                        this?.saveToInternalStorage(appIconName, appIconDir)
+                        this?.saveToStorage(appIconName, appIconDir)
                     }
                     App().apply {
                         title = item?.loadLabel(context.packageManager).toString()

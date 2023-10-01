@@ -105,6 +105,11 @@ class VoiceSearchBottomSheetFragment : BottomSheetDialogFragment() {
         return dialog
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().setNavigationBarColor(R.color.white)
+    }
+
     // https://stackoverflow.com/questions/40616833/bottomsheetdialogfragment-listen-to-dismissed-by-user-event
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
@@ -133,6 +138,7 @@ class VoiceSearchBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun setupUI() {
+        requireActivity().setNavigationBarColor(R.color.black)
 //        binding.llRoot.background = requireContext().drawable(animatedGradientList[Random().nextInt(9)])
         binding.llRoot.background = requireContext().drawable(R.drawable.animated_gradient_1)
         setTransparentBackground()
@@ -197,18 +203,18 @@ class VoiceSearchBottomSheetFragment : BottomSheetDialogFragment() {
             requireContext().showToast("No Internet")
             return
         }
-        val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context?.packageName)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-            putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
-        }
         if (animationDrawable.isRunning.not()) animationDrawable.start()
         binding.tvNetworkState.isVisible = false
         binding.tvSpokenText.text = "Speak now"
         binding.llVoiceToTextState.isVisible = false
         binding.tvSpokenText.isVisible = true
         binding.ivVoiceSearch.isVisible = true
+        val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context?.packageName)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+        }
         speechRecognizer?.startListening(speechRecognizerIntent)
     }
 
@@ -248,7 +254,7 @@ class VoiceSearchBottomSheetFragment : BottomSheetDialogFragment() {
                         oldState = BottomSheetBehavior.STATE_EXPANDED
                     }
                     BottomSheetBehavior.STATE_HALF_EXPANDED -> Unit
-                    BottomSheetBehavior.STATE_HIDDEN -> Unit
+                    BottomSheetBehavior.STATE_HIDDEN -> dismiss()
                     BottomSheetBehavior.STATE_SETTLING -> {
                         if (oldState == BottomSheetBehavior.STATE_EXPANDED) {
                             behavior.state = BottomSheetBehavior.STATE_HIDDEN

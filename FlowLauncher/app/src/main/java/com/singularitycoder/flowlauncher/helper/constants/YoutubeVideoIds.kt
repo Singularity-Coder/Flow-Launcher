@@ -4,6 +4,11 @@ import com.singularitycoder.flowlauncher.glance.model.YoutubeVideo
 
 // Note: There is a lot of recency bias when I add reactions to some and not others.
 
+// Free anime
+// https://www.youtube.com/@MuseAsia/
+// https://www.youtube.com/@AniOneAsia
+// https://www.youtube.com/@GundamInfo
+
 val animeFightsList = listOf(
     YoutubeVideo(title = "Combat Gods 2", videoId = "axyvgpBNkpg"), // Greatest fight choreo. Period.
     YoutubeVideo(title = "Combat Gods", videoId = "d_qGO4GrbQM"),
@@ -29,6 +34,7 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "Demon Slayer - Tanjiro Vs Rui Lower Moon", videoId = "VjwU2Xevnx8"),
     YoutubeVideo(title = "Demon Slayer - Rengoku vs Akaza", videoId = "p8uT9y4cPwY"),
     YoutubeVideo(title = "Demon Slayer - Tanjiro Vs Rui", videoId = "NN0f4NyHs40"),
+    YoutubeVideo(title = "Demon Slayer - Hinokami Kagura: Sun Halo Dragon Head Dance! 4K 60FPS", videoId = "1FNKnl50AMY"),
     YoutubeVideo(title = "One Punch Man - Saitama vs Genos Fight | One Punch Man (60FPS)", videoId = "km2OPUctni4"),
     YoutubeVideo(title = "One Punch Man - Saitama vs Boros Fight Full HD", videoId = "ErXfj3sbIfU"),
     YoutubeVideo(title = "Meliodas vs Ten Commandments", videoId = "92Gvvh0UKjk"),
@@ -38,7 +44,7 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "Mob Psycho 100 - MOB VS Toichiro Final Fight", videoId = "wRG7Er6qlvk"),
     YoutubeVideo(title = "Mob Psycho 100 - Mob vs Koyama Full Fight (60fps)", videoId = "nJlmcQA_dVQ"),
     YoutubeVideo(title = "Fate/Grand Order-Noble Phantasm's attacking", videoId = "pApAiZymeu0"),
-    YoutubeVideo(title = "Kung Fu Panda (2008) - Tai Lung's Escape", videoId = "UsZNj9srzR8"),
+    YoutubeVideo(title = "Kung Fu Panda (2008) - Tai Lung's Escape", videoId = "UsZNj9srzR8"), // A truly extraordinary scene
     YoutubeVideo(title = "Kung Fu Panda (2008) - Our Battle Will Be Legendary", videoId = "Jy2_J5WCzDY"),
     YoutubeVideo(title = "Kung Fu Panda (2008) - Tai Lung's Revenge Scene", videoId = "GQM4dSjjQuE"),
     YoutubeVideo(title = "Kung Fu Panda (2008) - Fight for the Dragon Scroll", videoId = "AhbCYVILusc"),
@@ -66,7 +72,8 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "My Hero Academia - Deku vs Todoroki", videoId = "wpOhT35YtWg"),
     YoutubeVideo(title = "Fire Force - Shinra vs Sho Kusakabe [DUBBED]", videoId = "ZYlp58Mjpxc"),
     YoutubeVideo(title = "AKIRA (1988) vs. INVINCIBLE (2021)", videoId = "3X-z7_HtPWo"),
-    YoutubeVideo(title = "Gunnam Hathaway Vs Gunnam Penelope", videoId = "IoD3c_z4VTE"),
+    YoutubeVideo(title = "Gundam Hathaway - Hathaway Vs Penelope", videoId = "IoD3c_z4VTE"),
+    YoutubeVideo(title = "Gundam Hathaway - Tracer intro fight", videoId = "fVchY82XS_I"),
     YoutubeVideo(title = "Mobile Suit Gundam: The Witch from Mercury - Aerial vs Dilanza", videoId = "ynlncEPmLvA"),
     YoutubeVideo(title = "Mobile Suit Gundam: The Witch from Mercury - Aerial vs Everyone (from 12:40)", videoId = "FanOJFPG72U"),
     YoutubeVideo(title = "Fullmetal Alchemist - Ira vs Gula", videoId = "xBac1xg7jDE"),
@@ -81,6 +88,8 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "Chainsaw Man - Denji vs Leech Devil", videoId = "wDg_luHbbJw"), // The Kon part was amazing
     YoutubeVideo(title = "Chainsaw Man - Ghost Devil vs Katana Man", videoId = "hfo_qN_Gr9A"),
     YoutubeVideo(title = "Chainsaw Man - Aki vs Ghost Devil", videoId = "DS3KKGJUujA"),
+    YoutubeVideo(title = "Blades of the Guardians - Opening credits", videoId = "SdS32FpluyU"), // Absolutely beautiful opening. Every frame can be a wallpaper.
+    YoutubeVideo(title = "Gundam Wing - Endless Waltz - Final battle", videoId = "ntr1g73OMf4"),
 )
 
 // Made in Abyss S2 OST - OMG
@@ -236,6 +245,7 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Sayuri - Bake a Cake", videoId = "SLHHvR1Iss4"),
     YoutubeVideo(title = "Erased : 01 - Only I am missing", videoId = "xc74Bm__cP8"),
     YoutubeVideo(title = "Sawano Hiroyuki[nZk] ft Mika Kobayashi - ThreeFiveNineFour [English & Terjemahan]", videoId = "BTaA89dlORE"),
+    YoutubeVideo(title = "Sawano Hiroyuki[nZk] mizuki CRY", videoId = "iZj9Amt6kcw"),
     YoutubeVideo(title = "Ashes on The Fire (Extended) | Attack on Titan Season 4", videoId = "pOH0CgDLuSo"), // EPIC
     YoutubeVideo(title = "Hajime no Ippo - The Finisher", videoId = "PnvJMNw00ec"),
     YoutubeVideo(title = "Code Geass - Continued Story", videoId = "MMcr3PISNhw"), // How did I forget this? The best anime ending ever. No questions here. Code Geass is the complete anime. It had internal politics, geo politics, high level strategy, mechas, arms race, battles, ...
@@ -257,6 +267,7 @@ val animeMusicList = listOf(
     YoutubeVideo(title = "Code Geass - In Justice", videoId = "M8rumTERQ6M"),
     YoutubeVideo(title = "Code Geass - Strange Girl", videoId = "NBo-YxCM1xU"),
     YoutubeVideo(title = "Code Geass - Boyhood", videoId = "gQ-jsl6t3D8"),
+    YoutubeVideo(title = "Pokemon - Lugia's Song (Original)", videoId = "ZqpXrDuLqE0"),
 )
 
 val epicAnimeMomentsList = listOf(
@@ -279,7 +290,8 @@ val epicAnimeMomentsList = listOf(
     YoutubeVideo(title = "Death Note - Writing Scene", videoId = "GSeEnBMqgYo"),
     YoutubeVideo(title = "Akira creates a new universe to absorb Tetsuo | Akira(1988)", videoId = "5d9JsqXZP1M"),
     YoutubeVideo(title = "Gundam: The Witch From Mercury - Official Teaser", videoId = "I6MHD1BSjTA"),
-    YoutubeVideo(title = "Ghost in the Shell 2 Innocence Parade Scene", videoId = "3IGTiFuDjTI"),
+    YoutubeVideo(title = "Ghost in the Shell 2 Innocence - Parade Scene", videoId = "ZgHSZEIYu5I"),
+    YoutubeVideo(title = "Ghost in the Shell 2 Innocence - Intro", videoId = "bc53Hya6iO0"),
 )
 
 val otherMusicList = listOf(
@@ -325,7 +337,27 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "GN Balasubramaniam - Jayathi Jayathi Bharatha Maatha", videoId = "7ThIQ2Pn94A"), // Simple and beautiful. This can actually be India's national anthem.
     YoutubeVideo(title = "GN Balasubramaniam - Sudhamayi - Amrutavarshini Sudhanidhi - H.M. Bhagavatar", videoId = "SpucWUdli7g"),
     YoutubeVideo(title = "GN Balasubramaniam - Sudhamayi - ragam Amrutavarshini", videoId = "v1vWBRN34ik"),
+    YoutubeVideo(title = "GN Balasubramaniam - Sobillu - Aradhana - 1965", videoId = "-XEVzzfyDaw"), // The faster version n IMO the best one
+    YoutubeVideo(title = "Madurai Mani Iyer - Brochevarevarura", videoId = "lgdwg2KmjN4"),
+    YoutubeVideo(title = "Madurai Mani Iyer - Rama nee Samana - Kharaharapriya", videoId = "xjnqcwR4EhM"),
+    YoutubeVideo(title = "Madurai Mani Iyer - Chakkani Rajamargamu - Kharaharapriya", videoId = "HVMHQtdW4U8"),
+    YoutubeVideo(title = "MS Subbulakshmi - Raghuvamsa Sudha", videoId = "a0DxyTE7IUY"),
+    YoutubeVideo(title = "MS Subbulakshmi - Bhaja Govindam", videoId = "Go-mAJpH6_w"),
+    YoutubeVideo(title = "MS Subbulakshmi - Govindashtakam", videoId = "AMAy49Wkano"),
+    YoutubeVideo(title = "Ranjani & Gayatri - Mysuru Asthana Sangeetothsava - Karnatic Vocal Concert", videoId = "cU9YmKmOfD8"),
+    YoutubeVideo(title = "Ranjani & Gayatri - Seethapathi - Khamas - Adi - Tyagaraja", videoId = "i2BDLL0z4Xg"), // One of my favs
+    YoutubeVideo(title = "Ranjani & Gayatri - Kantanodu - Neelambari - Swati Thirunal", videoId = "4KLgeXb1A24"),
+    YoutubeVideo(title = "Ranjani & Gayatri - Violin Concert | Swaminatha | Nattai | Adi Tala | Dikshitar", videoId = "AdXSLKFZaQA"),
+    YoutubeVideo(title = "Sanjay Subrahmanyan - Raga Nattakurinji", videoId = "3D6RjQAR1yU"),
+    YoutubeVideo(title = "Lalgudi Jayaram - Valachi", videoId = "OumVYIf5dzY"),
+    YoutubeVideo(title = "Sahana - Pearls of compassion", videoId = "wKMqG8MYWL4"),
+    YoutubeVideo(title = "Ramnad Krishnan - RTP - bhairavi - Cetah Sri Raman Cintaya jimuta Syamam", videoId = "bqGa_hJBUNE"),
+    YoutubeVideo(title = "Ramnad Krishnan - Raghupate Rama - Sahana - Thyagaraja", videoId = "KenvJC9B5WU"),
+    YoutubeVideo(title = "Tribute to the Legend Karaikudi Sri. R. Mani | Thri Shakthi | Kalakendra", videoId = "Zgr5EUYzG70"), // Insane
+    YoutubeVideo(title = "Karaikudi Mani, G Harishankar, T V Vasan, Srirangam Kannan - Carnatic Percussion", videoId = "bBKAEwYzk_o"), // Insane
     YoutubeVideo(title = "TM Krishna - Raga Ravi Chandrika", videoId = "BIEzjDD3pvA"), // This is heavenly
+    YoutubeVideo(title = "TM Krishna - Raga Anandabhairavi", videoId = "sDXpDG43_r4"), // O Jagadamba is absolutely amazing
+    YoutubeVideo(title = "TM Krishna - Janaki Pathe - Kharaharapriya", videoId = "jqspnXsmksc"), // Incredible - Need original full version
     YoutubeVideo(title = "TM Krishna - NCPA 2022", videoId = "JOyJRn-_3x8"), // Another gem from TMK
     YoutubeVideo(title = "TM Krishna - Raga Nalina Kanthi - maanavi naalaginca - Tyaagaraaja krithi", videoId = "jT1uHpbs0ck"), // Absolutely incredible. Beautiful and sublime. Easily one of the best Nalina Kanthi if not the best. A great example of how the sound of the instruments doesnt subdue the singer's voice but actually assist the singer to bring the best form of the song unlike his other Nalina Kanthis. It could just be a good env or mic placement or volume control of instruments.
     YoutubeVideo(title = "TM Krishna - Ragam Neelambari", videoId = "ovgWK5aQcpM"),
@@ -337,19 +369,6 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "TM Krishna - Chala Kallaladu - Raga Arabhi", videoId = "f5flTIM59Ws"),
     YoutubeVideo(title = "TM Krishna - Marubari Javali Kamas Adi", videoId = "sxUCTlKFQyc"),
     YoutubeVideo(title = "TM Krishna - Brova bharama-bahudaari", videoId = "HnqstRsEtRY"),
-    YoutubeVideo(title = "Madurai Mani Iyer - Brochevarevarura", videoId = "lgdwg2KmjN4"),
-    YoutubeVideo(title = "Madurai Mani Iyer - Rama nee Samana - Kharaharapriya", videoId = "xjnqcwR4EhM"),
-    YoutubeVideo(title = "Madurai Mani Iyer - Chakkani Rajamargamu - Kharaharapriya", videoId = "HVMHQtdW4U8"),
-    YoutubeVideo(title = "MS Subbulakshmi - Raghuvamsa Sudha", videoId = "a0DxyTE7IUY"),
-    YoutubeVideo(title = "MS Subbulakshmi - Bhaja Govindam", videoId = "Go-mAJpH6_w"),
-    YoutubeVideo(title = "MS Subbulakshmi - Govindashtakam", videoId = "AMAy49Wkano"),
-    YoutubeVideo(title = "Ranjani & Gayatri - Mysuru Asthana Sangeetothsava - Karnatic Vocal Concert", videoId = "cU9YmKmOfD8"),
-    YoutubeVideo(title = "Ranjani & Gayatri - Seethapathi - Khamas - Adi - Tyagaraja", videoId = "i2BDLL0z4Xg"), // One of my favs
-    YoutubeVideo(title = "Sanjay Subrahmanyan - Raga Nattakurinji", videoId = "3D6RjQAR1yU"),
-    YoutubeVideo(title = "Lalgudi Jayaram - Valachi", videoId = "OumVYIf5dzY"),
-    YoutubeVideo(title = "Sahana - Pearls of compassion", videoId = "wKMqG8MYWL4"),
-    YoutubeVideo(title = "Ramnad Krishnan - RTP - bhairavi - Cetah Sri Raman Cintaya jimuta Syamam", videoId = "bqGa_hJBUNE"),
-    YoutubeVideo(title = "Ramnad Krishnan - Raghupate Rama - Sahana - Thyagaraja", videoId = "KenvJC9B5WU"),
     YoutubeVideo(title = "Malladi Brothers - Brihadeeswaraya Namasthe", videoId = "-TXW02E4pm8"),
     YoutubeVideo(title = "Uyyala Looka Vayya - Neelambari - Sri Thyagaraja Swamy Composition", videoId = "54T3H_powNM"), // One of the best Neelambari if not the best
     YoutubeVideo(title = "Seetha Kalyana Vaibhogame (Ameya Records)", videoId = "lBVRsXXDJA0"),
@@ -401,6 +420,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "James Brown - Ain't It Funky Now (Live At The Olympia, Paris / 1971)", videoId = "NKloz_wR6n4"),
     YoutubeVideo(title = "James Brown - Sunny (Live At The Olympia, Paris / 1971)", videoId = "cNFb7vfANVE"),
     YoutubeVideo(title = "James Brown - Get Up Offa That Thing (Release The Pressure)", videoId = "QS8FxHsw0U0"),
+    YoutubeVideo(title = "James Brown - Give It Up Or Turn It a Loose", videoId = "921kqkHOHDo"),
     YoutubeVideo(title = "James Brown - Papa Don't Take No Mess", videoId = "T0QQUps8954"),
     YoutubeVideo(title = "James Brown - Mind Power", videoId = "7naR12OPxRw"),
     YoutubeVideo(title = "James Brown - Super Bad, Pts. 1, 2 & 3 (Mono Version)", videoId = "u4ePdvrp9go"),
@@ -433,6 +453,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "Lamb of God - Blacken the Cursed Sun", videoId = "_oGY68hJbs4"),
     YoutubeVideo(title = "Lamb of God - As the Palaces Burn", videoId = "eWVrdFrpXHE"),
     YoutubeVideo(title = "Lamb of God - Memento Mori", videoId = "hBj0-dIU8HI"),
+    YoutubeVideo(title = "Lamb of God - Vanishing", videoId = "12uWGtXh81g"),
     YoutubeVideo(title = "Louis Armstrong - What A Wonderful World (Lyrics)", videoId = "A3yCcXgbKrE"),
     YoutubeVideo(title = "Coldplay - Up&Up", videoId = "BPNTC7uZYrI"),
     YoutubeVideo(title = "Coldplay - The Scientist", videoId = "RB-RcX5DS5A"),
@@ -449,6 +470,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "Once Upon A Time in China Theme (instrumental)", videoId = "8KaUwPOnpJc"),
     YoutubeVideo(title = "Tai chi master theme (cantonese)", videoId = "gq7Pvx_rlAs"),
     YoutubeVideo(title = "HansZimmer Greatest Hits Collection - Top 30 Best Songs", videoId = "AzCkacVxki0"),
+    YoutubeVideo(title = "HansZimmer - The Electro Suite", videoId = "WAN6oZeCV1M"),
     YoutubeVideo(title = "Metallica - Some Kind Of Monster", videoId = "NxSgYehng1k"),
     YoutubeVideo(title = "RRR - Naatu Naatu", videoId = "_vktceH8ZA0"),
     YoutubeVideo(title = "CYMATICS: Science Vs. Music - Nigel Stanford", videoId = "Q3oItpVa9fs"),
@@ -457,6 +479,10 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "Verdi's Messa da Requiem - Movement II: Dies irae & Tuba mirum", videoId = "B74cnt0-8xY"), // TwoSetViolin
     YoutubeVideo(title = "Mischa Elman", videoId = "31uJT2IKsR0"), // TwoSetViolin
     YoutubeVideo(title = "David Nadien - Swan Lake Solo with Leonard Bernstein & New York Philharmonic", videoId = "GRp2JyOLz8E"), // TwoSetViolin
+    YoutubeVideo(title = "BEST of Ferrari V12 Engine SOUND!", videoId = "kUXRbHpOM7k"),
+    YoutubeVideo(title = "Can You Hear The Music · Ludwig Göransson", videoId = "4JZ-o3iAJv4"),
+    YoutubeVideo(title = "Mortal Kombat - Techno Syndrome - Song by The Immortals", videoId = "EAwWPadFsOA"),
+    YoutubeVideo(title = "GitHub Universe 2022 Opening Performance", videoId = "A5sLbf7kZRU"), // 4:00 to 9:00 took me somewhere nice
 )
 
 val otherEpicMomentsList = listOf(
@@ -485,6 +511,9 @@ val otherEpicMomentsList = listOf(
     YoutubeVideo(title = "Tai Chi Master (1993) - learning scene", videoId = "Hff__gBNB6A"),
     YoutubeVideo(title = "Black Adam All Scenes | (HD) | Superman/Shazam!: The Return of Black Adam", videoId = "GID5CJWt1VY"),
     YoutubeVideo(title = "Charge - Blender Open Movie", videoId = "UXqq0ZvbOnk"),
+    YoutubeVideo(title = "RRR - Ram vs Bheem", videoId = "W9az1pwtu9w"),
+    YoutubeVideo(title = "RRR - Bheem Palace Entry Scene", videoId = "nXQVoJdDdBg"),
+    YoutubeVideo(title = "RRR - Bheem Entry Scene", videoId = "j_S_NBhQNTs"),
     YoutubeVideo(title = "RRR | Revolution", videoId = "q502zF4BKOg"),
     YoutubeVideo(title = "TactiCOOL RELOADS", videoId = "VI4NZW8q6nU"), // Cool Comedy
     YoutubeVideo(title = "London Brawling", videoId = "CpasSV_mw2o"), // The fight is as good as the movie's
@@ -498,6 +527,7 @@ val otherEpicMomentsList = listOf(
 )
 
 val gameCinematicsList = listOf(
+    YoutubeVideo(title = "Diablo 4: Inarius VS Lilith in Hell Full (Cinematic)", videoId = "fWC_ZtDn8Vw"),
     YoutubeVideo(title = "Diablo 4 Official Cinematic", videoId = "KsNDMHvz98M"),
     YoutubeVideo(title = "Diablo IV Announce Cinematic | By Three They Come", videoId = "9bRWIdOMfro"),
     YoutubeVideo(title = "Assassin's Creed Valhalla - Official Trailer", videoId = "ssrNcwxALS4"),

@@ -8,15 +8,16 @@ import android.content.DialogInterface
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.InsetDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.SystemClock
-import android.text.ParcelableSpan
-import android.text.SpannableStringBuilder
-import android.text.Spanned
+import android.text.*
 import android.text.style.BackgroundColorSpan
+import android.text.style.ImageSpan
 import android.text.style.StyleSpan
 import android.view.HapticFeedbackConstants
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AlphaAnimation
@@ -82,6 +83,11 @@ fun gradientDrawable(): GradientDrawable {
 // https://stackoverflow.com/questions/22192291/how-to-change-the-status-bar-color-in-android
 fun Activity.setStatusBarColor(@ColorRes color: Int) {
     window.statusBarColor = ContextCompat.getColor(this, color)
+}
+
+// https://stackoverflow.com/questions/27839105/android-lollipop-change-navigation-bar-color
+fun Activity.setNavigationBarColor(@ColorRes color: Int) {
+    window.navigationBarColor = ContextCompat.getColor(this, color)
 }
 
 fun MainActivity.showScreen(
@@ -180,14 +186,21 @@ fun Context.showAlertDialog(
     message: String,
     positiveBtnText: String,
     negativeBtnText: String = "",
+    neutralBtnText: String = "",
+    icon: Drawable? = null,
+    @ColorRes positiveBtnColor: Int? = null,
+    @ColorRes negativeBtnColor: Int? = null,
+    @ColorRes neutralBtnColor: Int? = null,
     positiveAction: () -> Unit = {},
     negativeAction: () -> Unit = {},
+    neutralAction: () -> Unit = {},
 ) {
     MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_MaterialComponents_Dialog).apply {
         setCancelable(false)
         if (title.isNotBlank()) setTitle(title)
         setMessage(message)
         background = drawable(R.drawable.alert_dialog_bg)
+        if (icon != null) setIcon(icon)
         setPositiveButton(positiveBtnText) { dialog, int ->
             positiveAction.invoke()
         }
@@ -196,24 +209,64 @@ fun Context.showAlertDialog(
                 negativeAction.invoke()
             }
         }
+        if (neutralBtnText.isNotBlank()) {
+            setNeutralButton(neutralBtnText) { dialog, int ->
+                neutralAction.invoke()
+            }
+        }
         val dialog = create()
         dialog.show()
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).isAllCaps = false
-        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).isAllCaps = false
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).apply {
+            setHapticFeedback()
+            isAllCaps = false
+            setPadding(0, 0, 16.dpToPx().toInt(), 0)
+            if (positiveBtnColor != null) setTextColor(this@showAlertDialog.color(positiveBtnColor))
+        }
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).apply {
+            setHapticFeedback()
+            isAllCaps = false
+            if (negativeBtnColor != null) setTextColor(this@showAlertDialog.color(negativeBtnColor))
+        }
+        dialog.getButton(DialogInterface.BUTTON_NEUTRAL).apply {
+            setHapticFeedback()
+            isAllCaps = false
+            setPadding(16.dpToPx().toInt(), 0, 0, 0)
+            if (neutralBtnColor != null) setTextColor(this@showAlertDialog.color(neutralBtnColor))
+        }
     }
 }
 
-fun Context.showPopup(
-    view: View,
-    menuList: List<String>,
+fun Context.showPopupMenu(
+    view: View?,
+    title: String? = null,
+    menuList: List<String?>,
     onItemClick: (position: Int) -> Unit
 ) {
-    PopupMenu(this, view).apply {
+    val popupMenu = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+        PopupMenu(
+            /* context = */ this,
+            /* anchor = */ view,
+            /* gravity = */ 0,
+            /* popupStyleAttr = */ 0,
+            /* popupStyleRes = */ R.style.PopupMenuTheme
+        )
+    } else {
+        PopupMenu(
+            /* context = */ this,
+            /* anchor = */ view
+        )
+    }
+    popupMenu.apply {
+        if (title != null) {
+            menu.add(Menu.NONE, -1, 0, title).apply {
+                isEnabled = false
+            }
+        }
         menuList.forEach {
             menu.add(it)
         }
         setOnMenuItemClickListener { it: MenuItem? ->
-            view.setHapticFeedback()
+            view?.setHapticFeedback()
             onItemClick.invoke(menuList.indexOf(it?.title))
             false
         }
@@ -221,26 +274,158 @@ fun Context.showPopup(
     }
 }
 
-// Create custom list item to get correct width
-// Refer for a fix - https://stackoverflow.com/questions/14200724/listpopupwindow-not-obeying-wrap-content-width-spec
-fun Context.showListPopupMenu(
-    anchorView: View,
-    adapter: ArrayAdapter<String>,
-    onItemClick: (position: Int) -> Unit
+// TODO set bottom n top margins - popupStyleAttr or popupStyleRes for both PopupMenu n ListPopupWindow. Default attributes like R.attr.listPopupWindowStyle seem to have their own background which is overriding mine
+// popupStyleAttr = R.attr.popupMenuStyle
+// popupStyleAttr = com.google.android.material.R.attr.popupMenuStyle
+fun Context.showPopupMenuWithIcons(
+    view: View?,
+    title: String? = null,
+    customColorItemText: String = "",
+    @ColorRes customColor: Int = 0,
+    menuList: List<Pair<String, Int>>,
+    iconWidth: Int = -1,
+    iconHeight: Int = -1,
+    defaultSpaceBtwIconTitle: String = "    ",
+    isColoredIcon: Boolean = true,
+    colorsList: List<Int> = emptyList(),
+    onItemClick: (menuItem: MenuItem?) -> Unit
 ) {
-//    val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, todayOptions)
-    ListPopupWindow(this, null, com.google.android.material.R.attr.listPopupWindowStyle).apply {
-        this.anchorView = anchorView
-        setAdapter(adapter)
-//        setContentWidth(ListPopupWindow.WRAP_CONTENT)
-//        setContentWidth(measureContentWidth(adapter))
-        width = ListPopupWindow.MATCH_PARENT
-        setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
-            view?.setHapticFeedback()
-            onItemClick.invoke(position)
-            this.dismiss()
+    val popupMenu = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+        PopupMenu(
+            /* context = */ this,
+            /* anchor = */ view,
+            /* gravity = */ 0,
+            /* popupStyleAttr = */ 0,
+            /* popupStyleRes = */ R.style.PopupMenuTheme
+        )
+    } else {
+        PopupMenu(
+            /* context = */ this,
+            /* anchor = */ view
+        )
+    }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        popupMenu.menu.setGroupDividerEnabled(true)
+    }
+    if (title != null) {
+        popupMenu.menu.add(Menu.NONE, -1, 0, title).apply {
+            isEnabled = false
         }
-        show()
+    }
+    val groupId = if (menuList.last().first.contains(other = "delete", ignoreCase = true)) {
+        menuList.lastIndex
+    } else 0
+    menuList.forEachIndexed { index, pair ->
+        val icon = if (colorsList.isNotEmpty()) {
+            drawable(pair.second)?.changeColor(this, colorsList[index])
+        } else {
+            if (pair.first == customColorItemText) {
+                drawable(pair.second)?.changeColor(this, customColor)
+            } else {
+                drawable(pair.second)?.apply {
+                    if (isColoredIcon) changeColor(this@showPopupMenuWithIcons, R.color.purple_500)
+                }
+            }
+        }
+        val insetDrawable = InsetDrawable(
+            /* drawable = */ icon,
+            /* insetLeft = */ 0,
+            /* insetTop = */ 0,
+            /* insetRight = */ 0,
+            /* insetBottom = */ 0
+        )
+        popupMenu.menu.add(
+            /* groupId */ /* if (index == groupId) groupId else 0 */ 0,
+            /* itemId */ 1,
+            /* order */ 1,
+            /* title */ menuIconWithText(
+                icon = insetDrawable,
+                title = pair.first,
+                iconWidth = iconWidth,
+                iconHeight = iconHeight,
+                defaultSpace = defaultSpaceBtwIconTitle
+            )
+        )
+//        popupMenu.menu.get(index).actionView?.setMargins(start = 0, top = 0, end = 0, bottom = 8.dpToPx().toInt())
+//        findViewById<ViewGroup>(popupMenu.menu.get(index).itemId).get(index)
+    }
+    popupMenu.setOnMenuItemClickListener { it: MenuItem? ->
+        view?.setHapticFeedback()
+        onItemClick.invoke(it)
+        false
+    }
+    popupMenu.show()
+}
+
+fun Context.showSingleSelectionPopupMenu(
+    view: View?,
+    title: String? = null,
+    selectedOption: String? = null,
+    @ColorRes enabledColor: Int = R.color.purple_500,
+    @ColorRes disabledColor: Int = android.R.color.transparent,
+    menuList: List<Pair<String, Int>>,
+    onItemClick: (menuItem: MenuItem?) -> Unit
+) {
+    val popupMenu = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+        PopupMenu(
+            /* context = */ this,
+            /* anchor = */ view,
+            /* gravity = */ 0,
+            /* popupStyleAttr = */ 0,
+            /* popupStyleRes = */ R.style.PopupMenuTheme
+        )
+    } else {
+        PopupMenu(
+            /* context = */ this,
+            /* anchor = */ view
+        )
+    }
+    popupMenu.menu.add(Menu.NONE, -1, 0, title).apply {
+        isEnabled = false
+    }
+    menuList.forEach { pair: Pair<String, Int> ->
+        popupMenu.menu.add(
+            0, 1, 1, menuIconWithText(
+                icon = this.drawable(pair.second)?.changeColor(
+                    context = this,
+                    color = if (selectedOption == pair.first) enabledColor else disabledColor
+                ),
+                title = pair.first
+            )
+        )
+    }
+    popupMenu.setOnMenuItemClickListener { menuItem: MenuItem? ->
+        view?.setHapticFeedback()
+        onItemClick.invoke(menuItem)
+        false
+    }
+    popupMenu.show()
+}
+
+// https://stackoverflow.com/questions/32969172/how-to-display-menu-item-with-icon-and-text-in-appcompatactivity
+// https://developer.android.com/develop/ui/views/text-and-emoji/spans
+fun menuIconWithText(
+    icon: Drawable?,
+    title: String,
+    iconWidth: Int = -1,
+    iconHeight: Int = -1,
+    defaultSpace: String = "    "
+): CharSequence {
+    icon?.setBounds(
+        /* left = */ 0,
+        /* top = */ 0,
+        /* right = */ if (iconWidth == -1) icon.intrinsicWidth else iconWidth,
+        /* bottom = */ if (iconHeight == -1) icon.intrinsicHeight else iconHeight
+    )
+    icon ?: return title
+    val imageSpan = ImageSpan(icon, ImageSpan.ALIGN_BOTTOM)
+    return SpannableString("$defaultSpace$title").apply {
+        setSpan(
+            /* what = */ imageSpan,
+            /* startCharPos = */ 0,
+            /* endCharPos = */ 1,
+            /* flags = */ Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
     }
 }
 
@@ -346,6 +531,13 @@ fun View.onSafeClick(
     setOnClickListener(onSafeClickListener)
 }
 
+fun View.onCustomLongClick(
+    onCustomLongClick: (view: View?) -> Unit
+) {
+    val onCustomLongClickListener = OnCustomLongClickListener(onCustomLongClick)
+    setOnLongClickListener(onCustomLongClickListener)
+}
+
 class OnSafeClickListener(
     private val delayAfterClick: Long,
     private val onSafeClick: (Pair<View?, Boolean>) -> Unit
@@ -360,10 +552,22 @@ class OnSafeClickListener(
         val elapsedRealtime = SystemClock.elapsedRealtime()
         if (elapsedRealtime - lastClickTime < delayAfterClick) return
         lastClickTime = elapsedRealtime
-        v?.startAnimation(AlphaAnimation(1F, 0.8F))
+//        v?.startAnimation(AlphaAnimation(1F, 0.8F))
 //        v?.setTouchEffect()
         isClicked = !isClicked
         onSafeClick(v to isClicked)
-        v?.setHapticFeedback()
+//        v?.setHapticFeedback()
+    }
+}
+
+class OnCustomLongClickListener(
+    private val onCustomClick: (view: View?) -> Unit
+) : View.OnLongClickListener {
+    override fun onLongClick(v: View?): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            v?.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        }
+        onCustomClick.invoke(v)
+        return false
     }
 }

@@ -25,50 +25,30 @@ import com.singularitycoder.flowlauncher.glance.model.GlanceImage
 // Among the planets in our solar system, earth is said to be the most beautiful, although I think its Jupiter when it comes to looks. But philosophically speaking, we can say that earth is the cradle of life, source of all life sustaining resources, etc, etc. So in that sense yes its the complete beauty while Juipter probably kills everyone. In that sense art must generally represent goodness and the good values of life. Positive stuff.
 // Generally speaking a living entity is more interesting than a non living one and on top of that humans are the most interesting creatures because of the things we do. Movement further adds to the attractiveness.
 // So an art piece with a living entity especially a human being becomes more interesting. That is my general observation.
+// Even distance & angle makes the art look different. Observing art from a distance makes a difference.
 
 // Also the perception of art depends on the nature of the observer. It is true that humans beings are different in nature from birth either from their upbringing or circumstances of genetics. Some are aggressive, some are mild natured, some are frivolous.
 // In the Vedas it is said that as the living entity grows more conscious and wise, their tastes become more mellow and peaceful. This adds extra subjectivity.
 
-// At this point in time IMO these are the artists that have the MOST BEAUTIFUL (emphasis on the beauty part. So something can be ultra realistic but if its not artistic enough then its not beautiful IMO):
+// New perspectives r art in themselves.
+
+// (emphasis on the beauty part. So something can be ultra realistic but if its not artistic enough then its not beautiful IMO). Also consistently good/great. Not just 1 or 2 good pieces.
 
 // Compositions:
-// 1. wlop, 2. 666KArt, 3. RDJlock, 4. Aliya Chen & Felicia Chen, 5. washanapple
-
 // Clarity in Details: I can look at the smallest of detail and it has clear strokes. Doesnt mean it should be realistic. It should be artistic and detailed. Personal preference
-// REAL HUMANS: 1. RDJlock, 2. washanapple, 3. guweiz, 4. wlop
-// AI: 1. doka_boko_baki (AI) and many others
-
 // Faces:
-// REAL HUMANS: 1. dadachyo, 2. wlop, 3. 'O'ne, 4. guweiz, 5. ayakasuda, 6. RDJlock, 7. washanapple,
-// AI: 1. peonoocy_y, 2. dalcefo, 3. reolkaaa
-
 // Dynamic Art: As if stuff is moving.
-// 1. 666KArt, 2. Aliya Chen & Felicia Chen 3. RossDraws, 4. wlop, 5. Merasgar, 6. fajyobore323,
-
 // Lighting: Measuring based on lighting seems pointless as most artists at their peak will generally get this right using some reference. So the way u light a subject. The interesting perspective is what I am looking for and they are also limited in one sense.
-// 1. wlop, 2. RDJlock, 3. 666KArt, 4. RossDraws,
-
 // Creativity: Variations in the type of subjects, perspectives, etc
-// 1. wlop, 2. RDJlock, 3. washanapple, 4. RossDraws,
-
 // Complexity: Looks complex with multiple things to see and think
-// 1. wlop, 2. RDJlock, 3. washanapple, 4. Aliya Chen & Felicia Chen, 5. RossDraws,
-
 // Good Physics: Cloth movement, fluid movement, lighting and its reflections, etc. This is important because humans subconsciously know when something is off and that reduces some of the magic and immersiveness of art.
-// 1. 666KArt, 2. Aliya Chen & Felicia Chen, 3. RossDraws, 4. wlop
-
 // Artistic Realism: Just because something looks realistic doesnt mean its beautiful. There is no point drawing a sofa as it looks in the real world. Might as well just snap a photo with a camera. It should be IMO something that humans dont see on a day to day basis.
 // But then again even that is subjective based on a person's experiences. If somebody was born poor and never saw a sofa before then seeing one for the first time could evoke some positive surprising emotion.
-// guweiz
-
 // Architecture:
-
 // Backgrounds/Landscapes:
-// REAL HUMANS: 1. RajaNandepu,
-// AI: 1. HoDaRaKe (Midjourney AI)
-
 // Colors: A great understanding of colors, gradients, transitions in color values, Bright stuff
-// 1. RDJlock, 2. ttazn666, 2. RajaNandepu,
+// Texture: Not sure how to put it but it looks diff from traditional painting
+
 
 val defaultImageUrlList = listOf(
 
@@ -1006,5 +986,4 @@ val defaultImageUrlList = listOf(
 
     GlanceImage(link = "https://pbs.twimg.com/media/Fv7LpPyaIAEk1l0?format=jpg&name=large", title = "https://twitter.com/aiesiaika"),
     GlanceImage(link = "https://pbs.twimg.com/media/Fv7LpzWaIAASvlZ?format=jpg&name=large", title = "https://twitter.com/aiesiaika"),
-
     )

@@ -43,7 +43,6 @@
             android:text="10:30 AM"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:textColor="@android:color/darker_gray"
-            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/tv_device_activity_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

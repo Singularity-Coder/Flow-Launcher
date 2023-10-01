@@ -84,7 +84,7 @@ class UniversalSearchFragment : Fragment() {
             binding.etSearch.showKeyboard()
         }
         if (permissions.values.all { it }) {
-            if (requireContext().isUsageAccessPermissionGranted().not()) {
+            if (requireContext().isUsageAccessPermissionGranted2().not()) {
                 try {
                     startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
                 } catch (_: ActivityNotFoundException) {
@@ -100,15 +100,21 @@ class UniversalSearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().setStatusBarColor(R.color.purple_500)
+        requireActivity().setStatusBarColor(R.color.purple_700)
+        requireActivity().setNavigationBarColor(R.color.black)
         binding.observeForData()
         binding.setupUI()
         binding.setupUserActionListeners()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().setNavigationBarColor(R.color.white)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        requireActivity().setStatusBarColor(R.color.purple_500)
+        requireActivity().setStatusBarColor(R.color.purple_700)
     }
 
     private fun FragmentUniversalSearchBinding.observeForData() {
@@ -308,6 +314,9 @@ class UniversalSearchFragment : Fragment() {
 //                }
 //            }
 //        }
+        getAllFiles().forEach {
+            println("File nameeeeee" + it?.name)
+        }
         grantPermissions()
         parseUniversalSearchDataWithWorker()
         setBlurredBackgroundImage()

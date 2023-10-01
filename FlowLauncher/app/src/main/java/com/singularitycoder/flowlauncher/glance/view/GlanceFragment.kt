@@ -6,13 +6,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.SeekBar
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,6 +25,7 @@ import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.singularitycoder.flowlauncher.MainActivity
 import com.singularitycoder.flowlauncher.R
 import com.singularitycoder.flowlauncher.SharedViewModel
+import com.singularitycoder.flowlauncher.ThisApp
 import com.singularitycoder.flowlauncher.addEditMedia.view.AddFragment
 import com.singularitycoder.flowlauncher.databinding.FragmentGlanceBinding
 import com.singularitycoder.flowlauncher.glance.model.GlanceImage
@@ -60,6 +56,7 @@ class GlanceFragment : Fragment() {
     private var glanceImageList = listOf<GlanceImage>()
     private var exoPlayer: ExoPlayer? = null
     private var exoPlayerExpanded: ExoPlayer? = null
+    private var isInitComplete = false
 
     private lateinit var binding: FragmentGlanceBinding
     private lateinit var currentGlanceImage: GlanceImage
@@ -73,18 +70,28 @@ class GlanceFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.observeForData()
-        binding.setupUI()
-        binding.setupUserActionListeners()
-    }
-
     override fun onResume() {
         super.onResume()
+        /** Will not init until home apps are loaded. Done for speed */
+        if ((activity?.application as? ThisApp)?.isHomeScreenLoaded == true && isInitComplete.not()) {
+            binding.observeForData()
+            binding.setupUI()
+            binding.setupUserActionListeners()
+            isInitComplete = true
+        }
+
+        /** Until this screen's UI is setup the stuff that is supposed to happen in onResume wont trigger */
+        if (isInitComplete.not()) return
+
         if (requireContext().isCallContactSmsPermissionGranted()) {
-            binding.layoutUnreadSms.tvValue.text = requireContext().unreadSmsCount().toString()
-            binding.layoutMissedCalls.tvValue.text = requireContext().missedCallCount().toString()
+            lifecycleScope.launch {
+                val unreadMessageCount = requireContext().unreadSmsCount().toString()
+                val missedCallCount = requireContext().missedCallCount().toString()
+                withContext(Main) {
+                    binding.layoutUnreadSms.tvValue.text = unreadMessageCount
+                    binding.layoutMissedCalls.tvValue.text = missedCallCount
+                }
+            }
         }
         val lastHolidayFetchTime = Preferences.read(requireContext()).getLong(Preferences.KEY_LAST_HOLIDAYS_FETCH_TIME, timeNow - THIRTY_DAYS_IN_MILLIS - /* grace 3k mills */ 3000)
         if (timeNow > lastHolidayFetchTime + THIRTY_DAYS_IN_MILLIS) {
@@ -145,24 +152,29 @@ class GlanceFragment : Fragment() {
 
         setOnYoutubeVideoClickListener()
 
-        btnMenu.onSafeClick { it: Pair<View?, Boolean> ->
-            it.first ?: return@onSafeClick
-            val glanceOptions = listOf("Add Image", "Add Remainders", "Add Youtube Videos", /*"Download Default Images"*/)
-            requireContext().showPopup(
-                view = it.first!!,
-                menuList = glanceOptions
-            ) { position: Int ->
-                when (glanceOptions[position]) {
-                    glanceOptions[0] -> {
+        btnMenu.onSafeClick { pair: Pair<View?, Boolean> ->
+            pair.first ?: return@onSafeClick
+            val optionsList = listOf(
+                Pair("Add Image", R.drawable.outline_image_24),
+                Pair("Add Remainders", R.drawable.outline_alarm_24),
+                Pair("Add Youtube Videos", R.drawable.outline_ondemand_video_24),
+                /*"Download Default Images"*/
+            )
+            requireContext().showPopupMenuWithIcons(
+                view = pair.first,
+                menuList = optionsList
+            ) { menuItem: MenuItem? ->
+                when (menuItem?.title?.toString()?.trim()) {
+                    optionsList[0].first -> {
                         (requireActivity() as? MainActivity)?.showScreen(AddFragment.newInstance(AddItemType.GLANCE_IMAGE), FragmentsTag.ADD_ITEM, isAdd = true)
                     }
-                    glanceOptions[1] -> {
-                        root.showSnackBar(glanceOptions[1])
+                    optionsList[1].first -> {
+                        root.showSnackBar(optionsList[1].first)
                     }
-                    glanceOptions[2] -> {
+                    optionsList[2].first -> {
                         (requireActivity() as? MainActivity)?.showScreen(AddFragment.newInstance(AddItemType.YOUTUBE_VIDEO), FragmentsTag.ADD_ITEM, isAdd = true)
                     }
-                    glanceOptions[3] -> {
+                    optionsList[3].first -> {
                         val downloadItemList = defaultImageUrlList.map { it: GlanceImage ->
                             FileDownloader.DownloadItem(
                                 url = it.link,
@@ -313,7 +325,7 @@ class GlanceFragment : Fragment() {
         ).build()
         val drawable = ImageLoader(requireContext()).execute(imageRequest).drawable
         val bitmapToBlurAndSave = (drawable as BitmapDrawable).bitmap
-        bitmapToBlurAndSave.saveToInternalStorage(
+        bitmapToBlurAndSave.saveToStorage(
             fileName = "glance_image_$currentImagePosition.jpg",
             fileDir = glanceImageFileDir,
         )

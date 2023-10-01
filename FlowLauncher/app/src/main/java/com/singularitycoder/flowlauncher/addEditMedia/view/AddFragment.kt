@@ -41,6 +41,8 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
 
+private const val KEY_ADD_LIST_TYPE = "KEY_ADD_LIST_TYPE"
+
 // https://proandroiddev.com/enter-animation-using-recyclerview-and-layoutanimation-part-1-list-75a874a5d213
 class AddFragment : Fragment() {
 
@@ -200,7 +202,43 @@ class AddFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        requireActivity().setNavigationBarColor(R.color.white)
         deleteAllFilesFrom(directory = requireContext().internalFilesDir(directory = "glance_images"), withName = "glance_image_")
+    }
+
+    private fun FragmentAddBinding.setupUI() {
+        requireActivity().setNavigationBarColor(R.color.black)
+        when (listType) {
+            AddItemType.GLANCE_IMAGE -> {
+                tvAddTitle.text = "Add Images"
+                etAddItem.hint = "Add an image"
+                cardAddItemParent.isVisible = false
+                fabAddFlowImage.isVisible = true
+            }
+            AddItemType.QUOTE -> {
+                tvAddTitle.text = "Add Quotes"
+                etAddItem.hint = "Format: Quote by Author"
+                cardAddItemParent.isVisible = true
+                fabAddFlowImage.isVisible = false
+            }
+            AddItemType.YOUTUBE_VIDEO -> {
+                tvAddTitle.text = "Add Youtube Videos"
+                etAddItem.hint = "Format: Link Title"
+                cardAddItemParent.isVisible = true
+                fabAddFlowImage.isVisible = false
+            }
+        }
+        rvRoutineSteps.apply {
+            layoutAnimation = when (listType) {
+                AddItemType.QUOTE -> rvRoutineSteps.context.layoutAnimationController(R.anim.layout_animation_fall_down)
+                AddItemType.YOUTUBE_VIDEO -> rvRoutineSteps.context.layoutAnimationController(R.anim.layout_animation_slide_from_bottom)
+                AddItemType.GLANCE_IMAGE -> rvRoutineSteps.context.layoutAnimationController(R.anim.layout_animation_fade_in)
+                else -> null
+            }
+            layoutManager = LinearLayoutManager(context)
+            adapter = addItemAdapter
+            addItemAdapter.setListType(listType)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -234,40 +272,6 @@ class AddFragment : Fragment() {
             addItemList = addItemAdapter.itemsList.toMutableList()
             addItemAdapter.notifyDataSetChanged()
             etAddItem.setText("")
-        }
-    }
-
-    private fun FragmentAddBinding.setupUI() {
-        when (listType) {
-            AddItemType.GLANCE_IMAGE -> {
-                tvAddTitle.text = "Add Images"
-                etAddItem.hint = "Add an image"
-                cardAddItemParent.isVisible = false
-                fabAddFlowImage.isVisible = true
-            }
-            AddItemType.QUOTE -> {
-                tvAddTitle.text = "Add Quotes"
-                etAddItem.hint = "Format: Quote by Author"
-                cardAddItemParent.isVisible = true
-                fabAddFlowImage.isVisible = false
-            }
-            AddItemType.YOUTUBE_VIDEO -> {
-                tvAddTitle.text = "Add Youtube Videos"
-                etAddItem.hint = "Format: Link Title"
-                cardAddItemParent.isVisible = true
-                fabAddFlowImage.isVisible = false
-            }
-        }
-        rvRoutineSteps.apply {
-            layoutAnimation = when (listType) {
-                AddItemType.QUOTE -> rvRoutineSteps.context.layoutAnimationController(R.anim.layout_animation_fall_down)
-                AddItemType.YOUTUBE_VIDEO -> rvRoutineSteps.context.layoutAnimationController(R.anim.layout_animation_slide_from_bottom)
-                AddItemType.GLANCE_IMAGE -> rvRoutineSteps.context.layoutAnimationController(R.anim.layout_animation_fade_in)
-                else -> null
-            }
-            layoutManager = LinearLayoutManager(context)
-            adapter = addItemAdapter
-            addItemAdapter.setListType(listType)
         }
     }
 
@@ -324,6 +328,7 @@ class AddFragment : Fragment() {
                 message = "This action cannot be undone. Are you sure?",
                 positiveBtnText = "Delete",
                 negativeBtnText = "Cancel",
+                positiveBtnColor = R.color.md_red_700,
                 positiveAction = {
                     lifecycleScope.launch {
                         when (listType) {
@@ -467,5 +472,3 @@ class AddFragment : Fragment() {
         }
     }
 }
-
-private const val KEY_ADD_LIST_TYPE = "KEY_ADD_LIST_TYPE"

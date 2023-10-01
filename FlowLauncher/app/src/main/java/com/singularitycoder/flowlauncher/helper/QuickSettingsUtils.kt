@@ -568,7 +568,8 @@ fun Context.unregisterCustomReceiver(receiver: BroadcastReceiver?) {
 }
 
 fun Context.sendCustomBroadcast(intent: Intent?) {
-    LocalBroadcastManager.getInstance(this).sendBroadcast(intent!!)
+    intent ?: return
+    LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
 }
 
 fun Context.isWriteSecureSettingsPermissionGranted(): Boolean {

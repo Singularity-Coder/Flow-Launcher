@@ -3,6 +3,7 @@ package com.singularitycoder.flowlauncher.addEditAppFlow.view
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -89,15 +90,21 @@ class AddEditFlowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().setStatusBarColor(R.color.purple_500)
+        requireActivity().setNavigationBarColor(R.color.black)
         binding.setUpViewPager()
         binding.observeForData()
         binding.setupUI()
         binding.setupUserActionListeners()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().setStatusBarColor(R.color.purple_500)
+        requireActivity().setNavigationBarColor(R.color.white)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        requireActivity().setStatusBarColor(R.color.purple_500)
         binding.viewpagerAddEditFlow.unregisterOnPageChangeCallback(viewPager2PageChangeListener)
     }
 
@@ -137,15 +144,19 @@ class AddEditFlowFragment : Fragment() {
     private fun FragmentAddEditFlowBinding.setupUserActionListeners() {
         root.setOnClickListener {}
 
-        btnMenu.onSafeClick { it: Pair<View?, Boolean> ->
-            it.first ?: return@onSafeClick
-            val options = listOf("Edit Name", "Add Apps", "Remove")
-            requireContext().showPopup(
-                view = it.first!!,
-                menuList = options
-            ) { position: Int ->
-                when (options[position]) {
-                    options[0] -> {
+        btnMenu.onSafeClick { pair: Pair<View?, Boolean> ->
+            pair.first ?: return@onSafeClick
+            val optionsList = listOf(
+                Pair("Edit Name", R.drawable.outline_drive_file_rename_outline_24),
+                Pair("Add Apps", R.drawable.outline_add_box_24),
+                Pair("Remove", R.drawable.outline_delete_24),
+            )
+            requireContext().showPopupMenuWithIcons(
+                view = pair.first,
+                menuList = optionsList
+            ) { it: MenuItem? ->
+                when (it?.title?.toString()?.trim()) {
+                    optionsList[0].first -> {
                         lifecycleScope.launch(Main) {
                             etFlowName.requestFocus()
                             delay(500)
@@ -153,14 +164,14 @@ class AddEditFlowFragment : Fragment() {
                             etFlowName.setSelection(etFlowName.text.length)
                         }
                     }
-                    options[1] -> {
+                    optionsList[1].first -> {
                         println("logggggg selectedFlowPosition: $selectedFlowPosition")
                         AppSelectorBottomSheetFragment.newInstance(selectedFlowId = flowList[selectedFlowPosition].id).show(
                             requireActivity().supportFragmentManager,
                             BottomSheetTag.APP_SELECTOR
                         )
                     }
-                    options[2] -> {
+                    optionsList[2].first -> {
                         appFlowViewModel.deleteAppFlow(appFlow = flowList[selectedFlowPosition])
                     }
                 }

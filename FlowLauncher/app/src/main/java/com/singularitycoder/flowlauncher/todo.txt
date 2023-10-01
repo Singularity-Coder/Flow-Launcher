@@ -1,20 +1,8 @@
-
-PHASE 2
-TODO fix drag and rearrange media
-TODO create a chat bubble which on press shows the home, app switch, back, screenshot buttons
-TODO Universal search - Files, Recent searches
-
-TODO Universal search - AI search, Search filters (search by name, color, date, faces, landscapes, buildings, etc )
-TODO get all notifications and store in db - show in new screen - stack notfs of same apps
-TODO Network level
-TODO Battery level
-TODO Recently closed apps
-TODO Date time from broadcast receiver
-TODO show notification count in quick action notifications - Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
-
-TODO SOS signal - SOS Torch, Buzzer, Morse code sender on flash,
-TODO Panic Mode - Shows a countdown timer with 5 sec to disable it if its an accident - send message to pre selected contacts. Need a screen to select contacts if its first time.
-
+TODAY
+Curate defaut images final
+3. Integrate manage files permission get full file access
+2. prepare files, images, videos, audio ui
+3. Recent searches - when selecting a file store that selected search to db. show it as soon as search is opened or store the search when the user quits search screen. Show recent searches by default on search open along with recent apps
 
 FONTS
 https://fonts.google.com/specimen/Taviraj
@@ -30,6 +18,28 @@ https://fonts.google.com/specimen/Montserrat+Alternates
 https://fonts.google.com/specimen/Montserrat
 https://fonts.google.com/specimen/Rancho
 https://fonts.google.com/specimen/Tilt+Neon
+
+1. Broadcast permissions for non local casts - https://www.youtube.com/watch?v=8FJ3oOpHszc&list=PLrnPJCHvNZuBqr_0AS9BPXgU6gvNeai5S&ab_channel=CodinginFlow
+5. chat bubble - for screenshot n navigation buttons
+1. Read files docs 2 hrs - take notes
+4. 1 hr - fix drag and rearrange media
+fix device activity broadcast events - read abt restricted broadcasts
+
+PHASE 2
+TODO create a chat bubble which on press shows the home, app switch, back, screenshot buttons
+TODO Universal search - Files, Recent searches
+
+TODO Universal search - AI search, Search filters (search by name, color, date, faces, landscapes, buildings, etc )
+TODO get all notifications and store in db - show in new screen - stack notfs of same apps
+TODO Network level
+TODO Battery level
+TODO Recently closed apps
+TODO Date time from broadcast receiver
+TODO show notification count in quick action notifications - Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
+
+TODO SOS signal - SOS Torch, Buzzer, Morse code sender on flash,
+TODO Panic Mode - Shows a countdown timer with 5 sec to disable it if its an accident - send message to pre selected contacts. Need a screen to select contacts if its first time.
+
 
 PHASE
 TODO try to fix command touch multi selection issue

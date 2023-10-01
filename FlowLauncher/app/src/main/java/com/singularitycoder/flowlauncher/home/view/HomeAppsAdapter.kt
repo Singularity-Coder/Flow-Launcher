@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.singularitycoder.flowlauncher.databinding.ListItemAppBinding
+import com.singularitycoder.flowlauncher.helper.onCustomLongClick
 import com.singularitycoder.flowlauncher.helper.onSafeClick
 import com.singularitycoder.flowlauncher.home.model.App
 
@@ -14,7 +15,7 @@ class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var homeAppList = listOf<App>()
     private var itemClickListener: (app: App, position: Int) -> Unit = { app, position -> }
-    private var itemLongClickListener: (view: View, app: App, position: Int) -> Unit = { view, app, position -> }
+    private var itemLongClickListener: (view: View?, app: App, position: Int) -> Unit = { view, app, position -> }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding = ListItemAppBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -33,7 +34,7 @@ class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         itemClickListener = listener
     }
 
-    fun setItemLongClickListener(listener: (view: View, app: App, position: Int) -> Unit) {
+    fun setItemLongClickListener(listener: (view: View?, app: App, position: Int) -> Unit) {
         itemLongClickListener = listener
     }
 
@@ -65,9 +66,8 @@ class HomeAppsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 root.onSafeClick {
                     itemClickListener.invoke(app, bindingAdapterPosition)
                 }
-                root.setOnLongClickListener {
+                root.onCustomLongClick {
                     itemLongClickListener.invoke(it, app, bindingAdapterPosition)
-                    false
                 }
             }
         }

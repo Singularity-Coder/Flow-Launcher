@@ -58,7 +58,7 @@ val callContactSmsPermissionList = arrayOf(
     Manifest.permission.READ_CONTACTS,
     Manifest.permission.READ_SMS,
     Manifest.permission.WRITE_CALL_LOG,
-    Manifest.permission.READ_CALL_LOG,
+    Manifest.permission.READ_CALL_LOG
 )
 
 val otherPermissions = arrayOf(

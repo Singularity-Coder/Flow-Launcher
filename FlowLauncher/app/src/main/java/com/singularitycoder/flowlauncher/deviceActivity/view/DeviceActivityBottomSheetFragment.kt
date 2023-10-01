@@ -110,6 +110,7 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
                 message = "This will delete all activity older than 7 days. Careful! This cannot be undone.",
                 positiveBtnText = "Delete All",
                 negativeBtnText = getString(R.string.tb_action_cancel),
+                positiveBtnColor = R.color.md_red_700,
                 positiveAction = {
                     // TODO Do biometric auth to confirm delete all
                     val sevenDays = TimeUnit.DAYS.toMillis(7)
@@ -127,6 +128,7 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
                     message = it.title,
                     positiveBtnText = "Delete",
                     negativeBtnText = getString(R.string.tb_action_cancel),
+                    positiveBtnColor = R.color.md_red_700,
                     positiveAction = {
                         // TODO Do biometric auth to confirm delete all
                         deviceActivityViewModel.deleteDeviceActivity(deviceActivity = it)
@@ -156,15 +158,17 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
         (requireActivity() as MainActivity).collectLatestLifecycleFlow(flow = deviceActivityViewModel.deviceActivityListStateFlow) { activityList: List<DeviceActivity> ->
             tvDate.isVisible = activityList.isNotEmpty()
             val sortedDeviceActivitiesList = ArrayList<DeviceActivity>()
-            val deviceActivityMap = HashMap<String?, ArrayList<DeviceActivity>>()
+            val deviceActivityMap = HashMap<Long?, ArrayList<DeviceActivity>>()
             activityList.forEach { it: DeviceActivity ->
-                val key = it.date.toDeviceActivityDate()
+                val key = convertDateToLong(date = it.date.toTimeOfType(type = DateType.dd_MMM_yyyy), dateType = DateType.dd_MMM_yyyy.value)
+                val deviceActivityArrayList = deviceActivityMap.get(key) ?: ArrayList<DeviceActivity>()
+                deviceActivityArrayList.add(it)
                 deviceActivityMap.put(
                     /* key = */ key,
                     /* value = */ deviceActivityMap.get(key)?.apply { add(it) } ?: ArrayList<DeviceActivity>().apply { add(it) }
                 )
             }
-            deviceActivityMap.keys.forEach { date: String? ->
+            deviceActivityMap.keys.sortedBy { it }.forEach { date: Long? ->
                 val preparedList = deviceActivityMap.get(date)?.mapIndexed { index, deviceActivity ->
                     if (index == deviceActivityMap.get(date)?.lastIndex) deviceActivity.isDateShown = true
                     deviceActivity
@@ -196,7 +200,7 @@ class DeviceActivityBottomSheetFragment : BottomSheetDialogFragment() {
                         oldState = BottomSheetBehavior.STATE_EXPANDED
                     }
                     BottomSheetBehavior.STATE_HALF_EXPANDED -> Unit
-                    BottomSheetBehavior.STATE_HIDDEN -> Unit
+                    BottomSheetBehavior.STATE_HIDDEN -> dismiss()
                     BottomSheetBehavior.STATE_SETTLING -> {
                         if (oldState == BottomSheetBehavior.STATE_EXPANDED) {
                             behavior.state = BottomSheetBehavior.STATE_HIDDEN
