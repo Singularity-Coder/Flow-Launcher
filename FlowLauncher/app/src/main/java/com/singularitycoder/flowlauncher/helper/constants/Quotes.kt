@@ -397,7 +397,7 @@ val animeQuoteList = listOf(
         author = "Classroom of the Elite"
     ),
     Quote(
-        title = "Doubting everything or believing everything are two equally convieient solutions, both of which exempt us from thinking.",
+        title = "Doubting everything or believing everything are two equally convenient solutions, both of which exempt us from thinking.",
         author = "Classroom of the Elite"
     ),
     Quote(
@@ -797,6 +797,14 @@ val animeQuoteList = listOf(
         title = "When in doubt, you shouldn't go through with it.",
         author = "Legend of the Northern Blade",
     ),
+    Quote(
+        title = "A true strategist always has a backup plan.",
+        author = "Grand Blue",
+    ),
+    Quote(
+        title = "Never take in prisoners before a battle. That is the law.",
+        author = "Magic Emperor",
+    ),
 ).shuffled()
 
 val generalQuoteList = listOf(
@@ -809,7 +817,7 @@ val generalQuoteList = listOf(
         context = """
             The way I understood it is this way. 
             Everything is an experience. Being rich, being poor, staying in a skyscraper, 
-            going to an amusement part, going to moon or mars, eating delicious food, driving a Rolls Royce, etc.
+            going to an amusement park, going to moon or mars, eating delicious food, driving a Rolls Royce, etc.
             Its when you attached your happiness to external entities. But what if you trained yourself to satisfy with less?
             What if you trained yourself to become happy with few things instead of more things?
             You detach yourself from the object that is attracting you. 

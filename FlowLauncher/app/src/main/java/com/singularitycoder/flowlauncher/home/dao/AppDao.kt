@@ -17,12 +17,12 @@ interface AppDao {
 
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(app: App?)
+    suspend fun update(app: App)
 
 
     @Transaction
     @Query("SELECT * FROM ${Table.APP} WHERE packageName LIKE :packageName LIMIT 1")
-    suspend fun getAppByPackage(packageName: String): App?
+    suspend fun getAppByPackage(packageName: String): App
 
     @Query("SELECT * FROM ${Table.APP}")
     fun getAllLiveData(): LiveData<List<App>>
@@ -35,7 +35,7 @@ interface AppDao {
 
 
     @Delete
-    suspend fun delete(app: App?)
+    suspend fun delete(app: App)
 
     @Query("DELETE FROM ${Table.APP} WHERE packageName = :packageName")
     suspend fun deleteByPackageName(packageName: String?)

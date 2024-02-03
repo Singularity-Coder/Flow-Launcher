@@ -90,6 +90,11 @@ val animeFightsList = listOf(
     YoutubeVideo(title = "Chainsaw Man - Aki vs Ghost Devil", videoId = "DS3KKGJUujA"),
     YoutubeVideo(title = "Blades of the Guardians - Opening credits", videoId = "SdS32FpluyU"), // Absolutely beautiful opening. Every frame can be a wallpaper.
     YoutubeVideo(title = "Gundam Wing - Endless Waltz - Final battle", videoId = "ntr1g73OMf4"),
+    YoutubeVideo(title = "Alan Becker - Animation vs. Math", videoId = "B1J6Ou4q8vE"),
+    YoutubeVideo(title = "Fog Hill of Five Elements - Xuan and Jing vs Final Form Shanchu", videoId = "qN2yX_EBaO8"),
+    YoutubeVideo(title = "Zoro vs King | One Piece | AMV - Royalty [4K]", videoId = "J2AI8yD5hs0"),
+    YoutubeVideo(title = "Mushoku Tensei All Fight Scenes | episode 1 - 11", videoId = "5IHM1q_pucw"),
+    YoutubeVideo(title = "Dragon God Orsted vs Rudeus, Ruijerd, and Eris full fight", videoId = "4UWWjKdVvTs"),
 )
 
 // Made in Abyss S2 OST - OMG
@@ -338,6 +343,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "GN Balasubramaniam - Sudhamayi - Amrutavarshini Sudhanidhi - H.M. Bhagavatar", videoId = "SpucWUdli7g"),
     YoutubeVideo(title = "GN Balasubramaniam - Sudhamayi - ragam Amrutavarshini", videoId = "v1vWBRN34ik"),
     YoutubeVideo(title = "GN Balasubramaniam - Sobillu - Aradhana - 1965", videoId = "-XEVzzfyDaw"), // The faster version n IMO the best one
+    YoutubeVideo(title = "GN Balasubramaniam - Sugunamule - Raga Chakravaka", videoId = "uXZ36KFK0pM"),
     YoutubeVideo(title = "Madurai Mani Iyer - Brochevarevarura", videoId = "lgdwg2KmjN4"),
     YoutubeVideo(title = "Madurai Mani Iyer - Rama nee Samana - Kharaharapriya", videoId = "xjnqcwR4EhM"),
     YoutubeVideo(title = "Madurai Mani Iyer - Chakkani Rajamargamu - Kharaharapriya", videoId = "HVMHQtdW4U8"),
@@ -442,6 +448,7 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "James Brown - Mother Popcorn (Pt. 1 & 2)", videoId = "zpAPXUMpO_Y"),
     YoutubeVideo(title = "James Brown - Soul Power 1971 (12 min Long Version)", videoId = "l0OJUcxdL24"),
     YoutubeVideo(title = "James Brown - blind man can see it (extended)", videoId = "FJzZ6zIJZzo"),
+    YoutubeVideo(title = "James Brown - Funk on Ah Roll (S-Class Mix)", videoId = "DdwA2mVR65g"),
     YoutubeVideo(title = "Otis Redding - Papas Got a Brand New Bag Live", videoId = "-LmfX4Yo0Hs"),
     YoutubeVideo(title = "Lamb of God - Again We Rise", videoId = "Xe07zUkryeI"),
     YoutubeVideo(title = "Lamb of God - Walk with Me In Hell", videoId = "m4QyQk8vOCY"),
@@ -483,9 +490,14 @@ val otherMusicList = listOf(
     YoutubeVideo(title = "Can You Hear The Music · Ludwig Göransson", videoId = "4JZ-o3iAJv4"),
     YoutubeVideo(title = "Mortal Kombat - Techno Syndrome - Song by The Immortals", videoId = "EAwWPadFsOA"),
     YoutubeVideo(title = "GitHub Universe 2022 Opening Performance", videoId = "A5sLbf7kZRU"), // 4:00 to 9:00 took me somewhere nice
+    YoutubeVideo(title = "Honey Mood - Like a feather - Ziv Moran", videoId = "cfQcf2_KLKU"),
+    YoutubeVideo(title = "Theia - Kyle Preston", videoId = "1ao9HGlKojM"),
+    YoutubeVideo(title = "Cristof Walters - Roots", videoId = "v0VypWTpcYw"),
+    YoutubeVideo(title = "John Coggins - Same Stars", videoId = "9zkEs4yG_vw"),
 )
 
 val otherEpicMomentsList = listOf(
+    YoutubeVideo(title = "Warhammer 40.000 Astartes Animation 8K 2.0 (Remastered with Neural Network AI)", videoId = "Xqgt_CPcZMQ"),
     YoutubeVideo(title = "Astartes Project by Syama Pedersen", videoId = "O7hgjuFfn3A"),
     YoutubeVideo(title = "King Arthur - Opening Scene FHD - Giant Elephant", videoId = "cRIbbxdGATs"),
     YoutubeVideo(title = "King Arthur - All Powers from King Arthur: Legend of the Sword", videoId = "_nQqIxdsI0o"),

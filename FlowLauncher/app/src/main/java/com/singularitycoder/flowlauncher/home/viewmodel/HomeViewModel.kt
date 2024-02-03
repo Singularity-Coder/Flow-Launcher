@@ -39,6 +39,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun removeAppFromDb(app: App?) = viewModelScope.launch {
-        appDao.delete(app)
+        appDao.delete(app ?: return@launch)
     }
 }

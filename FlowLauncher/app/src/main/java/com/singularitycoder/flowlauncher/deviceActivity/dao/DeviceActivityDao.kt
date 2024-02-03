@@ -11,17 +11,17 @@ import kotlinx.coroutines.flow.Flow
 interface DeviceActivityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(deviceActivity: DeviceActivity?)
+    suspend fun insert(deviceActivity: DeviceActivity)
 
     @Transaction
     @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY} WHERE id LIKE :id LIMIT 1")
-    suspend fun getItemByTitle(id: String): DeviceActivity?
+    suspend fun getItemByTitle(id: String): DeviceActivity
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(deviceActivity: DeviceActivity)
 
     @Delete
-    suspend fun delete(deviceActivity: DeviceActivity?)
+    suspend fun delete(deviceActivity: DeviceActivity)
 
     @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY}")
     fun getAllStateFlow(): Flow<List<DeviceActivity>>
@@ -31,7 +31,7 @@ interface DeviceActivityDao {
 
     @Transaction
     @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY} WHERE id = :id")
-    suspend fun getDeviceActivityFlowById(id: Long): DeviceActivity?
+    suspend fun getDeviceActivityFlowById(id: Long): DeviceActivity
 
     @Query("SELECT * FROM ${Table.DEVICE_ACTIVITY}")
     suspend fun getAll(): List<DeviceActivity>

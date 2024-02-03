@@ -33,11 +33,11 @@ class DeviceActivityViewModel @Inject constructor(
     }
 
     fun addDeviceActivity(deviceActivity: DeviceActivity?) = viewModelScope.launch {
-        deviceActivityDao.insert(deviceActivity)
+        deviceActivityDao.insert(deviceActivity ?: return@launch)
     }
 
     fun deleteDeviceActivity(deviceActivity: DeviceActivity?) = viewModelScope.launch {
-        deviceActivityDao.delete(deviceActivity)
+        deviceActivityDao.delete(deviceActivity ?: return@launch)
     }
 
     fun deleteAllDeviceActivity() = viewModelScope.launch {

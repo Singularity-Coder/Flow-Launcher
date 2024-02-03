@@ -26,13 +26,9 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
-import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -119,6 +115,7 @@ class HomeFragment : Fragment() {
                 Intent.ACTION_TIME_TICK -> {
                     setTimeDateAndFlow()
                 }
+
                 Intent.ACTION_PACKAGE_FULLY_REMOVED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "${removedApp?.title} was uninstalled."))
                     homeViewModel.removeAppFromDb(removedApp)
@@ -127,44 +124,57 @@ class HomeFragment : Fragment() {
                     deleteBitmapFromInternalStorage(appIconName, appIconDir)
                     homeAppsAdapter.notifyItemRemoved(removedAppPosition)
                 }
+
                 Intent.ACTION_PACKAGE_INSTALL -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Certain app was installed."))
                     refreshAppList()
                 }
+
                 Intent.ACTION_TIME_CHANGED -> Unit
                 Intent.ACTION_DATE_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Date changed."))
                 }
+
                 Intent.ACTION_TIMEZONE_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Time zone changed."))
                 }
+
                 Intent.ACTION_BOOT_COMPLETED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Device started."))
                 }
+
                 Intent.ACTION_PACKAGE_ADDED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "An App was installed."))
                 }
+
                 Intent.ACTION_PACKAGE_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Package changed."))
                 }
+
                 Intent.ACTION_PACKAGE_REMOVED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "An App was removed."))
                 }
+
                 Intent.ACTION_PACKAGE_RESTARTED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "App restarted."))
                 }
+
                 Intent.ACTION_PACKAGE_DATA_CLEARED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "This App's data was cleared."))
                 }
+
                 Intent.ACTION_PACKAGES_SUSPENDED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "An App was suspended."))
                 }
+
                 Intent.ACTION_PACKAGES_UNSUSPENDED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "An App was unsuspended."))
                 }
+
                 Intent.ACTION_UID_REMOVED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "UID was removed."))
                 }
+
                 Intent.ACTION_BATTERY_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(
                         DeviceActivity(
@@ -176,172 +186,228 @@ class HomeFragment : Fragment() {
                         )
                     )
                 }
+
                 Intent.ACTION_BATTERY_LOW -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Battery is low."))
                 }
+
                 Intent.ACTION_BATTERY_OKAY -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Battery is okay."))
                 }
+
                 Intent.ACTION_POWER_CONNECTED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Connected to power supply."))
                 }
+
                 Intent.ACTION_POWER_DISCONNECTED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Disconnected from power supply."))
                 }
+
                 Intent.ACTION_SCREEN_OFF -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Screen turned off."))
                 }
+
                 Intent.ACTION_SCREEN_ON -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Screen turned on."))
                 }
+
                 Intent.ACTION_SHUTDOWN -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Device was shutdown."))
                     // Requires <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
                 }
+
                 Intent.ACTION_AIRPLANE_MODE_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Airplane mode changed"))
                 }
+
                 Intent.ACTION_APPLICATION_LOCALE_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Application locale changed."))
                 }
+
                 Intent.ACTION_APPLICATION_RESTRICTIONS_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Application restrictins changed."))
                 }
+
                 Intent.ACTION_CAMERA_BUTTON -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Camera button pressed."))
                 }
+
                 Intent.ACTION_CLOSE_SYSTEM_DIALOGS -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "System popups closed."))
                 }
+
                 Intent.ACTION_CONFIGURATION_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Config changed."))
                 }
+
                 Intent.ACTION_DEVICE_STORAGE_LOW -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Device storage is slow."))
                 }
+
                 Intent.ACTION_DEVICE_STORAGE_OK -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Device storage is okay."))
                 }
+
                 Intent.ACTION_DOCK_EVENT -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Docked."))
                 }
+
                 Intent.ACTION_DREAMING_STARTED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Dreaming started."))
                 }
+
                 Intent.ACTION_DREAMING_STOPPED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Dreaming stopped."))
                 }
+
                 Intent.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "External apps available."))
                 }
+
                 Intent.ACTION_EXTERNAL_APPLICATIONS_UNAVAILABLE -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "External apps unavailable."))
                 }
+
                 Intent.ACTION_GTALK_SERVICE_CONNECTED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Gtalk service connected."))
                 }
+
                 Intent.ACTION_GTALK_SERVICE_DISCONNECTED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Gtalk service disconnected."))
                 }
+
                 Intent.ACTION_HEADSET_PLUG -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Connected to headset."))
                 }
+
                 Intent.ACTION_INPUT_METHOD_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Input method changed."))
                 }
+
                 Intent.ACTION_LOCALE_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Locale changed."))
                 }
+
                 Intent.ACTION_LOCKED_BOOT_COMPLETED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Boot completed."))
                 }
+
                 Intent.ACTION_MANAGE_PACKAGE_STORAGE -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Manage package storage."))
                 }
+
                 Intent.ACTION_MEDIA_BAD_REMOVAL -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Media was removed poorly."))
                 }
+
                 Intent.ACTION_MEDIA_BUTTON -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Media button click detected."))
                 }
+
                 Intent.ACTION_MEDIA_CHECKING -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Checking media."))
                 }
+
                 Intent.ACTION_MEDIA_EJECT -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Media ejected."))
                 }
+
                 Intent.ACTION_MEDIA_MOUNTED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Media mounted."))
                 }
+
                 Intent.ACTION_MEDIA_NOFS -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Media NOFS."))
                 }
+
                 Intent.ACTION_MEDIA_REMOVED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Media was removed."))
                 }
+
                 Intent.ACTION_MEDIA_SCANNER_FINISHED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Media scan complete."))
                 }
+
                 Intent.ACTION_MEDIA_SCANNER_SCAN_FILE -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Media scan file."))
                 }
+
                 Intent.ACTION_MEDIA_SCANNER_STARTED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Media scan started."))
                 }
+
                 Intent.ACTION_MEDIA_SHARED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Media shared."))
                 }
+
                 Intent.ACTION_MEDIA_UNMOUNTABLE -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Media unmountable."))
                 }
+
                 Intent.ACTION_MEDIA_UNMOUNTED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Media unmounted."))
                 }
+
                 Intent.ACTION_MY_PACKAGE_REPLACED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "My package replaced."))
                 }
+
                 Intent.ACTION_MY_PACKAGE_SUSPENDED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "My package suspended."))
                 }
+
                 Intent.ACTION_MY_PACKAGE_UNSUSPENDED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "My package unsuspended."))
                 }
+
                 Intent.ACTION_NEW_OUTGOING_CALL -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "New outgoing call."))
                 }
+
                 Intent.ACTION_PACKAGE_FIRST_LAUNCH -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Package first launch."))
                 }
+
                 Intent.ACTION_PACKAGE_NEEDS_VERIFICATION -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Package needs verification."))
                 }
+
                 Intent.ACTION_PACKAGE_REPLACED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Package replaced."))
                 }
+
                 Intent.ACTION_PACKAGE_VERIFIED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Package verified."))
                 }
+
                 Intent.ACTION_PROVIDER_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Provider changed."))
                 }
+
                 Intent.ACTION_REBOOT -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Device rebooted."))
                 }
+
                 Intent.ACTION_UMS_CONNECTED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "UMS connected."))
                 }
+
                 Intent.ACTION_UMS_DISCONNECTED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "UMS disconnected."))
                 }
+
                 Intent.ACTION_USER_PRESENT -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "User exists."))
                 }
+
                 Intent.ACTION_USER_UNLOCKED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "User unlocked."))
                 }
+
                 Intent.ACTION_WALLPAPER_CHANGED -> {
                     deviceActivityViewModel.addDeviceActivity(DeviceActivity(title = "Wallpaper changed."))
                 }
+
                 IntentAction.ACTION_NOTIFICATION_LIST -> {
                     // Handle notification count and list
                     val notificationCount = intent.getBundleExtra(IntentKey.NOTIFICATION_COUNT)
@@ -361,11 +427,13 @@ class HomeFragment : Fragment() {
                 isGranted -> {
                     // disable blocking layout and proceed
                 }
+
                 ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), permission) -> {
                     // permission permanently denied. Show settings dialog
                     // enable blocking layout and show popup to go to settings
                     requireContext().showPermissionSettings()
                 }
+
                 else -> {
                     // Permission denied but not permanently, tell user why you need it. Ideally provide a button to request it again and another to dismiss
                     // enable blocking layout
@@ -398,9 +466,11 @@ class HomeFragment : Fragment() {
                 SpeechAction.CALL -> {
                     requireContext().openDialer(phoneNumber = contact?.mobileNumber ?: "")
                 }
+
                 SpeechAction.MESSAGE -> {
                     requireContext().sendSms(phoneNumber = contact?.mobileNumber ?: "", body = messageBody)
                 }
+
                 else -> Unit
             }
             speechAction = SpeechAction.NONE
@@ -426,17 +496,20 @@ class HomeFragment : Fragment() {
                         requireActivity().launchApp(app.packageName)
                     }
                 }
+
                 SpeechAction.CALL.value -> {
                     speechAction = SpeechAction.CALL
                     contactName = text.substringAfter(" ")
                     grantContactsPermission()
                 }
+
                 SpeechAction.MESSAGE.value -> {
                     speechAction = SpeechAction.MESSAGE
                     contactName = text.substringAfter(" ").substringBefore("saying")
                     messageBody = text.substringAfter("saying ")
                     grantContactsPermission()
                 }
+
                 SpeechAction.SEARCH.value, SpeechAction.FIND.value -> {
                     val query = text.substringAfter(" ")
                     requireActivity().searchWithChrome(query = query)
@@ -540,12 +613,31 @@ class HomeFragment : Fragment() {
 
         homeAppsAdapter.setItemLongClickListener { view, app, position ->
             view ?: return@setItemLongClickListener
-            showPopupMenu(
-                view = view,
-                menuRes = R.menu.app_popup_menu,
-                app = app,
-                position = position
+            val optionsList = listOf(
+                Pair("Info", R.drawable.ic_outline_info_24),
+                Pair("Share", R.drawable.outline_arrow_circle_right_24),
+                Pair("Remove", R.drawable.highlight_off_black_24dp),
             )
+            requireContext().showPopupMenuWithIcons(
+                view = view,
+                menuList = optionsList,
+                customColor = R.color.md_red_700,
+                customColorItemText = optionsList.last().first
+            ) { it: MenuItem? ->
+                when (it?.title?.toString()?.trim()) {
+                    optionsList[0].first -> {
+                        requireContext().showInfoOf(app)
+                    }
+
+                    optionsList[1].first -> {
+                        requireContext().shareApkOf(app)
+                    }
+
+                    optionsList[2].first -> {
+                        removeApp(app, position)
+                    }
+                }
+            }
         }
 
         setHomeFabTouchOptions()
@@ -613,17 +705,20 @@ class HomeFragment : Fragment() {
                             requireActivity().launchApp(app.packageName)
                         }
                     }
+
                     SpeechAction.CALL.value -> {
                         speechAction = SpeechAction.CALL
                         contactName = text.substringAfter(" ")
                         grantContactsPermission()
                     }
+
                     SpeechAction.MESSAGE.value -> {
                         speechAction = SpeechAction.MESSAGE
                         contactName = text.substringAfter(" ").substringBefore("saying")
                         messageBody = text.substringAfter("saying ")
                         grantContactsPermission()
                     }
+
                     SpeechAction.SEARCH.value, SpeechAction.FIND.value -> {
                         val query = text.substringAfter(" ")
                         requireActivity().searchWithChrome(query = query)
@@ -710,48 +805,6 @@ class HomeFragment : Fragment() {
         contactsPermissionResult.launch(Manifest.permission.READ_CONTACTS)
     }
 
-    private fun showPopupMenu(
-        view: View,
-        @MenuRes menuRes: Int,
-        app: App,
-        position: Int
-    ) {
-        PopupMenu(requireContext(), view).apply {
-            this.menu.invokeSetMenuIconMethod()
-            menuInflater.inflate(menuRes, this.menu)
-            setOnMenuItemClickListener { menuItem: MenuItem ->
-                when (menuItem.itemId) {
-                    R.id.menu_item_app_info -> {
-                        requireContext().showInfoOf(app)
-                        false
-                    }
-                    R.id.menu_item_remove_app -> {
-                        removeApp(app, position)
-                        false
-                    }
-                    R.id.menu_item_share_app -> {
-                        requireContext().shareApkOf(app)
-                        false
-                    }
-                    else -> false
-                }
-            }
-            setOnDismissListener { it: PopupMenu? ->
-            }
-            setMarginBtwMenuIconAndText(
-                context = requireContext(),
-                menu = this.menu,
-                iconMarginDp = 10
-            )
-            this.menu.forEach { it: MenuItem ->
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    it.iconTintList = ContextCompat.getColorStateList(requireContext(), R.color.purple_500)
-                }
-            }
-            show()
-        }
-    }
-
     private fun removeApp(app: App, position: Int) {
         removedAppPosition = position
         removedApp = app
@@ -772,21 +825,25 @@ class HomeFragment : Fragment() {
                     println("RUNNING: show Progress")
                     showProgress(true)
                 }
+
                 WorkInfo.State.ENQUEUED -> println("ENQUEUED: show Progress")
                 WorkInfo.State.SUCCEEDED -> {
                     println("SUCCEEDED: showing Progress")
                     showProgress(false)
                 }
+
                 WorkInfo.State.FAILED -> {
                     println("FAILED: stop showing Progress")
                     binding.root.showSnackBar("Something went wrong!")
                     showProgress(false)
                 }
+
                 WorkInfo.State.BLOCKED -> println("BLOCKED: show Progress")
                 WorkInfo.State.CANCELLED -> {
                     println("CANCELLED: stop showing Progress")
                     showProgress(false)
                 }
+
                 else -> Unit
             }
         }
@@ -883,6 +940,7 @@ class HomeFragment : Fragment() {
                         /* tag = */ BottomSheetTag.VOICE_SEARCH
                     )
                 }
+
                 QuickActionHome.QUICK_SETTINGS.ordinal -> {
                     if (requireContext().isWriteSettingsPermissionGranted()) {
                         QuickSettingsBottomSheetFragment.newInstance().show(
@@ -891,6 +949,7 @@ class HomeFragment : Fragment() {
                         )
                     }
                 }
+
                 QuickActionHome.SELECT_FLOW.ordinal -> {
                     blurAndSaveBitmapForFlowSelectionScreenBackground()
                     (requireActivity() as AppCompatActivity).showScreen(
@@ -898,30 +957,37 @@ class HomeFragment : Fragment() {
                         tag = AddEditFlowFragment::class.java.simpleName
                     )
                 }
+
                 QuickActionHome.GLANCE.ordinal -> {
                     (requireActivity() as MainActivity).showHomeScreen(HomeScreen.GLANCE.ordinal)
                 }
+
                 QuickActionHome.TODAY.ordinal -> {
                     (requireActivity() as MainActivity).showHomeScreen(HomeScreen.TODAY.ordinal)
                 }
+
                 QuickActionHome.NOTIFICATIONS.ordinal -> {
                     requireContext().showNotificationDrawer()
                 }
+
                 QuickActionHome.UNIVERSAL_SEARCH.ordinal -> {
                     (requireActivity() as AppCompatActivity).showScreen(
                         fragment = UniversalSearchFragment.newInstance(),
                         tag = UniversalSearchFragment::class.java.simpleName
                     )
                 }
+
                 QuickActionHome.PHONE.ordinal -> {
                     Intent(Intent.ACTION_DIAL).launchAppIfExists(requireActivity())
                 }
+
                 QuickActionHome.SMS.ordinal -> {
                     val intent = Intent(Intent.ACTION_VIEW).apply {
                         data = Uri.parse("sms:")
                     }
                     intent.launchAppIfExists(requireActivity())
                 }
+
                 QuickActionHome.CAMERA.ordinal -> {
                     Intent(MediaStore.ACTION_IMAGE_CAPTURE).launchAppIfExists(requireActivity())
                 }

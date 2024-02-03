@@ -51,16 +51,16 @@ dependencies {
     }
 
     // View Stuff
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "com.google.android.exoplayer:exoplayer:2.19.1"
-    implementation "androidx.fragment:fragment-ktx:1.6.1"
-    implementation "androidx.activity:activity-ktx:1.7.2"
+    implementation "androidx.fragment:fragment-ktx:1.6.2"
+    implementation "androidx.activity:activity-ktx:1.8.2"
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.r0adkll:slidableactivity:2.1.0'
 
     // Coil Stuff
-    var coil_version = "2.2.2"
+    var coil_version = "2.4.0"
     implementation "io.coil-kt:coil:$coil_version"
     implementation "io.coil-kt:coil-gif:$coil_version"
     implementation "io.coil-kt:coil-video:$coil_version"
@@ -75,16 +75,16 @@ dependencies {
     // Coroutines
     var coroutine_version = "1.6.4"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 
     // Room ORM
-    var room_version = "2.5.2"
+    var room_version = "2.6.1"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
     // Dagger Hilt
-    var hilt_version = "2.42"
+    var hilt_version = "2.48.1"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
@@ -108,7 +108,7 @@ dependencies {
     // Others
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation "androidx.work:work-runtime-ktx:2.8.1"
-    implementation 'com.google.code.gson:gson:2.9.1'
-    implementation 'androidx.browser:browser:1.6.0'
+    implementation "androidx.work:work-runtime-ktx:2.9.0"
+    implementation 'com.google.code.gson:gson:2.10'
+    implementation 'androidx.browser:browser:1.7.0'
 }

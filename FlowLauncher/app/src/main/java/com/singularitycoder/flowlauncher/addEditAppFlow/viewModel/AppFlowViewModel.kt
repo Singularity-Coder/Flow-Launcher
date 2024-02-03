@@ -45,17 +45,21 @@ class AppFlowViewModel @Inject constructor(
 
     suspend fun getAppFlowById(id: Long) = appFlowDao.getAppFlowById(id)
 
-    suspend fun updateAppFlow(appFlow: AppFlow?) = appFlowDao.update(appFlow)
+    suspend fun updateAppFlow(appFlow: AppFlow?) {
+        appFlowDao.update(appFlow ?: return)
+    }
 
     suspend fun selectFlow(
         isSelected: Boolean,
         appFlowList: List<Long>,
         appFlow: AppFlow?
-    ) = appFlowDao.updateAllFlowsToNotSelectedAndThenSetSelectedFlow(
-        isSelected = isSelected,
-        appFlowIdList = appFlowList,
-        appFlow = appFlow
-    )
+    ) {
+        appFlowDao.updateAllFlowsToNotSelectedAndThenSetSelectedFlow(
+            isSelected = isSelected,
+            appFlowIdList = appFlowList,
+            appFlow = appFlow ?: return
+        )
+    }
 
     suspend fun updateAppFlowById(
         id: Long,

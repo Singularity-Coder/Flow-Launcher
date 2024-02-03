@@ -18,14 +18,14 @@ interface AppFlowDao {
 
     @Transaction
     @Query("SELECT * FROM ${Table.APP_FLOW} WHERE appFlowName LIKE :name LIMIT 1")
-    suspend fun getAppFlowByName(name: String): AppFlow?
+    suspend fun getAppFlowByName(name: String): AppFlow
 
     @Transaction
     @Query("SELECT * FROM ${Table.APP_FLOW} WHERE id = :id")
-    suspend fun getAppFlowById(id: Long): AppFlow?
+    suspend fun getAppFlowById(id: Long): AppFlow
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(appFlow: AppFlow?)
+    suspend fun update(appFlow: AppFlow)
 
     @Query("UPDATE ${Table.APP_FLOW} SET appList = :appList WHERE id = :id")
     suspend fun updateById(id: Long, appList: List<App>)
@@ -38,7 +38,7 @@ interface AppFlowDao {
     suspend fun updateAllFlowsToNotSelectedAndThenSetSelectedFlow(
         isSelected: Boolean,
         appFlowIdList: List<Long>,
-        appFlow: AppFlow?
+        appFlow: AppFlow
     ) {
         updateAll(isSelected, appFlowIdList)
         update(appFlow)
