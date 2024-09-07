@@ -182,9 +182,15 @@ class QuickSettingsBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onResume() {
         super.onResume()
         binding.setupUI()
-        activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter(Broadcast.VOLUME_RAISED))
-        activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter(Broadcast.VOLUME_LOWERED))
-        activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter("android.intent.action.SERVICE_STATE")) // For airplane mode
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter(Broadcast.VOLUME_RAISED), Context.RECEIVER_EXPORTED)
+            activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter(Broadcast.VOLUME_LOWERED), Context.RECEIVER_EXPORTED)
+            activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter("android.intent.action.SERVICE_STATE"), Context.RECEIVER_EXPORTED) // For airplane mode
+        } else {
+            activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter(Broadcast.VOLUME_RAISED))
+            activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter(Broadcast.VOLUME_LOWERED))
+            activity?.registerReceiver(quickSettingsBroadcastReceiver, IntentFilter("android.intent.action.SERVICE_STATE")) // For airplane mode
+        }
         registerTorchState()
     }
 

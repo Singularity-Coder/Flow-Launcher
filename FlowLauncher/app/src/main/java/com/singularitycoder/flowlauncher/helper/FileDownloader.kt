@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
+import android.os.Build
 import android.os.Parcelable
 import com.singularitycoder.flowlauncher.helper.constants.Broadcast
 import com.singularitycoder.flowlauncher.helper.constants.IntentKey
@@ -79,7 +80,11 @@ class FileDownloader(
     }
 
     private fun registerReceiver() {
-        context.registerReceiver(downloadCompleteReceiver, IntentFilter(Broadcast.DOWNLOAD_COMPLETE))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(downloadCompleteReceiver, IntentFilter(Broadcast.DOWNLOAD_COMPLETE), Context.RECEIVER_EXPORTED)
+        } else {
+            context.registerReceiver(downloadCompleteReceiver, IntentFilter(Broadcast.DOWNLOAD_COMPLETE))
+        }
     }
 
     private fun unregisterReceiver(context: Context) {

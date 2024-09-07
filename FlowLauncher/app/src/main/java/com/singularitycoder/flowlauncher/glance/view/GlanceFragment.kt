@@ -371,7 +371,7 @@ class GlanceFragment : Fragment() {
                         }
                     }
                 }
-                VideoFormat.values().map { it.extension.toLowCase() }.contains(glanceImageList.getOrNull(currentImagePosition)?.link?.substringAfterLast(".")?.toLowCase()) -> {
+                VideoFormat.entries.map { it.extension.toLowCase() }.contains(glanceImageList.getOrNull(currentImagePosition)?.link?.substringAfterLast(".")?.toLowCase()) -> {
                     exoPlayerView.isVisible = true
                     exoPlayer?.release()
                     exoPlayer = ExoPlayer.Builder(requireContext()).build()

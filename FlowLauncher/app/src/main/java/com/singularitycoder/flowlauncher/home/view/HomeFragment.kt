@@ -568,7 +568,11 @@ class HomeFragment : Fragment() {
             activity?.registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_PACKAGES_SUSPENDED))
             activity?.registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_PACKAGES_UNSUSPENDED))
         }
-        activity?.registerReceiver(broadcastReceiver, IntentFilter(IntentAction.ACTION_NOTIFICATION_LIST))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            activity?.registerReceiver(broadcastReceiver, IntentFilter(IntentAction.ACTION_NOTIFICATION_LIST), Context.RECEIVER_EXPORTED)
+        } else {
+            activity?.registerReceiver(broadcastReceiver, IntentFilter(IntentAction.ACTION_NOTIFICATION_LIST))
+        }
     }
 
     override fun onPause() {
